@@ -37,15 +37,15 @@ From the Claude Code cloud docs, in the order they bite:
 
 ## 2. The repo set
 
-The org is `ai-consultancy-workshop` renamed to the business name (decision 2026-10-15); `<org>` below. Collaborators get per-repo access on client repos only; see `04-github-organisation.md`.
+The org is `legible-consulting`, renamed from `ai-consultancy-workshop` on 2026-10-15 (brand: Legible Consulting). Collaborators get per-repo access on client repos only; see `04-github-organisation.md`.
 
 | Repo | Visibility · owner | Holds | Who reads |
 |---|---|---|---|
-| `ai-consultancy-workshop/icm-workshop` — **operating** | private · org | Layer 0 `CLAUDE.md`; shared core (C1); `clients/<slug>/` one folder per relationship (C2); module stage folders with `CONTEXT.md` contracts (S1–S5, D1–D4, O1–O4); desk incl. the dashboard app (C3); `.claude/` hooks, settings, committed skills; `.github/workflows/` checks, sweeps, dashboard build. | Jamie's sessions only. Clients and salesmen through the dashboard; never git. |
-| `ai-consultancy-workshop/client-starter-kit` → grows into the **method** repo (rename to `icm-method` optional; GitHub redirects) | public · org | One copier template, `tier` question with `_subdirectory: "{{ tier }}"` → `site` · `app` · `platform` · `icm-workspace` (O4); conventions; contract shapes; workshop kit (Marp); public explainers from the concept library. Nothing client-specific, ever. | Attendees, clients, copier, conformance. |
-| `ai-consultancy-workshop/learn-with-jake-van-clief` — **reference** | private · org | Jake's course and the ICM paper. The `jake-van-clief/` folder here merges into it and is deleted from the operating repo (decision 2026-10-15). | Attached only when a module's Inputs name it (O1, O4). |
-| `ai-consultancy-workshop/<client-slug>` — **client build**, one per build | private · org | Rendered from the method repo at kickoff; its own `CLAUDE.md`, contracts, CI, `.claude/settings.json` (with the local-checks hook); the kickoff brief as a committed file. Stands alone: nothing read from the operating repo at build time (Jamie, 2026-10-15). | Jamie's D2 sessions (single repo, hooks on); client as collaborator; dashboard via CI API. |
-| `<org>/<client-slug>` dormant, `<org>/icm-board` | private · org (moved from `k0d0minio`) | Every client repo leaves the personal account (Jamie, 2026-10-15); dormant ones are archived in the org, secret-free, named. `icm-board` archived once one real deal has walked the new folders. The personal account keeps personal projects only. | Estate audit only. |
+| `legible-consulting/icm-workshop` — **operating** | private · org | Layer 0 `CLAUDE.md`; shared core (C1); `clients/<slug>/` one folder per relationship (C2); module stage folders with `CONTEXT.md` contracts (S1–S5, D1–D4, O1–O4); desk incl. the dashboard app (C3); `.claude/` hooks, settings, committed skills; `.github/workflows/` checks, sweeps, dashboard build. | Jamie's sessions only. Clients and salesmen through the dashboard; never git. |
+| `legible-consulting/client-starter-kit` → grows into the **method** repo (rename to `icm-method` optional; GitHub redirects) | public · org | One copier template, `tier` question with `_subdirectory: "{{ tier }}"` → `site` · `app` · `platform` · `icm-workspace` (O4); conventions; contract shapes; workshop kit (Marp); public explainers from the concept library. Nothing client-specific, ever. | Attendees, clients, copier, conformance. |
+| `legible-consulting/learn-with-jake-van-clief` — **reference** | private · org | Jake's course and the ICM paper. The `jake-van-clief/` folder here merges into it and is deleted from the operating repo (decision 2026-10-15). | Attached only when a module's Inputs name it (O1, O4). |
+| `legible-consulting/<client-slug>` — **client build**, one per build | private · org | Rendered from the method repo at kickoff; its own `CLAUDE.md`, contracts, CI, `.claude/settings.json` (with the local-checks hook); the kickoff brief as a committed file. Stands alone: nothing read from the operating repo at build time (Jamie, 2026-10-15). | Jamie's D2 sessions (single repo, hooks on); client as collaborator; dashboard via CI API. |
+| `legible-consulting/<client-slug>` dormant, `legible-consulting/icm-board` | private · org (moved from `k0d0minio`) | Every client repo leaves the personal account (Jamie, 2026-10-15); dormant ones are archived in the org, secret-free, named. `icm-board` archived once one real deal has walked the new folders. The personal account keeps personal projects only. | Estate audit only. |
 
 **Why not one repo per module.** Modules hand off through produced artefacts in the client folder; split them and every handoff becomes a second attached repo in a session that then loses its hooks. Why not one repo for everything including client code: client repos are deliverables with their own CI, release and collaborator, and D2 must run on them alone.
 
@@ -61,7 +61,7 @@ The org is `ai-consultancy-workshop` renamed to the business name (decision 2026
 
 | Job | Attach | Hooks? | Start from |
 |---|---|---|---|
-| Any sell module, core edit, desk, research, content, training (S1–S5, C1–C3, O1–O4) | operating repo only | yes | phone or web: `claude.ai/code?repositories=ai-consultancy-workshop/icm-workshop&prompt=…`; desktop Code tab → Cloud; `claude --cloud` from the clone |
+| Any sell module, core edit, desk, research, content, training (S1–S5, C1–C3, O1–O4) | operating repo only | yes | phone or web: `claude.ai/code?repositories=legible-consulting/icm-workshop&prompt=…`; desktop Code tab → Cloud; `claude --cloud` from the clone |
 | D1 kickoff | operating + the new (empty) client repo | **no** | web picker, two repos. Create the empty repo on GitHub first; whether `gh api POST /orgs/…/repos` passes the proxy is unverified |
 | D2 build on a client | client repo only | yes | `claude --cloud` from its clone, or web |
 | D4 conformance sweep | none: Actions in the operating repo runs copier update / multi-gitter across the manifest and opens one PR per repo | n/a | schedule; a session only to review or hand-fix (operating + one client repo) |
@@ -90,7 +90,7 @@ exception and is named in the module's contract.**
 - Templates live in one public method repo grown from `client-starter-kit`.
 - `jake-van-clief/` merges into `learn-with-jake-van-clief` and is deleted here, PDF included.
 - Left to the report: privacy split, estate consolidation, dashboard home, unattended runner (decided above).
-- Second round (2026-10-15): rename `ai-consultancy-workshop` to the business name; general collaborators get per-repo access only; stay on GitHub Free, gates by convention and CI; Vercel is Pro; local-only exceptions are the `projects/` clones with bulk estate ops and anything needing a browser login.
+- Second round (2026-10-15): rename `ai-consultancy-workshop` to the business name (done the same day: `legible-consulting`); general collaborators get per-repo access only; stay on GitHub Free, gates by convention and CI; Vercel is Pro; local-only exceptions are the `projects/` clones with bulk estate ops and anything needing a browser login.
 
 ## 7. Order of work (fits Wave 1)
 

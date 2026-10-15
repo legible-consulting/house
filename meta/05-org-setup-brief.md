@@ -36,7 +36,7 @@ Both files use the frontmatter style of `meta/03-repo-topology.md`. Every rule c
 ## Decided; do not reopen
 
 - Operating repo stays one private repo: core + client folders + module contracts + desk and dashboard. Client code repos are separate, one per build, rendered from the method repo, standing alone at build time. Jamie keeps ownership of client repos always; clients are collaborators.
-- The org is `ai-consultancy-workshop`, to be renamed to the business name. Final name pending; candidates are Legible Consulting (`legibleconsulting`), Mafra AI (`mafraai`), AI by Hand (`ai-by-hand`). Write `<org>` and do not spend time on naming unless Jamie decides in the interview.
+- The org is `legible-consulting` (renamed from `ai-consultancy-workshop` on 2026-10-15; the brand is Legible Consulting). Naming is closed; do not spend time on it.
 - Every client repo and all ICM material moves to the org. The personal account `k0d0minio` keeps personal projects only. Dormant client repos are archived in the org after a gitleaks pass.
 - GitHub Free for the org. Private repos get no branch protection; gates there are the `CLAUDE.md` boundary plus a CI check that fails loudly. Vercel is Pro; private client repos deploy from Actions with the Vercel CLI so a collaborator's commit is never blocked by Vercel's author check.
 - Collaborators get per-repo access only (outside collaborator for one repo, a team for several), never on the operating or reference repo. Salesmen and clients use the dashboard, not git.
@@ -51,19 +51,18 @@ Never build an orchestrator: folders and contracts are the pipeline. Gates are h
 
 Two or three rounds with AskUserQuestion, four questions a round, before writing. Cover at least:
 
-- The final org name, or confirmation to keep `<org>`.
 - Which collaborator roles appear in the first 90 days (developer on a client build, designer, salesman via dashboard, a second ICM practitioner), and whether any of them ever needs to read the operating repo.
 - Live versus dormant: run the inventory below, show the list, and have Jamie mark each repo client-live, client-dormant, personal, or reference.
 - Whether new client site repos default to public (free Actions and real rulesets) and apps and platforms to private.
 - Whether build tickets live as GitHub Issues on each client repo, with the client folder holding the pointer, so collaborators work in the repo and the folder stays the record.
 - The recovery owner account for the org, and who pays Vercel seats if a collaborator must be a Vercel member.
-- Whether to re-register `ai-consultancy-workshop` as an empty org so course links keep resolving.
+- Whether to re-register `ai-consultancy-workshop` as an empty org so course links keep resolving (the name is free again after the rename).
 
 ## Inventory to run before the interview
 
 ```bash
 gh repo list k0d0minio --json name,visibility,isArchived,pushedAt,url,description --limit 100 > meta/estate-k0d0minio-2026-10-15.json
-gh repo list ai-consultancy-workshop --json name,visibility,isArchived,pushedAt,url,description --limit 100 > meta/estate-org-2026-10-15.json
+gh repo list legible-consulting --json name,visibility,isArchived,pushedAt,url,description --limit 100 > meta/estate-org-2026-10-15.json
 ```
 
 Summarise both as a table in the interview. Do not commit the JSON until Jamie has marked it.
@@ -87,4 +86,4 @@ Summarise both as a table in the interview. Do not commit the JSON until Jamie h
 
 ## Done when
 
-Both files exist, every rule has a why and a date, nothing has been changed on GitHub, Vercel or Claude, the interview answers are recorded in the design file, and the last message says which steps of the runbook Jamie can run today versus after the org name is chosen.
+Both files exist, every rule has a why and a date, nothing has been changed on GitHub, Vercel or Claude, the interview answers are recorded in the design file, and the last message says which steps of the runbook Jamie can run today.
