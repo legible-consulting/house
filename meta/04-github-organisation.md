@@ -11,7 +11,7 @@ recheck: 2027-01-14
 
 # GitHub organisation — one home for client work, collaborators and ICM material
 
-**Verdict: rename `ai-consultancy-workshop` to the business name, move every client repo and
+**Verdict: the org is `legible-consulting` (renamed from `ai-consultancy-workshop` on 2026-10-15); move every client repo and
 all ICM material into it, keep the personal account for personal projects, stay on GitHub
 Free, and give collaborators per-repo access as outside collaborators.** The one real cost
 of Free is that private repos get no branch protection, so the "never merge or release"
@@ -37,7 +37,7 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 
 ## 2. Org design
 
-**Name.** The business name, chosen once. Everything below assumes the rename happened first.
+**Name.** `legible-consulting`, Legible Consulting. Renamed 2026-10-15; the old name is claimable again, so re-register it as an empty org if course links must keep resolving.
 
 **Owners.** Jamie plus one recovery account (GitHub recommends no fewer than two). 2FA required for all members.
 
@@ -52,14 +52,14 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 
 | Repo | Visibility | Why |
 |---|---|---|
-| `<org>/icm-workshop` operating | private | Client folders, floors, contacts. No branch protection on Free: gate by rule and CI. |
-| `<org>/client-starter-kit` → method | public | Attendees and copier read it; rulesets available for free. |
-| `<org>/learn-with-jake-van-clief` reference | private | Third-party course. |
-| `<org>/.github` (exists) | public | Org profile README, default community files, workflow templates. |
-| `<org>/workflows` (new, or reuse `.github`) | private | Reusable conformance, check and release workflows; Access = org. |
-| `<org>/<client-slug>` × live builds | as today (22 public, 10 private on `k0d0minio`) | Public ones keep free Actions and real rulesets. Default new client sites to public unless the client asks; apps and platforms private. |
-| `<org>/<client-slug>` × dormant | archived in the org | Jamie's call 2026-10-15: all client work leaves the personal account. Archive after gitleaks passes. |
-| `<org>/icm-board` | private, archived after the first real deal | Mined, then retired. |
+| `legible-consulting/icm-workshop` operating | private | Client folders, floors, contacts. No branch protection on Free: gate by rule and CI. |
+| `legible-consulting/client-starter-kit` → method | public | Attendees and copier read it; rulesets available for free. |
+| `legible-consulting/learn-with-jake-van-clief` reference | private | Third-party course. |
+| `legible-consulting/.github` (exists) | public | Org profile README, default community files, workflow templates. |
+| `legible-consulting/workflows` (new, or reuse `.github`) | private | Reusable conformance, check and release workflows; Access = org. |
+| `legible-consulting/<client-slug>` × live builds | as today (22 public, 10 private on `k0d0minio`) | Public ones keep free Actions and real rulesets. Default new client sites to public unless the client asks; apps and platforms private. |
+| `legible-consulting/<client-slug>` × dormant | archived in the org | Jamie's call 2026-10-15: all client work leaves the personal account. Archive after gitleaks passes. |
+| `legible-consulting/icm-board` | private, archived after the first real deal | Mined, then retired. |
 
 **Gates on Free, per repo kind** (why: protected branches are public-only on Free · 2026-10-15)
 
@@ -70,7 +70,7 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 
 If a private client repo ever carries real money or compliance, that is the moment to pay for Team, not before.
 
-**Secrets.** Per repo, set from the manifest by script (`gh secret set VERCEL_TOKEN --repo <org>/<r>`), because org secrets don't reach private repos on Free. Cloud sessions never see them: Vercel and Google keys live as **network secrets** on the `icm` cloud environment, and gitleaks runs in pre-commit and in the shared check workflow.
+**Secrets.** Per repo, set from the manifest by script (`gh secret set VERCEL_TOKEN --repo legible-consulting/<r>`), because org secrets don't reach private repos on Free. Cloud sessions never see them: Vercel and Google keys live as **network secrets** on the `icm` cloud environment, and gitleaks runs in pre-commit and in the shared check workflow.
 
 **Actions policy.** Default workflow permissions read-only; "Allow GitHub Actions to create and approve pull requests" on (release-please, copier-update PRs); allowed actions: GitHub-authored, verified creators and the org's own. Fine-grained PATs allowed; one PAT scoped to the org, read-only on Actions and contents, used by the operating repo's dashboard build to read every client repo's status.
 
@@ -95,10 +95,10 @@ Rules (why: a local runner is cheap, a local home for facts is a lie the desk wi
 ## 5. Migration, in order (one afternoon; transfers are instant)
 
 1. Inventory: `gh repo list k0d0minio --json name,visibility,isArchived,pushedAt,url --limit 100 > meta/estate-2026-10-15.json`; mark each repo client / personal / reference. Personal ones stay.
-2. Rename the org (Settings → General). Optionally create an empty org with the old name so course links don't go to a stranger.
+2. Rename done (2026-10-15). Optionally create an empty org named `ai-consultancy-workshop` so course links don't go to a stranger; update local remotes to `legible-consulting`.
 3. Org settings: two owners, 2FA, base permission none, creation owners-only, Actions policy, PAT policy, install the Claude GitHub App on all repos.
 4. Secrets scan each client repo (`gitleaks git --redact`); fix history with `git-filter-repo` where needed, before it changes owner.
-5. Transfer: `gh api -X POST repos/k0d0minio/<r>/transfer -f new_owner=<org>` per client repo; `gh repo archive <org>/<r>` for dormant ones. Update local remotes (`mani exec -a 'git remote set-url origin …'`).
+5. Transfer: `gh api -X POST repos/k0d0minio/<r>/transfer -f new_owner=legible-consulting` per client repo; `gh repo archive legible-consulting/<r>` for dormant ones. Update local remotes (`mani exec -a 'git remote set-url origin …'`).
 6. Vercel: disconnect and reconnect each moved project; switch private repos to Actions deploys.
 7. Shared workflows repo; per-repo secrets from the manifest; rulesets on public repos.
 8. Merge `jake-van-clief/` into the reference repo and delete it from the operating repo.
@@ -117,7 +117,7 @@ Rules (why: a local runner is cheap, a local home for facts is a lie the desk wi
 - Rulesets tab on a **private** repo in a Free org: expected unavailable.
 - Settings → Actions → General → Access on a private repo: expected present on Free.
 - Actions-driven `vercel deploy --prebuilt` from a collaborator's commit on a private repo: expected to deploy without an author check.
-- `gh api POST /orgs/<org>/repos` from a cloud session (org endpoint through the GitHub proxy): unknown; fallback is the GitHub UI.
+- `gh api POST /orgs/legible-consulting/repos` from a cloud session (org endpoint through the GitHub proxy): unknown; fallback is the GitHub UI.
 
 ## Sources
 
