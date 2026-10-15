@@ -1,0 +1,18 @@
+# Core — C1 shared core
+
+C1 produces the business's identity and bio, its services and pricing, its voice and document design system, and its terms, stack and house rules, each fact in exactly one place, so that every module and every client artefact speaks with one voice and a change made once lands everywhere.
+
+## Inputs
+
+- Jamie's answers. Nothing else: the core is upstream of everything.
+
+## Process
+
+- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
+- Start cold from this folder. Read only what Inputs names.
+
+## Outputs
+
+- `identity.md` · `services.md` (with pricing) · `voice.md` (voice and document design system) · `terms.md` · `stack.md` · `house-rules.md`
+- `open-items.md`: the one flat open-items list the Friday review reads.
+- `onboarding-collaborator.md`: the one-page note sent with a collaborator invite.
