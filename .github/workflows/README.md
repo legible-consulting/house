@@ -6,7 +6,7 @@ Planned, per `meta/06-org-design.md` §4 and `meta/07-infrastructure-setup.md`:
 |---|---|---|
 | `check.yml` | push, PR | `pre-commit run --all-files`: frontmatter schema, yamllint, markdownlint, cspell, lychee `--offline`, gitleaks, actionlint |
 | `manifest.yml` | push to `main` touching `clients/**` | regenerate `desk/mani.yaml` from record frontmatter |
-| `sweep-deadlines.yml` | daily 06:00 Lisbon | `desk/glance/<date>.md`; ntfy for deadlines inside seven days |
+| `sweep-deadlines.yml` | daily 06:00 Lisbon | `desk/glance/<date>.md`, deadlines inside seven days at the top |
 | `conformance.yml` | weekly + manual | `copier update` and asset check over the live set; one PR per repo |
 | `research-recheck.yml` | weekly | verdicts past their `recheck` date → glance lines |
 | `dashboard.yml` | push to `main`, every 6 h | build `desk/app/` and deploy to Vercel |

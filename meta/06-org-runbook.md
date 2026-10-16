@@ -374,9 +374,9 @@ link is remade. The last production deployment keeps serving throughout.
 
 - [ ] **5.5** (today, if the key exists) Unattended Google and alerts:
   ```bash
-  gh secret set GOOGLE_SA_KEY --repo legible-consulting/house < ~/path/to/service-account.json && gh secret set NTFY_TOKEN --repo legible-consulting/house && gh secret set HEALTHCHECKS_URL --repo legible-consulting/house
+  gh secret set GOOGLE_SA_KEY --repo legible-consulting/house < ~/path/to/service-account.json && gh secret set HEALTHCHECKS_URL --repo legible-consulting/house
   ```
-  Check: `gh secret list --repo legible-consulting/house` shows six names. The key file stays outside every repo: `git -C ~/Desktop/icm-workshop check-ignore -q <path> || echo "not under a repo"` prints `not under a repo`.
+  Check: `gh secret list --repo legible-consulting/house` shows five names. The key file stays outside every repo: `git -C ~/Desktop/icm-workshop check-ignore -q <path> || echo "not under a repo"` prints `not under a repo`.
 
 - [ ] **5.6** (today) Ruleset on `main` for each **public** repo: berceo, vinecliff, remi-ai
   (after 3.6), client-starter-kit, workflows, .github. No bypass actors: Jamie's own pushes
@@ -406,10 +406,10 @@ link is remade. The last production deployment keeps serving throughout.
 - [ ] **5.8** (today) Claude cloud environment `legible`. Click: claude.ai/code → Settings →
   Environments → **New environment** → name `legible` → setup script: install the adopted CLI
   tools (yq, mdq, jq, vale, cspell, lychee, gitleaks, duckdb, dateutils) in under five
-  minutes → **Network secrets**: `NTFY_TOKEN` for host `ntfy.sh` only. No Google key here
+  minutes → **Network secrets**: none (ntfy dropped: phone alerts are not needed yet and ntfy's hosted tier is paid · Jamie, 2026-10-16). No Google key here
   (design §8: a service-account key cannot work as a header-injected secret; sessions use
   the Google connectors).
-  Check: start a cloud session on `legible-consulting/house` in environment `legible`; `which yq gitleaks` prints two paths; `curl -s -o /dev/null -w '%{http_code}' -d "legible env ok" https://ntfy.sh/<topic>` prints `200` without the token in the session.
+  Check: start a cloud session on `legible-consulting/house` in environment `legible`; `which yq gitleaks` prints two paths.
 
 - [ ] **5.9** (Wave 1) Per-repo secrets and variables on each new private client repo,
   from the template's access table: `VERCEL_TOKEN` (secret), `VERCEL_ORG_ID` and
