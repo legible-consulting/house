@@ -27,9 +27,9 @@ run now · **blocked** what it waits for.
   removes every member without 2FA (today: `GPardas`), and their repo grants with them.
 - The Claude GitHub App install moves **before** the transfers so the first transfer
   verifies that "all repositories" covers repos transferred in (design §10 item 9).
-- Vercel: only the two live moved projects (berceo, vinecliff) are reconnected; the 17
-  dormant ones are disconnected and left, because an archived repo never deploys again and a
-  disconnected project keeps serving its last production deployment.
+- Vercel: only the two live moved projects (berceo, vinecliff) are reconnected; courseday
+  and firedough are disconnected, and a disconnected project keeps serving its last
+  production deployment.
 - Rulesets: public repos only; the private-repo 403 was verified today.
 - Transfers of the three live client repos are **Jamie's hand** (interview): the step gives
   the command once; there is no loop.
@@ -242,17 +242,6 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   ```
   Check: prints `legible-consulting/firedough`.
 
-- [ ] **3.5** (today) Archive the two dormant repos in the org, courseday and firedough. ⚠ Read-only from now (code,
-  issues, PRs); scheduled workflows stop. Rollback: `gh repo unarchive legible-consulting/<repo> -y`.
-  ```bash
-  R=<repo>; gh repo archive legible-consulting/$R -y
-  ```
-  Check after both:
-  ```bash
-  gh repo list legible-consulting --limit 100 --json name,isArchived --jq '[.[] | select(.isArchived)] | length'
-  ```
-  Check: `2`.
-
 - [ ] **3.6** (Jamie's hand, any time after phase 2) The live repos that move: berceo,
   vinecliff (renamed `vinecliff-vineyard` in the org), remi-ai, agorasim. Nothing here runs
   for you; the command is the same as 3.3, once per repo.
@@ -297,7 +286,7 @@ link is remade. The last production deployment keeps serving throughout.
 - [ ] **4.2** vinecliff: same as 4.1 with project `vinecliff`, clone `vinecliff`, repo `legible-consulting/vinecliff-vineyard`.
   Check: `{"org":"legible-consulting","repo":"vinecliff-vineyard"}`.
 
-- [ ] **4.3** (today, after 3.5) Dormant projects in the org: disconnect only, one per project,
+- [ ] **4.3** (today) Dormant projects in the org: disconnect only, one per project,
   so the dashboard shows no broken link and the production URL keeps serving. Projects:
   courseday · firedough.
   ```bash
@@ -418,9 +407,9 @@ rewrite would break every clone and open cloud session.
 
 - [ ] **7.1** The org holds what the design says:
   ```bash
-  gh repo list legible-consulting --limit 100 --json name,visibility,isArchived --jq 'group_by(.isArchived) | map({archived: .[0].isArchived, n: length})'
+  gh repo list legible-consulting --limit 100 --json name --jq '.[].name' | sort
   ```
-  Check: `archived: true → 2`; `archived: false → 8` (icm-workshop, client-starter-kit, learn-with-jake-van-clief, .github, workflows, icm-board, berceo, vinecliff) plus remi-ai when moved.
+  Check: 10 names: `.github`, agorasim, berceo, blueprint, courseday, firedough, house, library, remi-ai, vinecliff-vineyard.
 
 - [ ] **7.2** Settings read back in one line:
   ```bash
@@ -449,6 +438,5 @@ rewrite would break every clone and open cloud session.
 - Wave 1 content: the operating repo's workflows, the method repo's copier template, the
   `workflows` repo's four reusable workflows, `ci.yml` in client repos, the dashboard. The
   org must exist first; those follow `03-repo-topology.md` §7.
-- Archiving `icm-board`: a desk gate after the first real deal walks the new folders.
 - Renaming the Vercel team, re-registering the old org name (declined), Secret Protection
   (not purchasable on Free), GitHub Team (design §9 says when).

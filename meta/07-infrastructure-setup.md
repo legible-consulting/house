@@ -71,7 +71,7 @@ Rules carried (why · 2026-10-15):
   `~/Desktop/Apps/projects/*` with mani, multi-gitter, copier; reached by Remote Control;
   every result is a commit or a PR. Why: a machine is where bulk estate work is cheap and
   where a browser login lives; it is never where a fact lives.
-- **Nothing remote from a session.** Repos are created, transferred, archived and pushed by
+- **Nothing remote from a session.** Repos are created, transferred and pushed by
   Jamie's hand. Why: Jamie, 2026-10-15; the gate on the estate is his.
 
 ## 3. Task list
@@ -155,8 +155,8 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 - [X] **F1** gitleaks the 25 repos leaving `k0d0minio`; rotate before purging on any hit
   (runbook phase 2). Check: every non-personal repo has a `gitleaks:` line in the inventory.
 - [ ] **F2** Transfer `courseday` first and close the two verify-once items (runbook 3.1, 3.2).
-- [ ] **F3** Transfer firedough; archive courseday and firedough (runbook 3.3, 3.5). The
-  other dormant repos and `icm-board` stay on `k0d0minio`. Check: 2 archived in the org.
+- [ ] **F3** Transfer firedough (runbook 3.3). The other dormant repos and `icm-board` stay
+  on `k0d0minio`. Check: `gh repo view legible-consulting/firedough` succeeds.
 - [ ] **F4** Transfer berceo, vinecliff (as `vinecliff-vineyard`), remi-ai, agorasim (runbook
   3.6); repoint local clones (3.7). Check: `k0d0minio` lists 22 repos.
 - [ ] **F5** Vercel: reconnect berceo and vinecliff, disconnect courseday and firedough

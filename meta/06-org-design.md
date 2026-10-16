@@ -16,7 +16,7 @@ recheck: 2027-01-14
 move.** `legible-consulting` holds the operating repo, the method repo, the reference repo,
 the profile repo and (new) a public `workflows` repo, plus one repo per client build. Four live
 repos leave the personal account (Jamie moves them by hand); two dormant client repos,
-courseday and firedough, move and are archived after a gitleaks pass; every other repo stays
+courseday and firedough, move after a gitleaks pass; every other repo stays
 on `k0d0minio`. Collaborators touch client repos only. Everyone else
 (salesman, client, attendee) reaches the agency through the dashboard, a rendered file in
 the client repo, or the public method repo. Nothing in this design costs money beyond what
@@ -33,7 +33,7 @@ gate is Jamie's.
 | Live repos | Only **berceo, sustentus, agorasim, vinecliff, remi-ai, jamienisbet, english-with-jamie**. Everything else is dormant or personal. |
 | Which live repos are client builds | Jamie decides and **transfers them by hand**; nothing in this session or the runbook moves a repo for him. Proposed default: client = berceo, vinecliff, remi-ai; personal = agorasim, jamienisbet, english-with-jamie. |
 | Sustentus | Its own GitHub org (`sustentus/sustentus`, private) and its own Vercel team; stays there; the client folder points to it. |
-| Dormant vs personal among the others | Personal = sell-my-stuff, the-library, dungeons-dragons, messy-play (stay). Dormant client: courseday and firedough move and are archived; the rest stay. `icm-board` stays. |
+| Dormant vs personal among the others | Personal = sell-my-stuff, the-library, dungeons-dragons, messy-play (stay). Dormant client: courseday and firedough moved; the rest stay. `icm-board` stays. |
 | New client repo visibility | Sites public; apps and platforms private. |
 | Build tickets | Files in the client folder only. A developer receives them because **kickoff renders the brief and ticket list into the client repo as a file**; the folder keeps the pointer. |
 | Second org owner | `mikaelbelmont` (has 2FA today; `GPardas` does not). |
@@ -104,7 +104,7 @@ runbook check closes it.
 | `.github` | public | org profile | real `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`; ruleset on `main` |
 | `workflows` | public | shared reusable workflows (new) | created empty today; content in Wave 1; ruleset on `main` |
 | `berceo`, `vinecliff-vineyard`, `remi-ai`, `agorasim` | public (as today) | live builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff); ruleset on `main` |
-| `courseday`, `firedough` | as today | client, dormant | transferred after gitleaks; **archived**; Vercel link disconnected where one exists |
+| `courseday`, `firedough` | as today | client, dormant | transferred after gitleaks; Vercel link disconnected |
 | `tech-stack-audit-marketing-site` | private, empty (size 0) | unknown | Jamie's call: delete (restorable for 90 days) or repurpose; the design assumes delete |
 | `<client-slug>` × future builds | site public · app and platform private | client build | rendered from the method repo at kickoff |
 
@@ -356,7 +356,7 @@ today; the rest close during the runbook.
 | 11 | Same on the first private client repo | green (public reusable workflow called from a private repo) | first private build |
 | 12 | After transferring courseday: `gh api repos/legible-consulting/courseday/actions/secrets --jq .total_count` | `5` (secrets survive transfer) | runbook 3.2 |
 | 13 | After reconnect: `vercel api '/v9/projects/berceo?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm' \| jq .link` | `org: legible-consulting, repo: berceo` | runbook 4.1 |
-| 14 | After archiving a dormant repo with a Vercel project (firedough): `curl -s -o /dev/null -w '%{http_code}' https://firedough.vercel.app` | `200`; archiving and disconnecting do not take a deployment down | runbook 4.3 |
+| 14 | After disconnecting a dormant repo's Vercel project (firedough): `curl -s -o /dev/null -w '%{http_code}' https://firedough.vercel.app` | `200`; disconnecting does not take a deployment down | runbook 4.3 |
 | 15 | berceo → Settings → Code security | secret scanning and push protection enabled (public default) | runbook 5.6 |
 | 16 | Month 3: `gh run list --repo legible-consulting/house --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
 | 17 | Remote Control from the phone reaches a local `mani run` and its commit appears in `desk/estate/` | one commit, dated | Wave 1 |

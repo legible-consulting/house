@@ -91,7 +91,7 @@ follow-on offer at a set point after release, and the review and case-study requ
 the relationship continues after the build and the portfolio grows from it.
 
 **D4 · Estate conformance** produces a report that every live repo matches its tier's
-template and carries only the Claude assets it uses, and that every dormant repo is archived,
+template and carries only the Claude assets it uses, and that every dormant repo is
 secret-free and named, so that the estate is in order and drift is known before it costs
 anything.
 
