@@ -5,6 +5,7 @@
 # Must exit 0 and finish in under ~5 minutes, or the environment is not cached.
 # Installs only what a session uses; a tool joins in the commit that builds the module
 # that calls it (why: the 2026-10-16 audit found seven tools installed that nothing called).
+# gitleaks stays for checklist item C1's cloud check (`which yq gitleaks`).
 set -u
 log()  { echo "[legible-setup] $*"; }
 have() { command -v "$1" >/dev/null 2>&1; }
@@ -17,6 +18,12 @@ if ! yq --version 2>/dev/null | grep -q mikefarah; then
     && chmod 755 /usr/local/bin/yq || log "yq download failed"
 fi
 
-for t in jq yq; do have "$t" && log "ok $t" || log "MISSING $t"; done
+# gitleaks: Ubuntu's package (8.16) is seconds; the local machine has Homebrew's current one.
+if ! have gitleaks; then
+  { apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq gitleaks; } \
+    >/tmp/setup-apt.log 2>&1 || log "gitleaks install failed, see /tmp/setup-apt.log"
+fi
+
+for t in jq yq gitleaks; do have "$t" && log "ok $t" || log "MISSING $t"; done
 yq --version 2>/dev/null | grep -q mikefarah || log "MISSING mikefarah yq (found $(yq --version 2>&1 | head -1))"
 exit 0

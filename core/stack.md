@@ -8,30 +8,25 @@ drifts from its list installs the wrong toolbox · 2026-10-16).
 
 ## Tools
 
-The local machine carries the full toolbox. The cloud environment carries only what a session
-calls today; a tool joins `setup/cloud.sh` in the commit that builds the module that calls it
-(why: the audit found seven tools installed in cloud that no contract, hook or workflow called,
-one of them failing, and mdq's compile alone took 95 s of setup · 2026-10-16). CI installs its own.
+Each machine carries only what a contract, hook, workflow or checklist item calls today; a tool
+joins `setup/` in the commit that builds the module that calls it (why: the audit found seven
+tools installed in cloud and six locally that nothing called, one of them failing, and mdq's
+compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 
 | Tool | Job | Version | Local | Cloud |
 |---|---|---|---|---|
 | git, gh | repos, GitHub API | as shipped | pre-installed | pre-installed |
 | jq | JSON filter | as shipped | `setup/local.sh` | pre-installed |
 | yq (mikefarah) | YAML and frontmatter queries | 4.54.1 | `setup/local.sh` | `setup/cloud.sh` |
-| mdq | read one Markdown section, task list or table | 0.10.0 | `setup/local.sh` | — |
-| duckdb | SQL over the client folders (Friday review, pipeline) | 1.5.6 | `setup/local.sh` | — |
-| dateutils (`dateadd`, `datediff`, …) | date arithmetic in shell | 0.4.12 | `setup/local.sh` | — |
-| gitleaks | secret scan | 8.30.1 | `setup/local.sh` | — |
-| vale | house voice and terminology | 3.24.0 | `setup/local.sh` | — |
-| cspell | spelling, five languages | 10.4.0 | `setup/local.sh` | — |
-| lychee | link check | 0.24.2 | `setup/local.sh` | — |
-| mani | run a command across the estate's clones | 0.32.1 | `setup/local.sh` | — |
-| multi-gitter | one PR per repo across the estate | 0.63.1 | `setup/local.sh` | — |
-| copier | render a client repo from the blueprint | 9.19.1 | `setup/local.sh` | — |
+| gitleaks | secret scan (F1 before the transfers; C1's cloud check) | 8.30.1 local · Ubuntu's 8.16 in cloud | `setup/local.sh` | `setup/cloud.sh` |
+| mani | run a command across the estate's clones (D2, the local lane) | 0.32.1 | `setup/local.sh` | — |
+| multi-gitter | one PR per repo across the estate (D4) | 0.63.1 | `setup/local.sh` | — |
+| copier | render a client repo from the blueprint (D1) | 9.19.1 | `setup/local.sh` | — |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 
-vale, cspell, lychee and gitleaks give their verdict in CI, never in a session (why: CI is
-truth · 2026-10-15), so the cloud environment does not carry them. The cloud image ships
+Adopted but installed nowhere until a module calls them: vale, cspell and lychee (their verdict
+comes from CI, which installs its own: why: CI is truth · 2026-10-15), and mdq, duckdb and
+dateutils (no module built yet). Their verdicts stay in the research file. The cloud image ships
 kislyuk's Python yq, a jq wrapper without `--front-matter`; `setup/cloud.sh` puts mikefarah's
 ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's checks ·
 2026-10-16). Homebrew installs the current stable formula, so local versions are read, not
