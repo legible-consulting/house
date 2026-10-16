@@ -11,6 +11,7 @@ D3 produces the handover pack, a walkthrough, the support and hosting record (wh
 
 - Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+- Not every client reaches D3. A client that stays at `build` for good (an ongoing role or a retainer; today remi-ai and sustentus) gets no handover pack and no retainer offer (why: Jamie is CTO of one and already on retainer for the other · 2026-10-16).
 
 ## Outputs
 

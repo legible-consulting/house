@@ -11,6 +11,7 @@ C2 produces one folder per relationship, opened at first touch as a prospect and
 
 - Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+- Some relationships never reach `handover`: an ongoing role or a retainer stays at `build` for good (today remi-ai, where Jamie is CTO, and sustentus, where he is the retained sole developer). That is their steady state, not a stalled build (why: neither engagement has an end to hand over · 2026-10-16).
 
 ## Outputs
 

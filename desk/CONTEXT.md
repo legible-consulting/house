@@ -10,6 +10,7 @@ C3 produces the morning glance, the Friday review (every client's next action an
 
 - Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+- A client at `build` is not necessarily heading for `handover`: remi-ai (Jamie is CTO) and sustentus (retainer, sole developer) stay at `build` for good. The glance and the Friday review must not flag them as stalled or overdue for handover, and the monthly close reads sustentus as retainer income (why: neither engagement ends · 2026-10-16).
 
 ## Outputs
 
