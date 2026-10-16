@@ -1,0 +1,15 @@
+{
+  "name": "desk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "astro build"
+  },
+  "dependencies": {
+    "astro": "7.3.8",
+    "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "vercel": "62.2.0"
+  }
+}
