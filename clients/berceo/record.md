@@ -2,7 +2,7 @@
 slug: berceo
 name: Berceo
 language: fr-BE
-stage: after
+stage: build
 opened: 2026-08-10
 next_action:
 deadline:
@@ -20,4 +20,4 @@ collaborators: []
 
 # Berceo
 
-A Belgian marketplace connecting parents of newborns with professionals who take overnight post-partum care shifts. We built the French-language public site and the signed-in spaces for families, professionals and the founders, with bookings, messaging, ratings and a Stripe service fee. Handed over.
+A Belgian marketplace connecting parents of newborns with professionals who take overnight post-partum care shifts. We are building the French-language public site and the signed-in spaces for families, professionals and the founders, with bookings, messaging, ratings and a Stripe service fee.

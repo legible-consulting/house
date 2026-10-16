@@ -2,7 +2,7 @@
 slug: sustentus
 name: Sustentus
 language: en
-stage: after
+stage: build
 opened: 2025-09-24
 next_action:
 deadline:
@@ -27,4 +27,4 @@ collaborators: []
 
 # Sustentus
 
-An AI-first B2B SaaS platform for customer success, expert matching, invoicing and operations, serving vendors, experts and customers across six role-based dashboards. The repo and Vercel team are in the client's own org. Handed over.
+An AI-first B2B SaaS platform for customer success, expert matching, invoicing and operations, serving vendors, experts and customers across six role-based dashboards. The repo and Vercel team are in the client's own org. Jamie is the project's only developer, paid on retainer, so the build is ongoing with no handover.

@@ -162,7 +162,7 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 - [X] **F5** Vercel: reconnect berceo, vinecliff, agorasim, courseday, firedough and the six remi21
   projects to the org repos (runbook 4.1 to 4.4).
 - [X] **F6** One folder per live client from `clients/_template/record.md`: berceo,
-  vinecliff, remi-ai, sustentus at `stage: after`, agorasim at `stage: build`, each with `repo:` set. Check: `yq --front-matter=extract` over `clients/*/record.md` returns five rows with a `repo` field.
+  vinecliff, remi-ai, sustentus, agorasim, each with its current `stage` and `repo:` set. Check: `yq --front-matter=extract` over `clients/*/record.md` returns five rows with a `repo` field.
 - [ ] **F7** Rulesets on `main` of the three public client repos (runbook 5.6).
 
 ### G · Wave 1 proofs (the infrastructure is done when)
