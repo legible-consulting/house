@@ -66,7 +66,7 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 | Repo kind | Hard stop available | What stands in for it |
 |---|---|---|
 | public client repo, method repo | ruleset on `main`: require PR, block force-push and deletion, require the check workflow; **no bypass actors** | nothing needed |
-| private client repo, operating repo | none | `CLAUDE.md` boundary ("never merge or release"); release-please makes the release a PR merge; the check workflow fails and ntfy pings on any direct push to `main` by anyone (Actions `push` on `main` from a non-PR commit) |
+| private client repo, operating repo | none | `CLAUDE.md` boundary ("never merge or release"); release-please makes the release a PR merge; the check workflow fails on any direct push to `main` by anyone (Actions `push` on `main` from a non-PR commit) |
 
 If a private client repo ever carries real money or compliance, that is the moment to pay for Team, not before.
 
@@ -74,7 +74,7 @@ If a private client repo ever carries real money or compliance, that is the mome
 
 **Actions policy.** Default workflow permissions read-only; "Allow GitHub Actions to create and approve pull requests" on (release-please, copier-update PRs); allowed actions: GitHub-authored, verified creators and the org's own. Fine-grained PATs allowed; one PAT scoped to the org, read-only on Actions and contents, used by the operating repo's dashboard build to read every client repo's status.
 
-**Claude.** Install the Claude GitHub App on the org with all repositories. One cloud environment `legible`: setup script under five minutes, network secrets for Google and ntfy. One Project on the operating repo once the rollout reaches the account. Collaborators who use Claude use their own plan and their own GitHub connection; never share a session from the operating repo (Max sharing is public).
+**Claude.** Install the Claude GitHub App on the org with all repositories. One cloud environment `legible`: setup script under five minutes, no network secrets. One Project on the operating repo once the rollout reaches the account. Collaborators who use Claude use their own plan and their own GitHub connection; never share a session from the operating repo (Max sharing is public).
 
 ## 3. Vercel (Pro, already paid)
 

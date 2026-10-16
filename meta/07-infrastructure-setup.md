@@ -123,8 +123,7 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
   `which yq gitleaks` and `/context` lists the repo's hook.
 - [ ] **C2** From the phone, open a session on `house`, edit `core/CONTEXT.md`, push.
   Check: the commit is on `main`. First "every module runs from anywhere" proof.
-- [ ] **C3** Add `.pre-commit-config.yaml` and `.github/workflows/check.yml` (the table in
-  `.github/workflows/README.md`). Check: the next push shows a green `check` run. Never run
+- [ ] **C3** Add `.github/workflows/check.yml` (the table in `.github/workflows/README.md`). Check: the next push shows a green `check` run. Never run
   it locally.
 - [ ] **C4** A two-repo session (operating + `library`) reads one course file and
   writes a verdict under `operator/research/verdicts/`. Check: the commit lands in
@@ -205,7 +204,6 @@ Starts once A–G are done (Jamie, 2026-10-16). The global `~/.claude/` predates
 | Course in the operating repo | `jake-van-clief/` here                                        | removed in the scaffold commit                                                            | §1, last paragraph.                                                                                                                        |
 | Local layout                 | clones scattered on the desktop                                 | `~/Desktop/legible-consulting/<repo>/`                                                  | One folder mirrors the org; `core/stack.md` is the only instruction a fresh machine needs (moved there from the unversioned root README, 2026-10-16).                                       |
 | Remote actions               | runbook steps run by a session where safe                       | **none from a session**                                                             | Jamie, 2026-10-15.                                                                                                                          |
-| Phone alerts | ntfy (`NTFY_TOKEN` in Actions and on the cloud environment) | none; failed runs reach Jamie by GitHub's failed-run email | Jamie, 2026-10-16: not needed yet, and ntfy's hosted tier is paid. Supersedes every ntfy mention in `03`, `04` and `06-org-design.md`. |
 | Phase order                  | settings → gitleaks → transfers → Vercel → secrets → merge | push → settings → cloud proof → local lane → secrets on demand → transfers → proofs | The operating repo must have`clients/` before a client repo has a folder to point from; secrets have no consumer until a workflow exists. |
 
 Everything else in `06-org-design.md` stands: §3 settings and their whys, §6 collaborator

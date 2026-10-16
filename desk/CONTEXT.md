@@ -15,4 +15,4 @@ C3 produces the morning glance, the Friday review (every client's next action an
 
 - `glance/<date>.md` (daily, from `sweep-deadlines.yml`) · `review/<week>.md` · `close/<month>.md` · `estate/<audit>.md` · `mani.yaml` (generated).
 - `app/`: the Astro dashboard, built in Actions, deployed to Vercel; three roles. Kept out of module context by a path-scoped rule in `.claude/rules/`.
-- Alerts: no phone channel; a failed sweep reaches Jamie by GitHub's failed-run email; Healthchecks as the dead-man's switch (why: phone alerts are not needed yet and ntfy's hosted tier is paid · Jamie, 2026-10-16).
+- Alerts: GitHub's failed-run email; Healthchecks as the dead-man's switch.

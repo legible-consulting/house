@@ -1,0 +1,82 @@
+# check: what can go wrong in the house today, checked where it is pushed (CI is truth;
+# never run locally).
+name: check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secrets:
+    # Private repos on GitHub Free get no secret scanning; this is the guard. The binary,
+    # not gitleaks-action: the action needs a paid licence on organisation accounts.
+    runs-on: ubuntu-latest
+    env:
+      GITLEAKS_VERSION: 8.30.1
+      GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install gitleaks
+        run: |
+          f="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -fsSLO "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${f}"
+          echo "${GITLEAKS_SHA256}  ${f}" | sha256sum -c -
+          tar -xzf "${f}" gitleaks
+      - name: Scan the full history
+        run: ./gitleaks git --redact --no-banner -v .
+
+  contracts:
+    # Every stage contract keeps the ICM shape: Inputs, Process, Outputs.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Contract sections
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            for s in Inputs Process Outputs; do
+              grep -qx "## ${s}" "$f" || { echo "::error file=${f}::missing '## ${s}'"; fail=1; }
+            done
+          done < <(git ls-files '*CONTEXT.md')
+          exit "$fail"
+
+  frontmatter:
+    # Frontmatter is what the desk, the manifest and the dashboard read; it must parse.
+    # clients/_template/ is skipped: its {{PLACEHOLDERS}} are filled at first touch.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Parse every frontmatter block
+        run: |
+          yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
+          fail=0
+          while IFS= read -r f; do
+            [ "$(head -n1 "$f")" = "---" ] || continue
+            yq --front-matter=extract '.' "$f" >/dev/null 2>err.txt \
+              || { echo "::error file=${f}::frontmatter does not parse: $(head -n1 err.txt)"; fail=1; }
+          done < <(git ls-files '*.md' ':!:clients/_template/*')
+          exit "$fail"
+
+  scripts:
+    # The setup scripts and the hook run on machines with no other guard.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: shellcheck
+        run: git ls-files -z '*.sh' | xargs -0 -r shellcheck --severity=warning

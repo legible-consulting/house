@@ -32,7 +32,7 @@ From the Claude Code cloud docs, in the order they bite:
 | **Projects** (public beta, Pro/Max): repos + instructions (16k chars) + memory across threads; a thread can add a repo to itself only from an **owner the project already uses**. | One GitHub owner for everything live, or threads cannot pull in a client repo without a manual step. |
 | **Routines** (research preview): 1+ repos, schedule ≥ 1 h, GitHub events, API trigger; run as Jamie, all connectors included by default, push `claude/` branches. | A model-driven unattended runner exists but is preview and permissive. Recorded as watch. |
 | The proxy blocks GraphQL, so `gh pr` and `gh issue` fail in cloud sessions; REST via `gh api` works. Tags and branch deletes are refused. | Module skills must not script `gh pr create`; use the session's Create PR or `gh api`. release-please (tags) runs in Actions, not sessions. |
-| Setup script is cached only if it finishes in ~5 min. Environment variables are visible to anyone using the environment; API keys go in **network secrets**. | One environment "legible" with the tool install (yq, mdq, jq, vale, cspell, lychee…) and network secrets for Google and ntfy. |
+| Setup script is cached only if it finishes in ~5 min. Environment variables are visible to anyone using the environment; API keys go in **network secrets**. | One environment "legible" with the tool install (yq, mdq, jq…) and no network secrets. |
 | Session sharing on Max is Private or **Public** (any logged-in user). | Sessions on the operating repo are never shared. Attendees get the method repo. |
 
 ## 2. The repo set
@@ -79,7 +79,7 @@ exception and is named in the module's contract.**
 | Who reads what (privacy) | Public method repo + private operating repo; clients and salesmen through the dashboard; attendees through the method repo and kit. | Attendees need the method without client data; clients need their slice; a sanitised export is a second home for the method that drifts. |
 | Consolidate the estate | Superseded 2026-10-15 by Jamie: move **every** client repo and all ICM material to the org; archive dormant ones there; the personal account keeps personal projects. | One App install, one owner for Projects, one manifest, one place collaborators are invited to. Cost per moved repo: relink its Vercel project (Pro, already paid). Detail in `04-github-organisation.md`. |
 | Dashboard home | Inside the operating repo under the desk module, Astro, built in Actions, Vercel root directory set to that folder; salesman write-back commits to the same repo. | Astro content collections read the client frontmatter directly; the write-back lands where the build reads; a separate app repo would need a token to clone a private repo and a cross-repo build trigger on every folder commit. Keep the app out of module context by routing in `CLAUDE.md` and path-scoped `.claude/rules`. |
-| Unattended runner | GitHub Actions `schedule:` in the operating repo for the drift check, deadline sweep and research recheck; outputs are lines in the desk folder plus ntfy; Healthchecks as dead-man's switch. Routines: **watch**, recheck 2027-01-14 for phrasing the morning glance. | CI is truth and the sweeps are deterministic (yq, DuckDB, dateutils). Calendar and Drive are reached through the already-adopted service account, so connectors are not needed. Routines are preview, include every connector by default and run as Jamie without approval. |
+| Unattended runner | GitHub Actions `schedule:` in the operating repo for the drift check, deadline sweep and research recheck; outputs are lines in the desk folder; Healthchecks as dead-man's switch. Routines: **watch**, recheck 2027-01-14 for phrasing the morning glance. | CI is truth and the sweeps are deterministic (yq, DuckDB, dateutils). Calendar and Drive are reached through the already-adopted service account, so connectors are not needed. Routines are preview, include every connector by default and run as Jamie without approval. |
 
 ## 6. Interview answers (2026-10-15)
 
@@ -95,7 +95,7 @@ exception and is named in the module's contract.**
 ## 7. Order of work (fits Wave 1)
 
 1. Merge `jake-van-clief/` into the reference repo; delete it here.
-2. Install the Claude GitHub App on the org, all repositories. Create cloud environment `legible`: setup script installs the adopted CLI tools in under 5 min; network secrets for Google and ntfy.
+2. Install the Claude GitHub App on the org, all repositories. Create cloud environment `legible`: setup script installs the adopted CLI tools in under 5 min.
 3. Scaffold the operating repo: Layer 0 routing, core (C1), `clients/` (C2), module folders with contracts; commit `.claude/settings.json` with the local-checks hook.
 4. Grow `client-starter-kit` into the method repo: `copier.yml` with the `tier` question; first tier is `site`.
 5. Rename the org, then transfer every client repo into it; relink Vercel; archive dormant repos in the org (`04-github-organisation.md` §5).

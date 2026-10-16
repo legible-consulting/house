@@ -405,7 +405,7 @@ link is remade. The last production deployment keeps serving throughout.
 
 - [ ] **5.8** (today) Claude cloud environment `legible`. Click: claude.ai/code → Settings →
   Environments → **New environment** → name `legible` → setup script: paste `core/setup/cloud.sh` (the toolbox in `core/stack.md`, under five
-  minutes) → **Network secrets**: none (ntfy dropped: phone alerts are not needed yet and ntfy's hosted tier is paid · Jamie, 2026-10-16). No Google key here
+  minutes) → **Network secrets**: none. No Google key here
   (design §8: a service-account key cannot work as a header-injected secret; sessions use
   the Google connectors).
   Check: start a cloud session on `legible-consulting/house` in environment `legible`; `which yq gitleaks` prints two paths.

@@ -24,9 +24,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | copier | render a client repo from the blueprint (D1) | 9.19.1 | `setup/local.sh` | — |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 
-Adopted but installed nowhere until a module calls them: vale, cspell and lychee (their verdict
-comes from CI, which installs its own: why: CI is truth · 2026-10-15), and mdq, duckdb and
-dateutils (no module built yet). Their verdicts stay in the research file. The cloud image ships
+Adopted but installed nowhere until a module calls them: mdq, duckdb and dateutils. Their verdicts stay in the research file. The cloud image ships
 kislyuk's Python yq, a jq wrapper without `--front-matter`; `setup/cloud.sh` puts mikefarah's
 ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's checks ·
 2026-10-16). Homebrew installs the current stable formula, so local versions are read, not
@@ -73,7 +71,7 @@ One environment, `legible`, in claude.ai/code.
 |---|---|
 | Network access | Trusted |
 | Environment variables | none |
-| Network secrets | none (why: ntfy dropped · Jamie, 2026-10-16) |
+| Network secrets | none |
 | Setup script | `setup/cloud.sh`, pasted in full |
 
 The pasted copy is not linked to this repo: after editing `setup/cloud.sh`, paste it into the
