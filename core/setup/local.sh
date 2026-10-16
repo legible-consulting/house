@@ -10,8 +10,6 @@ have brew || { log "Homebrew is missing: install it first (https://brew.sh), the
 declare -A formula=(
   [gh]=gh [jq]=jq [yq]=yq [gitleaks]=gitleaks
   [mani]=mani [multi-gitter]=multi-gitter [copier]=copier
-  [mdq]=mdq [duckdb]=duckdb [dateadd]=dateutils
-  [vale]=vale [cspell]=cspell [lychee]=lychee
 )
 
 missing=()
