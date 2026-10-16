@@ -340,8 +340,9 @@ link is remade. The last production deployment keeps serving throughout.
   ```
   Check: `gh secret list --repo legible-consulting/house` shows five names. The key file stays outside every repo: `git -C ~/Desktop/icm-workshop check-ignore -q <path> || echo "not under a repo"` prints `not under a repo`.
 
-- [ ] **5.6** (today) Ruleset on `main` for each **public** repo: berceo, vinecliff, remi-ai
-  (after 3.6), client-starter-kit, workflows, .github. No bypass actors: Jamie's own pushes
+- [ ] **5.6** (today) Ruleset on `main` for each **public** repo: .github, blueprint, and
+  (after 3.6) berceo, vinecliff-vineyard, agorasim. remi-ai's own `Quality Assurance` ruleset
+  already enforces the same rules, so it gets none. No bypass actors: Jamie's own pushes
   to `main` are refused too; that is the gate. ⚠ From now on, `main` changes only by PR.
   Rollback: `gh api -X DELETE repos/legible-consulting/<repo>/rulesets/<id>`.
   Write the body once:

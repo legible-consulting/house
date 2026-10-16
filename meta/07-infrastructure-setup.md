@@ -163,7 +163,9 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
   projects to the org repos (runbook 4.1 to 4.4).
 - [X] **F6** One folder per live client from `clients/_template/record.md`: berceo,
   vinecliff, remi-ai, sustentus, agorasim, each with its current `stage` and `repo:` set. Check: `yq --front-matter=extract` over `clients/*/record.md` returns five rows with a `repo` field.
-- [ ] **F7** Rulesets on `main` of the three public client repos (runbook 5.6).
+- [ ] **F7** Ruleset on `main` of berceo, vinecliff-vineyard and agorasim, no bypass actors
+  (runbook 5.6); remi-ai is covered by its own `Quality Assurance` ruleset. Check:
+  `gh ruleset list --repo …` shows `main` on all three.
 
 ### G · Wave 1 proofs (the infrastructure is done when)
 
