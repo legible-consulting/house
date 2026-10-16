@@ -9,7 +9,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -21,7 +22,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -33,7 +35,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -45,7 +48,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -57,7 +61,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -69,7 +74,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16 (1 false positive: example mockToken in a vendored skill doc)"
   },
   {
     "description": "",
@@ -81,7 +87,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -93,7 +100,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -105,19 +113,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
-  },
-  {
-    "description": "",
-    "isArchived": true,
-    "name": "event-flow",
-    "pushedAt": "2026-01-08T01:16:56Z",
-    "url": "https://github.com/k0d0minio/event-flow",
-    "visibility": "PUBLIC",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -129,19 +126,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
-  },
-  {
-    "description": "",
-    "isArchived": true,
-    "name": "flow-stage",
-    "pushedAt": "2025-10-04T19:54:01Z",
-    "url": "https://github.com/k0d0minio/flow-stage",
-    "visibility": "PUBLIC",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -153,7 +139,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -165,19 +152,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
-  },
-  {
-    "description": "",
-    "isArchived": false,
-    "name": "houseoftherisingmojo",
-    "pushedAt": "2026-09-29T12:46:01Z",
-    "url": "https://github.com/k0d0minio/houseoftherisingmojo",
-    "visibility": "PUBLIC",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -189,7 +165,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -201,7 +178,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -213,7 +191,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -225,7 +204,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -237,7 +217,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -249,7 +230,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -261,7 +243,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -273,7 +256,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -285,7 +269,8 @@
     "mark": "client-dormant",
     "move": "to org after gitleaks; archive",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -309,7 +294,8 @@
     "mark": "live",
     "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -345,7 +331,8 @@
     "mark": "live",
     "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -357,7 +344,8 @@
     "mark": "live",
     "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -441,6 +429,7 @@
     "mark": "reference",
     "move": "to org; archive after the first real deal walks the new folders",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16 (2 false positives: sk_test_placeholder quoted in audit notes)"
   }
 ]

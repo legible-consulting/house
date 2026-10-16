@@ -70,11 +70,11 @@ run now · **blocked** what it waits for.
   ```
   Check: 34 `ok` lines, no `fatal`.
 
-- [ ] **0.6** Clone the three archived dormant repos that have no local clone:
+- [ ] **0.6** Clone the archived dormant repo that has no local clone:
   ```bash
-  for r in curated-property event-flow flow-stage; do gh repo clone k0d0minio/$r ~/Desktop/Apps/projects/$r; done
+  gh repo clone k0d0minio/curated-property ~/Desktop/Apps/projects/curated-property
   ```
-  Check: `ls ~/Desktop/Apps/projects | wc -l` prints `37`.
+  Check: `ls -d ~/Desktop/Apps/projects/curated-property`.
 
 - [ ] **0.7** Read the marks once more and confirm the live split in your head: client
   (move by hand) = berceo, vinecliff, remi-ai; personal (stay) = agorasim, jamienisbet,
@@ -82,7 +82,7 @@ run now · **blocked** what it waits for.
   ```bash
   jq -r '.[] | "\(.mark)\t\(.name)\t\(.move)"' meta/estate-k0d0minio-2026-10-15.json | sort
   ```
-  Check: 6 live, 24 client-dormant, 6 personal, 1 reference.
+  Check: 6 live, 21 client-dormant, 6 personal, 1 reference.
 
 ## Phase 1 — Org settings
 
@@ -168,7 +168,7 @@ run now · **blocked** what it waits for.
 
 ## Phase 2 — gitleaks per repo (today)
 
-Scope: the 28 repos leaving `k0d0minio` (24 client-dormant, `icm-board`, and the three live
+Scope: the 25 repos leaving `k0d0minio` (21 client-dormant, `icm-board`, and the three live
 client repos). Personal repos are out of scope. Reports go to the scratch folder, never into
 a repo; only the verdict is recorded in the inventory.
 
@@ -178,7 +178,7 @@ a repo; only the verdict is recorded in the inventory.
   ```
   Check: `ls -d ~/Desktop/Apps/_system/gitleaks-2026-10-15`.
 
-- [ ] **2.1** One repo at a time (repeat the step per repo; tick when all 28 are done):
+- [ ] **2.1** One repo at a time (repeat the step per repo; tick when all 25 are done):
   ```bash
   R=berceo; gitleaks git ~/Desktop/Apps/projects/$R --log-opts=--all --redact --report-path ~/Desktop/Apps/_system/gitleaks-2026-10-15/$R.json; echo "exit=$?"
   ```
@@ -199,7 +199,7 @@ a repo; only the verdict is recorded in the inventory.
      R=<repo>; cd ~/Desktop/Apps/_system/gitleaks-2026-10-15 && git clone --mirror https://github.com/k0d0minio/$R.git $R-before.git && cp -r $R-before.git $R-clean.git && printf '%s==>REDACTED\n' '<the leaked value>' > $R.replacements && git -C $R-clean.git filter-repo --replace-text $R.replacements
      ```
      Check: `gitleaks git $R-clean.git --log-opts=--all` exits 0.
-  4. If the repo is archived (curated-property, event-flow, flow-stage), unarchive first:
+  4. If the repo is archived (curated-property), unarchive first:
      `gh api -X PATCH repos/k0d0minio/$R -F archived=false`.
   5. Push the rewrite. ⚠ Force push.
      ```bash
@@ -209,7 +209,7 @@ a repo; only the verdict is recorded in the inventory.
   6. Delete the replacements file: `rm ~/Desktop/Apps/_system/gitleaks-2026-10-15/$R.replacements`.
      Check: the scratch folder holds no file containing the value (`grep -rl '<value>' ~/Desktop/Apps/_system/gitleaks-2026-10-15 || echo none` prints `none`).
 
-- [ ] **2.3** All 28 recorded:
+- [ ] **2.3** All 25 recorded:
   ```bash
   jq -r '.[] | select(.mark!="personal") | "\(.name)\t\(.gitleaks // "MISSING")"' meta/estate-k0d0minio-2026-10-15.json | grep -c MISSING
   ```
@@ -244,10 +244,10 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   Claude → Repository access.
   Check: "All repositories" and `courseday` is reachable from a cloud session's repo picker (design §10 item 9).
 
-- [ ] **3.3** (today) The remaining 23 dormant repos, one command each (the list, in the
+- [ ] **3.3** (today) The remaining 20 dormant repos, one command each (the list, in the
   order of the inventory): barzinho · boystomenretreat · cafe-jardim · casey-hebbel ·
-  collabimmo · curated-property · ericeirafishing · escondidinho · event-flow · firedough ·
-  flow-stage · garmani · grafitala · houseoftherisingmojo · kau-american-bbq ·
+  collabimmo · curated-property · ericeirafishing · escondidinho · firedough ·
+  garmani · grafitala · kau-american-bbq ·
   le-pavillon-vert · little-grass-shack · lourenco-botelho · maja-grunzner · miriamfridman ·
   pierpont · shake-easy · simnao.
   ```bash
@@ -255,11 +255,11 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   ```
   Check per repo: prints `legible-consulting/<repo>`. For the three already-archived
   repos, if GitHub refuses, unarchive (`gh api -X PATCH repos/k0d0minio/$R -F archived=false`),
-  transfer, and re-archive in 3.5 (design §10 item 14). After all 23:
+  transfer, and re-archive in 3.5 (design §10 item 14). After all 20:
   ```bash
   gh repo list legible-consulting --limit 100 --json name --jq 'length'
   ```
-  Check: `29` (5 original − 1 deleted in 1.12 + 1 workflows + 24 dormant).
+  Check: `25` (house, library, blueprint, .github + 21 dormant).
 
 - [ ] **3.4** (today) `icm-board` (reference; not archived until the first real deal):
   ```bash
@@ -267,16 +267,16 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   ```
   Check: `legible-consulting/icm-board`; `gh api repos/legible-consulting/icm-board/actions/secrets --jq .total_count` prints `2`.
 
-- [ ] **3.5** (today) Archive each of the 24 dormant repos. ⚠ Read-only from now (code,
+- [ ] **3.5** (today) Archive each of the 21 dormant repos. ⚠ Read-only from now (code,
   issues, PRs); scheduled workflows stop. Rollback: `gh repo unarchive legible-consulting/<repo> -y`.
   ```bash
   R=<repo>; gh repo archive legible-consulting/$R -y
   ```
-  Check after all 24:
+  Check after all 21:
   ```bash
   gh repo list legible-consulting --limit 100 --json name,isArchived --jq '[.[] | select(.isArchived)] | length'
   ```
-  Check: `24`.
+  Check: `21`.
 
 - [ ] **3.6** (Jamie's hand, any time after phase 2) The three live client repos. Nothing
   here runs for you; the command is the same as 3.3, once per repo you decide is a client
@@ -448,7 +448,7 @@ rewrite would break every clone and open cloud session.
   ```bash
   gh repo list legible-consulting --limit 100 --json name,visibility,isArchived --jq 'group_by(.isArchived) | map({archived: .[0].isArchived, n: length})'
   ```
-  Check: `archived: true → 24`; `archived: false → 8` (icm-workshop, client-starter-kit, learn-with-jake-van-clief, .github, workflows, icm-board, berceo, vinecliff) plus remi-ai when moved.
+  Check: `archived: true → 21`; `archived: false → 8` (icm-workshop, client-starter-kit, learn-with-jake-van-clief, .github, workflows, icm-board, berceo, vinecliff) plus remi-ai when moved.
 
 - [ ] **7.2** Settings read back in one line:
   ```bash

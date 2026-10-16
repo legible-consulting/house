@@ -9,8 +9,8 @@ here and a word in another file disagree, this file wins and the other file is f
 | Term | Is | Was | Visibility |
 |---|---|---|---|
 | **house** | the operating repo: core, client folders, module contracts, desk. Where the business runs. | `icm-workshop` | private, Jamie only |
-| **blueprint** | the public method: the copier template per tier, conventions, workshop kit. Every client build is rendered from it. | `icm-method` | public |
-| **library** | read-only reference: Jake Van Clief's course, the ICM paper, research ledgers, and later the design trail (`meta/`). | `icm-reference` | private |
+| **blueprint** | the public method: the copier template per tier, conventions, workshop kit. Every client build is rendered from it. | — | public |
+| **library** | read-only reference: Jake Van Clief's course, the ICM paper, research ledgers, and later the design trail (`meta/`). | — | private |
 | **.github** | the org's front page and reusable CI. Name fixed by GitHub. | — | public |
 | **client repo** | one per build, `legible-consulting/<slug>`, rendered from the blueprint. | — | per tier |
 

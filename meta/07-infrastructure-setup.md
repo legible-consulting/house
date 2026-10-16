@@ -117,26 +117,26 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 
 ### C · Prove the operating repo from anywhere (this week)
 
-- [ ] **C1** Cloud environment `legible` (runbook 5.8): setup script pasted from `core/setup/cloud.sh`
+- [X] **C1** Cloud environment `legible` (runbook 5.8): setup script pasted from `core/setup/cloud.sh`
   (settings in `core/stack.md`); no network secrets.
   Check: a cloud session on `house` prints two paths for
   `which yq gitleaks` and `/context` lists the repo's hook.
-- [ ] **C2** From the phone, open a session on `house`, edit `core/CONTEXT.md`, push.
+- [X] **C2** From the phone, open a session on `house`, edit `core/CONTEXT.md`, push.
   Check: the commit is on `main`. First "every module runs from anywhere" proof.
-- [ ] **C3** Add `.github/workflows/check.yml` (the table in `.github/workflows/README.md`). Check: the next push shows a green `check` run. Never run
+- [X] **C3** Add `.github/workflows/check.yml` (the table in `.github/workflows/README.md`). Check: the next push shows a green `check` run. Never run
   it locally.
-- [ ] **C4** A two-repo session (operating + `library`) reads one course file and
+- [x] **C4** A two-repo session (operating + `library`) reads one course file and
   writes a verdict under `operator/research/verdicts/`. Check: the commit lands in
   `house` only; `library` has no new commit.
 
 ### D · Local lane (this week)
 
-- [ ] **D1** Install the toolbox (runbook 0.4): `bash core/setup/local.sh`. Check: no `MISSING` line.
-- [ ] **D2** Hand-write `desk/mani.yaml` with the three live client repos and `sustentus`,
+- [X] **D1** Install the toolbox (runbook 0.4): `bash core/setup/local.sh`. Check: no `MISSING` line.
+- [X] **D2** Hand-write `desk/mani.yaml` with the three live client repos and `sustentus`,
   tagged `live`, paths under `~/Desktop/Apps/projects/`. Check: `mani exec -t live 'git status -sb'` prints four lines.
-- [ ] **D3** Remote Control: `/rc` in the Desktop Code tab, "Keep computer awake" on; from
+- [x] **D3** Remote Control: `/rc` in the Desktop Code tab, "Keep computer awake" on; from
   the phone run `mani exec -t live 'git log -1 --format=%h'`. Check: four hashes on the phone.
-- [ ] **D4** Render a `site` tier from `blueprint` into a scratch folder with
+- [X] **D4** Render a `site` tier from `blueprint` into a scratch folder with
   `copier copy --vcs-ref HEAD ~/Desktop/legible-consulting/blueprint /tmp/zz-site`.
   Check: `/tmp/zz-site/.copier-answers.yml` names `tier: site`. Delete the scratch folder.
 
@@ -152,11 +152,11 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 
 ### F · Bring the client repos in (one afternoon, Jamie's hand)
 
-- [ ] **F1** gitleaks the 28 repos leaving `k0d0minio`; rotate before purging on any hit
+- [X] **F1** gitleaks the 25 repos leaving `k0d0minio`; rotate before purging on any hit
   (runbook phase 2). Check: every non-personal repo has a `gitleaks:` line in the inventory.
 - [ ] **F2** Transfer `courseday` first and close the two verify-once items (runbook 3.1, 3.2).
-- [ ] **F3** Transfer the other 23 dormant repos and `icm-board`; archive the 24 dormant
-  ones (runbook 3.3 to 3.5). Check: 24 archived in the org.
+- [ ] **F3** Transfer the other 20 dormant repos and `icm-board`; archive the 21 dormant
+  ones (runbook 3.3 to 3.5). Check: 21 archived in the org.
 - [ ] **F4** Transfer berceo, vinecliff, remi-ai (runbook 3.6); repoint local clones (3.7).
   Check: `k0d0minio` lists 9 repos.
 - [ ] **F5** Vercel: reconnect berceo and vinecliff, disconnect the 17 dormant projects

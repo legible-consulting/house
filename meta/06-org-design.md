@@ -33,14 +33,14 @@ gate is Jamie's.
 | Live repos | Only **berceo, sustentus, agorasim, vinecliff, remi-ai, jamienisbet, english-with-jamie**. Everything else is dormant or personal. |
 | Which live repos are client builds | Jamie decides and **transfers them by hand**; nothing in this session or the runbook moves a repo for him. Proposed default: client = berceo, vinecliff, remi-ai; personal = agorasim, jamienisbet, english-with-jamie. |
 | Sustentus | Its own GitHub org (`sustentus/sustentus`, private) and its own Vercel team; stays there; the client folder points to it. |
-| Dormant vs personal among the other 30 | Accepted as proposed: personal = sell-my-stuff, gui-demo, the-library, dungeons-dragons, messy-play, website-starter (stay). Dormant client = the other 24 (move, archive). `icm-board` = reference (move, archive after the first real deal). |
+| Dormant vs personal among the other 27 | Accepted as proposed: personal = sell-my-stuff, gui-demo, the-library, dungeons-dragons, messy-play, website-starter (stay). Dormant client = the other 21 (move, archive). `icm-board` = reference (move, archive after the first real deal). |
 | New client repo visibility | Sites public; apps and platforms private. |
 | Build tickets | Files in the client folder only. A developer receives them because **kickoff renders the brief and ticket list into the client repo as a file**; the folder keeps the pointer. |
 | Second org owner | `mikaelbelmont` (has 2FA today; `GPardas` does not). |
 | Vercel seat if a collaborator ever needs one | Jamie pays, case by case. Default path needs no seat. |
 | Re-register `ai-consultancy-workshop` | No; let it go. |
 
-Full marks per repo: `meta/estate-k0d0minio-2026-10-15.json` (37 repos: 6 live, 24
+Full marks per repo: `meta/estate-k0d0minio-2026-10-15.json` (34 repos: 6 live, 21
 client-dormant, 6 personal, 1 reference) and `meta/estate-org-2026-10-15.json` (5 repos).
 
 ## 2. The real org and account today (read 2026-10-15)
@@ -104,7 +104,7 @@ runbook check closes it.
 | `.github` | public | org profile | real `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`; ruleset on `main` |
 | `workflows` | public | shared reusable workflows (new) | created empty today; content in Wave 1; ruleset on `main` |
 | `berceo`, `vinecliff`, `remi-ai` | public (as today) | live client builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff); ruleset on `main` |
-| 24 dormant client repos (list in the inventory JSON) | as today | client, dormant | transferred after gitleaks; **archived**; Vercel link disconnected where one exists |
+| 21 dormant client repos (list in the inventory JSON) | as today | client, dormant | transferred after gitleaks; **archived**; Vercel link disconnected where one exists |
 | `icm-board` | private | Apps, reference | transferred; archived only after the first real deal walks the new folders (a desk gate, not a runbook step) |
 | `tech-stack-audit-marketing-site` | private, empty (size 0) | unknown | Jamie's call: delete (restorable for 90 days) or repurpose; the design assumes delete |
 | `<client-slug>` × future builds | site public · app and platform private | client build | rendered from the method repo at kickoff |
@@ -357,7 +357,7 @@ today; the rest close during the runbook.
 | 11 | Same on the first private client repo | green (public reusable workflow called from a private repo) | first private build |
 | 12 | After transferring courseday: `gh api repos/legible-consulting/courseday/actions/secrets --jq .total_count` | `5` (secrets survive transfer) | runbook 3.2 |
 | 13 | After reconnect: `vercel api '/v9/projects/berceo?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm' \| jq .link` | `org: legible-consulting, repo: berceo` | runbook 4.1 |
-| 14 | Transfer of an already-archived repo (curated-property, event-flow, flow-stage) | accepted; if GitHub refuses, unarchive, transfer, re-archive | runbook 3.1 |
+| 14 | Transfer of an already-archived repo (curated-property) | accepted; if GitHub refuses, unarchive, transfer, re-archive | runbook 3.1 |
 | 15 | After archiving a dormant repo with a Vercel project (garmani): `curl -s -o /dev/null -w '%{http_code}' https://garmani.vercel.app` | `200`; archiving and disconnecting do not take a deployment down | runbook 4.3 |
 | 16 | berceo → Settings → Code security | secret scanning and push protection enabled (public default) | runbook 5.6 |
 | 17 | Month 3: `gh run list --repo legible-consulting/house --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
