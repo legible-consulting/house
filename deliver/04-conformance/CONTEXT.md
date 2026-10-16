@@ -9,8 +9,18 @@ D4 produces a report that every live repo matches its tier's template and carrie
 
 ## Process
 
-- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+- Conformant means: the default branch's `.copier-answers.yml` names the latest blueprint tag.
+  A repo built before the blueprint has no answers file and is adopted: the PR adds only that
+  file, from its client record, so no file of its own changes and later tags reach it by
+  `copier update` (why: the live repos predate the blueprint; overwriting them to conform
+  would be a rebuild, not a check · 2026-10-16).
+- Claude and agent assets (`.claude/`, `CLAUDE.md`, `AGENTS.md`, `.icm/`, `.opencode/` and
+  the like) are listed in the report, not removed: whether one is still used is Jamie's call.
+- From the local lane, Jamie's own `gh` login: `bash deliver/04-conformance/drift.sh` writes the
+  report, then per drifted repo
+  `GITHUB_TOKEN="$(gh auth token)" multi-gitter run "$PWD/deliver/04-conformance/conform.sh" -R legible-consulting/<repo> -B conformance/blueprint -m "chore: conform to the blueprint"`
+  opens the PR. Opening a PR is remote, so the run is Jamie's hand; the merge is the gate.
 
 ## Outputs
 
