@@ -1,0 +1,21 @@
+# Hand-written stopgap until manifest.yml exists; then this file is generated (desk/CONTEXT.md).
+projects:
+  berceo:
+    path: ~/Desktop/Apps/projects/berceo
+    url: https://github.com/k0d0minio/berceo.git
+    tags: [live]
+
+  vinecliff:
+    path: ~/Desktop/Apps/projects/vinecliff
+    url: https://github.com/k0d0minio/vinecliff.git
+    tags: [live]
+
+  remi-ai:
+    path: ~/Desktop/Apps/projects/remi-ai
+    url: https://github.com/k0d0minio/remi-ai.git
+    tags: [live]
+
+  sustentus:
+    path: ~/Desktop/Apps/projects/sustentus
+    url: https://github.com/sustentus/sustentus.git
+    tags: [live]
