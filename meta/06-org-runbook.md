@@ -60,9 +60,9 @@ run now · **blocked** what it waits for.
 - [ ] **0.4** Install the estate tools the local lane needs (not needed for the move itself;
   needed for phase 3.6 shortcuts and for D4 later):
   ```bash
-  brew install mani yq lindell/multi-gitter/multi-gitter && uv tool install copier
+  bash ~/Desktop/legible-consulting/house/core/setup/local.sh
   ```
-  Check: `mani --version && yq --version && multi-gitter version && copier --version` print four versions.
+  Check: every line ends `ok <tool>`, none `MISSING` (tool list: `core/stack.md`).
 
 - [ ] **0.5** Fetch every clone so gitleaks scans current history (read-only):
   ```bash
@@ -404,9 +404,8 @@ link is remade. The last production deployment keeps serving throughout.
   Check: prints the upgrade message.
 
 - [ ] **5.8** (today) Claude cloud environment `legible`. Click: claude.ai/code → Settings →
-  Environments → **New environment** → name `legible` → setup script: install the adopted CLI
-  tools (yq, mdq, jq, vale, cspell, lychee, gitleaks, duckdb, dateutils) in under five
-  minutes → **Network secrets**: none (ntfy dropped: phone alerts are not needed yet and ntfy's hosted tier is paid · Jamie, 2026-10-16). No Google key here
+  Environments → **New environment** → name `legible` → setup script: paste `core/setup/cloud.sh` (the toolbox in `core/stack.md`, under five
+  minutes) → **Network secrets**: none (ntfy dropped: phone alerts are not needed yet and ntfy's hosted tier is paid · Jamie, 2026-10-16). No Google key here
   (design §8: a service-account key cannot work as a header-injected secret; sessions use
   the Google connectors).
   Check: start a cloud session on `legible-consulting/house` in environment `legible`; `which yq gitleaks` prints two paths.

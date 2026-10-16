@@ -15,5 +15,6 @@ C1 produces the business's identity and bio, its services and pricing, its voice
 
 - `lexicon.md`: the house words (repo names, tiers, module codes) every artefact uses.
 - `identity.md` · `services.md` (with pricing) · `voice.md` (voice and document design system) · `terms.md` · `stack.md` · `house-rules.md`
+- `setup/local.sh` · `setup/cloud.sh`: install the toolbox `stack.md` lists, on this machine (Homebrew) and in the `legible` cloud environment (pasted setup script).
 - `open-items.md`: the one flat open-items list the Friday review reads.
 - `onboarding-collaborator.md`: the one-page note sent with a collaborator invite.

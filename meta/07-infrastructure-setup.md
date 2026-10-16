@@ -117,8 +117,8 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 
 ### C · Prove the operating repo from anywhere (this week)
 
-- [ ] **C1** Cloud environment `legible` (runbook 5.8): setup script installs yq, mdq, jq, vale,
-  cspell, lychee, gitleaks, duckdb, dateutils in under five minutes; no network secrets.
+- [ ] **C1** Cloud environment `legible` (runbook 5.8): setup script pasted from `core/setup/cloud.sh`
+  (settings in `core/stack.md`); no network secrets.
   Check: a cloud session on `house` prints two paths for
   `which yq gitleaks` and `/context` lists the repo's hook.
 - [ ] **C2** From the phone, open a session on `house`, edit `core/CONTEXT.md`, push.
@@ -132,7 +132,7 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 
 ### D · Local lane (this week)
 
-- [ ] **D1** Install the estate tools (runbook 0.4): `brew install mani yq lindell/multi-gitter/multi-gitter && uv tool install copier`. Check: four versions print.
+- [ ] **D1** Install the toolbox (runbook 0.4): `bash core/setup/local.sh`. Check: no `MISSING` line.
 - [ ] **D2** Hand-write `desk/mani.yaml` with the three live client repos and `sustentus`,
   tagged `live`, paths under `~/Desktop/Apps/projects/`. Check: `mani exec -t live 'git status -sb'` prints four lines.
 - [ ] **D3** Remote Control: `/rc` in the Desktop Code tab, "Keep computer awake" on; from
@@ -179,6 +179,22 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 - [ ] **G5** `meta/` moves to `library/research/design-trail/` once every contract
   carries its own whys; `CLAUDE.md`'s last routing row is deleted in the same PR.
 
+### H · After this runbook: audit the global Claude layer
+
+Starts once A–G are done (Jamie, 2026-10-16). The global `~/.claude/` predates the
+`legible-consulting` org and the house words; bring it in tune with them.
+
+- [ ] **H1** Audit `~/.claude/CLAUDE.md`: the ICM wording against `core/lexicon.md`; the
+  "one global hook" line against the four hooks `core/stack.md` lists; what belongs
+  globally versus in `house`.
+- [ ] **H2** Audit the four global hooks (`icm-session-start`, `block-local-checks`,
+  `confirm-git-writes`, `guard-plaintext-secrets`): keep, change, or move into the repos
+  so cloud sessions get them too.
+- [ ] **H3** Audit `~/.claude/settings.json`: permissions, permission mode, plugins, MCP
+  servers and connectors this machine loads.
+- [ ] **H4** Record the outcome in `core/stack.md` ("Local machine"). Check: `stack.md` and
+  `~/.claude/` describe the same hooks, permissions and tools.
+
 ## 4. What this changes against 06-org-design.md, and why
 
 | Item                         | Was                                                             | Now                                                                                       | Why (2026-10-15)                                                                                                                            |
@@ -187,7 +203,7 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 | Reference repo               | `learn-with-jake-van-clief`, merged into by PR                | `library`, created fresh from the folder                                                | Jamie deleted the old one; the course has a handful of import commits and one commit with the source SHA is enough provenance.              |
 | Method repo                  | `client-starter-kit` grown later                              | `blueprint`, created now, tagged at first kickoff                                       | Jamie creates every repo in one sitting; copier needs a tagged repo of its own and the operating repo must not carry template tags.         |
 | Course in the operating repo | `jake-van-clief/` here                                        | removed in the scaffold commit                                                            | §1, last paragraph.                                                                                                                        |
-| Local layout                 | clones scattered on the desktop                                 | `~/Desktop/legible-consulting/<repo>/`                                                  | One folder mirrors the org; the push map in its README is the only instruction a fresh machine needs.                                       |
+| Local layout                 | clones scattered on the desktop                                 | `~/Desktop/legible-consulting/<repo>/`                                                  | One folder mirrors the org; `core/stack.md` is the only instruction a fresh machine needs (moved there from the unversioned root README, 2026-10-16).                                       |
 | Remote actions               | runbook steps run by a session where safe                       | **none from a session**                                                             | Jamie, 2026-10-15.                                                                                                                          |
 | Phone alerts | ntfy (`NTFY_TOKEN` in Actions and on the cloud environment) | none; failed runs reach Jamie by GitHub's failed-run email | Jamie, 2026-10-16: not needed yet, and ntfy's hosted tier is paid. Supersedes every ntfy mention in `03`, `04` and `06-org-design.md`. |
 | Phase order                  | settings → gitleaks → transfers → Vercel → secrets → merge | push → settings → cloud proof → local lane → secrets on demand → transfers → proofs | The operating repo must have`clients/` before a client repo has a folder to point from; secrets have no consumer until a workflow exists. |
