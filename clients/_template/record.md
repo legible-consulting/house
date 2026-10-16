@@ -13,7 +13,7 @@ commission:
 repo:
 tier:
 owner: jamie
-vercel_project:
+vercel_project: []
 collaborators: []
 ---
 

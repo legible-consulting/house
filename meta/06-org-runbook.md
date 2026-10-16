@@ -27,9 +27,9 @@ run now · **blocked** what it waits for.
   removes every member without 2FA (today: `GPardas`), and their repo grants with them.
 - The Claude GitHub App install moves **before** the transfers so the first transfer
   verifies that "all repositories" covers repos transferred in (design §10 item 9).
-- Vercel: only the two live moved projects (berceo, vinecliff) are reconnected; courseday
-  and firedough are disconnected, and a disconnected project keeps serving its last
-  production deployment.
+- Vercel: every project whose repo moved is reconnected to the org repo: berceo, vinecliff,
+  courseday, firedough in `kodominio`; the six remi-ai projects in `remi21`. Sustentus's
+  projects link to `sustentus/sustentus`, which did not move.
 - Rulesets: public repos only; the private-repo 403 was verified today.
 - Transfers of the three live client repos are **Jamie's hand** (interview): the step gives
   the command once; there is no loop.
@@ -286,18 +286,19 @@ link is remade. The last production deployment keeps serving throughout.
 - [ ] **4.2** vinecliff: same as 4.1 with project `vinecliff`, clone `vinecliff`, repo `legible-consulting/vinecliff-vineyard`.
   Check: `{"org":"legible-consulting","repo":"vinecliff-vineyard"}`.
 
-- [ ] **4.3** (today) Dormant projects in the org: disconnect only, one per project,
-  so the dashboard shows no broken link and the production URL keeps serving. Projects:
-  courseday · firedough.
-  ```bash
-  P=firedough; R=firedough; cd ~/Desktop/Apps/projects/$R && vercel link --scope kodominio --project $P --yes && vercel git disconnect
-  ```
-  Check per project: `vercel api "/v9/projects/$P?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm" | jq .link` prints `null`; `curl -s -o /dev/null -w '%{http_code}\n' https://firedough.vercel.app` prints `200` (design §10 item 14).
+- [ ] **4.3** courseday and firedough: same as 4.1 with each name.
+  Check: `{"org":"legible-consulting","repo":"courseday"}` and `{"org":"legible-consulting","repo":"firedough"}`.
 
-- [ ] **4.4** remi-ai: no project in `kodominio`, `remi21` or `sustentus` links to it
-  (read 2026-10-15). Nothing to reconnect. Find where `remiai.be` is served and record it
-  in the client folder when it exists.
-  Check: `vercel api '/v9/projects?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm&limit=100' | jq -r '.projects[] | select(.link.repo=="remi-ai") | .name'` prints nothing (expected).
+- [ ] **4.4** remi-ai: six projects in `remi21` (app, admin, marketing, documentation,
+  support, demo), one repo. Once per project:
+  ```bash
+  P=app; cd ~/Desktop/Apps/projects/remi-ai && vercel link --scope remi21 --project $P --yes && vercel git disconnect && vercel git connect https://github.com/legible-consulting/remi-ai
+  ```
+  Check after all six:
+  ```bash
+  vercel api '/v9/projects?teamId=team_4W5cPb8fsRXyJja4yjyXEyMn&limit=100' | jq -c '.projects[] | {name, org: .link.org}'
+  ```
+  Check: six lines, each `"org":"legible-consulting"`.
 
 - [ ] **4.5** (Wave 1, not today) Private client repos deploy from Actions: the template
   carries `vercel.json` with `"git": {"deploymentEnabled": false}` and `ci.yml` calling
@@ -356,7 +357,7 @@ link is remade. The last production deployment keeps serving throughout.
   ```bash
   R=berceo; gh api -X POST repos/legible-consulting/$R/rulesets --input /tmp/ruleset-main.json --jq '{id,enforcement}'
   ```
-  Check: `enforcement: active`; `gh ruleset list --repo legible-consulting/$R` shows `main`. Add `required_status_checks` (context `check`) to each ruleset once `ci.yml` exists (Wave 1). On berceo also confirm design §10 item 15: Settings → Code security shows push protection enabled.
+  Check: `enforcement: active`; `gh ruleset list --repo legible-consulting/$R` shows `main`. Add `required_status_checks` (context `check`) to each ruleset once `ci.yml` exists (Wave 1). On berceo also confirm design §10 item 14: Settings → Code security shows push protection enabled.
 
 - [ ] **5.7** (today) Private repos: nothing to set; the 403 is the verified state.
   ```bash

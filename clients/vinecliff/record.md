@@ -13,7 +13,8 @@ commission:
 repo: legible-consulting/vinecliff-vineyard
 tier: app
 owner: jamie
-vercel_project: vinecliff
+vercel_project:
+  - kodominio/vinecliff
 collaborators: []
 ---
 

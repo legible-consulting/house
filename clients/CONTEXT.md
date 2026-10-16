@@ -14,7 +14,7 @@ C2 produces one folder per relationship, opened at first touch as a prospect and
 
 ## Outputs
 
-- `<slug>/record.md`: frontmatter `stage` (prospect → research → proposal → quote → agreement → kickoff → build → handover → after), `repo`, `tier`, `owner`, `vercel_project`, `salesman`, `collaborators`, commission fields.
+- `<slug>/record.md`: frontmatter `stage` (prospect → research → proposal → quote → agreement → kickoff → build → handover → after), `repo`, `tier`, `owner`, `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`, commission fields.
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one subfolder per module that has produced for this client.
 - `<slug>/tickets.md`: the build ticket list that D1 renders into the client repo's `BUILD.md`.
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).

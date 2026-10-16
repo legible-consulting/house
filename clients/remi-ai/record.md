@@ -13,7 +13,13 @@ commission:
 repo: legible-consulting/remi-ai
 tier: platform
 owner: jamie
-vercel_project: 
+vercel_project:
+  - remi21/app
+  - remi21/admin
+  - remi21/marketing
+  - remi21/documentation
+  - remi21/support
+  - remi21/demo
 collaborators: []
 ---
 

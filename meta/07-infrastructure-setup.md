@@ -154,14 +154,14 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 
 - [X] **F1** gitleaks the 25 repos leaving `k0d0minio`; rotate before purging on any hit
   (runbook phase 2). Check: every non-personal repo has a `gitleaks:` line in the inventory.
-- [ ] **F2** Transfer `courseday` first and close the two verify-once items (runbook 3.1, 3.2).
-- [ ] **F3** Transfer firedough (runbook 3.3). The other dormant repos and `icm-board` stay
+- [X] **F2** Transfer `courseday` first and close the two verify-once items (runbook 3.1, 3.2).
+- [X] **F3** Transfer firedough (runbook 3.3). The other dormant repos and `icm-board` stay
   on `k0d0minio`. Check: `gh repo view legible-consulting/firedough` succeeds.
-- [ ] **F4** Transfer berceo, vinecliff (as `vinecliff-vineyard`), remi-ai, agorasim (runbook
+- [X] **F4** Transfer berceo, vinecliff (as `vinecliff-vineyard`), remi-ai, agorasim (runbook
   3.6); repoint local clones (3.7). Check: `k0d0minio` lists 22 repos.
-- [ ] **F5** Vercel: reconnect berceo and vinecliff, disconnect courseday and firedough
-  (runbook 4.1 to 4.3).
-- [ ] **F6** One folder per live client from `clients/_template/record.md`: berceo,
+- [] **F5** Vercel: reconnect berceo, vinecliff, courseday, firedough and the six remi21
+  projects to the org repos (runbook 4.1 to 4.4).
+- [X] **F6** One folder per live client from `clients/_template/record.md`: berceo,
   vinecliff, remi-ai, sustentus, each at `stage: after` with `repo:` set. Check: `yq --front-matter=extract` over `clients/*/record.md` returns four rows with a `repo` field.
 - [ ] **F7** Rulesets on `main` of the three public client repos (runbook 5.6).
 
@@ -212,7 +212,6 @@ lifecycle, §7 sync paths, §8 secrets table, §9 costs, §10 verify-once list.
 ## 5. Open items
 
 - `GPardas` without 2FA blocks B9; Jamie decides whether to wait or remove and re-invite.
-- `remi-ai` has no Vercel project in any team; where `remiai.be` is served is unknown (F5).
 - Whether `gh api POST orgs/legible-consulting/repos` passes the cloud proxy (design §10
   item 4); moot while every repo is created by hand.
 - Where the business site is served (O3 output; `jamienisbet` is personal today).

@@ -63,7 +63,7 @@ client-dormant, 6 personal, 1 reference) and `meta/estate-org-2026-10-15.json` (
 | Personal repos | 37 (27 public, 10 private, 3 archived); 30 bulk-pushed 2026-09-29, so `pushedAt` says nothing about liveness | 9 remain | `gh repo list k0d0minio` |
 | Actions secrets on personal repos | courseday 5 · berceo 4 · agorasim 3 · icm-board 2 · jamienisbet, vinecliff, remi-ai, kau-american-bbq, dungeons-dragons 1 · others 0; webhooks 0 everywhere | carried by transfer | `actions/secrets`, `hooks` |
 | Vercel | three Pro teams: `kodominio` (27 projects, 1 member: Jamie, GitHub `k0d0minio`) · `remi21` (6, all linked to `sustentus/sustentus` or unlinked) · `sustentus` (8) | `kodominio` stays the agency team | `vercel teams ls`, `vercel api /v9/projects` |
-| Vercel projects linked to repos that move | live: `berceo`, `vinecliff` · dormant: courseday, firedough · **no project links to `remi-ai`** in any team | reconnect 2, disconnect 2 | `.link.org/.link.repo` |
+| Vercel projects linked to repos that move | `kodominio`: berceo, vinecliff, courseday, firedough · `remi21`: six projects on `remi-ai` | reconnect all ten | `.link.org/.link.repo` |
 | Local | clones of 34 repos at `~/Desktop/Apps/projects/` (the local lane) · gh 2.101.0, Vercel CLI 61.0.0, gitleaks 8.30.1, git-filter-repo, jq, brew, uv present · mani, multi-gitter, copier, yq **missing** | tools installed | `command -v` |
 
 ## 3. Org skeleton
@@ -103,8 +103,8 @@ runbook check closes it.
 | `learn-with-jake-van-clief` | private | reference | receives `jake-van-clief/` from the operating repo (runbook phase 6) |
 | `.github` | public | org profile | real `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`; ruleset on `main` |
 | `workflows` | public | shared reusable workflows (new) | created empty today; content in Wave 1; ruleset on `main` |
-| `berceo`, `vinecliff-vineyard`, `remi-ai`, `agorasim` | public (as today) | live builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff); ruleset on `main` |
-| `courseday`, `firedough` | as today | client, dormant | transferred after gitleaks; Vercel link disconnected |
+| `berceo`, `vinecliff-vineyard`, `remi-ai`, `agorasim` | public (as today) | live builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff, remi-ai's six); ruleset on `main` |
+| `courseday`, `firedough` | as today | client, dormant | transferred after gitleaks; Vercel reconnected |
 | `tech-stack-audit-marketing-site` | private, empty (size 0) | unknown | Jamie's call: delete (restorable for 90 days) or repurpose; the design assumes delete |
 | `<client-slug>` × future builds | site public · app and platform private | client build | rendered from the method repo at kickoff |
 
@@ -356,17 +356,14 @@ today; the rest close during the runbook.
 | 11 | Same on the first private client repo | green (public reusable workflow called from a private repo) | first private build |
 | 12 | After transferring courseday: `gh api repos/legible-consulting/courseday/actions/secrets --jq .total_count` | `5` (secrets survive transfer) | runbook 3.2 |
 | 13 | After reconnect: `vercel api '/v9/projects/berceo?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm' \| jq .link` | `org: legible-consulting, repo: berceo` | runbook 4.1 |
-| 14 | After disconnecting a dormant repo's Vercel project (firedough): `curl -s -o /dev/null -w '%{http_code}' https://firedough.vercel.app` | `200`; disconnecting does not take a deployment down | runbook 4.3 |
-| 15 | berceo → Settings → Code security | secret scanning and push protection enabled (public default) | runbook 5.6 |
-| 16 | Month 3: `gh run list --repo legible-consulting/house --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
-| 17 | Remote Control from the phone reaches a local `mani run` and its commit appears in `desk/estate/` | one commit, dated | Wave 1 |
+| 14 | berceo → Settings → Code security | secret scanning and push protection enabled (public default) | runbook 5.6 |
+| 15 | Month 3: `gh run list --repo legible-consulting/house --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
+| 16 | Remote Control from the phone reaches a local `mani run` and its commit appears in `desk/estate/` | one commit, dated | Wave 1 |
 
 ## 11. Open items
 
 - Jamie confirms the live split (client: berceo, vinecliff, remi-ai; personal: agorasim,
   jamienisbet, english-with-jamie) and transfers the client ones by hand.
-- `remi-ai`: no Vercel project in any of the three teams links to it; where `remiai.be` is
-  served is unknown. Nothing to reconnect until that is known.
 - `tech-stack-audit-marketing-site`: empty; delete or repurpose.
 - `GPardas` has no 2FA; the 2FA requirement waits for them (or for Jamie to accept their
   removal and re-invite).

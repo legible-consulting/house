@@ -13,7 +13,8 @@ commission:
 repo: legible-consulting/berceo
 tier: app
 owner: jamie
-vercel_project: berceo
+vercel_project:
+  - kodominio/berceo
 collaborators: []
 ---
 
