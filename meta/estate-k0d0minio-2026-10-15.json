@@ -2,25 +2,12 @@
   {
     "description": "",
     "isArchived": false,
-    "name": "barzinho",
-    "pushedAt": "2026-09-29T12:13:33Z",
-    "url": "https://github.com/k0d0minio/barzinho",
-    "visibility": "PRIVATE",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15",
-    "gitleaks": "clean 2026-10-16"
-  },
-  {
-    "description": "",
-    "isArchived": false,
     "name": "boystomenretreat",
     "pushedAt": "2026-09-29T12:15:09Z",
     "url": "https://github.com/k0d0minio/boystomenretreat",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -33,7 +20,7 @@
     "url": "https://github.com/k0d0minio/cafe-jardim",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -46,7 +33,7 @@
     "url": "https://github.com/k0d0minio/casey-hebbel",
     "visibility": "PRIVATE",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -59,7 +46,7 @@
     "url": "https://github.com/k0d0minio/collabimmo",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -72,23 +59,10 @@
     "url": "https://github.com/k0d0minio/courseday",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "in legible-consulting",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16 (1 false positive: example mockToken in a vendored skill doc)"
-  },
-  {
-    "description": "",
-    "isArchived": true,
-    "name": "curated-property",
-    "pushedAt": "2026-06-12T13:28:23Z",
-    "url": "https://github.com/k0d0minio/curated-property",
-    "visibility": "PRIVATE",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15",
-    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -98,7 +72,7 @@
     "url": "https://github.com/k0d0minio/ericeirafishing",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -111,7 +85,7 @@
     "url": "https://github.com/k0d0minio/escondidinho",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -124,7 +98,7 @@
     "url": "https://github.com/k0d0minio/firedough",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "in legible-consulting",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -137,7 +111,7 @@
     "url": "https://github.com/k0d0minio/garmani",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -150,7 +124,7 @@
     "url": "https://github.com/k0d0minio/grafitala",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -163,7 +137,7 @@
     "url": "https://github.com/k0d0minio/kau-american-bbq",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -176,7 +150,7 @@
     "url": "https://github.com/k0d0minio/le-pavillon-vert",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -189,7 +163,7 @@
     "url": "https://github.com/k0d0minio/little-grass-shack",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -202,20 +176,7 @@
     "url": "https://github.com/k0d0minio/lourenco-botelho",
     "visibility": "PRIVATE",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15",
-    "gitleaks": "clean 2026-10-16"
-  },
-  {
-    "description": "",
-    "isArchived": false,
-    "name": "maja-grunzner",
-    "pushedAt": "2026-09-29T12:46:03Z",
-    "url": "https://github.com/k0d0minio/maja-grunzner",
-    "visibility": "PUBLIC",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -228,7 +189,7 @@
     "url": "https://github.com/k0d0minio/miriamfridman",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -241,20 +202,7 @@
     "url": "https://github.com/k0d0minio/pierpont",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15",
-    "gitleaks": "clean 2026-10-16"
-  },
-  {
-    "description": "",
-    "isArchived": false,
-    "name": "shake-easy",
-    "pushedAt": "2026-09-29T12:46:06Z",
-    "url": "https://github.com/k0d0minio/shake-easy",
-    "visibility": "PRIVATE",
-    "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -267,7 +215,7 @@
     "url": "https://github.com/k0d0minio/simnao",
     "visibility": "PUBLIC",
     "mark": "client-dormant",
-    "move": "to org after gitleaks; archive",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -280,9 +228,10 @@
     "url": "https://github.com/k0d0minio/agorasim",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: stays (live personal) — Jamie confirms",
+    "move": "in legible-consulting",
     "marked_by": "jamie",
-    "marked_on": "2026-10-15"
+    "marked_on": "2026-10-15",
+    "gitleaks": "clean 2026-10-16"
   },
   {
     "description": "",
@@ -292,7 +241,7 @@
     "url": "https://github.com/k0d0minio/berceo",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
+    "move": "in legible-consulting",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -305,7 +254,7 @@
     "url": "https://github.com/k0d0minio/english-with-jamie",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: stays (live personal) — Jamie confirms",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15"
   },
@@ -317,7 +266,7 @@
     "url": "https://github.com/k0d0minio/jamienisbet",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: stays (live personal) — Jamie confirms",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15"
   },
@@ -329,7 +278,7 @@
     "url": "https://github.com/k0d0minio/remi-ai",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
+    "move": "in legible-consulting",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -342,7 +291,7 @@
     "url": "https://github.com/k0d0minio/vinecliff",
     "visibility": "PUBLIC",
     "mark": "live",
-    "move": "proposed: to org (live client) — Jamie confirms and transfers by hand",
+    "move": "in legible-consulting as vinecliff-vineyard",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16"
@@ -354,18 +303,6 @@
     "pushedAt": "2026-09-29T12:15:12Z",
     "url": "https://github.com/k0d0minio/dungeons-dragons",
     "visibility": "PUBLIC",
-    "mark": "personal",
-    "move": "stays on k0d0minio",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15"
-  },
-  {
-    "description": "",
-    "isArchived": false,
-    "name": "gui-demo",
-    "pushedAt": "2026-09-29T12:45:58Z",
-    "url": "https://github.com/k0d0minio/gui-demo",
-    "visibility": "PRIVATE",
     "mark": "personal",
     "move": "stays on k0d0minio",
     "marked_by": "jamie",
@@ -408,18 +345,6 @@
     "marked_on": "2026-10-15"
   },
   {
-    "description": "This repository serves as a template for project instantiation. It consists of cursor rules and commands to streamline project management.",
-    "isArchived": false,
-    "name": "website-starter",
-    "pushedAt": "2026-09-29T12:46:08Z",
-    "url": "https://github.com/k0d0minio/website-starter",
-    "visibility": "PRIVATE",
-    "mark": "personal",
-    "move": "stays on k0d0minio",
-    "marked_by": "jamie",
-    "marked_on": "2026-10-15"
-  },
-  {
     "description": "The estate orchestrator — contracts, scripts and commands that keep every repo aligned. No application code.",
     "isArchived": false,
     "name": "icm-board",
@@ -427,7 +352,7 @@
     "url": "https://github.com/k0d0minio/icm-board",
     "visibility": "PRIVATE",
     "mark": "reference",
-    "move": "to org; archive after the first real deal walks the new folders",
+    "move": "stays on k0d0minio",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
     "gitleaks": "clean 2026-10-16 (2 false positives: a placeholder Stripe test key quoted in audit notes)"

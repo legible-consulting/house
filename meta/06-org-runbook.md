@@ -70,12 +70,6 @@ run now · **blocked** what it waits for.
   ```
   Check: 34 `ok` lines, no `fatal`.
 
-- [ ] **0.6** Clone the archived dormant repo that has no local clone:
-  ```bash
-  gh repo clone k0d0minio/curated-property ~/Desktop/Apps/projects/curated-property
-  ```
-  Check: `ls -d ~/Desktop/Apps/projects/curated-property`.
-
 - [ ] **0.7** Read the marks once more and confirm the live split in your head: client
   (move by hand) = berceo, vinecliff, remi-ai; personal (stay) = agorasim, jamienisbet,
   english-with-jamie. If a mark is wrong, edit the JSON now:
@@ -199,21 +193,19 @@ a repo; only the verdict is recorded in the inventory.
      R=<repo>; cd ~/Desktop/Apps/_system/gitleaks-2026-10-15 && git clone --mirror https://github.com/k0d0minio/$R.git $R-before.git && cp -r $R-before.git $R-clean.git && printf '%s==>REDACTED\n' '<the leaked value>' > $R.replacements && git -C $R-clean.git filter-repo --replace-text $R.replacements
      ```
      Check: `gitleaks git $R-clean.git --log-opts=--all` exits 0.
-  4. If the repo is archived (curated-property), unarchive first:
-     `gh api -X PATCH repos/k0d0minio/$R -F archived=false`.
-  5. Push the rewrite. ⚠ Force push.
+  4. Push the rewrite. ⚠ Force push.
      ```bash
      git -C ~/Desktop/Apps/_system/gitleaks-2026-10-15/$R-clean.git push --force --mirror
      ```
      Check: `gh api repos/k0d0minio/$R/commits --jq '.[0].sha'` equals `git -C $R-clean.git rev-parse HEAD`; re-run 2.1 on a fresh clone and get `exit=0`.
-  6. Delete the replacements file: `rm ~/Desktop/Apps/_system/gitleaks-2026-10-15/$R.replacements`.
+  5. Delete the replacements file: `rm ~/Desktop/Apps/_system/gitleaks-2026-10-15/$R.replacements`.
      Check: the scratch folder holds no file containing the value (`grep -rl '<value>' ~/Desktop/Apps/_system/gitleaks-2026-10-15 || echo none` prints `none`).
 
 - [ ] **2.3** All 25 recorded:
   ```bash
   jq -r '.[] | select(.mark!="personal") | "\(.name)\t\(.gitleaks // "MISSING")"' meta/estate-k0d0minio-2026-10-15.json | grep -c MISSING
   ```
-  Check: `3`, and the names are the live personal repos that stay (agorasim, jamienisbet, english-with-jamie):
+  Check: `2`, and the names are the live personal repos that stay (jamienisbet, english-with-jamie):
   ```bash
   jq -r '.[] | select(.mark!="personal") | select(.gitleaks==null) | .name' meta/estate-k0d0minio-2026-10-15.json
   ```
@@ -244,47 +236,30 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   Claude → Repository access.
   Check: "All repositories" and `courseday` is reachable from a cloud session's repo picker (design §10 item 9).
 
-- [ ] **3.3** (today) The remaining 20 dormant repos, one command each (the list, in the
-  order of the inventory): barzinho · boystomenretreat · cafe-jardim · casey-hebbel ·
-  collabimmo · curated-property · ericeirafishing · escondidinho · firedough ·
-  garmani · grafitala · kau-american-bbq ·
-  le-pavillon-vert · little-grass-shack · lourenco-botelho · maja-grunzner · miriamfridman ·
-  pierpont · shake-easy · simnao.
+- [ ] **3.3** (today) The other dormant repo that moves, firedough; the rest stay on `k0d0minio`.
   ```bash
-  R=<repo>; gh api -X POST repos/k0d0minio/$R/transfer -f new_owner=legible-consulting --jq .full_name
+  gh api -X POST repos/k0d0minio/firedough/transfer -f new_owner=legible-consulting --jq .full_name
   ```
-  Check per repo: prints `legible-consulting/<repo>`. For the three already-archived
-  repos, if GitHub refuses, unarchive (`gh api -X PATCH repos/k0d0minio/$R -F archived=false`),
-  transfer, and re-archive in 3.5 (design §10 item 14). After all 20:
-  ```bash
-  gh repo list legible-consulting --limit 100 --json name --jq 'length'
-  ```
-  Check: `25` (house, library, blueprint, .github + 21 dormant).
+  Check: prints `legible-consulting/firedough`.
 
-- [ ] **3.4** (today) `icm-board` (reference; not archived until the first real deal):
-  ```bash
-  gh api -X POST repos/k0d0minio/icm-board/transfer -f new_owner=legible-consulting --jq .full_name
-  ```
-  Check: `legible-consulting/icm-board`; `gh api repos/legible-consulting/icm-board/actions/secrets --jq .total_count` prints `2`.
-
-- [ ] **3.5** (today) Archive each of the 21 dormant repos. ⚠ Read-only from now (code,
+- [ ] **3.5** (today) Archive the two dormant repos in the org, courseday and firedough. ⚠ Read-only from now (code,
   issues, PRs); scheduled workflows stop. Rollback: `gh repo unarchive legible-consulting/<repo> -y`.
   ```bash
   R=<repo>; gh repo archive legible-consulting/$R -y
   ```
-  Check after all 21:
+  Check after both:
   ```bash
   gh repo list legible-consulting --limit 100 --json name,isArchived --jq '[.[] | select(.isArchived)] | length'
   ```
-  Check: `21`.
+  Check: `2`.
 
-- [ ] **3.6** (Jamie's hand, any time after phase 2) The three live client repos. Nothing
-  here runs for you; the command is the same as 3.3, once per repo you decide is a client
-  build: berceo, vinecliff, remi-ai.
+- [ ] **3.6** (Jamie's hand, any time after phase 2) The live repos that move: berceo,
+  vinecliff (renamed `vinecliff-vineyard` in the org), remi-ai, agorasim. Nothing here runs
+  for you; the command is the same as 3.3, once per repo.
   ```bash
   R=berceo; gh api -X POST repos/k0d0minio/$R/transfer -f new_owner=legible-consulting --jq .full_name
   ```
-  Check per repo: `legible-consulting/<repo>`; `gh api repos/legible-consulting/berceo/actions/secrets --jq .total_count` prints `4`. Go straight to phase 4 for berceo and vinecliff.
+  Check per repo: `legible-consulting/<repo>`; `gh api repos/legible-consulting/berceo/actions/secrets --jq .total_count` prints `4`. Go straight to phase 4 for berceo and vinecliff-vineyard.
 
 - [ ] **3.7** (today, after each transfer) Point the local clone at the new owner (one
   command per moved repo; `gh` uses HTTPS on this machine):
@@ -293,15 +268,15 @@ repo's Vercel Git link until phase 4. Do not transfer a repo whose gitleaks line
   ```
   Check: one line ending in `refs/heads/main`. After all moved repos:
   ```bash
-  grep -l 'k0d0minio' ~/Desktop/Apps/projects/*/.git/config | xargs -n1 dirname | xargs -n1 dirname | xargs -n1 basename
+  for d in ~/Desktop/Apps/projects/*/; do git -C $d remote get-url origin 2>/dev/null | grep -q k0d0minio && basename $d; done
   ```
-  Check: prints only the 9 repos that stay (agorasim, jamienisbet, english-with-jamie, sell-my-stuff, gui-demo, the-library, dungeons-dragons, messy-play, website-starter) and `sustentus` if its clone points elsewhere.
+  Check: prints only repos that `gh repo list k0d0minio` still lists, and `sustentus` if its clone points elsewhere.
 
-- [ ] **3.8** (today) The personal account holds only personal repos:
+- [ ] **3.8** (today) The personal account holds what stays:
   ```bash
   gh repo list k0d0minio --limit 100 --json name --jq '.[].name' | sort
   ```
-  Check: 9 names (the list in 3.7), or 12 until 3.6 is done.
+  Check: 22 names: 15 dormant client repos, `icm-board`, and six personal repos.
 
 ## Phase 4 — Vercel (after 3.6 for live; after 3.5 for dormant)
 
@@ -319,19 +294,16 @@ link is remade. The last production deployment keeps serving throughout.
   ```
   Check: `{"org":"legible-consulting","repo":"berceo"}` (design §10 item 13). Then push an empty commit on a branch and confirm a preview deployment appears in the dashboard.
 
-- [ ] **4.2** vinecliff: same as 4.1 with `vinecliff`.
-  Check: `{"org":"legible-consulting","repo":"vinecliff"}`.
+- [ ] **4.2** vinecliff: same as 4.1 with project `vinecliff`, clone `vinecliff`, repo `legible-consulting/vinecliff-vineyard`.
+  Check: `{"org":"legible-consulting","repo":"vinecliff-vineyard"}`.
 
-- [ ] **4.3** (today, after 3.5) Dormant projects: disconnect only, one per project, so the
-  dashboard shows no broken link and the production URL keeps serving. Projects (name →
-  repo): barzinho-proposal → barzinho · boystomenretreat · cafe-jardim · casey-hebbel ·
-  collabimmo · courseday · escondidinho · firedough · garmani · grafitala · kau →
-  kau-american-bbq · le-pavillon-vert · little-grass-shack · lourenco-botelho · miriamfridman ·
-  pierpont · simnao.
+- [ ] **4.3** (today, after 3.5) Dormant projects in the org: disconnect only, one per project,
+  so the dashboard shows no broken link and the production URL keeps serving. Projects:
+  courseday · firedough.
   ```bash
-  P=garmani; R=garmani; cd ~/Desktop/Apps/projects/$R && vercel link --scope kodominio --project $P --yes && vercel git disconnect
+  P=firedough; R=firedough; cd ~/Desktop/Apps/projects/$R && vercel link --scope kodominio --project $P --yes && vercel git disconnect
   ```
-  Check per project: `vercel api "/v9/projects/$P?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm" | jq .link` prints `null`; `curl -s -o /dev/null -w '%{http_code}\n' https://garmani.vercel.app` prints `200` (design §10 item 15).
+  Check per project: `vercel api "/v9/projects/$P?teamId=team_PCq0jpC3GS1jsyS8OFuHPLqm" | jq .link` prints `null`; `curl -s -o /dev/null -w '%{http_code}\n' https://firedough.vercel.app` prints `200` (design §10 item 14).
 
 - [ ] **4.4** remi-ai: no project in `kodominio`, `remi21` or `sustentus` links to it
   (read 2026-10-15). Nothing to reconnect. Find where `remiai.be` is served and record it
@@ -395,7 +367,7 @@ link is remade. The last production deployment keeps serving throughout.
   ```bash
   R=berceo; gh api -X POST repos/legible-consulting/$R/rulesets --input /tmp/ruleset-main.json --jq '{id,enforcement}'
   ```
-  Check: `enforcement: active`; `gh ruleset list --repo legible-consulting/$R` shows `main`. Add `required_status_checks` (context `check`) to each ruleset once `ci.yml` exists (Wave 1). On berceo also confirm design §10 item 16: Settings → Code security shows push protection enabled.
+  Check: `enforcement: active`; `gh ruleset list --repo legible-consulting/$R` shows `main`. Add `required_status_checks` (context `check`) to each ruleset once `ci.yml` exists (Wave 1). On berceo also confirm design §10 item 15: Settings → Code security shows push protection enabled.
 
 - [ ] **5.7** (today) Private repos: nothing to set; the 403 is the verified state.
   ```bash
@@ -448,7 +420,7 @@ rewrite would break every clone and open cloud session.
   ```bash
   gh repo list legible-consulting --limit 100 --json name,visibility,isArchived --jq 'group_by(.isArchived) | map({archived: .[0].isArchived, n: length})'
   ```
-  Check: `archived: true → 21`; `archived: false → 8` (icm-workshop, client-starter-kit, learn-with-jake-van-clief, .github, workflows, icm-board, berceo, vinecliff) plus remi-ai when moved.
+  Check: `archived: true → 2`; `archived: false → 8` (icm-workshop, client-starter-kit, learn-with-jake-van-clief, .github, workflows, icm-board, berceo, vinecliff) plus remi-ai when moved.
 
 - [ ] **7.2** Settings read back in one line:
   ```bash

@@ -155,11 +155,11 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 - [X] **F1** gitleaks the 25 repos leaving `k0d0minio`; rotate before purging on any hit
   (runbook phase 2). Check: every non-personal repo has a `gitleaks:` line in the inventory.
 - [ ] **F2** Transfer `courseday` first and close the two verify-once items (runbook 3.1, 3.2).
-- [ ] **F3** Transfer the other 20 dormant repos and `icm-board`; archive the 21 dormant
-  ones (runbook 3.3 to 3.5). Check: 21 archived in the org.
-- [ ] **F4** Transfer berceo, vinecliff, remi-ai (runbook 3.6); repoint local clones (3.7).
-  Check: `k0d0minio` lists 9 repos.
-- [ ] **F5** Vercel: reconnect berceo and vinecliff, disconnect the 17 dormant projects
+- [ ] **F3** Transfer firedough; archive courseday and firedough (runbook 3.3, 3.5). The
+  other dormant repos and `icm-board` stay on `k0d0minio`. Check: 2 archived in the org.
+- [ ] **F4** Transfer berceo, vinecliff (as `vinecliff-vineyard`), remi-ai, agorasim (runbook
+  3.6); repoint local clones (3.7). Check: `k0d0minio` lists 22 repos.
+- [ ] **F5** Vercel: reconnect berceo and vinecliff, disconnect courseday and firedough
   (runbook 4.1 to 4.3).
 - [ ] **F6** One folder per live client from `clients/_template/record.md`: berceo,
   vinecliff, remi-ai, sustentus, each at `stage: after` with `repo:` set. Check: `yq --front-matter=extract` over `clients/*/record.md` returns four rows with a `repo` field.
