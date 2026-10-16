@@ -14,7 +14,7 @@ Paste everything below the line into a fresh session. Run it **locally** (Deskto
 
 ---
 
-You are working in `icm-workshop`, the operating repo of Jamie Nisbet's solo AI consultancy in Mafra, Portugal, which is becoming a small agency with collaborators. The repo follows the Interpretable Context Methodology (ICM): the folder tree is the orchestration, `CLAUDE.md` is identity and routing only, stage folders carry `CONTEXT.md` contracts, and this `meta/` folder holds goals and research.
+You are working in `house`, the operating repo of Jamie Nisbet's solo AI consultancy in Mafra, Portugal, which is becoming a small agency with collaborators. The repo follows the Interpretable Context Methodology (ICM): the folder tree is the orchestration, `CLAUDE.md` is identity and routing only, stage folders carry `CONTEXT.md` contracts, and this `meta/` folder holds goals and research.
 
 ## Your job
 

@@ -39,7 +39,7 @@ Rule (why: hooks and permissions exist only in single-repo sessions, plugins nev
 cloud, and ICM composes forms under one root · 2026-10-15): **modules are folders in the
 operating repo, never repos. A thing gets its own repo only when (a) a different person must
 clone it without seeing the rest, or (b) sessions only ever read it and no module produces
-into it.** (a) gives the client repos, `icm-method` and `.github`; (b) gives `icm-reference`.
+into it.** (a) gives the client repos, `blueprint` and `.github`; (b) gives `library`.
 
 What the first draft of this file got wrong (corrected 2026-10-15 on Jamie's push-back):
 it parked the course under `reference/` in the operating repo and then had to deny-read it.
@@ -50,17 +50,17 @@ check run, grep and clone pay for 176 third-party files no client artefact reads
 
 | Repo | Local folder | Visibility | Holds | GitHub state |
 |---|---|---|---|---|
-| `icm-workshop` · operating | `legible-consulting/icm-workshop/` (a clone of the existing checkout, scaffold committed on `main`) | private | Layer 0 `CLAUDE.md`; `core/`; `clients/` with `_template/record.md`; `sell/01…05`, `deliver/01…04`, `operator/{research,portfolio,content,training}`, `desk/`, each with a `CONTEXT.md`; `.claude/` hook, settings, two path-scoped rules; `.github/workflows/` (sweeps, Wave 1); `meta/` until Wave 1 ends | exists; push `main` |
+| `house` · operating | `legible-consulting/house/` (a clone of the existing checkout, scaffold committed on `main`) | private | Layer 0 `CLAUDE.md`; `core/`; `clients/` with `_template/record.md`; `sell/01…05`, `deliver/01…04`, `operator/{research,portfolio,content,training}`, `desk/`, each with a `CONTEXT.md`; `.claude/` hook, settings, two path-scoped rules; `.github/workflows/` (sweeps, Wave 1); `meta/` until Wave 1 ends | exists; push `main` |
 | `.github` · front page and shared CI | `legible-consulting/.github/` | public | `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`, `workflow-templates/`, `.github/workflows/` for the four reusable client workflows | exists with two "Hello" files; force-push or merge unrelated histories |
-| `icm-reference` · read-only | `legible-consulting/icm-reference/` | private | `course/jake-van-clief/` (176 files incl. the ICM paper PDF), `research/` (ledger pointer; `meta/` lands here after Wave 1), a ten-line `CLAUDE.md` that says read-only | **create**, then push |
-| `icm-method` · the method | `legible-consulting/icm-method/` | public | `copier.yml` with the `tier` question and `_subdirectory: "templates/{{ tier }}"`; `templates/{site,app,platform,icm-workspace}/` each rendering an answers file and a README; `conventions/`; `workshop-kit/` | **create**, then push; tag `v0.1.0` at the first kickoff |
-| `<client-slug>` · one per build | `~/Desktop/Apps/projects/<slug>/` (the local lane) | site public · app and platform private | rendered from `icm-method`; `CLAUDE.md`, `BUILD.md`, `ci.yml` calling `.github`'s workflows | none yet; transfers in phase F |
+| `library` · read-only | `legible-consulting/library/` | private | `course/jake-van-clief/` (176 files incl. the ICM paper PDF), `research/` (ledger pointer; `meta/` lands here after Wave 1), a ten-line `CLAUDE.md` that says read-only | **create**, then push |
+| `blueprint` · the method | `legible-consulting/blueprint/` | public | `copier.yml` with the `tier` question and `_subdirectory: "templates/{{ tier }}"`; `templates/{site,app,platform,workspace}/` each rendering an answers file and a README; `conventions/`; `workshop-kit/` | **create**, then push; tag `v0.1.0` at the first kickoff |
+| `<client-slug>` · one per build | `~/Desktop/Apps/projects/<slug>/` (the local lane) | site public · app and platform private | rendered from `blueprint`; `CLAUDE.md`, `BUILD.md`, `ci.yml` calling `.github`'s workflows | none yet; transfers in phase F |
 
 Rules carried (why · 2026-10-15):
 
 - **One session, one repo.** Default is the operating repo alone; a build session is the
   client repo alone; kickoff attaches the new client repo too; O1 and O4 attach
-  `icm-reference` too. The two-repo sessions accept no hooks and are read-mostly. Why: §1.
+  `library` too. The two-repo sessions accept no hooks and are read-mostly. Why: §1.
 - **Reference is read, never produced into.** O1 distills the course and ledger into
   `operator/research/`; every other module reads the distillation and never attaches the
   reference. Why: a single-repo session cannot reach a second repo at all, so what a sell
@@ -88,11 +88,11 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
   `.github/SECURITY.md` carries `{{SECURITY_CONTACT}}`; `.github/profile/README.md` carries
   `{{SITE_URL}}`. Fill or delete.
   Check: `grep -rn '{{' ~/Desktop/legible-consulting/.github` prints nothing.
-- [ ] **A2** Push `icm-workshop` `main`. Check: github.com/legible-consulting/icm-workshop
+- [ ] **A2** Push `house` `main`. Check: github.com/legible-consulting/house
   shows `CLAUDE.md` and no `jake-van-clief/`.
-- [ ] **A3** Create `icm-reference` (private, empty: no README, licence or gitignore) in the
+- [ ] **A3** Create `library` (private, empty: no README, licence or gitignore) in the
   GitHub UI; push. Check: the repo shows `course/` and `CLAUDE.md`.
-- [ ] **A4** Create `icm-method` (public, empty); push. Check: the repo shows `copier.yml`.
+- [ ] **A4** Create `blueprint` (public, empty); push. Check: the repo shows `copier.yml`.
 - [ ] **A5** Push `.github` over the two "Hello" files. Check: github.com/legible-consulting
   shows the new front page.
 - [ ] **A6** Retire the old checkout: once A2 is pushed, `~/Desktop/icm-workshop` and its
@@ -113,23 +113,23 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 - [ ] **B8** Install the Claude GitHub App on the org, **all repositories** (runbook 1.10).
   Check: `gh api orgs/legible-consulting/installations` shows a line ending in `all`.
 - [ ] **B9** Require 2FA **after** `GPardas` confirms it is on (runbook 1.1, 1.3).
-- [ ] **B10** Ruleset on `main` of `.github` and `icm-method`, no bypass actors (runbook 5.6
+- [ ] **B10** Ruleset on `main` of `.github` and `blueprint`, no bypass actors (runbook 5.6
   body). Check: `gh ruleset list --repo …` shows `main` on both.
 
 ### C · Prove the operating repo from anywhere (this week)
 
-- [ ] **C1** Cloud environment `icm` (runbook 5.8): setup script installs yq, mdq, jq, vale,
+- [ ] **C1** Cloud environment `legible` (runbook 5.8): setup script installs yq, mdq, jq, vale,
   cspell, lychee, gitleaks, duckdb, dateutils in under five minutes; network secret
-  `NTFY_TOKEN` for `ntfy.sh`. Check: a cloud session on `icm-workshop` prints two paths for
+  `NTFY_TOKEN` for `ntfy.sh`. Check: a cloud session on `house` prints two paths for
   `which yq gitleaks` and `/context` lists the repo's hook.
-- [ ] **C2** From the phone, open a session on `icm-workshop`, edit `core/CONTEXT.md`, push.
+- [ ] **C2** From the phone, open a session on `house`, edit `core/CONTEXT.md`, push.
   Check: the commit is on `main`. First "every module runs from anywhere" proof.
 - [ ] **C3** Add `.pre-commit-config.yaml` and `.github/workflows/check.yml` (the table in
   `.github/workflows/README.md`). Check: the next push shows a green `check` run. Never run
   it locally.
-- [ ] **C4** A two-repo session (operating + `icm-reference`) reads one course file and
+- [ ] **C4** A two-repo session (operating + `library`) reads one course file and
   writes a verdict under `operator/research/verdicts/`. Check: the commit lands in
-  `icm-workshop` only; `icm-reference` has no new commit.
+  `house` only; `library` has no new commit.
 
 ### D · Local lane (this week)
 
@@ -140,8 +140,8 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
   status -sb'` prints four lines.
 - [ ] **D3** Remote Control: `/rc` in the Desktop Code tab, "Keep computer awake" on; from
   the phone run `mani exec -t live 'git log -1 --format=%h'`. Check: four hashes on the phone.
-- [ ] **D4** Render a `site` tier from `icm-method` into a scratch folder with
-  `copier copy --vcs-ref HEAD ~/Desktop/legible-consulting/icm-method /tmp/zz-site`.
+- [ ] **D4** Render a `site` tier from `blueprint` into a scratch folder with
+  `copier copy --vcs-ref HEAD ~/Desktop/legible-consulting/blueprint /tmp/zz-site`.
   Check: `/tmp/zz-site/.copier-answers.yml` names `tier: site`. Delete the scratch folder.
 
 ### E · Secrets, only when a workflow needs them
@@ -173,14 +173,14 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 ### G · Wave 1 proofs (the infrastructure is done when)
 
 - [ ] **G1** C2 repeated on a file under `clients/` with `check` green.
-- [ ] **G2** `icm-method` tagged `v0.1.0`; a `site` tier rendered from the local lane into an
+- [ ] **G2** `blueprint` tagged `v0.1.0`; a `site` tier rendered from the local lane into an
   empty org repo created in the UI; its `ci.yml` calls
   `legible-consulting/.github/.github/workflows/check-client.yml@main` and runs green.
 - [ ] **G3** A conformance run from the local lane opens one PR on berceo and writes
   `desk/estate/drift-<date>.md`.
 - [ ] **G4** The dashboard builds from `clients/` in Actions and deploys; the page shows four
   clients with a build timestamp.
-- [ ] **G5** `meta/` moves to `icm-reference/research/design-trail/` once every contract
+- [ ] **G5** `meta/` moves to `library/research/design-trail/` once every contract
   carries its own whys; `CLAUDE.md`'s last routing row is deleted in the same PR.
 
 ## 4. What this changes against 06-org-design.md, and why
@@ -188,8 +188,8 @@ Commands per folder are in `~/Desktop/legible-consulting/README.md`.
 | Item | Was | Now | Why (2026-10-15) |
 |---|---|---|---|
 | `workflows` repo | separate public repo | `.github/.github/workflows/` | One public repo already exists and may hold any content; a second is a second place to tag and watch. |
-| Reference repo | `learn-with-jake-van-clief`, merged into by PR | `icm-reference`, created fresh from the folder | Jamie deleted the old one; the course has a handful of import commits and one commit with the source SHA is enough provenance. |
-| Method repo | `client-starter-kit` grown later | `icm-method`, created now, tagged at first kickoff | Jamie creates every repo in one sitting; copier needs a tagged repo of its own and the operating repo must not carry template tags. |
+| Reference repo | `learn-with-jake-van-clief`, merged into by PR | `library`, created fresh from the folder | Jamie deleted the old one; the course has a handful of import commits and one commit with the source SHA is enough provenance. |
+| Method repo | `client-starter-kit` grown later | `blueprint`, created now, tagged at first kickoff | Jamie creates every repo in one sitting; copier needs a tagged repo of its own and the operating repo must not carry template tags. |
 | Course in the operating repo | `jake-van-clief/` here | removed in the scaffold commit | §1, last paragraph. |
 | Local layout | clones scattered on the desktop | `~/Desktop/legible-consulting/<repo>/` | One folder mirrors the org; the push map in its README is the only instruction a fresh machine needs. |
 | Remote actions | runbook steps run by a session where safe | **none from a session** | Jamie, 2026-10-15. |
@@ -206,7 +206,7 @@ lifecycle, §7 sync paths, §8 secrets table, §9 costs, §10 verify-once list.
   item 4); moot while every repo is created by hand.
 - Where the business site is served (O3 output; `jamienisbet` is personal today).
 - Salesman write-back and the dashboard's commit identity: unchanged research item.
-- A licence for `icm-method` (public): Jamie's call; none committed.
+- A licence for `blueprint` (public): Jamie's call; none committed.
 
 ## Sources
 

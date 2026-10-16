@@ -32,7 +32,7 @@ From the Claude Code cloud docs, in the order they bite:
 | **Projects** (public beta, Pro/Max): repos + instructions (16k chars) + memory across threads; a thread can add a repo to itself only from an **owner the project already uses**. | One GitHub owner for everything live, or threads cannot pull in a client repo without a manual step. |
 | **Routines** (research preview): 1+ repos, schedule ≥ 1 h, GitHub events, API trigger; run as Jamie, all connectors included by default, push `claude/` branches. | A model-driven unattended runner exists but is preview and permissive. Recorded as watch. |
 | The proxy blocks GraphQL, so `gh pr` and `gh issue` fail in cloud sessions; REST via `gh api` works. Tags and branch deletes are refused. | Module skills must not script `gh pr create`; use the session's Create PR or `gh api`. release-please (tags) runs in Actions, not sessions. |
-| Setup script is cached only if it finishes in ~5 min. Environment variables are visible to anyone using the environment; API keys go in **network secrets**. | One environment "icm" with the tool install (yq, mdq, jq, vale, cspell, lychee…) and network secrets for Google and ntfy. |
+| Setup script is cached only if it finishes in ~5 min. Environment variables are visible to anyone using the environment; API keys go in **network secrets**. | One environment "legible" with the tool install (yq, mdq, jq, vale, cspell, lychee…) and network secrets for Google and ntfy. |
 | Session sharing on Max is Private or **Public** (any logged-in user). | Sessions on the operating repo are never shared. Attendees get the method repo. |
 
 ## 2. The repo set
@@ -41,8 +41,8 @@ The org is `legible-consulting`, renamed from `ai-consultancy-workshop` on 2026-
 
 | Repo | Visibility · owner | Holds | Who reads |
 |---|---|---|---|
-| `legible-consulting/icm-workshop` — **operating** | private · org | Layer 0 `CLAUDE.md`; shared core (C1); `clients/<slug>/` one folder per relationship (C2); module stage folders with `CONTEXT.md` contracts (S1–S5, D1–D4, O1–O4); desk incl. the dashboard app (C3); `.claude/` hooks, settings, committed skills; `.github/workflows/` checks, sweeps, dashboard build. | Jamie's sessions only. Clients and salesmen through the dashboard; never git. |
-| `legible-consulting/client-starter-kit` → grows into the **method** repo (rename to `icm-method` optional; GitHub redirects) | public · org | One copier template, `tier` question with `_subdirectory: "{{ tier }}"` → `site` · `app` · `platform` · `icm-workspace` (O4); conventions; contract shapes; workshop kit (Marp); public explainers from the concept library. Nothing client-specific, ever. | Attendees, clients, copier, conformance. |
+| `legible-consulting/house` — **operating** | private · org | Layer 0 `CLAUDE.md`; shared core (C1); `clients/<slug>/` one folder per relationship (C2); module stage folders with `CONTEXT.md` contracts (S1–S5, D1–D4, O1–O4); desk incl. the dashboard app (C3); `.claude/` hooks, settings, committed skills; `.github/workflows/` checks, sweeps, dashboard build. | Jamie's sessions only. Clients and salesmen through the dashboard; never git. |
+| `legible-consulting/client-starter-kit` → grows into the **method** repo (rename to `blueprint` optional; GitHub redirects) | public · org | One copier template, `tier` question with `_subdirectory: "{{ tier }}"` → `site` · `app` · `platform` · `workspace` (O4); conventions; contract shapes; workshop kit (Marp); public explainers from the concept library. Nothing client-specific, ever. | Attendees, clients, copier, conformance. |
 | `legible-consulting/learn-with-jake-van-clief` — **reference** | private · org | Jake's course and the ICM paper. The `jake-van-clief/` folder here merges into it and is deleted from the operating repo (decision 2026-10-15). | Attached only when a module's Inputs name it (O1, O4). |
 | `legible-consulting/<client-slug>` — **client build**, one per build | private · org | Rendered from the method repo at kickoff; its own `CLAUDE.md`, contracts, CI, `.claude/settings.json` (with the local-checks hook); the kickoff brief as a committed file. Stands alone: nothing read from the operating repo at build time (Jamie, 2026-10-15). | Jamie's D2 sessions (single repo, hooks on); client as collaborator; dashboard via CI API. |
 | `legible-consulting/<client-slug>` dormant, `legible-consulting/icm-board` | private · org (moved from `k0d0minio`) | Every client repo leaves the personal account (Jamie, 2026-10-15); dormant ones are archived in the org, secret-free, named. `icm-board` archived once one real deal has walked the new folders. The personal account keeps personal projects only. | Estate audit only. |
@@ -61,7 +61,7 @@ The org is `legible-consulting`, renamed from `ai-consultancy-workshop` on 2026-
 
 | Job | Attach | Hooks? | Start from |
 |---|---|---|---|
-| Any sell module, core edit, desk, research, content, training (S1–S5, C1–C3, O1–O4) | operating repo only | yes | phone or web: `claude.ai/code?repositories=legible-consulting/icm-workshop&prompt=…`; desktop Code tab → Cloud; `claude --cloud` from the clone |
+| Any sell module, core edit, desk, research, content, training (S1–S5, C1–C3, O1–O4) | operating repo only | yes | phone or web: `claude.ai/code?repositories=legible-consulting/house&prompt=…`; desktop Code tab → Cloud; `claude --cloud` from the clone |
 | D1 kickoff | operating + the new (empty) client repo | **no** | web picker, two repos. Create the empty repo on GitHub first; whether `gh api POST /orgs/…/repos` passes the proxy is unverified |
 | D2 build on a client | client repo only | yes | `claude --cloud` from its clone, or web |
 | D4 conformance sweep | none: Actions in the operating repo runs copier update / multi-gitter across the manifest and opens one PR per repo | n/a | schedule; a session only to review or hand-fix (operating + one client repo) |
@@ -95,7 +95,7 @@ exception and is named in the module's contract.**
 ## 7. Order of work (fits Wave 1)
 
 1. Merge `jake-van-clief/` into the reference repo; delete it here.
-2. Install the Claude GitHub App on the org, all repositories. Create cloud environment `icm`: setup script installs the adopted CLI tools in under 5 min; network secrets for Google and ntfy.
+2. Install the Claude GitHub App on the org, all repositories. Create cloud environment `legible`: setup script installs the adopted CLI tools in under 5 min; network secrets for Google and ntfy.
 3. Scaffold the operating repo: Layer 0 routing, core (C1), `clients/` (C2), module folders with contracts; commit `.claude/settings.json` with the local-checks hook.
 4. Grow `client-starter-kit` into the method repo: `copier.yml` with the `tier` question; first tier is `site`.
 5. Rename the org, then transfer every client repo into it; relink Vercel; archive dormant repos in the org (`04-github-organisation.md` §5).

@@ -15,7 +15,7 @@ Goals are outcomes. How they are met belongs to each module's own folder, later.
 
 ## Frame
 
-- **icm-workshop is the successor to Apps (icm-board).** Apps is mined for reference and
+- **house is the successor to Apps (icm-board).** Apps is mined for reference and
   retired once one real deal has walked the new folders. Nothing from Apps carries by
   default: the 63 decisions are re-opened, and only what a goal below needs survives.
 - **Horizon: 90 days** (to mid-January 2027).

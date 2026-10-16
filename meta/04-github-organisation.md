@@ -52,7 +52,7 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 
 | Repo | Visibility | Why |
 |---|---|---|
-| `legible-consulting/icm-workshop` operating | private | Client folders, floors, contacts. No branch protection on Free: gate by rule and CI. |
+| `legible-consulting/house` operating | private | Client folders, floors, contacts. No branch protection on Free: gate by rule and CI. |
 | `legible-consulting/client-starter-kit` → method | public | Attendees and copier read it; rulesets available for free. |
 | `legible-consulting/learn-with-jake-van-clief` reference | private | Third-party course. |
 | `legible-consulting/.github` (exists) | public | Org profile README, default community files, workflow templates. |
@@ -70,11 +70,11 @@ from Actions so a collaborator's commit is never blocked by Vercel's author chec
 
 If a private client repo ever carries real money or compliance, that is the moment to pay for Team, not before.
 
-**Secrets.** Per repo, set from the manifest by script (`gh secret set VERCEL_TOKEN --repo legible-consulting/<r>`), because org secrets don't reach private repos on Free. Cloud sessions never see them: Vercel and Google keys live as **network secrets** on the `icm` cloud environment, and gitleaks runs in pre-commit and in the shared check workflow.
+**Secrets.** Per repo, set from the manifest by script (`gh secret set VERCEL_TOKEN --repo legible-consulting/<r>`), because org secrets don't reach private repos on Free. Cloud sessions never see them: Vercel and Google keys live as **network secrets** on the `legible` cloud environment, and gitleaks runs in pre-commit and in the shared check workflow.
 
 **Actions policy.** Default workflow permissions read-only; "Allow GitHub Actions to create and approve pull requests" on (release-please, copier-update PRs); allowed actions: GitHub-authored, verified creators and the org's own. Fine-grained PATs allowed; one PAT scoped to the org, read-only on Actions and contents, used by the operating repo's dashboard build to read every client repo's status.
 
-**Claude.** Install the Claude GitHub App on the org with all repositories. One cloud environment `icm`: setup script under five minutes, network secrets for Google and ntfy. One Project on the operating repo once the rollout reaches the account. Collaborators who use Claude use their own plan and their own GitHub connection; never share a session from the operating repo (Max sharing is public).
+**Claude.** Install the Claude GitHub App on the org with all repositories. One cloud environment `legible`: setup script under five minutes, network secrets for Google and ntfy. One Project on the operating repo once the rollout reaches the account. Collaborators who use Claude use their own plan and their own GitHub connection; never share a session from the operating repo (Max sharing is public).
 
 ## 3. Vercel (Pro, already paid)
 

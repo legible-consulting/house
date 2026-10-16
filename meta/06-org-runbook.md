@@ -352,31 +352,31 @@ link is remade. The last production deployment keeps serving throughout.
 
 - [ ] **5.2** (today) Store it on the operating repo (paste at the prompt):
   ```bash
-  gh secret set VERCEL_TOKEN --repo legible-consulting/icm-workshop
+  gh secret set VERCEL_TOKEN --repo legible-consulting/house
   ```
-  Check: `gh secret list --repo legible-consulting/icm-workshop` lists `VERCEL_TOKEN`.
+  Check: `gh secret list --repo legible-consulting/house` lists `VERCEL_TOKEN`.
 
 - [ ] **5.3** (today) Dashboard read token. Click: github.com/settings/personal-access-tokens/new →
   name `DASHBOARD_PAT` → Resource owner **legible-consulting** → All repositories →
   Repository permissions: **Actions read, Contents read, Deployments read, Metadata read,
   Pull requests read** → Expiration 366 days → Generate. Then:
   ```bash
-  gh secret set DASHBOARD_PAT --repo legible-consulting/icm-workshop
+  gh secret set DASHBOARD_PAT --repo legible-consulting/house
   ```
-  Check: `gh secret list --repo legible-consulting/icm-workshop` lists it; a quick read works: `GH_TOKEN=<paste> gh api repos/legible-consulting/berceo/actions/runs --jq .total_count` prints a number (run it in a shell you close afterwards).
+  Check: `gh secret list --repo legible-consulting/house` lists it; a quick read works: `GH_TOKEN=<paste> gh api repos/legible-consulting/berceo/actions/runs --jq .total_count` prints a number (run it in a shell you close afterwards).
 
 - [ ] **5.4** (today) Estate write token, same page: name `ESTATE_PAT` → All repositories →
   **Contents write, Pull requests write, Workflows write, Metadata read** → 366 days.
   ```bash
-  gh secret set ESTATE_PAT --repo legible-consulting/icm-workshop
+  gh secret set ESTATE_PAT --repo legible-consulting/house
   ```
   Check: listed by `gh secret list`.
 
 - [ ] **5.5** (today, if the key exists) Unattended Google and alerts:
   ```bash
-  gh secret set GOOGLE_SA_KEY --repo legible-consulting/icm-workshop < ~/path/to/service-account.json && gh secret set NTFY_TOKEN --repo legible-consulting/icm-workshop && gh secret set HEALTHCHECKS_URL --repo legible-consulting/icm-workshop
+  gh secret set GOOGLE_SA_KEY --repo legible-consulting/house < ~/path/to/service-account.json && gh secret set NTFY_TOKEN --repo legible-consulting/house && gh secret set HEALTHCHECKS_URL --repo legible-consulting/house
   ```
-  Check: `gh secret list --repo legible-consulting/icm-workshop` shows six names. The key file stays outside every repo: `git -C ~/Desktop/icm-workshop check-ignore -q <path> || echo "not under a repo"` prints `not under a repo`.
+  Check: `gh secret list --repo legible-consulting/house` shows six names. The key file stays outside every repo: `git -C ~/Desktop/icm-workshop check-ignore -q <path> || echo "not under a repo"` prints `not under a repo`.
 
 - [ ] **5.6** (today) Ruleset on `main` for each **public** repo: berceo, vinecliff, remi-ai
   (after 3.6), client-starter-kit, workflows, .github. No bypass actors: Jamie's own pushes
@@ -399,17 +399,17 @@ link is remade. The last production deployment keeps serving throughout.
 
 - [ ] **5.7** (today) Private repos: nothing to set; the 403 is the verified state.
   ```bash
-  gh api repos/legible-consulting/icm-workshop/rulesets 2>&1 | grep -o 'Upgrade to GitHub Pro[^"]*'
+  gh api repos/legible-consulting/house/rulesets 2>&1 | grep -o 'Upgrade to GitHub Pro[^"]*'
   ```
   Check: prints the upgrade message.
 
-- [ ] **5.8** (today) Claude cloud environment `icm`. Click: claude.ai/code → Settings →
-  Environments → **New environment** → name `icm` → setup script: install the adopted CLI
+- [ ] **5.8** (today) Claude cloud environment `legible`. Click: claude.ai/code → Settings →
+  Environments → **New environment** → name `legible` → setup script: install the adopted CLI
   tools (yq, mdq, jq, vale, cspell, lychee, gitleaks, duckdb, dateutils) in under five
   minutes → **Network secrets**: `NTFY_TOKEN` for host `ntfy.sh` only. No Google key here
   (design §8: a service-account key cannot work as a header-injected secret; sessions use
   the Google connectors).
-  Check: start a cloud session on `legible-consulting/icm-workshop` in environment `icm`; `which yq gitleaks` prints two paths; `curl -s -o /dev/null -w '%{http_code}' -d "icm env ok" https://ntfy.sh/<topic>` prints `200` without the token in the session.
+  Check: start a cloud session on `legible-consulting/house` in environment `legible`; `which yq gitleaks` prints two paths; `curl -s -o /dev/null -w '%{http_code}' -d "legible env ok" https://ntfy.sh/<topic>` prints `200` without the token in the session.
 
 - [ ] **5.9** (Wave 1) Per-repo secrets and variables on each new private client repo,
   from the template's access table: `VERCEL_TOKEN` (secret), `VERCEL_ORG_ID` and

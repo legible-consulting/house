@@ -1,10 +1,11 @@
-# icm-workshop — Legible Consulting's operating repo
+# house — Legible Consulting's operating repo
 
 Legible Consulting is Jamie Nisbet's AI consultancy in Mafra, Portugal: sites, apps and
 platforms built for clients, and ICM workshops and coaching. This repo is where the business
 runs. It follows the Interpretable Context Methodology: the folder tree is the orchestration,
 every stage folder carries a `CONTEXT.md` contract, and this file only says who we are and
-where to go.
+where to go. Our words (house, blueprint, library, tiers, module codes) are defined once in
+`core/lexicon.md`.
 
 ## Routing
 
@@ -16,7 +17,7 @@ where to go.
 | kick off, build, hand over, or check the estate | `deliver/CONTEXT.md` |
 | research a tool, write a case study, publish content, run training | `operator/CONTEXT.md` |
 | the morning glance, Friday review, monthly close, estate audit, the dashboard | `desk/CONTEXT.md` |
-| understand why the system is shaped this way | `meta/` (the design trail; moves to `icm-reference` after Wave 1) |
+| understand why the system is shaped this way | `meta/` (the design trail; moves to `library` after Wave 1) |
 
 Read the contract you are routed to, then only what its Inputs name. Do not read other
 stages' folders.
@@ -42,9 +43,9 @@ stages' folders.
 
 ## Sibling repos (same org; attached only when a contract names them)
 
-- `legible-consulting/icm-reference` — read-only: Jake Van Clief's course, the ICM paper,
+- `legible-consulting/library` — read-only: Jake Van Clief's course, the ICM paper,
   the research ledger.
-- `legible-consulting/icm-method` — public: the copier template per tier, conventions, the
+- `legible-consulting/blueprint` — public: the copier template per tier, conventions, the
   workshop kit.
 - `legible-consulting/.github` — the org's front page and the reusable client CI workflows.
 - `legible-consulting/<client-slug>` — one per build; the client folder's `repo:` field

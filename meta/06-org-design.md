@@ -98,8 +98,8 @@ runbook check closes it.
 
 | Repo | Visibility | Kind | State after the runbook |
 |---|---|---|---|
-| `icm-workshop` | private | operating | unchanged; gains `.github/workflows/` (below) during Wave 1 |
-| `client-starter-kit` | public | method (rename to `icm-method` optional later; GitHub redirects) | ruleset on `main`; grows the copier template |
+| `house` | private | operating | unchanged; gains `.github/workflows/` (below) during Wave 1 |
+| `client-starter-kit` | public | method (rename to `blueprint` optional later; GitHub redirects) | ruleset on `main`; grows the copier template |
 | `learn-with-jake-van-clief` | private | reference | receives `jake-van-clief/` from the operating repo (runbook phase 6) |
 | `.github` | public | org profile | real `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`; ruleset on `main` |
 | `workflows` | public | shared reusable workflows (new) | created empty today; content in Wave 1; ruleset on `main` |
@@ -119,7 +119,7 @@ is one more thing to offboard · 2026-10-15): a team is created only when one co
 must reach two or more client repos at once; it is named `build-<slug>` and deleted at
 handover.
 
-**Workflows in the operating repo** (`icm-workshop/.github/workflows/`, Wave 1; private
+**Workflows in the operating repo** (`house/.github/workflows/`, Wave 1; private
 minutes):
 
 | File | Trigger | Does | Why |
@@ -174,7 +174,7 @@ Folder names under the operating repo are the ones the Wave 1 scaffold will fix
 | **O1** tool and concept research | operating `operator/research/` (verdicts, catalogue, primers, concept library); `research-recheck.yml` | Jamie |
 | **O2** case studies and portfolio | operating `operator/portfolio/`; the public index feeds O3 | Jamie; client approves their case study (by email, outside git) |
 | **O3** content | operating `operator/content/`; published to the business site, whose repo (`jamienisbet`, personal today) is an open item (§11) | Jamie |
-| **O4** training and coaching | method repo (public): the `icm-workspace` tier template and the workshop kit (Marp) · operating `operator/training/` (coaching record per client, private) · reference repo (Jake's course, read only) | Jamie; attendees read the method repo; a coached client gets their own workspace repo under **their** account |
+| **O4** training and coaching | method repo (public): the `workspace` tier template and the workshop kit (Marp) · operating `operator/training/` (coaching record per client, private) · reference repo (Jake's course, read only) | Jamie; attendees read the method repo; a coached client gets their own workspace repo under **their** account |
 
 ## 6. Collaborator lifecycle
 
@@ -283,7 +283,7 @@ repository secret; no Google key goes on the cloud environment.
 | `ESTATE_PAT` (fine-grained, all repos; Contents, Pull requests, Workflows: write; 366 days) | operating repo secret | `conformance.yml` | Jamie, yearly | same; separate from `DASHBOARD_PAT` so the read-only job never holds write |
 | `GOOGLE_SA_KEY` (service account with domain-wide delegation) | operating repo secret; the key file on this machine outside any repo | unattended Drive and Calendar jobs in Actions (GAM7 or the API) | Jamie, yearly; Google Cloud console shows key age | gitleaks (private-key rule); Google's leaked-key detector disables the key |
 | Google OAuth client | this machine only (local lane) | interactive gog or shot-scraper runs | Jamie | never in git; `.gitignore` plus gitleaks |
-| `NTFY_TOKEN` | operating repo secret **and** a network secret on the cloud environment `icm` (host `ntfy.sh`) | sweeps, `guard-main`; sessions that ping the phone | Jamie, yearly | gitleaks generic-token rule |
+| `NTFY_TOKEN` | operating repo secret **and** a network secret on the cloud environment `legible` (host `ntfy.sh`) | sweeps, `guard-main`; sessions that ping the phone | Jamie, yearly | gitleaks generic-token rule |
 | `HEALTHCHECKS_URL` | operating repo secret | sweeps | Jamie | low value; rotate on suspicion |
 | Client app secrets (database URL, API keys) | the client repo's secrets; **names only** in the folder's access table | `deploy-vercel.yml` via `vercel pull` (Vercel env) and `check-client` | Jamie at offboarding and at handover (the client then holds their own) | gitleaks in the client repo's pre-commit and CI; push protection on public repos |
 | Cloud environment plain variables | none that are secret | — | — | the docs say anyone using the environment can read them |
@@ -361,7 +361,7 @@ today; the rest close during the runbook.
 | 14 | Transfer of an already-archived repo (curated-property, event-flow, flow-stage) | accepted; if GitHub refuses, unarchive, transfer, re-archive | runbook 3.1 |
 | 15 | After archiving a dormant repo with a Vercel project (garmani): `curl -s -o /dev/null -w '%{http_code}' https://garmani.vercel.app` | `200`; archiving and disconnecting do not take a deployment down | runbook 4.3 |
 | 16 | berceo → Settings → Code security | secret scanning and push protection enabled (public default) | runbook 5.6 |
-| 17 | Month 3: `gh run list --repo legible-consulting/icm-workshop --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
+| 17 | Month 3: `gh run list --repo legible-consulting/house --workflow conformance.yml -L 1` | a run in the last 8 days (scheduled workflows in private repos are not auto-disabled; only public ones are, after 60 idle days) | 2027-01-14 |
 | 18 | Remote Control from the phone reaches a local `mani run` and its commit appears in `desk/estate/` | one commit, dated | Wave 1 |
 
 ## 11. Open items

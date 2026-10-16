@@ -5,7 +5,7 @@ D4 produces a report that every live repo matches its tier's template and carrie
 ## Inputs
 
 - `desk/mani.yaml` (generated from `clients/*/record.md`; hand-written until the generator exists).
-- `legible-consulting/icm-method` tags (what "conformant" means per tier).
+- `legible-consulting/blueprint` tags (what "conformant" means per tier).
 
 ## Process
 

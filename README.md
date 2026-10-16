@@ -1,3 +1,3 @@
-# icm-workshop
+# house
 
-Legible Consulting's operating repo. Start at `CLAUDE.md`.
+The house: Legible Consulting's operating repo. Start at `CLAUDE.md`.

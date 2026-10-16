@@ -6,7 +6,7 @@ S2 produces a prospect profile and an industry primer so that Jamie enters the f
 
 - `clients/<slug>/record.md`.
 - `operator/research/primers/` if a primer for the trade exists.
-- `legible-consulting/icm-reference` only when a contract line here names a path in it.
+- `legible-consulting/library` only when a contract line here names a path in it.
 
 ## Process
 

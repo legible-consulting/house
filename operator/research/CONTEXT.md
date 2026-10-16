@@ -5,7 +5,7 @@ O1 produces a dated verdict per tool (adopt · watch · decline, with a recheck 
 ## Inputs
 
 - `core/services.md`.
-- `legible-consulting/icm-reference` (attached as a second repo for this module only): the course, the paper, the raw ledger.
+- `legible-consulting/library` (attached as a second repo for this module only): the course, the paper, the raw ledger.
 - The web, captured as text with trafilatura and a monolith snapshot beside it.
 
 ## Process

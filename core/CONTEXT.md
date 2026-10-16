@@ -13,6 +13,7 @@ C1 produces the business's identity and bio, its services and pricing, its voice
 
 ## Outputs
 
+- `lexicon.md`: the house words (repo names, tiers, module codes) every artefact uses.
 - `identity.md` · `services.md` (with pricing) · `voice.md` (voice and document design system) · `terms.md` · `stack.md` · `house-rules.md`
 - `open-items.md`: the one flat open-items list the Friday review reads.
 - `onboarding-collaborator.md`: the one-page note sent with a collaborator invite.

@@ -4,7 +4,7 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
 
 ## Inputs
 
-- The client repo only: its `CLAUDE.md`, `BUILD.md`, tier contracts and `ci.yml`. This folder is read once to learn the shape; a build session never attaches the operating repo.
+- The client repo only: its `CLAUDE.md`, `BUILD.md`, tier contracts and `ci.yml`. This folder is read once to learn the shape; a build session never attaches the house.
 
 ## Process
 

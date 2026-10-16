@@ -4,8 +4,8 @@ O4 produces a workshop kit (deliverable in a day), a client ICM workspace scaffo
 
 ## Inputs
 
-- `operator/research/concepts/`; `legible-consulting/icm-reference` for the course and paper (second repo, read only).
-- `legible-consulting/icm-method`: the `icm-workspace` tier and `workshop-kit/` live there because attendees read them.
+- `operator/research/concepts/`; `legible-consulting/library` for the course and paper (second repo, read only).
+- `legible-consulting/blueprint`: the `workspace` tier and `workshop-kit/` live there because attendees read them.
 
 ## Process
 
@@ -15,4 +15,4 @@ O4 produces a workshop kit (deliverable in a day), a client ICM workspace scaffo
 ## Outputs
 
 - `coaching/<slug>.md` (private, per client) here.
-- The kit and course material are committed to `icm-method`, not here (why: one home per fact; attendees must read it without seeing this repo · 2026-10-15).
+- The kit and course material are committed to `blueprint`, not here (why: one home per fact; attendees must read it without seeing this repo · 2026-10-15).

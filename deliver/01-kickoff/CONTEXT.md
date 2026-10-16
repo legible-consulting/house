@@ -5,7 +5,7 @@ D1 produces the access table, the kickoff note, and the client's repo adopted at
 ## Inputs
 
 - `clients/<slug>/agreement/agreement.md`, `clients/<slug>/tickets.md`.
-- `legible-consulting/icm-method` (the copier template), rendered from the local lane with `copier copy`.
+- `legible-consulting/blueprint` (the copier template), rendered from the local lane with `copier copy`.
 - The empty client repo, created by hand in the GitHub UI, attached as the session's second repo.
 
 ## Process
