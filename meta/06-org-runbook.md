@@ -28,7 +28,7 @@ run now · **blocked** what it waits for.
 - The Claude GitHub App install moves **before** the transfers so the first transfer
   verifies that "all repositories" covers repos transferred in (design §10 item 9).
 - Vercel: every project whose repo moved is reconnected to the org repo: berceo, vinecliff,
-  courseday, firedough in `kodominio`; the six remi-ai projects in `remi21`. Sustentus's
+  agorasim, courseday, firedough in `kodominio`; the six remi-ai projects in `remi21`. Sustentus's
   projects link to `sustentus/sustentus`, which did not move.
 - Rulesets: public repos only; the private-repo 403 was verified today.
 - Transfers of the three live client repos are **Jamie's hand** (interview): the step gives
@@ -286,8 +286,8 @@ link is remade. The last production deployment keeps serving throughout.
 - [ ] **4.2** vinecliff: same as 4.1 with project `vinecliff`, clone `vinecliff`, repo `legible-consulting/vinecliff-vineyard`.
   Check: `{"org":"legible-consulting","repo":"vinecliff-vineyard"}`.
 
-- [ ] **4.3** courseday and firedough: same as 4.1 with each name.
-  Check: `{"org":"legible-consulting","repo":"courseday"}` and `{"org":"legible-consulting","repo":"firedough"}`.
+- [ ] **4.3** agorasim, courseday and firedough: same as 4.1 with each name.
+  Check per project: `{"org":"legible-consulting","repo":"<name>"}`.
 
 - [ ] **4.4** remi-ai: six projects in `remi21` (app, admin, marketing, documentation,
   support, demo), one repo. Once per project:

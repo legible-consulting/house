@@ -63,7 +63,7 @@ client-dormant, 6 personal, 1 reference) and `meta/estate-org-2026-10-15.json` (
 | Personal repos | 37 (27 public, 10 private, 3 archived); 30 bulk-pushed 2026-09-29, so `pushedAt` says nothing about liveness | 9 remain | `gh repo list k0d0minio` |
 | Actions secrets on personal repos | courseday 5 · berceo 4 · agorasim 3 · icm-board 2 · jamienisbet, vinecliff, remi-ai, kau-american-bbq, dungeons-dragons 1 · others 0; webhooks 0 everywhere | carried by transfer | `actions/secrets`, `hooks` |
 | Vercel | three Pro teams: `kodominio` (27 projects, 1 member: Jamie, GitHub `k0d0minio`) · `remi21` (6, all linked to `sustentus/sustentus` or unlinked) · `sustentus` (8) | `kodominio` stays the agency team | `vercel teams ls`, `vercel api /v9/projects` |
-| Vercel projects linked to repos that move | `kodominio`: berceo, vinecliff, courseday, firedough · `remi21`: six projects on `remi-ai` | reconnect all ten | `.link.org/.link.repo` |
+| Vercel projects linked to repos that move | `kodominio`: berceo, vinecliff, agorasim, courseday, firedough · `remi21`: six projects on `remi-ai` | reconnect all eleven | `.link.org/.link.repo` |
 | Local | clones of 34 repos at `~/Desktop/Apps/projects/` (the local lane) · gh 2.101.0, Vercel CLI 61.0.0, gitleaks 8.30.1, git-filter-repo, jq, brew, uv present · mani, multi-gitter, copier, yq **missing** | tools installed | `command -v` |
 
 ## 3. Org skeleton
@@ -103,7 +103,7 @@ runbook check closes it.
 | `learn-with-jake-van-clief` | private | reference | receives `jake-van-clief/` from the operating repo (runbook phase 6) |
 | `.github` | public | org profile | real `profile/README.md`, `SECURITY.md`, `CONTRIBUTING.md`; ruleset on `main` |
 | `workflows` | public | shared reusable workflows (new) | created empty today; content in Wave 1; ruleset on `main` |
-| `berceo`, `vinecliff-vineyard`, `remi-ai`, `agorasim` | public (as today) | live builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff, remi-ai's six); ruleset on `main` |
+| `berceo`, `vinecliff-vineyard`, `remi-ai`, `agorasim` | public (as today) | live builds | transferred by Jamie's hand; Vercel reconnected (berceo, vinecliff, agorasim, remi-ai's six); ruleset on `main` |
 | `courseday`, `firedough` | as today | client, dormant | transferred after gitleaks; Vercel reconnected |
 | `tech-stack-audit-marketing-site` | private, empty (size 0) | unknown | Jamie's call: delete (restorable for 90 days) or repurpose; the design assumes delete |
 | `<client-slug>` × future builds | site public · app and platform private | client build | rendered from the method repo at kickoff |
