@@ -430,6 +430,6 @@
     "move": "to org; archive after the first real deal walks the new folders",
     "marked_by": "jamie",
     "marked_on": "2026-10-15",
-    "gitleaks": "clean 2026-10-16 (2 false positives: sk_test_placeholder quoted in audit notes)"
+    "gitleaks": "clean 2026-10-16 (2 false positives: a placeholder Stripe test key quoted in audit notes)"
   }
 ]
