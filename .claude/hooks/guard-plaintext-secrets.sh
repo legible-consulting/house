@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# guard-plaintext-secrets.sh — global PreToolUse(Write|Edit|MultiEdit) guard.
-# Home: ~/.claude/hooks/guard-plaintext-secrets.sh, registered in ~/.claude/settings.json.
+# guard-plaintext-secrets.sh — PreToolUse(Write|Edit|MultiEdit) guard.
+# Runs from ~/.claude/hooks/ as the machine-wide default, or from a repo's .claude/hooks/,
+# registered in that repo's .claude/settings.json. When the current project ships its own
+# copy, the global one defers to it.
 #
-# Doctrine: CLAUDE.md says never store secrets, tokens, or API keys in plaintext in config
-# or committed files — use environment variables — and flag any credential found. Until now
-# that rule lived only in prose, enforced by whether the agent happened to remember it.
-# This hook enforces it at the moment of writing.
+# Doctrine: never store secrets, tokens, or API keys in plaintext in config or committed
+# files — use environment variables — and flag any credential found. This hook enforces
+# that at the moment of writing.
 #
 # It is deliberately narrow: an ignored .env / .env.local IS the correct home for a real
 # secret, so writes there pass. Everywhere else, a credential-shaped literal is blocked with
@@ -74,7 +75,7 @@ printf '%s' "$scan" | grep -Eqi '(api[_-]?key|secret|token|password|passwd|crede
 reason="Blocked — this write puts what looks like a $hit in plaintext at '${path:-the target file}'. \
 Standing rule: secrets never go in config or committed files. Put the value in an ignored .env \
 (or the deployment's environment) and reference it via an env var here. If this is not a real \
-credential, tell Jamie what it is rather than working around the guard."
+credential, tell the user what it is rather than working around the guard."
 
 jq -nc --arg r "$reason" '{
   hookSpecificOutput: {

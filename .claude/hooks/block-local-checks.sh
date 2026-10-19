@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-# block-local-checks.sh — global PreToolUse(Bash) guard.
-# Home: ~/.claude/hooks/block-local-checks.sh, registered in ~/.claude/settings.json.
-# This is the machine-wide DEFAULT. ICM repos may commit their own copy (so cloud/web
-# sessions without ~/.claude inherit the doctrine); when the current project ships one,
-# this global copy defers to it — the repo's version is authoritative and nothing fires
-# twice. Edit repo semantics in the repo; edit the default here.
+# block-local-checks.sh — PreToolUse(Bash) guard.
+# Runs from ~/.claude/hooks/ as the machine-wide default, or from a repo's .claude/hooks/,
+# registered in that repo's .claude/settings.json (so cloud/web sessions without ~/.claude
+# are guarded too). When the current project ships its own copy, the global one defers to
+# it — the repo's version is authoritative and nothing fires twice.
 #
 # Doctrine: the deploy is the verdict for the target app. This session does NOT run its
 # deterministic checks, dev/preview servers, or e2e/browser tests locally unless the user
@@ -15,7 +14,7 @@
 #   • Playwright / e2e / unit test runners    → run in CI, not ad-hoc here
 # ALLOWED: the ICM pipeline's own scripts (.icm/scripts/*.sh — format.sh, lint.sh,
 # validate-*.sh, project-labels.sh, setup.sh, and the rest) are the factory's tooling, not
-# the target app's checks — running them in-session is the point (D43's "chores in-session").
+# the target app's checks — running them in-session is the point.
 # Commit and push, then read the target app's results from the PR's check runs and the
 # preview deploy.
 #
