@@ -56,12 +56,15 @@ Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A r
 commits its own copy of a hook overrides the global one, and cloud sessions see only the
 repo's copy. Each guard defers only when the repo copy is a different file, so a verbatim
 copy still runs (why: a copy that deferred to itself left the house unguarded · 2026-10-19).
+The house and the blueprint's `site` tier carry the same three files. `check.yml`'s `guards`
+job fails when a house copy differs from the blueprint's (why: three copies kept equal by
+hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 
 | Hook | Event | Does | House copy |
 |---|---|---|---|
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
-| `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | no |
-| `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit) | refuses plaintext secrets in files outside an ignored `.env` | yes |
+| `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | yes |
+| `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit, Bash) | refuses plaintext secrets in files outside an ignored `.env`; on Bash it reads the whole command, heredoc included | yes |
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
 writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
