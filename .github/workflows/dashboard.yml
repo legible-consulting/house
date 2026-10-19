@@ -1,6 +1,7 @@
 # dashboard: build desk/app from clients/ and deploy it to Vercel (CI is truth; never build
-# locally). Preview deploys only: a preview sits behind Vercel Authentication, a production
-# domain is public, and the page names clients (Jamie, 2026-10-16).
+# locally). Preview deploys only, named with --target: a preview sits behind Vercel
+# Authentication, a production domain is public, and the page names clients (Jamie,
+# 2026-10-16). Without --target the CLI sends a project's first deploy to production.
 name: dashboard
 
 on:
@@ -47,5 +48,5 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
-          url="$(npx vercel deploy dist --yes --token "$VERCEL_TOKEN")"
+          url="$(npx vercel deploy dist --yes --target preview --token "$VERCEL_TOKEN")"
           echo "Dashboard: ${url}" >> "$GITHUB_STEP_SUMMARY"
