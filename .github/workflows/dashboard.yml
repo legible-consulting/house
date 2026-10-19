@@ -1,7 +1,10 @@
-# dashboard: build desk/app from clients/ and deploy it to Vercel (CI is truth; never build
-# locally). Preview deploys only, named with --target: a preview sits behind Vercel
-# Authentication, a production domain is public, and the page names clients (Jamie,
-# 2026-10-16). Without --target the CLI sends a project's first deploy to production.
+# dashboard: build desk/app and deploy it to production on Vercel (CI is truth; never build
+# locally). Production, not a preview, since 2026-10-19: the app carries its own sign-in and
+# roles (desk/CONTEXT.md), so the page no longer needs Vercel Authentication in front of it,
+# and a preview URL behind Vercel Authentication keeps the salesmen out. The 6-hour schedule
+# went with the preview: clients/ changes reach main by push, and the pool lives in Neon.
+# `vercel pull` writes the project's production settings and variables for `vercel build`;
+# `vercel deploy --prebuilt` uploads that build output as is.
 name: dashboard
 
 on:
@@ -11,8 +14,6 @@ on:
       - "clients/**"
       - "desk/app/**"
       - ".github/workflows/dashboard.yml"
-  schedule:
-    - cron: "17 */6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -31,22 +32,23 @@ jobs:
     env:
       VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           cache-dependency-path: desk/app/package-lock.json
       - name: Install
         run: npm ci
+      - name: Pull the project's production settings
+        run: npx vercel pull --yes --environment=production --token "$VERCEL_TOKEN"
       - name: Build
-        run: npm run build
-      - name: Deploy a preview
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: npx vercel build --prod --token "$VERCEL_TOKEN"
+      - name: Deploy to production
         run: |
-          url="$(npx vercel deploy dist --yes --target preview --token "$VERCEL_TOKEN")"
+          url="$(npx vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN")"
           echo "Dashboard: ${url}" >> "$GITHUB_STEP_SUMMARY"

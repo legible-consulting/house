@@ -1,58 +1,45 @@
 ---
-// The desk, first cut: one row per client folder, read from clients/*/record.md at build time.
-import { readdirSync, readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
-import { parse } from "yaml";
+// Jamie's page: the clients table from clients/*/record.md (build time) and the pool's
+// count per status (request time). A salesman goes to the pool. A client sees nothing yet.
+import Desk from "../layouts/Desk.astro";
+import { clients, day } from "../lib/clients";
+import { countsByStatus, STATUSES } from "../lib/db";
 
-const root = join(process.cwd(), "../../clients");
-const clients = readdirSync(root, { withFileTypes: true })
-  .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
-  .map((d) => join(root, d.name, "record.md"))
-  .filter((f) => existsSync(f))
-  .map((f) => parse(readFileSync(f, "utf8").split(/^---$/m)[1]))
-  .sort((a, b) => String(a.slug).localeCompare(String(b.slug)));
-
-const day = (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : (v ?? ""));
-const built = new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC";
-const commit = (process.env.GITHUB_SHA ?? "local").slice(0, 7);
+const user = Astro.locals.user!;
+if (user.role === "salesman") return Astro.redirect("/pool", 303);
+const counts = user.role === "jamie" ? await countsByStatus() : null;
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex, nofollow" />
-    <title>Desk</title>
-    <style>
-      :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
-      body { margin: 0 auto; max-width: 60rem; padding: 1rem; }
-      table { border-collapse: collapse; width: 100%; }
-      th, td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid #8884; }
-      .wrap { overflow-x: auto; }
-      footer { margin-top: 1rem; font-size: 0.85rem; opacity: 0.7; }
-    </style>
-  </head>
-  <body>
-    <h1>Desk</h1>
-    <div class="wrap">
-      <table>
-        <thead>
-          <tr><th>Client</th><th>Stage</th><th>Tier</th><th>Next action</th><th>Deadline</th><th>Repo</th></tr>
-        </thead>
-        <tbody>
-          {clients.map((c) => (
-            <tr>
-              <td>{c.name}</td>
-              <td>{c.stage}</td>
-              <td>{c.tier}</td>
-              <td>{c.next_action ?? ""}</td>
-              <td>{day(c.deadline)}</td>
-              <td>{c.repo}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-    <footer>{clients.length} clients · built {built} from {commit}</footer>
-  </body>
-</html>
+<Desk>
+  {user.role === "client" ? (
+    <p>Nothing here yet for clients. Your project's page comes in a later wave.</p>
+  ) : (
+    <>
+      <h2>Pool</h2>
+      <ul class="counts">
+        {STATUSES.map((s) => <li><b>{counts![s]}</b>{s}</li>)}
+      </ul>
+      <h2>Clients</h2>
+      <div class="wrap">
+        <table>
+          <thead>
+            <tr><th>Client</th><th>Stage</th><th>Kind</th><th>Tier</th><th>Next action</th><th>Deadline</th><th>Repo</th></tr>
+          </thead>
+          <tbody>
+            {clients.map((c) => (
+              <tr>
+                <td>{c.name}</td>
+                <td>{c.stage}</td>
+                <td>{c.kind ?? ""}</td>
+                <td>{c.tier ?? ""}</td>
+                <td>{c.next_action ?? ""}</td>
+                <td>{day(c.deadline)}</td>
+                <td>{c.repo ?? ""}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">{clients.length} clients</p>
+    </>
+  )}
+</Desk>

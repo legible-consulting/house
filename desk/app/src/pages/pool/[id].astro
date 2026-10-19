@@ -1,0 +1,88 @@
+---
+// One prospect: edit the facts, move the status, or mark it ready for Jamie, which opens the
+// handoff PR on the house and keeps its link here.
+import Desk from "../../layouts/Desk.astro";
+import { STATUSES, fieldsFrom, isStatus, prospectFor, setHandoff, setStatus, updateProspect } from "../../lib/db";
+import { openHandoffPr } from "../../lib/handoff";
+import { renderRecord, slugOf } from "../../lib/record";
+
+const user = Astro.locals.user!;
+if (user.role === "client") return Astro.redirect("/", 303);
+
+const id = Astro.params.id ?? "";
+if (!/^[0-9a-f-]{36}$/.test(id)) return new Response("Not found", { status: 404 });
+let p = await prospectFor(user, id);
+if (!p) return new Response("Not found", { status: 404 });
+
+let error = "";
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  try {
+    const action = form.get("action");
+    if (action === "save") {
+      await updateProspect(id, fieldsFrom(form));
+      return Astro.redirect(`/pool/${id}`, 303);
+    }
+    if (action === "status") {
+      const status = form.get("status");
+      if (!isStatus(status) || status === "ready for Jamie") throw new Error("Not a status to move to here.");
+      await setStatus(id, status);
+      return Astro.redirect(`/pool/${id}`, 303);
+    }
+    if (action === "ready") {
+      if (p.pr_url) throw new Error("A handoff PR is already open for this prospect.");
+      const slug = slugOf(p.company);
+      const today = new Date().toISOString().slice(0, 10);
+      const salesman = { id: p.salesman, email: p.salesman_email, name: p.salesman_name, role: "salesman" as const };
+      const record = renderRecord(p, salesman, slug, today);
+      const prUrl = await openHandoffPr({ slug, record, prospect: p, salesman });
+      await setHandoff(id, prUrl);
+      return Astro.redirect(`/pool/${id}`, 303);
+    }
+    throw new Error("Unknown action.");
+  } catch (e) {
+    error = e instanceof Error ? e.message : String(e);
+  }
+}
+const moves = STATUSES.filter((s) => s !== "ready for Jamie");
+---
+<Desk title={`${p.company} · Pool · Desk`}>
+  <p><a href="/pool">← Pool</a></p>
+  <h2>{p.company}</h2>
+  <p class="muted">
+    Status: <b>{p.status}</b> · salesman {p.salesman_name || p.salesman_email} · opened {String(p.created_at).slice(0, 10)}
+    {p.pr_url && <> · handoff PR: <a href={p.pr_url}>{p.pr_url}</a></>}
+  </p>
+  {error && <p class="error">{error}</p>}
+
+  <form method="post" class="grid">
+    <input type="hidden" name="action" value="save" />
+    <label>Company <input name="company" value={p.company} required /></label>
+    <label>Contact name <input name="contact_name" value={p.contact_name} /></label>
+    <label>Email <input type="email" name="email" value={p.email} /></label>
+    <label>Language <input name="language" value={p.language} placeholder="pt-PT" /></label>
+    <label>Source <input name="source" value={p.source} /></label>
+    <label>Next action <input name="next_action" value={p.next_action} /></label>
+    <label class="wide">Notes <textarea name="notes" rows="5">{p.notes}</textarea></label>
+    <div><button>Save</button></div>
+  </form>
+
+  <h3>Move</h3>
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="status" />
+    <select name="status">
+      {moves.map((s) => <option value={s} selected={s === p.status}>{s}</option>)}
+    </select>
+    <button>Move</button>
+  </form>
+
+  <h3>Ready for Jamie</h3>
+  <p class="muted">
+    Opens one PR on legible-consulting/house that creates <code>clients/{slugOf(p.company)}/record.md</code> at stage prospect
+    from the prospect's facts. Jamie merges; then move the status to handed off.
+  </p>
+  <form method="post" class="inline">
+    <input type="hidden" name="action" value="ready" />
+    <button disabled={Boolean(p.pr_url)}>{p.pr_url ? "PR open" : "Ready for Jamie"}</button>
+  </form>
+</Desk>

@@ -24,5 +24,13 @@ C3 produces the morning glance, the Friday review (every client's next action an
 ## Outputs
 
 - `glance/<date>.md` (daily, from `sweep-deadlines.yml`) · `review/<week>.md` · `close/<month>.md` · `estate/<audit>.md` · `mani.yaml` (generated).
-- `app/`: the Astro dashboard, built in Actions, deployed to Vercel; three roles. Kept out of module context by a path-scoped rule in `.claude/rules/`.
+- `app/`: the Astro dashboard, server output on Vercel (team `kodominio`, project
+  `legible-desk`, `https://legible-desk.vercel.app`), built and deployed to production by
+  `dashboard.yml` on every push to `main`. Sign-in by Neon Auth; the pool and the roles in
+  Neon Postgres, project `legible-desk` (org Kodominio, Frankfurt, created from the Vercel
+  project's Storage tab); tables `users` and `prospects` from `app/db/schema.sql`. Three
+  roles from `users.role`: `jamie`, `salesman`, `client`. Variables, names only, set on the
+  Vercel project: `DATABASE_URL`, `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`,
+  `DESK_PAT` (`app/.env.example`). Kept out of module context by a path-scoped rule in
+  `.claude/rules/`.
 - Alerts: GitHub's failed-run email; Healthchecks as the dead-man's switch.

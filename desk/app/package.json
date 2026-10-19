@@ -6,10 +6,13 @@
     "build": "astro build"
   },
   "dependencies": {
+    "@astrojs/vercel": "11.0.16",
+    "@neondatabase/auth": "0.6.0-beta",
+    "@neondatabase/serverless": "1.2.0",
     "astro": "7.3.8",
     "yaml": "2.9.1"
   },
   "devDependencies": {
-    "vercel": "62.2.0"
+    "vercel": "64.5.0"
   }
 }
