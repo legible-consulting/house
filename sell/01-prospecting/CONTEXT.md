@@ -1,7 +1,10 @@
 ---
+status: built
 holds:
   - target-profile.md
   - cadence.md
+  - prospect.md
+  - "pitch/*.md"
   - "targets/*.md"
 ---
 # Prospecting — S1
@@ -11,14 +14,61 @@ S1 produces a target profile, researched target lists, outreach drafts in the pr
 ## Inputs
 
 - `core/services.md`, `core/voice.md`.
-- `target-profile.md` and `cadence.md` in this folder (stage-level, not per client).
+- `target-profile.md`, `cadence.md` and `prospect.md` in this folder (stage-level, not per
+  client). The model the desk implements.
+- The desk's pool (C3): the rows a salesman works. The pool is not in this repo.
 
 ## Process
 
-- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+
+How a salesman works the pool, in the desk:
+
+1. Read `target-profile.md` and the drafts in `pitch/`. Both are read-only in the desk.
+2. Add a prospect, or take one from a `targets/<list>.md` a session researched. The desk
+   fills `slug`, `sourced_by`, `added` and `status: new`. The desk refuses a `slug` that
+   exists in the pool or in `clients/*/record.md` (why: one company has one row, and a
+   client is not a prospect · 2026-10-19).
+3. Send the first touch from your own account. Log it: date, channel, note. The status
+   becomes `contacted`. The desk sets `next_action` from `cadence.md`.
+4. Follow the cadence. Log every touch. A reply makes the status `replied`. A booked or held
+   meeting makes it `meeting`.
+5. A no, or silence past the cadence, makes it `lost` with `lost_reason`.
+6. From `replied` or `meeting`, with every `ready` field in `prospect.md` filled, set
+   `ready for Jamie`.
+
+The handoff:
+
+- `ready for Jamie` opens one PR against `main`, under the desk's bot identity. The PR
+  creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff mapping in
+  `prospect.md`. One prospect, one PR. The desk opens nothing else (why: the folder is the
+  record, and a PR is the one door into it · 2026-10-19).
+- Jamie reads the PR and merges it. The merge is the handoff. The desk then sets the row to
+  `handed off`, sets `record`, and makes the row read-only. From then on the client folder is
+  the home, and `clients/CONTEXT.md` says what is true at each stage.
+- A PR Jamie closes without a merge returns the row to its previous status, with his reason
+  in `notes`.
+- Never: the desk or a session merges the PR, or moves `stage` (boundary).
+
+Jamie's own leads: Jamie may add a row to the pool like a salesman, with `sourced_by: jamie`
+and no commission, or open the client folder directly as `clients/CONTEXT.md` allows. Either
+way the folder opens at `prospect`.
+
+A session in this folder produces the stage-level material, never a pool row:
+
+- `targets/<list>.md`: companies that match `target-profile.md`, with the `source` the
+  sourcer copies into the row. One list per search, dated. The list it replaces is deleted.
+- `pitch/<touch>.<language>.md`: one draft per touch in `cadence.md` and per language in
+  `target-profile.md`, written from `core/voice.md` and `core/services.md`. The sender adapts
+  it by hand.
+- After handoff, outreach a session drafts for Jamie goes to `clients/<slug>/outreach/`.
 
 ## Outputs
 
-- `clients/<slug>/record.md` opened at `stage: prospect` with outreach drafts under `clients/<slug>/outreach/`.
-- `target-profile.md`, `cadence.md`, `targets/<list>.md` here.
+- `clients/<slug>/record.md` opened at `stage: prospect` by the handoff PR, with `salesman`
+  and `commission.sourced_by` set. `commission.owed` is set at S5 (`prospect.md`).
+- `target-profile.md` · `cadence.md` · `prospect.md`: the model (built 2026-10-19).
+- `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
+- `targets/<list>.md`: one researched list per search.
+- The pool rows live in the desk, never here. The monthly close reads commission from
+  `record.md`, never from the pool.
