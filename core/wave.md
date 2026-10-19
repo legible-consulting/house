@@ -27,7 +27,7 @@ Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a sess
 | 3 | house#12 | D2: contract status, tickets.md producer | after 1 and 2; re-run its `contracts` job, it reads main |
 | 4 | house#13 | E3: sweep-deadlines.yml, the morning glance | now; then run it once by workflow_dispatch |
 | 5 | house#14 | F4: research intake by issue, daily routine | now; then paste `core/setup/cloud.sh` into the `legible` environment again |
-| 6 | house#17 | E2: the desk app with sign-in, roles, the pool | after your clicks in its body: Neon project, Vercel variables, `DESK_PAT` |
+| 6 | house#17 | E2: the desk app with sign-in, roles, the pool | after one click: create `DESK_PAT` and set it in Vercel. The Neon project `legible-desk`, Neon Auth, the schema and the Vercel variables exist (infra session, 2026-10-19) |
 | 7 | agorasim#198 | C2: agorasim adopted | now, after reading the kept assets |
 | 8 | berceo#67 | C2: berceo adopted | blocked: the `main` ruleset requires a `Vercel` status and Vercel posts none; connect the Vercel project to the org repo or drop that required check. Close berceo#66 (an older conform PR) when 67 merges |
 
