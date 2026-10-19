@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # SDLC pipeline — D2
 
 D2 produces a build from ticket to release, sized by tier (site · app · platform), with live status the client can read at any time and a UAT environment they sign off before release, so that every build runs the same way at the right weight and the client is never in the dark.

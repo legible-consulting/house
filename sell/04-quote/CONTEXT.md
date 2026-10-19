@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Quote — S4
 
 S4 produces the price, options and payment terms; the engagement's own economics (hours, model cost, hosting, margin); a private negotiation record (positions, concessions, a floor); and every invoice the agreement calls for, as branded PDF, so that Jamie quotes informed by the last deal, never goes below his floor, and sends an invoice he did not write by hand.

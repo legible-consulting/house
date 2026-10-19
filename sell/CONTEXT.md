@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Sell — the S pipeline
 
 Five stages in order. Each produces one artefact into `clients/<slug>/`; the next stage declares that artefact as its only Input. Nothing else couples them. Only "straight to proposal" has ever landed work, so there is no free look and no paid diagnostic stage (why: interview 2026-10-14).

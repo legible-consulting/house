@@ -1,3 +1,16 @@
+---
+holds:
+  - lexicon.md
+  - stack.md
+  - open-items.md
+  - "setup/*.sh"
+  - identity.md
+  - services.md
+  - voice.md
+  - terms.md
+  - house-rules.md
+  - onboarding-collaborator.md
+---
 # Core — C1 shared core
 
 C1 produces the business's identity and bio, its services and pricing, its voice and document design system, and its terms, stack and house rules, each fact in exactly one place, so that every module and every client artefact speaks with one voice and a change made once lands everywhere.

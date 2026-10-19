@@ -71,6 +71,34 @@ jobs:
           done < <(git ls-files '*.md' ':!:clients/_template/*')
           exit "$fail"
 
+  placement:
+    # Every tracked file has a home: a contract's `holds:` globs, or the repo's own
+    # infrastructure. A file nobody holds is clutter (house rule, 2026-10-19).
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Every file is held by a contract
+        run: |
+          yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
+          held="$(mktemp)"
+          git ls-files -- ':(glob)CLAUDE.md' ':(glob)README.md' ':(glob).gitignore' ':(glob).gitleaksignore' \
+            ':(glob).github/**' ':(glob).claude/**' ':(glob)**/CONTEXT.md' >> "$held"
+          while IFS= read -r c; do
+            [ "$(head -n1 "$c")" = "---" ] || continue
+            dir="$(dirname "$c")"
+            while IFS= read -r g; do
+              [ -n "$g" ] || continue
+              if [ "$dir" = "." ]; then p="$g"; else p="$dir/$g"; fi
+              git ls-files -- ":(glob)$p" >> "$held"
+            done < <(yq --front-matter=extract '.holds // [] | .[]' "$c")
+          done < <(git ls-files '*CONTEXT.md')
+          orphans="$(comm -23 <(git ls-files | sort -u) <(sort -u "$held"))"
+          [ -z "$orphans" ] && exit 0
+          while IFS= read -r f; do echo "::error file=${f}::no contract holds this file"; done <<< "$orphans"
+          exit 1
+
   scripts:
     # The setup scripts and the hook run on machines with no other guard.
     runs-on: ubuntu-latest

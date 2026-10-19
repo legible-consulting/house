@@ -1,3 +1,10 @@
+---
+holds:
+  - "verdicts/*.md"
+  - catalogue.md
+  - "primers/*.md"
+  - "concepts/*.md"
+---
 # Tool and concept research — O1
 
 O1 produces a dated verdict per tool (adopt · watch · decline, with a recheck date), a "could build for a client" catalogue tied to the services list, industry primers, and a concept library of reusable explainers, so that Jamie decides on a tool once, offers gain new ideas, and proposals and training reuse the same explanations.

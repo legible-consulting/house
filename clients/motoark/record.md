@@ -3,6 +3,7 @@ slug: motoark
 name: MotoArk
 language: en-GB
 stage: prospect
+kind:
 opened: 2026-10-19
 next_action: Discovery call with Sam Cherry, Wed 21 Oct 10:30–11:00 Lisbon (13:30 GST)
 deadline: 2026-10-21

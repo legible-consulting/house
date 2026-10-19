@@ -40,4 +40,10 @@ into their account; was `icm-workspace`).
 - **local lane** — `~/Desktop/Apps/projects/` clones on Jamie's machine for bulk estate work.
 - **gate** — a human checkbox. Read it, never tick it.
 - **wave** — a build phase of the system itself (Wave 1: C1, C2, D2, D4).
+- **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
+  Defined in `clients/CONTEXT.md`.
+- **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are
+  defined in `clients/CONTEXT.md` and live in the desk, never in a record.
+- **holds** — the globs in a contract's frontmatter that name the files its folder may carry:
+  its outputs and its own tools. `check.yml` fails on a file no contract holds.
 - **legible** — the cloud environment every session runs in (was `icm`).

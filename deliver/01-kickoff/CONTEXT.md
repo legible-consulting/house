@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Onboarding and kickoff — D1
 
 D1 produces the access table, the kickoff note, and the client's repo adopted at its tier, so that a signed client's build starts within days with nothing forgotten and nothing asked twice.
