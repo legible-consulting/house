@@ -1,8 +1,8 @@
 # Stack — tools and machines
 
 One home for which tools Legible Consulting uses, where each runs, and how a machine gets
-them. Why a tool was chosen lives in its research verdict (`meta/02-tool-research.md`, later
-`operator/research/verdicts/`); this file says what is installed where. A change to the tool
+them. Why a tool was chosen lives in its research verdict (`library`:
+`research/design-trail/02-tool-research.md`, later `operator/research/verdicts/`); this file says what is installed where. A change to the tool
 set edits this file and `setup/` in the same commit (why: one home per fact; a script that
 drifts from its list installs the wrong toolbox · 2026-10-16).
 

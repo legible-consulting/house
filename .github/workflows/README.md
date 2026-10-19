@@ -1,7 +1,7 @@
 # Workflows (Wave 1)
 
-`check.yml` and `dashboard.yml` run; the rest are planned, per `meta/06-org-design.md` §4 and
-`meta/07-infrastructure-setup.md`. Actions are pinned to a commit SHA and every job reads
+`check.yml` and `dashboard.yml` run; the rest are planned (design trail in `library`:
+`research/design-trail/06-org-design.md` §4). Actions are pinned to a commit SHA and every job reads
 with `contents: read` only.
 
 | File | Trigger | Does |

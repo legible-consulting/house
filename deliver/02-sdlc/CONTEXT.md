@@ -14,4 +14,4 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
 ## Outputs
 
 - Branch → PR → `check-client` green → preview deploy (the UAT environment) → Jamie merges → release-please PR → merge is the release.
-- Status reaches `desk/` by the dashboard build reading the repo over the GitHub API, never by a commit here.
+- Status reaches `desk/` by the dashboard build reading the repo over the GitHub API, never by a commit here (why: a status commit is a second home that drifts from the repo it describes · 2026-10-15).
