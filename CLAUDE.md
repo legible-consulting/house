@@ -17,34 +17,49 @@ where to go. Our words (house, blueprint, library, tiers, module codes) are defi
 | kick off, build, hand over, or check the estate | `deliver/CONTEXT.md` |
 | research a tool, write a case study, publish content, run training | `operator/CONTEXT.md` |
 | the morning glance, Friday review, monthly close, estate audit, the dashboard | `desk/CONTEXT.md` |
-| understand why the system is shaped this way | `meta/` (the design trail; moves to `library` after Wave 1) |
 
 Read the contract you are routed to, then only what its Inputs name. Do not read other
 stages' folders.
 
-## Boundaries (full list and whys in `meta/01-goals.md`)
+## Boundaries
+
+Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries its why.
 
 - Without asking: read email, calendar and Drive; draft into the folder; commit words to
-  `main`; create calendar events; place files in Drive.
+  `main`; create calendar events; place files in Drive (why: all of it stays inside the
+  business and is undone by a revert or a delete).
 - Never, even if asked in the moment: send anything to a client; merge or release; advance
-  a stage or tick a gate; spend money or sign.
-- Never in git: credentials and identity documents.
-- Client-facing documents in the client's language; internal notes in English.
+  a stage or tick a gate; spend money or sign (why: each one reaches a client, the estate or
+  money and cannot be taken back; the human is the gate).
+- Unattended runs only: the estate drift check, the deadline and next-action sweep, the
+  research recheck; each writes lines for the morning glance (why: deterministic reads with
+  nothing to send; anything that acts waits for Jamie).
+- Never in git: credentials and identity documents. Client words, negotiation positions and
+  contact details may live here (why: this repo is private; a secret in git outlives every
+  rotation).
+- Every module runs from anywhere and starts cold from its own folder (why: Jamie works from
+  the phone as much as the desk; a module that needs memory breaks in a fresh session).
+- Client-facing documents in the client's language; internal notes in English (why: the
+  client reads their own language; one internal language keeps notes searchable).
 
 ## House rules
 
-- Gates are human checkboxes: read them, never tick them.
-- Never build an orchestrator: the folders and contracts are the pipeline.
-- One home per fact. A rule carries its own why and date; a rule without a why is deleted.
+- Gates are human checkboxes: read them, never tick them (why: a gate is where Jamie's
+  judgement enters; one ticked unread is no gate · 2026-10-14).
+- Never build an orchestrator: the folders and contracts are the pipeline (why: a script
+  that drives the stages hides the contracts it replaces · 2026-10-14).
+- One home per fact. A rule carries its own why and date; a rule without a why is deleted
+  (why: two homes drift; a rule nobody can explain is never safely changed · 2026-10-14).
 - CI is truth: never run build, lint, typecheck, test, format or dev locally. The hook in
-  `.claude/hooks/` enforces it.
+  `.claude/hooks/` enforces it (why: one verdict, recorded where the code was pushed · 2026-10-14).
 - One session, one repo. Kickoff (D1) is the named exception and attaches the new client
-  repo as well.
+  repo as well (why: a cloud session loads a repo's hooks and permissions only when one
+  repo is attached · 2026-10-15).
 
 ## Sibling repos (same org; attached only when a contract names them)
 
 - `legible-consulting/library` — read-only: Jake Van Clief's course, the ICM paper,
-  the research ledger.
+  the research ledger, the design trail (why the system is shaped this way).
 - `legible-consulting/blueprint` — public: the copier template per tier, conventions, the
   workshop kit.
 - `legible-consulting/.github` — the org's front page and the reusable client CI workflows.

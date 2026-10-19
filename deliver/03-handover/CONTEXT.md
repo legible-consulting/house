@@ -16,4 +16,4 @@ D3 produces the handover pack, a walkthrough, the support and hosting record (wh
 ## Outputs
 
 - `clients/<slug>/handover/pack.md` · `walkthrough.md` · `support-and-hosting.md` · `retainer-offer.md` · `review-request.md`.
-- Collaborator offboarding the same day: grant removed, secrets rotated, `end:` set in the record.
+- Collaborator offboarding the same day: grant removed, secrets rotated, `end:` set in the record (why: a grant that outlives the engagement is the most common estate leak · 2026-10-15).

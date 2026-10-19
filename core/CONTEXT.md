@@ -17,10 +17,10 @@ Built (2026-10-16):
 
 - `lexicon.md`: the house words (repo names, tiers, module codes) every artefact uses.
 - `stack.md`: which tools Legible Consulting uses, where each runs, and how a machine gets them.
+- `open-items.md`: the one flat open-items list the Friday review reads.
 - `setup/local.sh` · `setup/cloud.sh`: install the toolbox `stack.md` lists, on this machine (Homebrew) and in the `legible` cloud environment (pasted setup script).
 
 Pending:
 
 - `identity.md` · `services.md` (with pricing) · `voice.md` (voice and document design system) · `terms.md` · `house-rules.md`
-- `open-items.md`: the one flat open-items list the Friday review reads.
 - `onboarding-collaborator.md`: the one-page note sent with a collaborator invite.

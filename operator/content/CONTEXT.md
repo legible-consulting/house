@@ -13,4 +13,4 @@ O3 produces site copy and posts drawn from case studies, research verdicts and t
 
 ## Outputs
 
-- `site/<page>.md` · `posts/<date>-<slug>.md`. Where the business site is served is an open item (`meta/07-infrastructure-setup.md` §5).
+- `site/<page>.md` · `posts/<date>-<slug>.md`. Where the business site is served is an open item (`core/open-items.md`).

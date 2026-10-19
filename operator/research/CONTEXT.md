@@ -16,5 +16,5 @@ O1 produces a dated verdict per tool (adopt · watch · decline, with a recheck 
 ## Outputs
 
 - `verdicts/<tool>.md` (frontmatter `verdict`, `recheck`) · `catalogue.md` · `primers/<trade>.md` · `concepts/<concept>.md`.
-- Verdicts audited on 2026-10-14 are seeded from `meta/02-tool-research.md` when this module is built.
+- Verdicts audited on 2026-10-14 are seeded from `library`'s `research/design-trail/02-tool-research.md` when this module is built.
 - `research-recheck.yml` lists verdicts whose `recheck` has passed as glance lines.
