@@ -28,14 +28,11 @@ Landed today and gone from the list: F1, B1, B2 (`v0.2.0`), C1 (`release.yml` an
 Process), F2. `guard-main` was dropped: `main` changes by PR only, by ruleset where the plan
 allows one and by the boundary everywhere.
 
-Next three: A1 (one command), D1 (one sitting with Jamie's answers, unlocks D3, E1 and F4),
-C2 for berceo and agorasim (two sessions, after vinecliff is green).
+Next three: D1 (one sitting with Jamie's answers, unlocks D3, E1 and F4), A2 (the move,
+Jamie's afternoon), C2 for berceo and agorasim (two sessions, after vinecliff is green).
 
 ## A · Ownership and access
 
-- [ ] **A1** (J, today) Mika from owner to member. An owner reads every private repo,
-  the house included. Check: `gh api orgs/legible-consulting/memberships/mikaelbelmont --jq .role`
-  prints `member`.
 - [ ] **A2** (J) The business and the client repos move back to `k0d0minio`, private:
   house, library, berceo, vinecliff-vineyard, agorasim, courseday, firedough. remi-ai goes to
   Remi's own GitHub, as sustentus is in Sustentus's. GitHub Pro on `k0d0minio` gives branch
