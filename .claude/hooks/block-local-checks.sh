@@ -29,7 +29,10 @@ set -euo pipefail
 
 # Defer to a repo-owned copy of this guard: the repo defines its own semantics and
 # registers the hook itself — running both would double-fire on every Bash call.
-if [ -n "${CLAUDE_PROJECT_DIR:-}" ] && [ -f "${CLAUDE_PROJECT_DIR}/.claude/hooks/block-local-checks.sh" ]; then
+# The same file may run as that repo copy: defer only when the repo copy is another file.
+repo_copy="${CLAUDE_PROJECT_DIR:-}/.claude/hooks/block-local-checks.sh"
+if [ -n "${CLAUDE_PROJECT_DIR:-}" ] && [ -f "$repo_copy" ] \
+  && [ "$(realpath "$repo_copy" 2>/dev/null)" != "$(realpath "$0" 2>/dev/null)" ]; then
   exit 0
 fi
 

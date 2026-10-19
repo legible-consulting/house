@@ -50,18 +50,33 @@ Layout:
 |---|---|
 | `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo |
 | `~/Desktop/Apps/projects/<slug>/` | the local lane: clones of client repos for estate work (mani, multi-gitter, copier) |
-| `~/.claude/` | global Claude Code layer: `CLAUDE.md` and the hooks below |
+| `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh` and the hooks below |
 
 Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A repo that
 commits its own copy of a hook overrides the global one, and cloud sessions see only the
-repo's copy.
+repo's copy. Each guard defers only when the repo copy is a different file, so a verbatim
+copy still runs (why: a copy that deferred to itself left the house unguarded · 2026-10-19).
 
-| Hook | Event | Does |
-|---|---|---|
-| `icm-session-start.sh` | SessionStart | injects the repo's routing map (paths only) when it finds ICM structure |
-| `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev |
-| `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes and pushes to the default branch |
-| `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit) | refuses plaintext secrets in files |
+| Hook | Event | Does | House copy |
+|---|---|---|---|
+| `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
+| `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | no |
+| `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit) | refuses plaintext secrets in files outside an ignored `.env` | yes |
+
+`~/.claude/settings.json`, besides the hooks:
+
+| Setting | Value |
+|---|---|
+| Permission mode | `auto` |
+| Allow | version reads (`node`, `npm`, `nvm`), `command -v`, `brew list` and `search`, `gsettings get`; Read on `~/.claude/` and the local lane |
+| Ask | `curl`, `sudo tee`, `sudo apt-get`, `brew install`, `link`, `unlink`, `gsettings set` |
+| Deny | Read on `.env` files, `*.pem`, `*.key`, `secrets/`, Claude's own credentials; the vercel, neon and resend plugins' MCP servers (the claude.ai connectors of the same name serve them) |
+| Additional directory | `~/Desktop/Apps/projects` |
+| Plugins | official marketplace: vercel, neon, resend, stripe, sentry, sentry-cli, code-review, code-simplifier, claude-md-management, claude-code-setup, claude-security, hookify, frontend-design, modern-web-guidance, superdesign, playwright, browser-use; own marketplaces: understand-anything, diagram-design, hyperframes. github is off (`gh` covers it) |
+
+Connectors (Gmail, Calendar, Drive, Docs, Sheets, Slides, Slack, Vercel, Neon, Supabase,
+Resend, Sentry and the rest) belong to the claude.ai account, not this machine: change them in
+claude.ai settings.
 
 ## Cloud environment
 

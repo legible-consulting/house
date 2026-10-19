@@ -9,6 +9,15 @@
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-local-checks.sh\""
           }
         ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-plaintext-secrets.sh\""
+          }
+        ]
       }
     ]
   },
