@@ -1,4 +1,5 @@
 ---
+status: stub
 holds:
   - mani.yaml
   - "estate/*.md"

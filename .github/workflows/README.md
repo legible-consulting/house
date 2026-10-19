@@ -6,7 +6,7 @@ with `contents: read` only.
 
 | File | Trigger | Does |
 |---|---|---|
-| `check.yml` | push, PR | **live.** Seven jobs: `secrets` (gitleaks over the full history, pinned binary), `contracts` (every `CONTEXT.md` keeps Inputs, Process, Outputs), `frontmatter` (every frontmatter block parses with yq; `clients/_template/` skipped), `placement` (every tracked file is held by a contract's `holds:` globs or is repo infrastructure), `writing` (the ASD-STE100 linter over every markdown file, findings in the run summary, never a failure), `guards` (the three hooks are byte-identical to the blueprint's site tier), `scripts` (shellcheck at warning level) |
+| `check.yml` | push, PR | **live.** Seven jobs: `secrets` (gitleaks over the full history, pinned binary), `contracts` (every `CONTEXT.md` keeps Inputs, Process, Outputs; its frontmatter `status` is `stub` or `built`; a `built` contract has no placeholder line), `frontmatter` (every frontmatter block parses with yq; `clients/_template/` skipped), `placement` (every tracked file is held by a contract's `holds:` globs or is repo infrastructure), `writing` (the ASD-STE100 linter over every markdown file, findings in the run summary, never a failure), `guards` (the three hooks are byte-identical to the blueprint's site tier), `scripts` (shellcheck at warning level) |
 | `manifest.yml` | push to `main` touching `clients/**` | regenerate `desk/mani.yaml` from record frontmatter |
 | `sweep-deadlines.yml` | daily 06:00 Lisbon | `desk/glance/<date>.md`, deadlines inside seven days at the top |
 | `conformance.yml` | weekly + manual | `copier update` and asset check over the live set; one PR per repo |

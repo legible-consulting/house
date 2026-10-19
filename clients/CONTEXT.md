@@ -1,4 +1,5 @@
 ---
+status: built
 holds:
   - _template/record.md
   - "*/record.md"

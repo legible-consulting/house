@@ -1,4 +1,5 @@
 ---
+status: stub
 holds: []
 ---
 # Deliver — the D pipeline

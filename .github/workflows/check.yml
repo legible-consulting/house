@@ -36,7 +36,8 @@ jobs:
         run: ./gitleaks git --redact --no-banner -v .
 
   contracts:
-    # Every stage contract keeps the ICM shape: Inputs, Process, Outputs.
+    # Every stage contract keeps the ICM shape: Inputs, Process, Outputs. Its frontmatter says
+    # `status: stub | built`, and a built contract has no placeholder line (core/lexicon.md).
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -49,6 +50,19 @@ jobs:
             for s in Inputs Process Outputs; do
               grep -qx "## ${s}" "$f" || { echo "::error file=${f}::missing '## ${s}'"; fail=1; }
             done
+          done < <(git ls-files '*CONTEXT.md')
+          exit "$fail"
+      - name: Contract status
+        run: |
+          yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
+          fail=0
+          while IFS= read -r f; do
+            s="$(yq --front-matter=extract '.status // ""' "$f" 2>/dev/null)" || s=""
+            if [ "$s" != stub ] && [ "$s" != built ]; then
+              echo "::error file=${f}::frontmatter 'status' must be 'stub' or 'built'"; fail=1
+            elif [ "$s" = built ] && grep -qF 'Defined when the module is built' "$f"; then
+              echo "::error file=${f}::status is 'built' but Process keeps the placeholder line"; fail=1
+            fi
           done < <(git ls-files '*CONTEXT.md')
           exit "$fail"
 

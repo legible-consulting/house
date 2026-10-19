@@ -47,4 +47,5 @@ into their account; was `icm-workspace`).
   defined in `clients/CONTEXT.md` and live in the desk, never in a record.
 - **holds** — the globs in a contract's frontmatter that name the files its folder may carry:
   its outputs and its own tools. `check.yml` fails on a file no contract holds.
+- **status** — a contract's frontmatter says `stub` (no Process yet) or `built`.
 - **legible** — the cloud environment every session runs in (was `icm`).

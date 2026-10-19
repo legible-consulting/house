@@ -1,4 +1,5 @@
 ---
+status: stub
 holds:
   - "cases/*.md"
   - index.md
