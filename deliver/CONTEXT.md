@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Deliver — the D pipeline
 
 Four stages. D1 is the one session that attaches two repos (this one and the new client repo); D2 runs on the client repo alone; D3 writes back here; D4 runs over the estate from CI and the local lane.

@@ -3,6 +3,7 @@ slug: agorasim
 name: Agorasim
 language: pt-PT
 stage: build
+kind: build
 opened: 2026-07-01
 next_action:
 deadline:

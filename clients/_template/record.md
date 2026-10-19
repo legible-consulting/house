@@ -3,6 +3,7 @@ slug: {{SLUG}}
 name: {{CLIENT_NAME}}
 language: {{CLIENT_LANGUAGE}}
 stage: prospect
+kind:
 opened: {{YYYY-MM-DD}}
 next_action:
 deadline:

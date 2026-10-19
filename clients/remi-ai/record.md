@@ -3,6 +3,7 @@ slug: remi-ai
 name: Remi AI
 language: fr-BE
 stage: build
+kind: role
 opened: 2026-07-31
 next_action:
 deadline:

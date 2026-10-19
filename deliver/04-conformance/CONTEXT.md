@@ -1,3 +1,7 @@
+---
+holds:
+  - "*.sh"
+---
 # Estate conformance — D4
 
 D4 produces a report that every live repo matches its tier's template and carries only the Claude assets it uses, and that every dormant repo is archived, secret-free and named, so that the estate is in order and drift is known before it costs anything.

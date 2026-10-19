@@ -3,6 +3,7 @@ slug: vinecliff
 name: Vine Cliff Vineyards
 language: en-US
 stage: kickoff
+kind: build
 opened: 2026-07-14
 next_action:
 deadline:

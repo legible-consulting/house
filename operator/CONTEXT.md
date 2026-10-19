@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Operator — the O modules
 
 Four independent modules with no order between them, so the folders are not numbered (why: a number would promise a sequence that does not exist · 2026-10-15). Each produces reference material that sell and deliver modules declare as Inputs.

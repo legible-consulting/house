@@ -55,6 +55,12 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - One session, one repo. Kickoff (D1) is the named exception and attaches the new client
   repo as well (why: a cloud session loads a repo's hooks and permissions only when one
   repo is attached · 2026-10-15).
+- A file enters this repo only where a contract holds it: the `holds:` globs in the
+  contract's frontmatter. `check.yml` fails on any other file. What a session makes for the
+  moment stays in the scratchpad or an artifact and is linked, not committed. A stored
+  report carries a date, and the report it replaces is deleted (why: a repo that holds only
+  what its contracts name is one a stranger can audit from the contracts alone ·
+  2026-10-19).
 
 ## Sibling repos (same org; attached only when a contract names them)
 

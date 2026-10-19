@@ -1,3 +1,7 @@
+---
+holds:
+  - "coaching/*.md"
+---
 # Training and coaching — O4
 
 O4 produces a workshop kit (deliverable in a day), a client ICM workspace scaffolded from a template, a coaching record per client, and course material, so that the training line is delivered from material rather than improvised, and a client can leave with their own factory.

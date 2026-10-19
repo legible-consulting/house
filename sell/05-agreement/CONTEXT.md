@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Agreement — S5
 
 S5 produces the signable contract from the accepted proposal and quote, in the client's language, so that signature happens on a document that restates nothing and the folder holds exactly what was agreed.

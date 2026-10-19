@@ -1,3 +1,8 @@
+---
+holds:
+  - "cases/*.md"
+  - index.md
+---
 # Case studies and portfolio — O2
 
 O2 produces a case study per finished build and a current portfolio index so that every proposal cites real work and every training example is true.

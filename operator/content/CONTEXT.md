@@ -1,3 +1,8 @@
+---
+holds:
+  - "site/*.md"
+  - "posts/*.md"
+---
 # Content — O3
 
 O3 produces site copy and posts drawn from case studies, research verdicts and the concept library, so that the business is visible for the work it actually did.

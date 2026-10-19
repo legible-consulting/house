@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Handover and support — D3
 
 D3 produces the handover pack, a walkthrough, the support and hosting record (who hosts what, what Jamie is on the hook for, monthly cost), a retainer or follow-on offer at a set point after release, and the review and case-study request, so that the relationship continues after the build and the portfolio grows from it.
@@ -11,7 +14,7 @@ D3 produces the handover pack, a walkthrough, the support and hosting record (wh
 
 - Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
-- Not every client reaches D3. A client that stays at `build` for good (an ongoing role or a retainer; today remi-ai and sustentus) gets no handover pack and no retainer offer (why: Jamie is CTO of one and already on retainer for the other · 2026-10-16).
+- Not every client reaches D3. A client with `kind: retainer` or `kind: role` (`clients/CONTEXT.md`) gets no handover pack and no retainer offer (why: the engagement has no end to hand over · 2026-10-16).
 
 ## Outputs
 

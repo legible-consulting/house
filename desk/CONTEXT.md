@@ -1,3 +1,12 @@
+---
+holds:
+  - mani.yaml
+  - "estate/*.md"
+  - "glance/*.md"
+  - "review/*.md"
+  - "close/*.md"
+  - "app/**"
+---
 # Desk — C3
 
 C3 produces the morning glance, the Friday review (every client's next action and deadline plus one flat open-items list), the monthly close (invoiced, paid and owed per client; cost to run each engagement; commission due; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
@@ -10,7 +19,7 @@ C3 produces the morning glance, the Friday review (every client's next action an
 
 - Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
-- A client at `build` is not necessarily heading for `handover`: remi-ai (Jamie is CTO) and sustentus (retainer, sole developer) stay at `build` for good. The glance and the Friday review must not flag them as stalled or overdue for handover, and the monthly close reads sustentus as retainer income (why: neither engagement ends · 2026-10-16).
+- A client with `kind: retainer` or `kind: role` stays at `build` (`clients/CONTEXT.md`). The glance and the Friday review do not flag it as stalled or overdue for handover. The monthly close reads `retainer` as retainer income (why: neither engagement ends · 2026-10-16).
 
 ## Outputs
 

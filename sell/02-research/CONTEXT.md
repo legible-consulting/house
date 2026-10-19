@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Client research — S2
 
 S2 produces a prospect profile and an industry primer so that Jamie enters the first call knowing the client's trade and the proposal speaks their language.

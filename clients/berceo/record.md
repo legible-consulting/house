@@ -3,6 +3,7 @@ slug: berceo
 name: Berceo
 language: fr-BE
 stage: build
+kind: build
 opened: 2026-08-10
 next_action:
 deadline:

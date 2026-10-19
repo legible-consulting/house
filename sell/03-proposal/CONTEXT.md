@@ -1,3 +1,6 @@
+---
+holds: []
+---
 # Proposal — S3
 
 S3 produces the client-facing offer (problem, approach, scope, timeline) in the client's language, as branded PDF, Google Doc in their Drive folder, and a page in the dashboard, so that a client can say yes to a document they understand without a second call.

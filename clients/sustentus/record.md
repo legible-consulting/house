@@ -3,6 +3,7 @@ slug: sustentus
 name: Sustentus
 language: en
 stage: build
+kind: retainer
 opened: 2025-09-24
 next_action:
 deadline:
