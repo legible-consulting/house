@@ -18,19 +18,22 @@ wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
 
-## Now — open PRs, in merge order (as of 2026-10-19, late)
+## Now — open PRs, in merge order (as of 2026-10-19, night)
 
 | Order | PR | Lands | Merge when |
 |---|---|---|---|
-| 1 | vinecliff-vineyard#25 | C2: vinecliff adopted | parked until GitHub Actions recovers and `ci` is green; its session removed the `lint` script to pass, so decide ESLint config or no lint when you unpark it |
+| 1 | house#16 | D1: identity, services, voice, terms in core | now; the pitch drafts and PR 12's check wait on it |
+| 2 | house#15 | E1: S1's model, the prospect schema | now |
+| 3 | house#12 | D2: contract status, tickets.md producer | after 1 and 2; re-run its `contracts` job, it reads main |
+| 4 | house#13 | E3: sweep-deadlines.yml, the morning glance | now; then run it once by workflow_dispatch |
+| 5 | house#14 | F4: research intake by issue, daily routine | now; then paste `core/setup/cloud.sh` into the `legible` environment again |
+| 6 | house#17 | E2: the desk app with sign-in, roles, the pool | after your clicks in its body: Neon project, Vercel variables, `DESK_PAT` |
+| 7 | agorasim#198 | C2: agorasim adopted | now, after reading the kept assets |
+| 8 | berceo#67 | C2: berceo adopted | blocked: the `main` ruleset requires a `Vercel` status and Vercel posts none; connect the Vercel project to the org repo or drop that required check. Close berceo#66 (an older conform PR) when 67 merges |
 
-Landed today and gone from the list: F1, B1, B2 (`v0.2.0`), C1 (`release.yml` and D2's
-Process), F2. `guard-main` was dropped: `main` changes by PR only, by ruleset where the plan
-allows one and by the boundary everywhere.
+Landed: vinecliff#25 (vinecliff adopted), the F5 gates band (installed at `~/.claude/mods/gates-band`, shows after a reload).
 
-Next three: D1 (one sitting with Jamie's answers, unlocks D3, E1 and F4), A2 (the move,
-Jamie's afternoon), C2 for berceo and agorasim (two sessions, after vinecliff is green).
-
+Next: C3 (the `app` tier from what the three adopted repos share), D3 after the 21 Oct call, A2 (the move).
 ## A · Ownership and access
 
 - [ ] **A2** (J) The business and the client repos move back to `k0d0minio`, private:
