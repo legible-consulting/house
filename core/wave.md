@@ -53,8 +53,8 @@ Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a sess
 
 - [ ] **C1** (S) D2's Process written as the loop a session runs: ticket in `BUILD.md` →
   branch → PR → `check-client` green → Vercel preview → Jamie approves → merge → release PR.
-  `release.yml` and `guard-main.yml` added to `legible-consulting/.github`.
-  Check: `deliver/02-sdlc/CONTEXT.md` has no placeholder; both workflows exist on `main`.
+  `release.yml` added to `legible-consulting/.github`.
+  Check: `deliver/02-sdlc/CONTEXT.md` has no placeholder; the workflow exists on `main`.
 - [ ] **C2** (S, one PR per repo; J merges) Adopt vinecliff, then berceo, then agorasim:
   `BUILD.md` from `clients/<slug>/tickets.md`, the guards in `.claude/`, `ci.yml` with the
   tier, release-please, `.copier-answers.yml`. Assets the goals dropped (`.opencode`,
