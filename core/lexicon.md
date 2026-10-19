@@ -39,7 +39,8 @@ into their account; was `icm-workspace`).
 - **estate** — every repo in the org; D4 checks it conforms to its tier.
 - **local lane** — `~/Desktop/Apps/projects/` clones on Jamie's machine for bulk estate work.
 - **gate** — a human checkbox. Read it, never tick it.
-- **wave** — a build phase of the system itself (Wave 1: C1, C2, D2, D4).
+- **wave** — a build phase of the system itself (Wave 1: C1, C2, D2, D4). The current wave's
+  steps live in `core/wave.md`.
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
   Defined in `clients/CONTEXT.md`.
 - **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are

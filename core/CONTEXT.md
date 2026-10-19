@@ -3,6 +3,7 @@ holds:
   - lexicon.md
   - stack.md
   - open-items.md
+  - wave.md
   - "setup/*.sh"
   - identity.md
   - services.md
@@ -31,6 +32,7 @@ Built (2026-10-16):
 - `lexicon.md`: the house words (repo names, tiers, module codes) every artefact uses.
 - `stack.md`: which tools Legible Consulting uses, where each runs, and how a machine gets them.
 - `open-items.md`: the one flat open-items list the Friday review reads.
+- `wave.md`: the current wave of the system's own build, one box per step, Jamie's hand or a session's. Rewritten when a wave ends.
 - `setup/local.sh` · `setup/cloud.sh`: install the toolbox `stack.md` lists, on this machine (Homebrew) and in the `legible` cloud environment (pasted setup script).
 
 Pending:
