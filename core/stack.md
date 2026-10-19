@@ -50,7 +50,7 @@ Layout:
 |---|---|
 | `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo |
 | `~/Desktop/Apps/projects/<slug>/` | the local lane: clones of client repos for estate work (mani, multi-gitter, copier) |
-| `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh` and the hooks below |
+| `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 
 Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A repo that
 commits its own copy of a hook overrides the global one, and cloud sessions see only the
@@ -62,6 +62,13 @@ copy still runs (why: a copy that deferred to itself left the house unguarded ·
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
 | `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | no |
 | `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit) | refuses plaintext secrets in files outside an ignored `.env` | yes |
+
+One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
+writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
+`danyuchn/asd-ste100-skill`, MIT. `check.yml`'s `writing` job runs its linter at the same
+commit as advice, never as a verdict. Update both in one commit: `git -C ~/.claude/skills/asd-ste100 pull`,
+then the `STE_SKILL_SHA` in `check.yml` (why: the one skill that shapes every file a session
+writes; a linter that drifts from the skill reports rules the writer never saw · 2026-10-19).
 
 `~/.claude/settings.json`, besides the hooks:
 

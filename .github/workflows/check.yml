@@ -99,6 +99,27 @@ jobs:
           while IFS= read -r f; do echo "::error file=${f}::no contract holds this file"; done <<< "$orphans"
           exit 1
 
+  writing:
+    # Simplified Technical English as advice: the linter's findings go to the run summary and
+    # never fail the run (house: technical text is STE-flavored, 2026-10-19). The skill is
+    # pinned to the commit the local clone is at (core/stack.md).
+    runs-on: ubuntu-latest
+    env:
+      STE_SKILL_SHA: 3944283c183eea13fe5bd902b572da3b4de8bf44
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Fetch the linter at its pinned commit
+        run: |
+          git clone -q https://github.com/danyuchn/asd-ste100-skill /tmp/ste
+          git -C /tmp/ste checkout -q "$STE_SKILL_SHA"
+      - name: Lint every markdown file, as advice
+        run: |
+          out="$(git ls-files -z '*.md' ':!:clients/_template/*' | xargs -0 python3 -I /tmp/ste/scripts/ste-lint.py 2>&1 || true)"
+          { echo '## Simplified Technical English (advice)'; echo; echo '```'; echo "$out" | tail -n 200; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          echo "$out" | tail -n 40
+
   scripts:
     # The setup scripts and the hook run on machines with no other guard.
     runs-on: ubuntu-latest
