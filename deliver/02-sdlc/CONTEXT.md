@@ -8,7 +8,7 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
 ## Inputs
 
 - The client repo only: its `CLAUDE.md`, `BUILD.md`, tier contracts and `ci.yml`. This folder is read once to learn the shape; a build session never attaches the house.
-- The reusable workflows in `legible-consulting/.github`: `check-client.yml`, `release.yml`, `guard-main.yml`. `ci.yml` calls them; nothing is copied in.
+- The reusable workflows in `legible-consulting/.github`: `check-client.yml` and `release.yml`. `ci.yml` calls them; nothing is copied in.
 
 ## Process
 
@@ -28,9 +28,10 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
      environment. The client signs off on it there.
   7. Jamie merges. A session never merges (boundary).
   8. On the merge, release-please opens or updates the release PR. Jamie merges it. That
-     merge is the release. `guard-main` fails any push to `main` that is not a PR merge.
-- Sized by tier: `site` runs `check-client` and the preview. `app` adds `release.yml` and
-  `guard-main.yml`. `platform` adds the repo's own monorepo checks, named in its `CLAUDE.md`.
+     merge is the release. `main` changes by PR only: a ruleset where the plan allows one,
+     the boundary everywhere.
+- Sized by tier: `site` runs `check-client` and the preview. `app` adds `release.yml`.
+  `platform` adds the repo's own monorepo checks, named in its `CLAUDE.md`.
 - Until the desk app shows it (wave step E2), the client reads status from the PR list and
   the preview URL Jamie sends.
 
