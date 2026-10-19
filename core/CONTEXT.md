@@ -23,8 +23,14 @@ C1 produces the business's identity and bio, its services and pricing, its voice
 
 ## Process
 
-- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
 - Start cold from this folder. Read only what Inputs names.
+- Jamie answers in one sitting: a session drafts the questions, offers a default in each,
+  and asks them in one batch. The answers are written as facts, each in the one file that
+  owns it. What Jamie leaves open goes to `open-items.md`, never into a file as a placeholder
+  (why: a placeholder reads as a fact to a module that starts cold · 2026-10-19).
+- A fact changes here first, by PR to `main`, then everywhere that cites it. Jamie merges.
+- Each file starts with frontmatter (`title`, `kind`, `owner`, `date`). A rule in a file
+  carries its why and date.
 
 ## Outputs
 
