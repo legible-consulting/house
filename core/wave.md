@@ -7,16 +7,33 @@ source: desk/estate/audit-2026-10-19.md and Jamie's six notes of 2026-10-19
 ---
 # Wave 2 — one real deal and one real build run through the house
 
-One home for the current wave: what is being built, in what order, and whose hand each step
-is. A box is Jamie's. A step leaves this file when it is done and its result lives in the
-file that owns it. When the wave ends, this file is rewritten for the next one (why: a plan
-with two homes drifts, and a finished step kept here is a decision trail · 2026-10-19).
+One home for the current wave: what is open now, what is next, and whose hand each step is.
+A box is Jamie's. A step leaves this file when it is done and its result lives in the file
+that owns it. When the wave ends, this file is rewritten for the next one (why: a plan with
+two homes drifts, and a finished step kept here is a decision trail · 2026-10-19).
 
 Done when: motoark has walked `research` → `proposal` in the folders; vinecliff ships a
 release through D2; Jamie and one salesman sign in to the desk; every repo is where its owner
 wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
+
+## Now — open PRs, in merge order (as of 2026-10-19 evening)
+
+| Order | PR | Lands | Merge when |
+|---|---|---|---|
+| 1 | blueprint#4 | the three guards in the `site` tier, same bytes as the house | now |
+| 2 | house#9 | B1: secrets guard on Bash, confirm hook in the house, `guards` job | after 1; its `guards` job turns green by itself |
+| 3 | house#10 | F2: every org repo in the manifest, dormant repos in the drift check, two open items closed | now |
+| 4 | house#11 | D2's Process, the build loop | now, after the one rule in its body |
+| 5 | vinecliff-vineyard#25 | C2: vinecliff adopted | parked until GitHub Actions recovers and `ci` is green |
+
+Landed today and gone from the list: F1 (the writing skill), B2 (`v0.2.0` tagged), the
+`.github` half of C1 (`release.yml`). `guard-main` was dropped: `main` changes by PR only,
+by ruleset where the plan allows one and by the boundary everywhere.
+
+Next three, once Now is merged: A1 (one command), D1 (one sitting with Jamie's answers,
+unlocks D3, E1 and F4), C2 for berceo and agorasim (two sessions, after vinecliff is green).
 
 ## A · Ownership and access
 
@@ -40,26 +57,23 @@ Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a sess
 
 ## B · Guards
 
-- [ ] **B1** (S) The secrets guard also fires on Bash: it scans `tool_input.command`,
-  heredoc body included. `confirm-git-writes.sh` ships in the house and in the blueprint's
-  `site` tier. One `check.yml` job diffs the house's hooks against the blueprint's.
-  Check: a Bash heredoc with a fake `ghp_` token is refused.
-- [ ] **B2** (S) Blueprint: `_skip_if_exists: [README.md]` in `copier.yml`, then tag
-  `v0.2.0`. Check: `site-proof` reads as behind in the next drift report.
+- [ ] **B1** (S, in house#9 and blueprint#4) The secrets guard also fires on Bash, heredoc
+  body included. `confirm-git-writes.sh` ships in the house and in the blueprint's `site`
+  tier. One `check.yml` job compares the house's hooks with the blueprint's. Check: a Bash
+  heredoc with a fake `ghp_` token is refused.
 - [ ] **B3** (J, after A2) Secret scanning and push protection on for every public repo
   that remains. Check: the repo's Settings → Code security shows both on.
 
 ## C · Deliver now (D2)
 
-- [ ] **C1** (S) D2's Process written as the loop a session runs: ticket in `BUILD.md` →
-  branch → PR → `check-client` green → Vercel preview → Jamie approves → merge → release PR.
-  `release.yml` added to `legible-consulting/.github`.
-  Check: `deliver/02-sdlc/CONTEXT.md` has no placeholder; the workflow exists on `main`.
-- [ ] **C2** (S, one PR per repo; J merges) Adopt vinecliff, then berceo, then agorasim:
-  `BUILD.md` from `clients/<slug>/tickets.md`, the guards in `.claude/`, `ci.yml` with the
-  tier, release-please, `.copier-answers.yml`. Assets the goals dropped (`.opencode`,
-  `opencode.jsonc`, `AGENTS.md`) go in the same PR. Check: `ci` green on each; the drift
-  report reads `current`.
+- [ ] **C1** (S, in house#11) D2's Process written as the loop a session runs: ticket in
+  `BUILD.md` → branch → PR → `check-client` green → Vercel preview → Jamie approves → merge
+  → release PR. Check: `deliver/02-sdlc/CONTEXT.md` has no placeholder.
+- [ ] **C2** (S, one PR per repo; J merges) Adopt vinecliff (in vinecliff-vineyard#25,
+  parked), then berceo, then agorasim: `BUILD.md` from `clients/<slug>/tickets.md`, the
+  guards in `.claude/`, `ci.yml` with the tier, release-please, `.copier-answers.yml`.
+  Assets the goals dropped (`.opencode`, `opencode.jsonc`, `AGENTS.md`) go in the same PR.
+  Check: `ci` green on each; the drift report reads `current`.
 - [ ] **C3** (S, after C2) The `app` tier template is written from what the three adopted
   repos share. Tag `v0.3.0`. Check: `copier copy` of tier `app` into a scratch folder
   renders the same files.
@@ -89,14 +103,9 @@ Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a sess
 
 ## F · Writing and hygiene
 
-- [ ] **F1** (S) The ASD-STE100 skill at `~/.claude/skills/asd-ste100`. A Writing section in
-  `~/.claude/CLAUDE.md`: STE-flavored for docs, contracts, reports, commits and PR bodies,
-  Strict for procedures and hook text, casual chat otherwise. `ste-lint.py` as an advisory
-  job in `check.yml`. Check: `core/stack.md` lists the skill.
-- [ ] **F2** (S) Stale open items closed. `courseday`, `firedough` and `site-proof` in
-  `mani.yaml` as `dormant` or `proof`, and `drift.sh` reads dormant repos too. The grep line
-  leaves the root `settings.local.json`. Check: `check` green; the drift report lists eight
-  repos.
+- [ ] **F2** (S, in house#10) Stale open items closed. `courseday`, `firedough` and
+  `site-proof` in `mani.yaml` as `dormant` or `proof`, and `drift.sh` reads dormant repos
+  too. Check: `check` green; the drift report lists eight repos.
 - [ ] **F3** (J) `library`: commit the ticked boxes in `07-infrastructure-setup.md`; delete
   `00-goal-questions.md` (superseded) and the two estate JSON snapshots once A2 is done.
   Check: `git status` clean in `library`.
