@@ -19,6 +19,10 @@ D4 produces a report that every live repo matches its tier's template and carrie
   file, from its client record, so no file of its own changes and later tags reach it by
   `copier update` (why: the live repos predate the blueprint; overwriting them to conform
   would be a rebuild, not a check · 2026-10-16).
+- `desk/mani.yaml` tags each repo `live`, `dormant` or `proof`. A live or proof repo is
+  checked against the blueprint tag. A dormant repo is checked for being archived and gets
+  no PR (why: an archived repo changes no more, so a template update would only reopen it
+  · 2026-10-19).
 - Claude and agent assets (`.claude/`, `CLAUDE.md`, `AGENTS.md`, `.icm/`, `.opencode/` and
   the like) are listed in the report, not removed: whether one is still used is Jamie's call.
 - From the local lane, Jamie's own `gh` login: `bash deliver/04-conformance/drift.sh` writes the
