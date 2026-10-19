@@ -22,6 +22,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | mani | run a command across the estate's clones (D2, the local lane) | 0.32.1 | `setup/local.sh` | — |
 | multi-gitter | one PR per repo across the estate (D4) | 0.63.1 | `setup/local.sh` | — |
 | copier | render a client repo from the blueprint (D1) | 9.19.1 | `setup/local.sh` | — |
+| trafilatura | fetch a web page as text (O1, the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 
 Adopted but installed nowhere until a module calls them: mdq, duckdb and dateutils. Their verdicts stay in the research file. The cloud image ships
@@ -102,3 +103,8 @@ One environment, `legible`, in claude.ai/code.
 The pasted copy is not linked to this repo: after editing `setup/cloud.sh`, paste it into the
 environment dialog again. That rebuilds the environment cache on the next session. Check: a
 session's setup log ends with an `ok` line per tool and no `MISSING` line.
+
+Pasted copy status: behind `setup/cloud.sh` since 2026-10-19, when trafilatura joined for the
+research intake. Jamie pastes the file again, then deletes this paragraph (why: the pasted copy
+is the one that runs; a routine that needs a tool the paste lacks fails its first run ·
+2026-10-19).
