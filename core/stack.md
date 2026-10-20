@@ -25,6 +25,14 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | trafilatura | fetch a web page as text (O1, the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 
+## The desk app
+
+Next.js (App Router) on Vercel, with Neon Postgres and Neon Auth: team `kodominio`, project
+`legible-desk`, `https://desk.jamienisbet.com`. `desk/CONTEXT.md` names the tables, the
+roles and the variables. Chosen over the Astro scaffold of 2026-10-15 (why: Vercel's own
+framework, first-party Neon Auth support for Next.js, and one framework for the house's apps
+· 2026-10-19).
+
 Adopted but installed nowhere until a module calls them: mdq, duckdb and dateutils. Their verdicts stay in the research file. The cloud image ships
 kislyuk's Python yq, a jq wrapper without `--front-matter`; `setup/cloud.sh` puts mikefarah's
 ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's checks ·
