@@ -1,10 +1,10 @@
 import { env } from "./env";
-import type { DeskUser, Prospect } from "./db";
+import type { Prospect } from "./pool";
 
 // "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
-// at stage prospect. The commit carries the desk's identity; the PR is opened by the
-// account that owns DESK_PAT (a fine-grained token: this repo, Contents and Pull requests).
-// The folder is the record from the merge on; the pool row moves to "handed off" by hand.
+// at stage prospect. The commit carries the desk's identity; the PR is opened by the account
+// that owns DESK_PAT (a fine-grained token: this repo, Contents and Pull requests). The
+// folder is the record from the merge on; "Check the PR" moves the row to handed off.
 
 const REPO = "legible-consulting/house";
 const COMMITTER = { name: "desk", email: "desk@users.noreply.github.com" };
@@ -25,6 +25,7 @@ async function gh(method: string, path: string, body?: unknown): Promise<GhRespo
       ...(body ? { "Content-Type": "application/json" } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
+    cache: "no-store",
   });
   const json = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   return { status: res.status, body: json };
@@ -35,14 +36,9 @@ function fail(step: string, r: GhResponse): never {
   throw new Error(`GitHub ${step} failed (${r.status}): ${msg}`);
 }
 
-export interface Handoff {
-  slug: string;
-  record: string;
-  prospect: Prospect;
-  salesman: DeskUser;
-}
+const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\n+/g, " ");
 
-export async function openHandoffPr({ slug, record, prospect, salesman }: Handoff): Promise<string> {
+export async function openHandoffPr(p: Prospect, slug: string, record: string, touches: number): Promise<string> {
   const path = `clients/${slug}/record.md`;
   const branch = `pool/${slug}`;
 
@@ -54,11 +50,11 @@ export async function openHandoffPr({ slug, record, prospect, salesman }: Handof
   if (existing.status === 200) throw new Error(`clients/${slug}/ already exists on main.`);
 
   const ref = await gh("POST", "/git/refs", { ref: `refs/heads/${branch}`, sha });
-  if (ref.status === 422) throw new Error(`Branch ${branch} already exists: an earlier handoff is open.`);
+  if (ref.status === 422) throw new Error(`Branch ${branch} already exists: an earlier handoff is open, or its branch was kept.`);
   if (ref.status !== 201) fail("create branch", ref);
 
   const put = await gh("PUT", `/contents/${path}`, {
-    message: `Pool: open clients/${slug} at prospect\n\n${prospect.company}, handed off by ${salesman.email}.`,
+    message: `Pool: open clients/${slug} at prospect\n\n${p.company}, handed off by ${p.sourced_by}.`,
     content: Buffer.from(record, "utf8").toString("base64"),
     branch,
     committer: COMMITTER,
@@ -66,28 +62,50 @@ export async function openHandoffPr({ slug, record, prospect, salesman }: Handof
   });
   if (put.status !== 201) fail("write record.md", put);
 
-  const contact = [prospect.contact_name, prospect.email].filter(Boolean).join(" · ");
+  const rows: [string, string][] = [
+    ["Company", p.company],
+    ["Contact", [p.contact_name, p.role].filter(Boolean).join(", ")],
+    ["Email", p.email],
+    ["Phone", p.phone],
+    ["Website", p.website],
+    ["Country", p.country],
+    ["Language", p.language],
+    ["Line", p.line],
+    ["Size", p.size],
+    ["Service", p.service],
+    ["Deal size", p.deal_size],
+    ["Source", p.source],
+    ["Sourced by", p.sourced_by],
+    ["Touches", String(touches)],
+    ["Next action", p.next_action ?? ""],
+  ];
   const body = [
-    `Pool handoff from the desk. Merge opens \`clients/${slug}/\` at \`prospect\`; the pool row then moves to \`handed off\`.`,
+    `Pool handoff from the desk. Merge opens \`clients/${slug}/\` at \`prospect\`; the row then moves to \`handed off\` when its sourcer or Jamie checks the PR from the desk.`,
     "",
     "| Field | Value |",
     "|---|---|",
-    `| Company | ${prospect.company} |`,
-    `| Contact | ${contact} |`,
-    `| Language | ${prospect.language} |`,
-    `| Source | ${prospect.source} |`,
-    `| Salesman | ${salesman.name || salesman.email} (${salesman.email}) |`,
-    `| Next action | ${prospect.next_action} |`,
+    ...rows.map(([k, v]) => `| ${k} | ${cell(v)} |`),
     "",
-    prospect.notes ? `Notes:\n\n${prospect.notes}` : "",
+    p.ask ? `Ask:\n\n${p.ask}` : "",
+    p.notes ? `\nNotes:\n\n${p.notes}` : "",
   ].join("\n");
 
   const pr = await gh("POST", "/pulls", {
-    title: `Pool: ${prospect.company} is ready for Jamie`,
+    title: `Pool: ${p.company} is ready for Jamie`,
     head: branch,
     base: "main",
     body,
   });
   if (pr.status !== 201) fail("open PR", pr);
   return pr.body.html_url as string;
+}
+
+// The handoff PR's state: open, merged, or closed without a merge.
+export async function handoffPrState(prUrl: string): Promise<"open" | "merged" | "closed"> {
+  const number = /\/pull\/(\d+)$/.exec(prUrl)?.[1];
+  if (!number) throw new Error("The PR link does not name a pull request.");
+  const r = await gh("GET", `/pulls/${number}`);
+  if (r.status !== 200) fail("read PR", r);
+  if (r.body.merged === true) return "merged";
+  return r.body.state === "closed" ? "closed" : "open";
 }

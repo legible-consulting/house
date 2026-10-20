@@ -162,3 +162,25 @@ jobs:
           persist-credentials: false
       - name: shellcheck
         run: git ls-files -z '*.sh' | xargs -0 -r shellcheck --severity=warning
+
+  desk:
+    # The desk app builds where it is pushed (CI is truth; never build locally). Only the
+    # build: dashboard.yml deploys it from main. No variable is needed: every page renders
+    # per request, and the app reads its variables on the first request, not at build.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: desk/app
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: desk/app/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Build
+        run: npm run build
