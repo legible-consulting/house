@@ -79,6 +79,3 @@ Next: C3 (the `app` tier from what the three adopted repos share) once 1 and 2 m
 - [ ] **F3** (J) `library`: commit the ticked boxes in `07-infrastructure-setup.md`; delete
   `00-goal-questions.md` (superseded) and the two estate JSON snapshots once A2 is done.
   Check: `git status` clean in `library`.
-
-- [ ] **F5** (S, own session) A mod that shows the session's pending gates in a band above
-  the prompt. Check: a merge prompt is visible without scrolling.
