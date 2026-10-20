@@ -26,8 +26,10 @@ C3 produces the morning glance, the Friday review (every client's next action an
 
 - `glance/<date>.md` (daily, from `sweep-deadlines.yml`) · `review/<week>.md` · `close/<month>.md` · `estate/<audit>.md` · `mani.yaml` (generated).
 - `app/`: the Next.js dashboard (the stack and its why: `core/stack.md`), every page
-  rendered per request on Vercel, built and deployed to production by `dashboard.yml` on
-  every push to `main`; `check.yml` builds it on every push. Sign-in by Neon Auth; the pool
+  rendered per request on Vercel, deployed to production by the Vercel project's Git link on
+  every push to `main` (root directory `desk/app`; previews on every PR behind Vercel's own
+  protection; why: one deploy path, and the link's PR preview is the UAT environment D2
+  names · 2026-10-20); `check.yml` builds it on every push. Sign-in by Neon Auth; the pool
   and the roles in Neon Postgres, project `legible-desk` (org Kodominio, Frankfurt, created
   from the Vercel project's Storage tab); tables `users`, `prospects` and `touches` from
   `app/db/schema.sql`, the prospect row by `sell/01-prospecting/prospect.md`. Three roles

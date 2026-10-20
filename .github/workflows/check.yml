@@ -165,7 +165,7 @@ jobs:
 
   desk:
     # The desk app builds where it is pushed (CI is truth; never build locally). Only the
-    # build: dashboard.yml deploys it from main. No variable is needed: every page renders
+    # build: Vercel deploys it from main through the project's Git link. No variable is needed: every page renders
     # per request, and the app reads its variables on the first request, not at build.
     runs-on: ubuntu-latest
     defaults:
