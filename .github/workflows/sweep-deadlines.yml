@@ -1,0 +1,60 @@
+# sweep-deadlines: the morning glance. It reads every client record and core/open-items.md,
+# writes desk/glance/<date>.md and commits it to main. It sends nothing and moves no stage
+# (CLAUDE.md: an unattended run only writes lines for the glance). Not run on a PR: CI cannot
+# test a scheduled push. Run it once by hand (workflow_dispatch) after each change.
+name: sweep-deadlines
+
+on:
+  schedule:
+    # GitHub cron is UTC. 05:00 UTC is 05:00 in winter (WET, UTC+0) and 06:00 in summer
+    # (WEST, UTC+1), so the glance is ready by 06:00 Lisbon in both seasons. GitHub can start
+    # a scheduled run late.
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sweep-deadlines
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    # The job pushes to main, so it runs on main only. A manual run from another branch skips.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # True on this job only, because the last step pushes with this token. The jobs in
+          # check.yml set false.
+          persist-credentials: true
+      - name: Write the glance
+        id: glance
+        run: |
+          yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
+          bash .github/scripts/sweep-deadlines.sh
+      - name: Commit to main when the glance changed
+        env:
+          GLANCE_DATE: ${{ steps.glance.outputs.date }}
+        run: |
+          git add -A -- desk/glance
+          if git diff --cached --quiet; then
+            echo "The glance did not change. No commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "glance: ${GLANCE_DATE}"
+          # Someone can push to main between the checkout and this push: rebase and try again.
+          pushed=0
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then pushed=1; break; fi
+            echo "Push ${attempt} failed. Rebase on main and try again."
+            git pull --rebase --quiet origin main
+          done
+          [ "$pushed" = 1 ] || { echo "::error::push to main failed three times"; exit 1; }
