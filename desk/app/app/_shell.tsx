@@ -22,9 +22,13 @@ export function Shell({
       ? [
           ["/", "Clients"],
           ["/pool", "Pool"],
+          ["/sell", "Sell"],
         ]
       : user?.role === "salesman"
-        ? [["/pool", "Pool"]]
+        ? [
+            ["/pool", "Pool"],
+            ["/sell", "Sell"],
+          ]
         : [];
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
