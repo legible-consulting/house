@@ -1,4 +1,5 @@
 ---
+status: stub
 holds: []
 ---
 # Onboarding and kickoff — D1

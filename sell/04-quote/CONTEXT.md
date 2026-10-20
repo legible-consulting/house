@@ -1,4 +1,5 @@
 ---
+status: stub
 holds: []
 ---
 # Quote — S4

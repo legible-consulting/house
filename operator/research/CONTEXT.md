@@ -1,4 +1,5 @@
 ---
+status: stub
 holds:
   - "verdicts/*.md"
   - catalogue.md

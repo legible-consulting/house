@@ -1,4 +1,5 @@
 ---
+status: stub
 holds:
   - "site/*.md"
   - "posts/*.md"

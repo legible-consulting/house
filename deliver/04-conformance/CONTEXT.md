@@ -1,4 +1,5 @@
 ---
+status: built
 holds:
   - "*.sh"
 ---
