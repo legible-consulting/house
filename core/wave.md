@@ -18,21 +18,18 @@ wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
 
-## Now (as of 2026-10-20 morning)
+## Now (as of 2026-10-20 afternoon)
+
+No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js replacement with Tailwind, shadcn/ui, Motion and the password reset in house#20, the Sell page in house#21), E3 (the first glance exists), F4, the pitch drafts (house#18), and C2 for all three repos (vinecliff#25, agorasim#198, berceo#67).
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1 | agorasim#198, C2 adoption | J merges | green, read the kept assets in its body |
-| 2 | berceo#67, C2 adoption | J | blocked: the `main` ruleset requires a `Vercel` status and Vercel posts none. Connect the Vercel project to the org repo or drop that required check. Close berceo#66 (older duplicate) when 67 merges |
-| 3 | Run `sweep-deadlines` once from the Actions tab | J | the first glance lands in `desk/glance/` |
-| 4 | Paste `core/setup/cloud.sh` into the `legible` environment again | J | the research intake routine needs the fetch tool |
-| 5 | Sign in to the desk at desk.jamienisbet.com (account contact@jamienisbet.com, password set in the Neon console), then say so and a session sets your role to `jamie` | J | the Astro desk is live; `NEON_AUTH_COOKIE_SECRET` was the missing variable, fixed 2026-10-20 |
-| 7 | The desk is rebuilt in Next.js with Tailwind, shadcn/ui and Motion, in its own session; it goes live today and the Astro desk dies with its merge. `core/stack.md` records the stack in the same PR (Jamie, 2026-10-20) | S, then J merges | running |
-| 6 | The pitch drafts session (three touches, three languages) is unblocked now that voice and services are on main | J starts it | optional, S1 extra |
+| 1 | One deploy path for the desk. The Vercel project is linked to the house repo (root `desk/app`) and deploys `main` itself; `dashboard.yml` deploys the same commit minutes later and now fails on the doubled root path. Keep the Git link and delete the workflow, or disconnect the link and fix the workflow | J decides, S does | open |
+| 2 | Jamie's role: his row in the desk's `users` table is `client` after the first sign-in; one SQL update sets `jamie` | S, on Jamie's word | open |
+| 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
+| 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
 
-Landed on 2026-10-20: D1 (core files), D2 (contract status, tickets producer), E1 (S1 model), E2 (desk app), E3 (sweep), F4 (research intake). On 2026-10-19: F1, B1, B2, C1, F2, A1, vinecliff adopted, the F5 gates band.
-
-Next: C3 (the `app` tier from what the three adopted repos share) once 1 and 2 merge; D3 after the 21 Oct call; A2 (the move) when you take an afternoon for it.
+Next: C3 (the `app` tier from what the three adopted repos share, then `v0.3.0`); D3 after the MotoArk call on 21 Oct; A2 (the move) when you take an afternoon; A4, A5, B3, F3 as listed below.
 
 ## A · Ownership and access
 
@@ -58,11 +55,6 @@ Next: C3 (the `app` tier from what the three adopted repos share) once 1 and 2 m
 
 ## C · Deliver now (D2)
 
-- [ ] **C2** (S, one PR per repo; J merges) Adopt vinecliff (in vinecliff-vineyard#25,
-  parked), then berceo, then agorasim: `BUILD.md` from `clients/<slug>/tickets.md`, the
-  guards in `.claude/`, `ci.yml` with the tier, release-please, `.copier-answers.yml`.
-  Assets the goals dropped (`.opencode`, `opencode.jsonc`, `AGENTS.md`) go in the same PR.
-  Check: `ci` green on each; the drift report reads `current`.
 - [ ] **C3** (S, after C2) The `app` tier template is written from what the three adopted
   repos share. Tag `v0.3.0`. Check: `copier copy` of tier `app` into a scratch folder
   renders the same files.
