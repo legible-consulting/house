@@ -18,22 +18,21 @@ wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
 
-## Now — open PRs, in merge order (as of 2026-10-19, night)
+## Now (as of 2026-10-20 morning)
 
-| Order | PR | Lands | Merge when |
+| Order | What | Whose hand | State |
 |---|---|---|---|
-| 1 | house#16 | D1: identity, services, voice, terms in core | now; the pitch drafts and PR 12's check wait on it |
-| 2 | house#15 | E1: S1's model, the prospect schema | now |
-| 3 | house#12 | D2: contract status, tickets.md producer | after 1 and 2; re-run its `contracts` job, it reads main |
-| 4 | house#13 | E3: sweep-deadlines.yml, the morning glance | now; then run it once by workflow_dispatch |
-| 5 | house#14 | F4: research intake by issue, daily routine | now; then paste `core/setup/cloud.sh` into the `legible` environment again |
-| 6 | house#17 | E2: the desk app with sign-in, roles, the pool | after one click: create `DESK_PAT` and set it in Vercel. The Neon project `legible-desk`, Neon Auth, the schema and the Vercel variables exist (infra session, 2026-10-19) |
-| 7 | agorasim#198 | C2: agorasim adopted | now, after reading the kept assets |
-| 8 | berceo#67 | C2: berceo adopted | blocked: the `main` ruleset requires a `Vercel` status and Vercel posts none; connect the Vercel project to the org repo or drop that required check. Close berceo#66 (an older conform PR) when 67 merges |
+| 1 | agorasim#198, C2 adoption | J merges | green, read the kept assets in its body |
+| 2 | berceo#67, C2 adoption | J | blocked: the `main` ruleset requires a `Vercel` status and Vercel posts none. Connect the Vercel project to the org repo or drop that required check. Close berceo#66 (older duplicate) when 67 merges |
+| 3 | Run `sweep-deadlines` once from the Actions tab | J | the first glance lands in `desk/glance/` |
+| 4 | Paste `core/setup/cloud.sh` into the `legible` environment again | J | the research intake routine needs the fetch tool |
+| 5 | `DESK_PAT` in the Vercel project, then sign in to the desk on the phone | J | the deploy on PR 17's merge ran green; the URL is in that run's summary |
+| 6 | The pitch drafts session (three touches, three languages) is unblocked now that voice and services are on main | J starts it | optional, S1 extra |
 
-Landed: vinecliff#25 (vinecliff adopted), the F5 gates band (installed at `~/.claude/mods/gates-band`, shows after a reload).
+Landed on 2026-10-20: D1 (core files), D2 (contract status, tickets producer), E1 (S1 model), E2 (desk app), E3 (sweep), F4 (research intake). On 2026-10-19: F1, B1, B2, C1, F2, A1, vinecliff adopted, the F5 gates band.
 
-Next: C3 (the `app` tier from what the three adopted repos share), D3 after the 21 Oct call, A2 (the move).
+Next: C3 (the `app` tier from what the three adopted repos share) once 1 and 2 merge; D3 after the 21 Oct call; A2 (the move) when you take an afternoon for it.
+
 ## A · Ownership and access
 
 - [ ] **A2** (J) The business and the client repos move back to `k0d0minio`, private:
@@ -69,35 +68,17 @@ Next: C3 (the `app` tier from what the three adopted repos share), D3 after the 
 
 ## D · Core and sell
 
-- [ ] **D1** (J+S) `core/identity.md`, `services.md` (with pricing), `voice.md`, `terms.md`.
-  Check: seven contracts' Inputs exist; `check` green.
-- [ ] **D2** (S) `tickets.md` gets its producer: S3's Outputs. Every contract carries
-  `status: stub | built` in its frontmatter. Check: the desk shows the count.
 - [ ] **D3** (the real deal, after 21 Oct) Motoark walks `research` → `proposal`. S3's
   Process is written from that walk. Check: `clients/motoark/proposal/proposal.md` exists
   and S3 has no placeholder.
 
 ## E · The desk as an app
 
-- [ ] **E1** (J+S) S1's model: `sell/01-prospecting/target-profile.md`, `cadence.md`, and
-  the prospect schema (fields, the pool statuses from `clients/CONTEXT.md`, commission).
-  Check: S1 has no placeholder.
-- [ ] **E2** (S, after E1 and D1) The desk app: Astro with the Vercel server adapter, Neon
-  Postgres, Neon Auth, three roles. Production deploy on push to `main`; the preview and the
-  6-hour cron go. Pages: Jamie's clients table, a salesman's pool. "Ready for Jamie" opens
-  one PR that creates the client folder, under a bot identity. Check: Jamie and one salesman
-  sign in on the phone.
-- [ ] **E3** (S) `sweep-deadlines.yml` writes `desk/glance/<date>.md`. Check: a glance exists
-  the morning after the merge.
-
 ## F · Writing and hygiene
 
 - [ ] **F3** (J) `library`: commit the ticked boxes in `07-infrastructure-setup.md`; delete
   `00-goal-questions.md` (superseded) and the two estate JSON snapshots once A2 is done.
   Check: `git status` clean in `library`.
-- [ ] **F4** (S, after D1) The research intake: a Gmail label or one Sheet, a scheduled
-  routine that drafts a verdict into `operator/research/inbox/` and opens one PR. The
-  boundary gains that unattended run with its why. Check: one PR from a link shared from the
-  phone.
+
 - [ ] **F5** (S, own session) A mod that shows the session's pending gates in a band above
   the prompt. Check: a merge prompt is visible without scrolling.
