@@ -1,0 +1,40 @@
+---
+// Email and password against Neon Auth. A success sets the session cookies through the
+// server SDK and opens the user's row at role client if it is the first sign-in.
+import Desk from "../layouts/Desk.astro";
+import { authFor, safeNext, sessionUser } from "../lib/auth";
+import { ensureUser } from "../lib/db";
+
+const next = safeNext(Astro.url.searchParams.get("next"));
+let error = "";
+let email = "";
+
+if (Astro.request.method === "POST") {
+  const form = await Astro.request.formData();
+  email = String(form.get("email") ?? "").trim().toLowerCase();
+  const password = String(form.get("password") ?? "");
+  if (!email || !password) {
+    error = "Email and password are required.";
+  } else {
+    const { data, error: e } = await authFor(Astro).signIn.email({ email, password });
+    const user = (data as { user?: { name?: string } } | null)?.user;
+    if (e || !user) {
+      error = e?.message ?? "Sign-in failed.";
+    } else {
+      await ensureUser(email, user.name ?? "");
+      return Astro.redirect(next, 303);
+    }
+  }
+} else if (await sessionUser(Astro)) {
+  return Astro.redirect(next, 303);
+}
+---
+<Desk title="Sign in · Desk">
+  <h2>Sign in</h2>
+  {error && <p class="error">{error}</p>}
+  <form method="post" class="grid" style="max-width: 24rem">
+    <label>Email <input type="email" name="email" value={email} required autocomplete="username" /></label>
+    <label>Password <input type="password" name="password" required autocomplete="current-password" /></label>
+    <div><button>Sign in</button></div>
+  </form>
+</Desk>
