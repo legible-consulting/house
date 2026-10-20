@@ -1,4 +1,10 @@
 import { notFound, redirect } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 import { prospectById, touchesOf } from "@/lib/db";
 import { flash, type Search } from "@/lib/guard";
 import {
@@ -18,6 +24,7 @@ import {
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
 import { Shell } from "../../_shell";
+import { Field, Flash, StatusBadge } from "../../_ui";
 import { checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
 // One prospect: the facts, the touches, the move, and "Ready for Jamie", which opens the
@@ -32,11 +39,11 @@ type Props = {
 
 const Options = ({ list }: { list: readonly string[] }) => (
   <>
-    <option value="">—</option>
+    <NativeSelectOption value="">—</NativeSelectOption>
     {list.map((v) => (
-      <option key={v} value={v}>
+      <NativeSelectOption key={v} value={v}>
         {v}
-      </option>
+      </NativeSelectOption>
     ))}
   </>
 );
@@ -57,207 +64,262 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const slug = p.slug ?? slugOf(p.company);
   const slugLocked = Boolean(p.pr_url) || p.status === "ready for Jamie" || p.status === "handed off";
   const canTouch = write && p.status !== "ready for Jamie" && p.status !== "lost";
+  const grid = "grid gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
   return (
     <Shell user={user} current="/pool">
-      <p>
-        <a href="/pool">← Pool</a>
+      <p className="mb-2 text-sm">
+        <a href="/pool" className="text-muted-foreground hover:text-foreground">
+          ← Pool
+        </a>
       </p>
-      <h2>{p.company}</h2>
-      <p className="muted">
-        Status: <b>{p.status}</b> · sourced by {p.sourced_by} · added {p.added} · updated {p.updated}
+      <div className="mb-1 flex flex-wrap items-center gap-3">
+        <h2 className="text-xl font-semibold tracking-tight">{p.company}</h2>
+        <StatusBadge status={p.status} />
+      </div>
+      <p className="mb-4 text-sm text-muted-foreground">
+        sourced by {p.sourced_by} · added {p.added} · updated {p.updated}
         {p.next_action && <> · next action {p.next_action}</>}
         {p.pr_url && (
           <>
             {" "}
-            · handoff PR: <a href={p.pr_url}>{p.pr_url}</a>
+            · handoff PR:{" "}
+            <a href={p.pr_url} className="underline">
+              {p.pr_url.replace("https://github.com/", "")}
+            </a>
           </>
         )}
         {p.record && (
           <>
             {" "}
-            · record: <code>{p.record}</code>
+            · record: <code className="font-mono text-xs">{p.record}</code>
           </>
         )}
       </p>
       {!write && (
-        <p className="muted">
+        <p className="mb-4 text-sm text-muted-foreground">
           {p.status === "handed off"
             ? "Handed off: the client folder is the record now."
             : "Read-only: only the sourcer and Jamie write this row."}
         </p>
       )}
-      {error && <p className="error">{error}</p>}
-      {note && <p className="muted">{note}</p>}
-      {p.lost_reason && <p>Lost: {p.lost_reason}</p>}
+      <Flash error={error} note={note} />
+      {p.lost_reason && <p className="mb-4 text-sm">Lost: {p.lost_reason}</p>}
 
-      <h3>Facts</h3>
-      <form action={saveProspect}>
-        <input type="hidden" name="id" value={p.id} />
-        <fieldset className="grid" disabled={!write}>
-          <label>
-            Company <input name="company" defaultValue={p.company} required />
-          </label>
-          <label>
-            Slug{" "}
-            <input name="slug" defaultValue={slug} disabled={slugLocked} pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={40} />
-          </label>
-          <label>
-            Contact <input name="contact_name" defaultValue={p.contact_name} />
-          </label>
-          <label>
-            Role <input name="role" defaultValue={p.role} />
-          </label>
-          <label>
-            Email <input type="email" name="email" defaultValue={p.email} />
-          </label>
-          <label>
-            Phone <input name="phone" defaultValue={p.phone} placeholder="+351 …" />
-          </label>
-          <label>
-            Website <input type="url" name="website" defaultValue={p.website} />
-          </label>
-          <label>
-            Country <input name="country" defaultValue={p.country} placeholder="PT, BE, GB" maxLength={2} />
-          </label>
-          <label>
-            Language{" "}
-            <select name="language" defaultValue={p.language}>
-              <Options list={LANGUAGES} />
-            </select>
-          </label>
-          <label>
-            Line{" "}
-            <select name="line" defaultValue={p.line}>
-              <Options list={LINES} />
-            </select>
-          </label>
-          <label>
-            Size{" "}
-            <select name="size" defaultValue={p.size}>
-              <Options list={SIZES} />
-            </select>
-          </label>
-          <label>
-            Service{" "}
-            <select name="service" defaultValue={p.service}>
-              <Options list={SERVICES} />
-            </select>
-          </label>
-          <label>
-            Deal size{" "}
-            <select name="deal_size" defaultValue={p.deal_size}>
-              <Options list={DEAL_SIZES} />
-            </select>
-          </label>
-          <label>
-            Source <input name="source" defaultValue={p.source} required />
-          </label>
-          <label>
-            Next action <input type="date" name="next_action" defaultValue={p.next_action ?? ""} />
-          </label>
-          <label className="wide">
-            Ask <textarea name="ask" rows={3} defaultValue={p.ask} placeholder="what they asked for, in your words" />
-          </label>
-          <label className="wide">
-            Notes <textarea name="notes" rows={3} defaultValue={p.notes} />
-          </label>
-          <div>
-            <button>Save</button>
-          </div>
-        </fieldset>
-      </form>
+      <div className="grid gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Facts</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form action={saveProspect}>
+              <input type="hidden" name="id" value={p.id} />
+              <fieldset className={grid} disabled={!write}>
+                <Field label="Company">
+                  <Input name="company" defaultValue={p.company} required />
+                </Field>
+                <Field label="Slug">
+                  <Input
+                    name="slug"
+                    defaultValue={slug}
+                    disabled={slugLocked}
+                    pattern="[a-z0-9]+(-[a-z0-9]+)*"
+                    maxLength={40}
+                    className="font-mono"
+                  />
+                </Field>
+                <Field label="Contact">
+                  <Input name="contact_name" defaultValue={p.contact_name} />
+                </Field>
+                <Field label="Role">
+                  <Input name="role" defaultValue={p.role} />
+                </Field>
+                <Field label="Email">
+                  <Input type="email" name="email" defaultValue={p.email} />
+                </Field>
+                <Field label="Phone">
+                  <Input name="phone" defaultValue={p.phone} placeholder="+351 …" />
+                </Field>
+                <Field label="Website">
+                  <Input type="url" name="website" defaultValue={p.website} />
+                </Field>
+                <Field label="Country">
+                  <Input name="country" defaultValue={p.country} placeholder="PT, BE, GB" maxLength={2} />
+                </Field>
+                <Field label="Language">
+                  <NativeSelect name="language" defaultValue={p.language}>
+                    <Options list={LANGUAGES} />
+                  </NativeSelect>
+                </Field>
+                <Field label="Line">
+                  <NativeSelect name="line" defaultValue={p.line}>
+                    <Options list={LINES} />
+                  </NativeSelect>
+                </Field>
+                <Field label="Size">
+                  <NativeSelect name="size" defaultValue={p.size}>
+                    <Options list={SIZES} />
+                  </NativeSelect>
+                </Field>
+                <Field label="Service">
+                  <NativeSelect name="service" defaultValue={p.service}>
+                    <Options list={SERVICES} />
+                  </NativeSelect>
+                </Field>
+                <Field label="Deal size">
+                  <NativeSelect name="deal_size" defaultValue={p.deal_size}>
+                    <Options list={DEAL_SIZES} />
+                  </NativeSelect>
+                </Field>
+                <Field label="Source">
+                  <Input name="source" defaultValue={p.source} required />
+                </Field>
+                <Field label="Next action">
+                  <Input type="date" name="next_action" defaultValue={p.next_action ?? ""} />
+                </Field>
+                <Field label="Ask" className="sm:col-span-2 lg:col-span-3">
+                  <Textarea name="ask" rows={3} defaultValue={p.ask} placeholder="what they asked for, in your words" />
+                </Field>
+                <Field label="Notes" className="sm:col-span-2 lg:col-span-3">
+                  <Textarea name="notes" rows={3} defaultValue={p.notes} />
+                </Field>
+                <div>
+                  <Button type="submit">Save</Button>
+                </div>
+              </fieldset>
+            </form>
+          </CardContent>
+        </Card>
 
-      <h3>Touches</h3>
-      {touches.length === 0 ? (
-        <p className="muted">No touch logged.</p>
-      ) : (
-        <div className="wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Channel</th>
-                <th>Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              {touches.map((t) => (
-                <tr key={t.id}>
-                  <td>{t.touched_on}</td>
-                  <td>{t.channel}</td>
-                  <td>{t.note}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      {canTouch && (
-        <form action={logTouch} className="inline">
-          <input type="hidden" name="id" value={p.id} />
-          <input type="date" name="touched_on" defaultValue={today()} required />
-          <select name="channel">
-            {CHANNELS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-          <input name="note" placeholder="what was said" />
-          <button>Log a touch</button>
-        </form>
-      )}
+        <Card>
+          <CardHeader>
+            <CardTitle>Touches</CardTitle>
+            <CardDescription>Three touches over three weeks; a reply stops the cadence.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            {touches.length === 0 ? (
+              <p className="text-sm text-muted-foreground">No touch logged.</p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead>Channel</TableHead>
+                    <TableHead>Note</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {touches.map((t) => (
+                    <TableRow key={t.id}>
+                      <TableCell className="tabular-nums">{t.touched_on}</TableCell>
+                      <TableCell>{t.channel}</TableCell>
+                      <TableCell>{t.note}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+            {canTouch && (
+              <form action={logTouch} className="flex flex-wrap items-end gap-3">
+                <input type="hidden" name="id" value={p.id} />
+                <Field label="Date">
+                  <Input type="date" name="touched_on" defaultValue={today()} required />
+                </Field>
+                <Field label="Channel">
+                  <NativeSelect name="channel">
+                    {CHANNELS.map((c) => (
+                      <NativeSelectOption key={c} value={c}>
+                        {c}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelect>
+                </Field>
+                <Field label="Note" className="min-w-48 flex-1">
+                  <Input name="note" placeholder="what was said" />
+                </Field>
+                <Button type="submit" variant="secondary">
+                  Log a touch
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
 
-      {moves.length > 0 && (
-        <>
-          <h3>Move</h3>
-          <form action={moveStatus} className="inline">
-            <input type="hidden" name="id" value={p.id} />
-            <select name="status">
-              {moves.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-            <input name="lost_reason" placeholder="the reason, when lost" />
-            <button>Move</button>
-          </form>
-          {p.status === "new" && p.touches === 0 && user.role !== "jamie" && (
-            <p className="muted">contacted needs one logged touch.</p>
-          )}
-        </>
-      )}
+        {moves.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Move</CardTitle>
+              <CardDescription>
+                {p.status === "new" && p.touches === 0 && user.role !== "jamie"
+                  ? "contacted needs one logged touch."
+                  : "lost needs its reason."}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form action={moveStatus} className="flex flex-wrap items-end gap-3">
+                <input type="hidden" name="id" value={p.id} />
+                <Field label="To">
+                  <NativeSelect name="status">
+                    {moves.map((s) => (
+                      <NativeSelectOption key={s} value={s}>
+                        {s}
+                      </NativeSelectOption>
+                    ))}
+                  </NativeSelect>
+                </Field>
+                <Field label="Reason, when lost" className="min-w-48 flex-1">
+                  <Input name="lost_reason" />
+                </Field>
+                <Button type="submit" variant="secondary">
+                  Move
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
 
-      {write && canGoReady(p) && (
-        <>
-          <h3>Ready for Jamie</h3>
-          <p className="muted">
-            Opens one PR on legible-consulting/house that creates <code>clients/{slug}/record.md</code> at stage
-            prospect from this row. Jamie merges; &quot;Check the PR&quot; then moves the row to handed off.
-          </p>
-          {missing.length > 0 && <p className="error">Fill first: {missing.join(", ")}.</p>}
-          <form action={readyForJamie} className="inline">
-            <input type="hidden" name="id" value={p.id} />
-            <button disabled={missing.length > 0}>Ready for Jamie</button>
-          </form>
-        </>
-      )}
+        {write && canGoReady(p) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Ready for Jamie</CardTitle>
+              <CardDescription>
+                Opens one PR on legible-consulting/house that creates{" "}
+                <code className="font-mono text-xs">clients/{slug}/record.md</code> at stage prospect from this row.
+                Jamie merges; &quot;Check the PR&quot; then moves the row to handed off.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-3">
+              {missing.length > 0 && <Flash error={`Fill first: ${missing.join(", ")}.`} />}
+              <form action={readyForJamie}>
+                <input type="hidden" name="id" value={p.id} />
+                <Button type="submit" disabled={missing.length > 0}>
+                  Ready for Jamie
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
 
-      {p.status === "ready for Jamie" && p.pr_url && (
-        <>
-          <h3>Handoff</h3>
-          <p className="muted">
-            Merged: the row moves to handed off and names its record. Closed without a merge: the row returns to{" "}
-            {p.previous_status ?? "replied"}.
-          </p>
-          <form action={checkHandoffPr} className="inline">
-            <input type="hidden" name="id" value={p.id} />
-            <button>Check the PR</button>
-          </form>
-        </>
-      )}
+        {p.status === "ready for Jamie" && p.pr_url && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Handoff</CardTitle>
+              <CardDescription>
+                Merged: the row moves to handed off and names its record. Closed without a merge: the row returns to{" "}
+                {p.previous_status ?? "replied"}.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form action={checkHandoffPr}>
+                <input type="hidden" name="id" value={p.id} />
+                <Button type="submit" variant="secondary">
+                  Check the PR
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </Shell>
   );
 }
