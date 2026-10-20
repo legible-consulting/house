@@ -27,7 +27,7 @@ Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a sess
 | 3 | Run `sweep-deadlines` once from the Actions tab | J | the first glance lands in `desk/glance/` |
 | 4 | Paste `core/setup/cloud.sh` into the `legible` environment again | J | the research intake routine needs the fetch tool |
 | 5 | Sign in to the desk at desk.jamienisbet.com (account contact@jamienisbet.com, password set in the Neon console), then say so and a session sets your role to `jamie` | J | the Astro desk is live; `NEON_AUTH_COOKIE_SECRET` was the missing variable, fixed 2026-10-20 |
-| 7 | The desk is being rebuilt in Next.js in its own session, as Jamie asked on 2026-10-19; the Astro desk stays live until that PR merges and `core/stack.md` records the stack | S | running |
+| 7 | The desk is rebuilt in Next.js with Tailwind, shadcn/ui and Motion, in its own session; it goes live today and the Astro desk dies with its merge. `core/stack.md` records the stack in the same PR (Jamie, 2026-10-20) | S, then J merges | running |
 | 6 | The pitch drafts session (three touches, three languages) is unblocked now that voice and services are on main | J starts it | optional, S1 extra |
 
 Landed on 2026-10-20: D1 (core files), D2 (contract status, tickets producer), E1 (S1 model), E2 (desk app), E3 (sweep), F4 (research intake). On 2026-10-19: F1, B1, B2, C1, F2, A1, vinecliff adopted, the F5 gates band.
