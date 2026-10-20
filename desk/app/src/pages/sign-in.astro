@@ -6,6 +6,7 @@ import { authFor, safeNext, sessionUser } from "../lib/auth";
 import { ensureUser } from "../lib/db";
 
 const next = safeNext(Astro.url.searchParams.get("next"));
+const reset = Astro.url.searchParams.get("reset") === "1";
 let error = "";
 let email = "";
 
@@ -31,10 +32,12 @@ if (Astro.request.method === "POST") {
 ---
 <Desk title="Sign in · Desk">
   <h2>Sign in</h2>
+  {reset && <p>Your password is changed. Sign in with the new one.</p>}
   {error && <p class="error">{error}</p>}
   <form method="post" class="grid" style="max-width: 24rem">
     <label>Email <input type="email" name="email" value={email} required autocomplete="username" /></label>
     <label>Password <input type="password" name="password" required autocomplete="current-password" /></label>
     <div><button>Sign in</button></div>
+    <p><a href="/forgot-password">Forgot your password?</a></p>
   </form>
 </Desk>

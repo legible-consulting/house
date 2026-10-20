@@ -2,9 +2,10 @@ import { defineMiddleware } from "astro:middleware";
 import { sessionUser } from "./lib/auth";
 import { userByEmail } from "./lib/db";
 
-// Every page needs a Neon Auth session except sign-in and sign-out. The role comes from the
-// users table; a signed-in user without a row is a client, who sees nothing yet.
-const OPEN = new Set(["/sign-in", "/sign-out"]);
+// Every page needs a Neon Auth session except sign-in, sign-out and the password reset pair.
+// The role comes from the users table; a signed-in user without a row is a client, who sees
+// nothing yet.
+const OPEN = new Set(["/sign-in", "/sign-out", "/forgot-password", "/reset-password"]);
 
 export const onRequest = defineMiddleware(async (ctx, next) => {
   ctx.locals.user = null;
