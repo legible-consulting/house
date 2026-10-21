@@ -1,14 +1,16 @@
 import { redirect } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
-import { clients, day } from "@/lib/house";
+import { clients, day, glance } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
 import { Shell } from "./_shell";
+import { Heading, Prose } from "./_ui";
 
-// Jamie's page: the clients table from clients/*/record.md (build time) and the pool's
-// count per status (request time). A salesman goes to the pool. A client sees nothing yet.
+// Jamie's page: the morning glance (desk/glance/<latest>.md, written by sweep-deadlines),
+// the pool's count per status (request time) and the clients table (clients/*/record.md,
+// build time). A salesman goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
@@ -16,17 +18,32 @@ export default async function Home() {
   if (!user) redirect("/sign-in");
   if (user.role === "salesman") redirect("/pool");
   if (user.role === "client") {
+    if (user.client) redirect(`/clients/${user.client}`);
     return (
-      <Shell user={user}>
-        <p className="text-muted-foreground">
-          Nothing here yet for clients. Your project&apos;s page comes in a later wave.
-        </p>
+      <Shell user={user} current="/">
+        <Heading
+          title="No client folder is linked to this account yet"
+          lede="A new account starts with the client role and no folder. Jamie links it to one (db/schema.sql); until then there is nothing to show."
+        />
       </Shell>
     );
   }
   const counts = await countsByStatus();
   return (
     <Shell user={user} current="/">
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>{glance?.title ?? "Morning glance"}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {glance ? (
+            <Prose markdown={glance.body.replace(/^# .*\n+/, "")} />
+          ) : (
+            <p className="text-sm text-muted-foreground">No glance yet. sweep-deadlines writes one every morning.</p>
+          )}
+        </CardContent>
+      </Card>
+
       <h2 className="mb-3 text-base font-medium">Pool</h2>
       <ul className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
         {STATUSES.map((s) => (
@@ -40,6 +57,7 @@ export default async function Home() {
           </li>
         ))}
       </ul>
+
       <h2 className="mb-3 text-base font-medium">Clients</h2>
       <Table>
         <TableHeader>
@@ -56,7 +74,11 @@ export default async function Home() {
         <TableBody>
           {clients.map((c) => (
             <TableRow key={c.slug}>
-              <TableCell className="font-medium">{c.name ?? c.slug}</TableCell>
+              <TableCell className="font-medium">
+                <a href={`/clients/${c.slug}`} className="hover:underline">
+                  {c.name ?? c.slug}
+                </a>
+              </TableCell>
               <TableCell>{c.stage ?? ""}</TableCell>
               <TableCell>{c.kind ?? ""}</TableCell>
               <TableCell>{c.tier ?? ""}</TableCell>

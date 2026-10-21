@@ -31,6 +31,7 @@ export interface DeskUser {
   name: string;
   role: Role;
   handle: string;
+  client: string | null; // the clients/<slug> a client-role user reads; null for the rest
 }
 
 export interface Touch {

@@ -8,8 +8,11 @@ import { STATUSES } from "./pool";
 // text (YYYY-MM-DD) so no time zone moves a day.
 const sql = () => neon(env("DATABASE_URL"));
 
+// `client` is read through to_jsonb so the query works before and after db/schema.sql adds
+// the column: a deploy never waits on the console, and a missing column reads as null.
 const userSelect = `
-  select id, email, name, role, coalesce(handle, split_part(email, '@', 1)) as handle
+  select id, email, name, role, coalesce(handle, split_part(email, '@', 1)) as handle,
+    to_jsonb(users.*) ->> 'client' as client
   from users`;
 
 export async function userByEmail(email: string): Promise<DeskUser | null> {

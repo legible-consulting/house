@@ -52,6 +52,26 @@ Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the 
 
 ## E · The desk as an app
 
+Landed 2026-10-21 (house PR, C3): the glance, the Friday review, the monthly close, the
+estate and the client's page in the app; the deal's stage on a handed-off pool row; the
+Healthchecks ping. What is left is Jamie's hand, then two pieces of code.
+
+- [ ] **E4** (J) Set the roles in the Neon console, project `legible-desk`, database
+  `neondb`: run `desk/app/db/schema.sql` once (it adds `users.client`), then the three upserts
+  at its foot with the real emails: Jamie as `jamie`; each salesman as `salesman` with a
+  handle; a client as `client` with the folder's slug. Check: the desk shows Jamie the
+  clients table, not the client placeholder.
+- [ ] **E5** (J) A Healthchecks check with a daily period and a one-hour grace, its ping URL
+  stored as the house's Actions secret `HEALTHCHECKS_URL`. Check: the next `sweep-deadlines`
+  run ends with the ping step green.
+- [ ] **E6** (J+S) The client repos' status in the desk (D2's release and check runs). Needs a
+  token that reads `k0d0minio/*`; `DESK_PAT` reaches the house only. Jamie decides the
+  token (a second fine-grained token on `k0d0minio`, or a GitHub App); a session adds the
+  read. Check: a client's page names the last release and whether `check.yml` is green.
+- [ ] **E7** (S, after the first invoice) `review/<week>.md` and `close/<month>.md` as files
+  the app's pages are rendered from, the way the glance is, so phone, Google and terminal
+  read the same words. Check: the Friday's review file is committed by a workflow.
+
 ## F · Writing and hygiene
 
 - [ ] **F3** (J) `library`: commit the ticked boxes in `07-infrastructure-setup.md`; delete

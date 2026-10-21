@@ -7,7 +7,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { allProspects } from "@/lib/db";
 import { flash, type Search } from "@/lib/guard";
+import { clientBySlug } from "@/lib/house";
 import { LANGUAGES, today } from "@/lib/pool";
+import { stageForSalesman } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
@@ -16,6 +18,8 @@ import { addProspect } from "./actions";
 
 // The pool: every row, for Jamie and every salesman (S1: one owner per row, all read it, so
 // two salesmen never approach one company). Add a row here; the rest is on the row's page.
+// A handed-off row names its deal's stage from the client folder: a salesman follows a deal
+// they sourced up to agreement and nothing after it; Jamie sees the stage itself.
 export const dynamic = "force-dynamic";
 
 export default async function Pool({ searchParams }: { searchParams: Search }) {
@@ -35,6 +39,7 @@ export default async function Pool({ searchParams }: { searchParams: Search }) {
             <TableHead>Company</TableHead>
             <TableHead>Contact</TableHead>
             <TableHead>Status</TableHead>
+            <TableHead>Deal</TableHead>
             <TableHead>Sourced by</TableHead>
             <TableHead>Next action</TableHead>
             <TableHead className="text-right">Touches</TableHead>
@@ -44,13 +49,15 @@ export default async function Pool({ searchParams }: { searchParams: Search }) {
         <TableBody>
           {rows.length === 0 && (
             <TableRow>
-              <TableCell colSpan={7} className="text-muted-foreground">
+              <TableCell colSpan={8} className="text-muted-foreground">
                 No prospects yet.
               </TableCell>
             </TableRow>
           )}
           {rows.map((p) => {
             const due = Boolean(p.next_action && p.next_action <= now && open(p.status));
+            const stage = p.record && p.slug ? clientBySlug(p.slug)?.stage : undefined;
+            const deal = user.role === "jamie" ? (stage ?? "") : stageForSalesman(stage);
             return (
               <TableRow key={p.id}>
                 <TableCell className="font-medium">
@@ -61,6 +68,15 @@ export default async function Pool({ searchParams }: { searchParams: Search }) {
                 <TableCell>{[p.contact_name, p.email || p.phone].filter(Boolean).join(" · ")}</TableCell>
                 <TableCell>
                   <StatusBadge status={p.status} />
+                </TableCell>
+                <TableCell className="text-muted-foreground">
+                  {deal && user.role === "jamie" && p.slug ? (
+                    <a href={`/clients/${p.slug}`} className="hover:underline">
+                      {deal}
+                    </a>
+                  ) : (
+                    deal
+                  )}
                 </TableCell>
                 <TableCell>{p.sourced_by}</TableCell>
                 <TableCell className={cn("tabular-nums", due && "font-medium text-destructive")}>

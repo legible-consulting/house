@@ -20,6 +20,6 @@ export async function currentUser(): Promise<DeskUser | null> {
   const s = await sessionUser();
   if (!s) return null;
   return (
-    (await userByEmail(s.email)) ?? { id: "", email: s.email, name: s.name, role: "client", handle: "" }
+    (await userByEmail(s.email)) ?? { id: "", email: s.email, name: s.name, role: "client", handle: "", client: null }
   );
 }
