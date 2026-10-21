@@ -3,10 +3,10 @@ slug: motoark
 name: MotoArk
 language: en-GB
 stage: prospect
-kind:
+kind: retainer
 opened: 2026-10-19
-next_action: Discovery call with Sam Cherry, Wed 21 Oct 10:30–11:00 Lisbon (13:30 GST)
-deadline: 2026-10-21
+next_action: Send the demo video (design to agentic build, test, DevOps) and the discounted 3-month retainer rate before the follow-up call, Fri 23 Oct 12:00 UAE (09:00 Lisbon)
+deadline: 2026-10-23
 salesman:
 commission:
   sourced_by:
