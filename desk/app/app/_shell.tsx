@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { built } from "@/lib/house";
 import type { DeskUser } from "@/lib/pool";
 import { cn } from "@/lib/utils";
 import { Fade } from "./_fade";
@@ -8,6 +9,22 @@ import { signOut } from "./sign-in/actions";
 
 // The desk's shell: one header with the links the role has, the user and sign-out, one
 // footer that names the build. Plain HTML forms post to server actions.
+const LINKS: Record<DeskUser["role"], [string, string][]> = {
+  jamie: [
+    ["/", "Desk"],
+    ["/review", "Review"],
+    ["/close", "Close"],
+    ["/estate", "Estate"],
+    ["/pool", "Pool"],
+    ["/sell", "Sell"],
+  ],
+  salesman: [
+    ["/pool", "Pool"],
+    ["/sell", "Sell"],
+  ],
+  client: [["/", "Desk"]],
+};
+
 export function Shell({
   user,
   current,
@@ -17,24 +34,12 @@ export function Shell({
   current?: string;
   children: ReactNode;
 }) {
-  const links: [string, string][] =
-    user?.role === "jamie"
-      ? [
-          ["/", "Clients"],
-          ["/pool", "Pool"],
-          ["/sell", "Sell"],
-        ]
-      : user?.role === "salesman"
-        ? [
-            ["/pool", "Pool"],
-            ["/sell", "Sell"],
-          ]
-        : [];
+  const links = user ? LINKS[user.role] : [];
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
       <header className="mb-6 flex flex-wrap items-center gap-4">
         <h1 className="text-lg font-semibold tracking-tight">Desk</h1>
-        <nav className="flex gap-3 text-sm">
+        <nav className="flex flex-wrap gap-3 text-sm">
           {links.map(([href, label]) => (
             <a
               key={href}
@@ -65,7 +70,7 @@ export function Shell({
         <Fade>{children}</Fade>
       </main>
       <footer className="mt-10 text-xs text-muted-foreground">
-        built {process.env.BUILD_TIME} from {process.env.BUILD_COMMIT}
+        built {process.env.BUILD_TIME} from {process.env.BUILD_COMMIT} · house read {built}
       </footer>
     </div>
   );

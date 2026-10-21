@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { type Pitch, sell } from "@/lib/house";
 import { render } from "@/lib/markdown";
 import { currentUser } from "@/lib/user";
-import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
+import { Prose } from "../_ui";
 
 // Sell: what S1 gives a salesman before the first touch, read-only (prospect.md, "The
 // salesman's deal"): the target profile, the cadence and every pitch draft, from
@@ -20,23 +20,6 @@ const touches = [...new Set(pitches.map((p) => p.touch))].sort((a, b) => a - b);
 
 // "Opener · en-GB" → "Opener"
 const angle = (p: Pitch) => p.title.split(" · ")[0];
-
-const prose = cn(
-  "text-sm leading-relaxed",
-  "[&_h1]:text-lg [&_h1]:font-semibold [&_h1]:tracking-tight",
-  "[&_h2]:mt-5 [&_h2]:mb-2 [&_h2]:text-base [&_h2]:font-medium",
-  "[&_h3]:mt-4 [&_h3]:mb-1 [&_h3]:font-medium",
-  "[&_p]:my-2 [&_ul]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:my-2 [&_ol]:list-decimal [&_ol]:pl-5",
-  "[&_a]:underline [&_strong]:font-medium",
-  "[&_code]:rounded [&_code]:bg-muted [&_code]:px-1 [&_code]:font-mono [&_code]:text-xs",
-  "[&_table]:my-3 [&_table]:w-full [&_th]:border-b [&_th]:py-1.5 [&_th]:pr-3 [&_th]:text-left [&_th]:font-medium",
-  "[&_td]:border-b [&_td]:py-1.5 [&_td]:pr-3 [&_td]:align-top",
-  "[&_blockquote]:border-l-2 [&_blockquote]:pl-3 [&_blockquote]:text-muted-foreground [&_hr]:my-4",
-);
-
-function Prose({ html }: { html: string }) {
-  return <div className={prose} dangerouslySetInnerHTML={{ __html: html }} />;
-}
 
 export default async function Sell() {
   const user = await currentUser();

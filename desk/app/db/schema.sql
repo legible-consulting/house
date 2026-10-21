@@ -12,6 +12,7 @@ create table if not exists users (
   name text not null default '',
   role text not null default 'client' check (role in ('jamie', 'salesman', 'client')),
   handle text unique,
+  client text,
   created_at timestamptz not null default now()
 );
 
@@ -62,6 +63,7 @@ create index if not exists touches_prospect_idx on touches (prospect);
 -- Migration of the 2026-10-19 tables to the S1 fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.
 alter table users add column if not exists handle text unique;
+alter table users add column if not exists client text;
 alter table prospects
   add column if not exists slug text unique,
   add column if not exists role text not null default '',
@@ -86,8 +88,15 @@ begin
   end if;
 end $$;
 
--- Roles and handles. A user row appears at first sign-in with role client and no handle.
--- Jamie promotes by email. A salesman's handle is their `sourced_by` in the pool and the
--- `salesman:` in clients/<slug>/record.md:
---   update users set role = 'jamie' where email = 'jamie@example.com';
---   update users set role = 'salesman', handle = 'ana' where email = 'salesman@example.com';
+-- Roles, handles and the client link. A user row appears at first sign-in with role client,
+-- no handle and no client, and the desk then shows that user nothing. Jamie sets the role by
+-- email, before or after the first sign-in (the upsert covers both). A salesman's handle is
+-- their `sourced_by` in the pool and the `salesman:` in clients/<slug>/record.md. A client's
+-- `client` is the slug of the folder they read (why: the folder is the record, and a client
+-- reads only their own · 2026-10-21):
+--   insert into users (email, role) values ('jamie@example.com', 'jamie')
+--     on conflict (email) do update set role = 'jamie';
+--   insert into users (email, role, handle) values ('salesman@example.com', 'salesman', 'ana')
+--     on conflict (email) do update set role = 'salesman', handle = 'ana';
+--   insert into users (email, role, client) values ('client@example.com', 'client', 'motoark')
+--     on conflict (email) do update set role = 'client', client = 'motoark';
