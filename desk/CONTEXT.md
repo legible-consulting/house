@@ -49,11 +49,30 @@ C3 produces the morning glance, the Friday review (every client's next action an
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT`, `ESTATE_PAT`,
   `ESTATE_PAT_SUSTENTUS` (`app/.env.example`). Kept out of module context by a path-scoped
   rule in `.claude/rules/`.
-  - `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` are fine-grained GitHub tokens, read-only, on the
-    client repos: repository permissions Contents read, Actions read and Metadata read. With
+  - `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` are fine-grained GitHub tokens on the client
+    repos: repository permissions Contents, Actions, Metadata, Commit statuses and Pull
+    requests read, and Pull requests write when Jamie ticks gates from the desk. Never
+    Checks: a fine-grained token has no such permission, so CI is read from the Actions runs
+    (why: one token type for the whole estate · 2026-10-21). With
     them the desk reads, per request, each record's `repo:`: the latest release (tag, date)
     and the latest completed `check.yml` run on the default branch (`app/lib/repos.ts`, kept
     five minutes per repo in the function's memory).
+  - `/work` (Jamie only) reads, per request, each record's `repo:` on its default branch: the
+    tickets in `.icm/intake/` (one tree read, then one blob read per open stub and breakdown,
+    kept by sha) and the pull requests (the two gates from the body's anchors, CI from the
+    head's Actions runs, the preview from the body's `- preview:` line or the Vercel commit
+    status, the merges of the last 14 days), in `app/lib/work.ts`, kept 60 seconds per repo
+    in the function's memory, a failed read 30 seconds. The data contract is the blueprint's
+    `.icm/intake/CONTEXT.md` and its pull request template. The page opens with what waits on
+    Jamie: a gate to tick on a pull request with green CI, or a merge. "Tick Spec approved"
+    and "Tick Ready to merge" write the box in the pull request's body with the owner's
+    token (`app/lib/gates.ts`), for the `jamie` role only. A token without Pull requests
+    write fails that tick with a sentence that names the variable, and Jamie ticks on GitHub.
+    The client's page shows Jamie the same card, and a client three lists in words: in
+    progress with the preview link, shipped in the last 14 days, queued. A client never sees
+    the gates, CI, triage or a failure reason (why: the desk is where Jamie reads what waits
+    on him, and a gate ticked from the phone is still Jamie's own tick; the house never
+    ticks one · 2026-10-21).
   - A fine-grained token reads one owner's repos, so each owner has its own token. A repo
     under an owner uses `ESTATE_PAT_<OWNER>` (the owner in capitals, other characters as
     `_`) when it is set, else `ESTATE_PAT`. Today: `ESTATE_PAT` on `k0d0minio`,
