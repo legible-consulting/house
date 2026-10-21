@@ -2,9 +2,11 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
+import { houseInFlight, startOf, WORKFLOWS } from "@/lib/github";
 import { flash, type Search } from "@/lib/guard";
 import { clients, day, glance } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
+import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
 import { Refresh } from "./_refresh";
 import { RepoCells } from "./_repo";
@@ -14,8 +16,9 @@ import { Flash, Heading, Prose } from "./_ui";
 // Jamie's page: the morning glance (desk/glance/<latest>.md, written by sweep-deadlines),
 // the refresh (three buttons that start the house's workflows on GitHub, lib/refresh.ts),
 // the pool's count per status (request time) and the clients table (clients/*/record.md,
-// build time; each repo's latest release and check.yml run per request, lib/repos.ts). A
-// salesman goes to the pool. A client goes to their client's page.
+// build time; each repo's latest release and check.yml run per request, lib/repos.ts). The
+// page re-reads itself while a house run, a check.yml run or a deploy is in flight
+// (app/_shell.tsx). A salesman goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
 
 export default async function Home({ searchParams }: { searchParams: Search }) {
@@ -36,9 +39,11 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   const counts = await countsByStatus();
   const { error, note } = await flash(searchParams);
   const q = await searchParams;
-  const started = typeof q.started === "string" ? q.started : "";
+  const start = startOf(q);
+  const repos = clients.flatMap((c) => (c.repo ? [c.repo] : []));
+  const live = [...WORKFLOWS.map((file) => houseInFlight(file, start)), ...repos.map(repoInFlight)];
   return (
-    <Shell user={user} current="/">
+    <Shell user={user} current="/" live={live}>
       <Flash error={error} note={note} />
       <Card className="mb-8">
         <CardHeader>
@@ -53,7 +58,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
         </CardContent>
       </Card>
 
-      <Refresh started={started} />
+      <Refresh start={start} />
 
       <h2 className="mb-3 text-base font-medium">Pool</h2>
       <ul className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">

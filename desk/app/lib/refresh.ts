@@ -7,11 +7,13 @@ import { currentUser } from "./user";
 
 // Jamie starts one of the house's workflows from the desk: the glance (sweep-deadlines.yml),
 // the Friday review or the monthly close (rhythms.yml). GitHub queues the run on main. A run
-// that changes a file commits to main, and Vercel redeploys the desk from that push a few
-// minutes later; nothing on the desk changes before that deploy, and the page says so
-// (app/_refresh.tsx). Only the jamie role may call it. The call needs Actions read and write
-// on DESK_PAT: the token unset, or GitHub refusing, the page shows the reason in words and
-// still renders.
+// that changes a file commits to main, and Vercel redeploys the desk from that push about a
+// minute later; nothing in the house on the desk changes before that deploy. The page
+// follows the run and the deploy: the redirect carries the run and the start's time
+// (?started=<key>&at=<seconds>), and the Refresh card shows the run's state while the page
+// re-reads itself (app/_refresh.tsx, app/_shell.tsx). Only the jamie role may call it. The
+// call needs Actions read and write on DESK_PAT: the token unset, or GitHub refusing, the
+// page shows the reason in words and still renders.
 
 const MONTH = /^\d{4}-(0[1-9]|1[0-2])$/;
 
@@ -32,5 +34,5 @@ export async function refresh(form: FormData): Promise<void> {
     await dispatchWorkflow(RUNS[k].file, inputs);
   });
   if (error) back("/", { error });
-  redirect(`/?started=${key}`);
+  redirect(`/?started=${key}&at=${Math.floor(Date.now() / 1000)}`);
 }

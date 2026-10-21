@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { flash, type Search } from "@/lib/guard";
 import { clients, type ClientRow } from "@/lib/house";
 import { currentUser } from "@/lib/user";
+import { workInFlight } from "@/lib/work";
 import { Shell } from "../_shell";
 import { Flash, Heading } from "../_ui";
 import { WaitingOnYou, WorkCard } from "../_work";
@@ -9,7 +10,8 @@ import { WaitingOnYou, WorkCard } from "../_work";
 // Jamie's work view: every client repo's tickets (.icm/intake/ on the default branch) and
 // pull requests, read per request (lib/work.ts). First what waits on Jamie across the
 // repos, with the gate to tick (lib/gates.ts). Then one card per client repo, in record
-// order. Each card streams in on its own.
+// order. Each card streams in on its own. The page re-reads itself while a pull request's
+// run or a deploy is in flight (app/_shell.tsx).
 export const dynamic = "force-dynamic";
 
 export default async function Work({ searchParams }: { searchParams: Search }) {
@@ -19,7 +21,7 @@ export default async function Work({ searchParams }: { searchParams: Search }) {
   const { error, note } = await flash(searchParams);
   const repos = clients.filter((c): c is ClientRow & { repo: string } => Boolean(c.repo));
   return (
-    <Shell user={user} current="/work">
+    <Shell user={user} current="/work" live={repos.map((c) => workInFlight(c.repo))}>
       <Heading
         title="Work"
         lede="The tickets in each repo's .icm/intake/ on its default branch and the open pull requests, read from GitHub now. A tick writes the pull request's body."
