@@ -25,12 +25,12 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 | Order | What | Whose hand | State |
 |---|---|---|---|
 | 1 | Remove the repo secret `VERCEL_TOKEN` and the variables `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` from the house: nothing reads them once `dashboard.yml` is gone | J | after the PR merges |
-| 1a | blueprint#6, C3: the `app` tier from the three adopted repos; `.icm/intake/` seeded in every tier, no `BUILD.md`. Merge, then tag `v0.3.0` | J | open, mergeable; walk test clean on `.icm/`, one-time conflict in `.claude/settings.json` at the next `copier update` |
+| 1a | Bring the three adopted repos and site-proof to `v0.3.0`: from the local lane, `conform.sh` through multi-gitter opens one PR per repo (D4's Process). Each PR carries one conflict region in `.claude/settings.json` to resolve by hand, once. Delete the stray `BUILD.md` in the same PR | J runs, S can resolve | drift 2026-10-21: four behind |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 | 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
 | 5 | Delete `BUILD.md` from vinecliff, agorasim and berceo, one commit each: the adoption added it by mistake, tickets live in `.icm/intake/` (lexicon: intake) | J | after C3's PR confirms the template |
 
-Next: C3 (the `app` tier from what the three adopted repos share, then `v0.3.0`); D3 after the MotoArk call on 21 Oct; A2 (the move) when you take an afternoon; A4, A5, B3, F3 as listed below.
+Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23). Next: D3 after the MotoArk call; A2 (the move) when you take an afternoon; A4, A5, B3, F3 as listed below. The platform tier is unwritten, so remi-ai and sustentus stay not adopted until it exists.
 
 ## A · Ownership and access
 
@@ -55,10 +55,6 @@ Next: C3 (the `app` tier from what the three adopted repos share, then `v0.3.0`)
   that remains. Check: the repo's Settings → Code security shows both on.
 
 ## C · Deliver now (D2)
-
-- [ ] **C3** (S, after C2) The `app` tier template is written from what the three adopted
-  repos share. Tag `v0.3.0`. Check: `copier copy` of tier `app` into a scratch folder
-  renders the same files.
 
 ## D · Core and sell
 
