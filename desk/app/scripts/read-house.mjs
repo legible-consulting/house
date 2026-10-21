@@ -8,6 +8,8 @@
 //   clients/_template/record.md     the handoff PR
 //   core/open-items.md              the one flat list the Friday review reads
 //   desk/glance/<latest>.md         the morning glance
+//   desk/review/<latest>.md         the Friday review file (rhythms.yml)
+//   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the estate drift report
 //   sell/01-prospecting/            the Sell page
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -95,6 +97,14 @@ const template = read(clientsDir, "_template", "record.md");
 const openItems = doc(join(house, "core"), "open-items.md");
 const glance = latest(join(house, "desk", "glance"), ".md");
 const estate = latest(join(house, "desk", "estate"), ".md", (d) => d.fm.kind === "estate");
+// The review and the close files: the page renders the file for its week or month when one
+// exists, and computes the same words live otherwise.
+const review = latest(join(house, "desk", "review"), ".md", (d) => d.fm.kind === "review");
+const closeDir = join(house, "desk", "close");
+const closes = files(closeDir, ".md")
+  .map((f) => doc(closeDir, f))
+  .filter((d) => d.fm.kind === "close")
+  .map(({ file, title, date, body }) => ({ file, title, date, body }));
 
 // S1's words for a salesman (sell/01-prospecting/prospect.md, "The salesman's deal"): the
 // target profile, the cadence and every pitch draft, in file order (touch, then language).
@@ -121,6 +131,8 @@ writeFileSync(
       template,
       openItems: { file: openItems.file, title: openItems.title, body: openItems.body },
       glance,
+      review,
+      closes,
       estate,
       sell,
     },
@@ -131,5 +143,6 @@ writeFileSync(
 const invoices = clients.reduce((n, c) => n + c.invoices.length, 0);
 console.log(
   `lib/house.json: ${clients.length} clients, ${invoices} invoices, ${sell.pitch.length} pitch drafts, ` +
-    `glance ${glance?.date ?? "none"}, estate ${estate?.date ?? "none"}`,
+    `glance ${glance?.date ?? "none"}, review ${review?.file ?? "none"}, ${closes.length} closes, ` +
+    `estate ${estate?.date ?? "none"}`,
 );

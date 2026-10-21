@@ -54,7 +54,11 @@ Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the 
 
 Landed 2026-10-21 (house PR, C3): the glance, the Friday review, the monthly close, the
 estate and the client's page in the app; the deal's stage on a handed-off pool row; the
-Healthchecks ping. What is left is Jamie's hand, then two pieces of code.
+Healthchecks ping. Landed 2026-10-21 (house PR, E6 and E7): E7, the review and the close as
+files: `rhythms.yml` commits `desk/review/<ISO week>.md` on Fridays and
+`desk/close/<YYYY-MM>.md` on the 1st with the app's own rules, and `/review` and `/close`
+render the file when one exists (`desk/CONTEXT.md`, Outputs). The code of E6 landed too.
+What is left is Jamie's hand.
 
 - [ ] **E4** (J) Set the roles in the Neon console, project `legible-desk`, database
   `neondb`: run `desk/app/db/schema.sql` once (it adds `users.client`), then the three upserts
@@ -64,13 +68,18 @@ Healthchecks ping. What is left is Jamie's hand, then two pieces of code.
 - [ ] **E5** (J) A Healthchecks check with a daily period and a one-hour grace, its ping URL
   stored as the house's Actions secret `HEALTHCHECKS_URL`. Check: the next `sweep-deadlines`
   run ends with the ping step green.
-- [ ] **E6** (J+S) The client repos' status in the desk (D2's release and check runs). Needs a
-  token that reads `k0d0minio/*`; `DESK_PAT` reaches the house only. Jamie decides the
-  token (a second fine-grained token on `k0d0minio`, or a GitHub App); a session adds the
-  read. Check: a client's page names the last release and whether `check.yml` is green.
-- [ ] **E7** (S, after the first invoice) `review/<week>.md` and `close/<month>.md` as files
-  the app's pages are rendered from, the way the glance is, so phone, Google and terminal
-  read the same words. Check: the Friday's review file is committed by a workflow.
+- [ ] **E6** (J) The client repos' status in the desk (D2's release and check runs). The code
+  is in: the clients table and the client's page read each repo's latest release and
+  `check.yml` run per request (`desk/app/lib/repos.ts`) with one token per owner, and each
+  cell says which variable is not set until the tokens exist. The tokens are what remains:
+  1. Create two fine-grained tokens, read-only, repository permissions Contents, Actions and
+     Metadata: one with resource owner `k0d0minio`, all repositories; one with resource owner
+     `sustentus`. A `sustentus` owner approves the second when the org asks for approval.
+  2. Store them as the Vercel project's variables `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS`
+     (Production and Preview), then redeploy.
+  3. Add the two names to `desk/app/.env.example`. A session cannot read that file.
+
+  Check: a client's page names the last release and whether `check.yml` is green.
 
 ## F · Writing and hygiene
 

@@ -3,18 +3,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
 import type { Search } from "@/lib/guard";
-import { clients } from "@/lib/house";
+import { clients, closeDocs } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { STAGES, close, money, pipeline, today } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
-import { Heading } from "../_ui";
+import { Heading, Prose } from "../_ui";
 
 // The monthly close (desk/CONTEXT.md): invoiced, paid and owed per client from
 // clients/*/quote/invoices/*.yaml; cost to run each engagement from quote/economics.yaml;
 // commission due (S1); pipeline and conversion from the pool and the folders. Jamie's page.
-// ?month=YYYY-MM picks the month; the default is the current one.
+// ?month=YYYY-MM picks the month; the default is the current one. When rhythms.yml has
+// committed desk/close/<that month>.md (on the 1st, for the month that ended), the page
+// renders that file and reads only the pool live; otherwise, or with ?live=1, it computes the
+// same rules live (lib/rhythms.ts).
 export const dynamic = "force-dynamic";
 
 const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
@@ -32,6 +35,8 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
   if (user.role !== "jamie") redirect("/");
   const q = await searchParams;
   const month = typeof q.month === "string" && MONTH_RE.test(q.month) ? q.month : today().slice(0, 7);
+  const live = q.live === "1";
+  const file = live ? undefined : closeDocs.find((d) => d.file === `${month}.md`);
   const counts = await countsByStatus();
   const rows = close(clients, month);
   const pipe = pipeline(counts, clients);
@@ -42,20 +47,74 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
     <TableCell className={cn("text-right tabular-nums", strong && "font-medium")}>{n ? money(n, cur) : "—"}</TableCell>
   );
 
+  const nav = (
+    <>
+      <a href={`/close?month=${shift(month, -1)}`} className="underline">
+        ← {label(shift(month, -1))}
+      </a>
+      {" · "}
+      <a href={`/close?month=${shift(month, 1)}`} className="underline">
+        {label(shift(month, 1))} →
+      </a>
+    </>
+  );
+  const pool = (
+    <Card>
+      <CardHeader>
+        <CardTitle>Pipeline · the pool</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {STATUSES.map((s) => (
+            <li key={s}>
+              <div className="text-xl font-semibold tabular-nums">{counts[s]}</div>
+              <div className="text-xs text-muted-foreground">{s}</div>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-sm text-muted-foreground">
+          {pipe.pool} prospects. Conversion, handed off against handed off plus lost:{" "}
+          {pipe.conversion === null ? "nothing decided yet" : `${Math.round(pipe.conversion * 100)}%`}.
+        </p>
+      </CardContent>
+    </Card>
+  );
+
+  if (file) {
+    return (
+      <Shell user={user} current="/close">
+        <Heading
+          title={`Monthly close · ${label(month)}`}
+          lede={
+            <>
+              {nav}. desk/close/{file.file}, written by rhythms.yml on {file.date}.{" "}
+              <a href={`/close?month=${month}&live=1`} className="underline">
+                The live view
+              </a>{" "}
+              reads the house as of the last push.
+            </>
+          }
+        />
+        <Card>
+          <CardContent>
+            <Prose markdown={file.body.replace(/^# .*\n+/, "")} />
+          </CardContent>
+        </Card>
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          {pool}
+          <p className="text-sm text-muted-foreground">The pool is not in the house: this card reads it live.</p>
+        </div>
+      </Shell>
+    );
+  }
+
   return (
     <Shell user={user} current="/close">
       <Heading
         title={`Monthly close · ${label(month)}`}
         lede={
           <>
-            <a href={`/close?month=${shift(month, -1)}`} className="underline">
-              ← {label(shift(month, -1))}
-            </a>
-            {" · "}
-            <a href={`/close?month=${shift(month, 1)}`} className="underline">
-              {label(shift(month, 1))} →
-            </a>
-            . Amounts exclude VAT. Owed is every invoice issued by the month&apos;s end and unpaid at it.
+            {nav}. Amounts exclude VAT. Owed is every invoice issued by the month&apos;s end and unpaid at it.
           </>
         }
       />
@@ -134,25 +193,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
       </p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Pipeline · the pool</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {STATUSES.map((s) => (
-                <li key={s}>
-                  <div className="text-xl font-semibold tabular-nums">{counts[s]}</div>
-                  <div className="text-xs text-muted-foreground">{s}</div>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-sm text-muted-foreground">
-              {pipe.pool} prospects. Conversion, handed off against handed off plus lost:{" "}
-              {pipe.conversion === null ? "nothing decided yet" : `${Math.round(pipe.conversion * 100)}%`}.
-            </p>
-          </CardContent>
-        </Card>
+        {pool}
         <Card>
           <CardHeader>
             <CardTitle>Pipeline · the folders</CardTitle>

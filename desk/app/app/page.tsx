@@ -5,12 +5,14 @@ import { countsByStatus } from "@/lib/db";
 import { clients, day, glance } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
+import { RepoCells } from "./_repo";
 import { Shell } from "./_shell";
 import { Heading, Prose } from "./_ui";
 
 // Jamie's page: the morning glance (desk/glance/<latest>.md, written by sweep-deadlines),
 // the pool's count per status (request time) and the clients table (clients/*/record.md,
-// build time). A salesman goes to the pool. A client goes to their client's page.
+// build time; each repo's latest release and check.yml run per request, lib/repos.ts). A
+// salesman goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
@@ -69,6 +71,8 @@ export default async function Home() {
             <TableHead>Next action</TableHead>
             <TableHead>Deadline</TableHead>
             <TableHead>Repo</TableHead>
+            <TableHead>Release</TableHead>
+            <TableHead>check.yml</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -85,6 +89,7 @@ export default async function Home() {
               <TableCell>{c.next_action ?? ""}</TableCell>
               <TableCell className="tabular-nums">{day(c.deadline)}</TableCell>
               <TableCell className="text-muted-foreground">{c.repo ?? ""}</TableCell>
+              <RepoCells repo={c.repo} jamie />
             </TableRow>
           ))}
         </TableBody>

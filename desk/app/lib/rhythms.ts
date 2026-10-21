@@ -2,7 +2,10 @@ import type { ClientRow, Invoice } from "./house";
 import type { Status } from "./pool";
 
 // The desk's rhythms as pure functions over the house (desk/CONTEXT.md): the Friday review
-// and the monthly close. The glance is a file the sweep writes; the page renders it.
+// and the monthly close. The pages use them live, and scripts/rhythms.mjs uses them to write
+// desk/review/ and desk/close/ (rhythms.yml), so one set of rules makes both. That script
+// loads this file through Node's type stripping: keep the syntax erasable (type-only
+// imports, no enum, no namespace). The glance is a file the sweep writes; the page renders it.
 
 // The order of the stage table in clients/CONTEXT.md.
 export const STAGES = [

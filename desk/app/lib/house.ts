@@ -70,6 +70,9 @@ export const clientSlugs = new Set(clients.map((c) => c.slug));
 export const openItems = data.openItems as Doc;
 export const glance = data.glance as unknown as Doc | null;
 export const estate = data.estate as unknown as Doc | null;
+// The latest desk/review/<ISO week>.md and every desk/close/<YYYY-MM>.md (rhythms.yml).
+export const reviewDoc = data.review as unknown as Doc | null;
+export const closeDocs = data.closes as unknown as Doc[];
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[] };
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);
