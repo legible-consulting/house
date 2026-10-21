@@ -50,15 +50,17 @@ C3 produces the morning glance, the Friday review (every client's next action an
   `ESTATE_PAT_SUSTENTUS` (`app/.env.example`). Kept out of module context by a path-scoped
   rule in `.claude/rules/`.
   - `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` are fine-grained GitHub tokens on the client
-    repos: repository permissions Contents, Actions, Metadata, Checks, Commit statuses and
-    Pull requests read, and Pull requests write when Jamie ticks gates from the desk. With
+    repos: repository permissions Contents, Actions, Metadata, Commit statuses and Pull
+    requests read, and Pull requests write when Jamie ticks gates from the desk. Never
+    Checks: a fine-grained token has no such permission, so CI is read from the Actions runs
+    (why: one token type for the whole estate · 2026-10-21). With
     them the desk reads, per request, each record's `repo:`: the latest release (tag, date)
     and the latest completed `check.yml` run on the default branch (`app/lib/repos.ts`, kept
     five minutes per repo in the function's memory).
   - `/work` (Jamie only) reads, per request, each record's `repo:` on its default branch: the
     tickets in `.icm/intake/` (one tree read, then one blob read per open stub and breakdown,
     kept by sha) and the pull requests (the two gates from the body's anchors, CI from the
-    head's check runs, the preview from the body's `- preview:` line or the Vercel commit
+    head's Actions runs, the preview from the body's `- preview:` line or the Vercel commit
     status, the merges of the last 14 days), in `app/lib/work.ts`, kept 60 seconds per repo
     in the function's memory, a failed read 30 seconds. The data contract is the blueprint's
     `.icm/intake/CONTEXT.md` and its pull request template. The page opens with what waits on

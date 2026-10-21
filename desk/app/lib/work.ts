@@ -4,13 +4,17 @@ import { ownerVariable, tokenFor, type Token } from "./repos";
 // `.icm/intake/` on the default branch and the pull requests. The data contract is the
 // blueprint's `.icm/intake/CONTEXT.md` and its pull request template. The token is the
 // owner's, as lib/repos.ts chooses it (ESTATE_PAT_<OWNER>, else ESTATE_PAT). It needs
-// Contents, Metadata and Pull requests read, plus Checks and Commit statuses read for the CI
+// Contents, Metadata and Pull requests read, plus Actions and Commit statuses read for the CI
 // word and the preview. Pull requests write lets Jamie tick a gate from the desk
-// (lib/gates.ts).
+// (lib/gates.ts). The CI word comes from the Actions runs on the head commit, not from the
+// Checks API: a fine-grained token has no Checks permission (GitHub's token UI offers none;
+// its docs list the Checks API among the gaps), and every repo's CI is check.yml, an Actions
+// workflow. Vercel's own check is not an Actions run; its preview arrives as a commit status
+// (why: one token type for the whole estate · 2026-10-21).
 //
 // Per repo: one recursive tree read filtered to `.icm/intake/`, one blob read per open stub
 // and breakdown (cached forever by sha, because a sha is its content), the open pull
-// requests with each head's check runs and commit statuses, and the pull requests merged in
+// requests with each head's Actions runs and commit statuses, and the pull requests merged in
 // the last 14 days. The whole read is kept 60 seconds per repo in the function's memory, a
 // failed read 30 seconds, and concurrent page views share the one read in flight. A failed
 // read returns `error` in words and empty lists, and the page still renders.
@@ -357,6 +361,8 @@ function branchSlugs(branch: string): string[] {
   return out;
 }
 
+// The CI word from the Actions runs on one commit: red if any run failed, pending while one
+// runs or has no verdict yet, green when every run concluded well, none without a run.
 function ciOf(runs: Record<string, unknown>[]): Ci {
   if (runs.length === 0) return "none";
   let pending = false;
@@ -400,11 +406,11 @@ async function prOf(token: Token, repo: string, raw: Record<string, unknown>): P
   const sha = str(head.sha);
   const body = str(raw.body);
   const [runs, status] = await Promise.all([
-    request(token, "GET", `/repos/${repo}/commits/${sha}/check-runs?per_page=100`),
+    request(token, "GET", `/repos/${repo}/actions/runs?head_sha=${sha}&per_page=100`),
     request(token, "GET", `/repos/${repo}/commits/${sha}/status`),
   ]);
   if (runs.status !== 200) {
-    throw new ReadFailed(`${token.name} cannot read the check runs of ${repo} (${runs.status}): it needs Checks read`);
+    throw new ReadFailed(`${token.name} cannot read the Actions runs of ${repo} (${runs.status}): it needs Actions read`);
   }
   if (status.status !== 200) {
     throw new ReadFailed(
@@ -420,7 +426,7 @@ async function prOf(token: Token, repo: string, raw: Record<string, unknown>): P
     ticketPath: ticketPathOf(body),
     stub: null,
     gates: { specApproved: gateOf(body, "spec-approved"), readyToMerge: gateOf(body, "ready-to-merge") },
-    ci: ciOf(list(obj(runs.body).check_runs)),
+    ci: ciOf(list(obj(runs.body).workflow_runs)),
     preview: previewOf(body) ?? vercelPreview(list(obj(status.body).statuses)),
     updatedAt: day(raw.updated_at),
   };
