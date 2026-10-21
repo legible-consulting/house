@@ -8,20 +8,21 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
 
 ## Inputs
 
-- The client repo only: its `CLAUDE.md`, `BUILD.md`, tier contracts and `ci.yml`. This folder is read once to learn the shape; a build session never attaches the house.
+- The client repo only: its `CLAUDE.md`, `.icm/` (the intake and the pipeline), tier contracts and `ci.yml`. This folder is read once to learn the shape; a build session never attaches the house.
 - The reusable workflows in `legible-consulting/.github`: `check-client.yml` and `release.yml`. `ci.yml` calls them; nothing is copied in.
 
 ## Process
 
-- Start cold from the client repo. Read `CLAUDE.md`, then `BUILD.md`. Take the first open
-  ticket. One ticket is one branch and one PR.
+- Start cold from the client repo. Read `CLAUDE.md`, then `.icm/intake/`. A ticket is a
+  stub at `<epic-slug>/<feature-slug>.md`, and its folder is its status: a stub outside
+  `_done/` is open. Take the next open stub. One ticket is one branch and one PR.
 - The loop:
   1. Branch from `main`. Name the branch after the ticket.
   2. Build the ticket. Commit in Conventional Commits form. Push.
-  3. Open the PR with `gh pr create`. The body names the ticket's line in `BUILD.md`. The PR
-     changes that line from `- [ ]` to `- [x]`. A ticket box is a status mark, not a gate.
-     The merge makes it true, and the merge is Jamie's (why: one PR carries the ticket and
-     its done-mark, so `BUILD.md` never says more than `main` · 2026-10-19).
+  3. Open the PR with `gh pr create`. The body names the ticket's path. The PR moves the
+     stub into `_done/` with `git mv`. A move is a status mark, not a gate. The merge makes
+     it true, and the merge is Jamie's (why: one PR carries the ticket and its move, so
+     `.icm/intake/` never says more than `main` · 2026-10-21).
   4. CI runs `check-client` and Vercel builds the preview. Read both from the PR. Never run
      them locally.
   5. A red check: fix, commit, push, read again.

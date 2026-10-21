@@ -28,6 +28,7 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 | 1a | blueprint#6, C3: the `app` tier from the three adopted repos; `.icm/intake/` seeded in every tier, no `BUILD.md`. Merge, then tag `v0.3.0` | J | open, mergeable; walk test clean on `.icm/`, one-time conflict in `.claude/settings.json` at the next `copier update` |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 | 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
+| 5 | Delete `BUILD.md` from vinecliff, agorasim and berceo, one commit each: the adoption added it by mistake, tickets live in `.icm/intake/` (lexicon: intake) | J | after C3's PR confirms the template |
 
 Next: C3 (the `app` tier from what the three adopted repos share, then `v0.3.0`); D3 after the MotoArk call on 21 Oct; A2 (the move) when you take an afternoon; A4, A5, B3, F3 as listed below.
 

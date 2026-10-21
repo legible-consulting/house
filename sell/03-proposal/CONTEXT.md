@@ -19,4 +19,4 @@ S3 produces the client-facing offer (problem, approach, scope, timeline) in the 
 ## Outputs
 
 - `clients/<slug>/proposal/proposal.md` (source) → PDF rendered in CI, Doc placed in Drive from the session, page read by the dashboard.
-- `clients/<slug>/tickets.md`: the ticket list derived from the proposal's scope, one line per ticket. D1 renders it into the client repo's `BUILD.md`.
+- The proposal's scope section is the ticket list. D1 cuts it into the client repo's `.icm/intake/<epic-slug>/` (why: tickets have one home, the client repo's intake; a second list in the house drifts · 2026-10-21).
