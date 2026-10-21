@@ -1,7 +1,8 @@
 # Hand-written stopgap until manifest.yml exists; then this file is generated (desk/CONTEXT.md).
-# Every repo in the org is here or it does not exist. tags: live (a client build, checked
+# Every client build and the proof render are here. tags: live (a client build, checked
 # against the blueprint tag), dormant (archived, nothing changes in it), proof (the
-# blueprint's own test render, checked as a live repo).
+# blueprint's own test render, checked as a live repo). Jamie's own projects on k0d0minio
+# that are not client builds are not estate and are not listed (2026-10-21).
 projects:
   berceo:
     path: ~/Desktop/Apps/projects/berceo
@@ -27,16 +28,6 @@ projects:
     path: ~/Desktop/Apps/projects/sustentus
     url: https://github.com/sustentus/sustentus.git
     tags: [live]
-
-  courseday:
-    path: ~/Desktop/Apps/projects/courseday
-    url: https://github.com/legible-consulting/courseday.git
-    tags: [dormant]
-
-  firedough:
-    path: ~/Desktop/Apps/projects/firedough
-    url: https://github.com/legible-consulting/firedough.git
-    tags: [dormant]
 
   site-proof:
     path: ~/Desktop/Apps/projects/site-proof
