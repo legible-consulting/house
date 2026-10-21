@@ -1,0 +1,127 @@
+# rhythms: the Friday review and the monthly close as files. It reads the house with the
+# desk's own reader (desk/app/scripts/read-house.mjs), writes desk/review/<ISO week>.md on
+# Fridays and desk/close/<YYYY-MM>.md on the 1st for the month that ended, with the app's own
+# rules (desk/app/scripts/rhythms.mjs imports lib/rhythms.ts), and commits the file to main.
+# It sends nothing and moves no stage. Not run on a PR: CI cannot test a scheduled push. The
+# desk job in check.yml runs the script on every push without a commit. Run it once by hand
+# (workflow_dispatch) after each change.
+name: rhythms
+
+on:
+  schedule:
+    # GitHub cron is UTC. 05:30 UTC is after the glance (05:00 UTC), and before 07:00 Lisbon
+    # in both seasons. GitHub can start a scheduled run late.
+    - cron: "30 5 * * 5" # Friday: the review
+    - cron: "30 5 1 * *" # the 1st: the close of the month that ended
+  workflow_dispatch:
+    inputs:
+      rhythm:
+        description: Which file to write
+        type: choice
+        options: [review, close]
+        default: review
+      month:
+        description: The month to close, YYYY-MM (close only; empty is the month that ended)
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rhythms
+  cancel-in-progress: false
+
+jobs:
+  write:
+    # The job pushes to main, so it runs on main only. A manual run from another branch skips.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # True on this job only, because the commit step pushes with this token. The jobs
+          # in check.yml set false.
+          persist-credentials: true
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: desk/app/package-lock.json
+      - name: Install
+        working-directory: desk/app
+        run: npm ci
+      - name: Choose the rhythm
+        id: pick
+        env:
+          EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+          INPUT_RHYTHM: ${{ inputs.rhythm }}
+          INPUT_MONTH: ${{ inputs.month }}
+        run: |
+          if [ "$EVENT" = workflow_dispatch ]; then
+            rhythm="$INPUT_RHYTHM"
+            month="$INPUT_MONTH"
+          elif [ "$SCHEDULE" = "30 5 1 * *" ]; then
+            rhythm=close
+            month=""
+          else
+            rhythm=review
+            month=""
+          fi
+          case "$rhythm" in review | close) ;; *) echo "::error::unknown rhythm '${rhythm}'"; exit 1 ;; esac
+          if [ -n "$month" ] && ! [[ "$month" =~ ^[0-9]{4}-(0[1-9]|1[0-2])$ ]]; then
+            echo "::error::month '${month}' is not YYYY-MM"; exit 1
+          fi
+          { echo "rhythm=${rhythm}"; echo "month=${month}"; } >> "$GITHUB_OUTPUT"
+      - name: Write the file
+        id: write
+        working-directory: desk/app
+        env:
+          RHYTHM: ${{ steps.pick.outputs.rhythm }}
+          MONTH: ${{ steps.pick.outputs.month }}
+        run: |
+          node scripts/read-house.mjs
+          if [ -n "$MONTH" ]; then
+            node scripts/rhythms.mjs "$RHYTHM" "$MONTH"
+          else
+            node scripts/rhythms.mjs "$RHYTHM"
+          fi
+      - name: Commit to main when the file changed
+        env:
+          RHYTHM: ${{ steps.pick.outputs.rhythm }}
+          NAME: ${{ steps.write.outputs.name }}
+        run: |
+          # The folder has the rhythm's name: desk/review or desk/close.
+          git add -A -- "desk/${RHYTHM}"
+          if git diff --cached --quiet; then
+            echo "The ${RHYTHM} did not change. No commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "${RHYTHM}: ${NAME}"
+          # Someone can push to main between the checkout and this push: rebase and try again.
+          pushed=0
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then pushed=1; break; fi
+            echo "Push ${attempt} failed. Rebase on main and try again."
+            git pull --rebase --quiet origin main
+          done
+          [ "$pushed" = 1 ] || { echo "::error::push to main failed three times"; exit 1; }
+      - name: Log the run on the dead-man's switch
+        # The same check as sweep-deadlines (desk/CONTEXT.md, Alerts), through its /log
+        # endpoint: the event shows in the check's log, and it does not count as the daily
+        # success ping. A success ping from this weekly run would hide a missed sweep on that
+        # day. A failed run reaches Jamie by GitHub's failed-run email. The secret unset, the
+        # step says so and passes.
+        env:
+          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
+          RHYTHM: ${{ steps.pick.outputs.rhythm }}
+          NAME: ${{ steps.write.outputs.name }}
+        run: |
+          if [ -z "$HEALTHCHECKS_URL" ]; then echo "HEALTHCHECKS_URL is not set. No ping."; exit 0; fi
+          curl -fsS -m 10 --retry 3 -o /dev/null --data-raw "rhythms: ${RHYTHM} ${NAME}" "${HEALTHCHECKS_URL%/}/log"

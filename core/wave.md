@@ -54,7 +54,11 @@ Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the 
 
 Landed 2026-10-21 (house PR, C3): the glance, the Friday review, the monthly close, the
 estate and the client's page in the app; the deal's stage on a handed-off pool row; the
-Healthchecks ping. What is left is Jamie's hand, then two pieces of code.
+Healthchecks ping. Landed 2026-10-21 (house PR, E6 and E7): E7, the review and the close as
+files: `rhythms.yml` commits `desk/review/<ISO week>.md` on Fridays and
+`desk/close/<YYYY-MM>.md` on the 1st with the app's own rules, and `/review` and `/close`
+render the file when one exists (`desk/CONTEXT.md`, Outputs). The code of E6 landed too.
+What is left is Jamie's hand.
 
 - [ ] **E4** (J) Set the roles in the Neon console, project `legible-desk`, database
   `neondb`: run `desk/app/db/schema.sql` once (it adds `users.client`), then the three upserts
@@ -64,13 +68,18 @@ Healthchecks ping. What is left is Jamie's hand, then two pieces of code.
 - [ ] **E5** (J) A Healthchecks check with a daily period and a one-hour grace, its ping URL
   stored as the house's Actions secret `HEALTHCHECKS_URL`. Check: the next `sweep-deadlines`
   run ends with the ping step green.
-- [ ] **E6** (J+S) The client repos' status in the desk (D2's release and check runs). Needs a
-  token that reads `k0d0minio/*`; `DESK_PAT` reaches the house only. Jamie decides the
-  token (a second fine-grained token on `k0d0minio`, or a GitHub App); a session adds the
-  read. Check: a client's page names the last release and whether `check.yml` is green.
-- [ ] **E7** (S, after the first invoice) `review/<week>.md` and `close/<month>.md` as files
-  the app's pages are rendered from, the way the glance is, so phone, Google and terminal
-  read the same words. Check: the Friday's review file is committed by a workflow.
+- [ ] **E6** (J) The client repos' status in the desk (D2's release and check runs). The code
+  is in: the clients table and the client's page read each repo's latest release and
+  `check.yml` run per request (`desk/app/lib/repos.ts`), and each cell says "ESTATE_PAT is
+  not set" until the token exists. The token is what remains:
+  1. Create a fine-grained token on `k0d0minio`, all repositories, read-only, repository
+     permissions Contents, Actions and Metadata.
+  2. Store it as the Vercel project's variable `ESTATE_PAT` (Production and Preview).
+  3. Add the name to `desk/app/.env.example`. A session cannot read that file.
+
+  One fine-grained token reads one owner, so `sustentus/sustentus` stays out of reach unless
+  the token reaches `sustentus` too. Check: a client's page names the last release and whether
+  `check.yml` is green.
 
 ## F · Writing and hygiene
 

@@ -5,14 +5,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { clientBySlug, day } from "@/lib/house";
 import { money } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
+import { RepoFacts } from "../../_repo";
 import { Shell } from "../../_shell";
 import { Heading, Prose } from "../../_ui";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
-// reads (proposal, quote, agreement, handover) and the invoices. Jamie reads every folder;
-// a client reads the one linked to their account (users.client); a salesman follows a deal
-// from the pool row instead and never lands here. Research, negotiation and economics are
-// internal and never on this page.
+// reads (proposal, quote, agreement, handover) and the invoices. The repo's latest release
+// and check.yml run are read per request (lib/repos.ts); the client sees those two facts and
+// nothing else from the repo. Jamie reads every folder; a client reads the one linked to
+// their account (users.client); a salesman follows a deal from the pool row instead and
+// never lands here. Research, negotiation and economics are internal and never on this page.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -78,6 +80,17 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
             </dl>
           </CardContent>
         </Card>
+
+        {c.repo && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Release and checks</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RepoFacts repo={c.repo} jamie={jamie} />
+            </CardContent>
+          </Card>
+        )}
 
         <Card>
           <CardHeader>

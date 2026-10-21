@@ -166,7 +166,9 @@ jobs:
   desk:
     # The desk app builds where it is pushed (CI is truth; never build locally). Only the
     # build: Vercel deploys it from main through the project's Git link. No variable is needed: every page renders
-    # per request, and the app reads its variables on the first request, not at build.
+    # per request, and the app reads its variables on the first request, not at build. Then
+    # the rhythms script writes the review and the close into the runner's temp folder, so a
+    # change that breaks rhythms.yml fails here first (rhythms.yml runs on main only).
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -184,3 +186,10 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Write the review and the close, no commit
+        run: |
+          node scripts/rhythms.mjs review --root "$RUNNER_TEMP"
+          node scripts/rhythms.mjs close --root "$RUNNER_TEMP"
+          for f in "$RUNNER_TEMP"/desk/review/*.md "$RUNNER_TEMP"/desk/close/*.md; do
+            { echo "### ${f#"$RUNNER_TEMP"/}"; echo; cat "$f"; echo; } >> "$GITHUB_STEP_SUMMARY"
+          done
