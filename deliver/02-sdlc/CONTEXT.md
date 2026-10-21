@@ -14,28 +14,34 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
 ## Process
 
 - Start cold from the client repo. Read `CLAUDE.md`, then `.icm/intake/CONTEXT.md`. That
-  contract is the blueprint's and carries the whole loop. This section says the same loop in
+  contract is the blueprint's and carries the whole loop. Two scripts beside it,
+  `.icm/scripts/new-run.sh` and `close-out.sh`, do the git and GitHub mechanics of one step
+  each and decide nothing (why: a script does the same thing every time and costs no model
+  turn · 2026-10-21). This section says the same loop in
   the house's words, so that the two never disagree (why: one home for the loop is the repo
   where the work is, and the house only routes · 2026-10-21).
 - A ticket is a stub at `<epic-slug>/<feature-slug>.md` or `triage/<slug>.md`. Its folder is
   its status: a stub outside `_done/` is open. Take the next open stub by sequence. One ticket
   is one branch and one pull request.
 - The loop:
-  1. Branch from `main`. Name the branch after the ticket.
-  2. Open the pull request first, as a draft, from `.github/pull_request_template.md`. The
-     two gates sit at the top of the body, anchored by `<!-- gate:spec-approved -->` and
-     `<!-- gate:ready-to-merge -->`. **Spec approved** is required for a `medium`, `high` or
-     `research` stub and for a stub that leaves a decision open: the session writes what it
-     will build and its questions, numbered, each with a default, and stops until Jamie ticks.
-     A `low` stub or a triage stub drops the line.
-  3. Build the ticket. Commit in Conventional Commits form. Push. The pull request moves the
-     stub into `_done/` with `git mv`. A move is a status mark, not a gate. The merge makes
-     it true (why: one pull request carries the ticket and its move, so `.icm/intake/` never
-     says more than `main` · 2026-10-21).
+  1. `.icm/scripts/new-run.sh <epic>/<slug>` cuts the branch from `main`, moves the stub
+     into `_done/`, pushes, and opens the draft pull request from
+     `.github/pull_request_template.md` with the ticket path and the acceptance criteria
+     filled in. The two gates sit at the top of the body, anchored by
+     `<!-- gate:spec-approved -->` and `<!-- gate:ready-to-merge -->`. The move is a status
+     mark, not a gate. The merge makes it true (why: one pull request carries the ticket and
+     its move, so `.icm/intake/` never says more than `main` · 2026-10-21).
+  2. **Spec approved** stays in the body for a `medium`, `high` or `research` stub and for a
+     stub that leaves a decision open: the session writes what it will build and its
+     questions, numbered, each with a default, and stops until Jamie ticks. A `low` stub or a
+     triage stub has no such gate.
+  3. Build the ticket. Commit in Conventional Commits form. Push.
   4. CI runs `check-client` and Vercel builds the preview. Read both from the pull request.
      Never run them locally. A red check: fix, commit, push, read again.
-  5. A green check and a preview: flip the pull request to ready, put the preview URL in the
-     body, and stop. The preview is the UAT environment. The client signs off on it there.
+  5. `.icm/scripts/close-out.sh` moves an epic with no open stub and no sibling pull request
+     into `.icm/intake/_done/`, on the branch. Then a green check and a preview: flip the pull
+     request to ready, put the preview URL in the body, and stop. The preview is the UAT
+     environment. The client signs off on it there.
   6. Jamie tests the preview, ticks **Ready to merge** and merges, on GitHub or from the desk.
      A session never merges and never ticks a gate (boundary).
   7. On the merge, release-please opens or updates the release pull request. Jamie merges it.
