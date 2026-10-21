@@ -24,8 +24,7 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1 | One deploy path for the desk. The Vercel project is linked to the house repo (root `desk/app`) and deploys `main` itself; `dashboard.yml` deploys the same commit minutes later and now fails on the doubled root path. Keep the Git link and delete the workflow, or disconnect the link and fix the workflow | J decides, S does | open |
-| 2 | Jamie's role: his row in the desk's `users` table is `client` after the first sign-in; one SQL update sets `jamie` | S, on Jamie's word | open |
+| 1 | Remove the repo secret `VERCEL_TOKEN` and the variables `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` from the house: nothing reads them once `dashboard.yml` is gone | J | after the PR merges |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 | 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
 
