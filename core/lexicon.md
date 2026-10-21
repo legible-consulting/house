@@ -8,11 +8,16 @@ here and a word in another file disagree, this file wins and the other file is f
 
 | Term | Is | Was | Visibility |
 |---|---|---|---|
-| **house** | the operating repo: core, client folders, module contracts, desk. Where the business runs. | `icm-workshop` | private, Jamie only |
+| **house** | the operating repo: core, client folders, module contracts, desk. Where the business runs. | `icm-workshop` | private, Jamie only; in the org, with no grant to any member |
 | **blueprint** | the public method: the copier template per tier, conventions, workshop kit. Every client build is rendered from it. | — | public |
 | **library** | read-only reference: Jake Van Clief's course, the ICM paper, research ledgers, and the design trail (`research/design-trail/`, the house's former `meta/`). | — | private |
 | **.github** | the org's front page and reusable CI. Name fixed by GitHub. | — | public |
-| **client repo** | one per build, `legible-consulting/<slug>`, rendered from the blueprint. | — | per tier |
+| **client repo** | one per build, `k0d0minio/<slug>`, under Jamie's own account, rendered from the blueprint. | `legible-consulting/<slug>` | per tier; Jamie owns it |
+
+The org `legible-consulting` holds the house, the blueprint, the library, `.github`, the proof
+repo and the projects Jamie shares with collaborators. Every client build is Jamie's own, under
+`k0d0minio` (why: the org is the method and the shared space; a collaborator who joins it must
+never see a client's code · 2026-10-21).
 
 Said aloud: "edit the core in the house", "render it from the blueprint", "that's library
 material, not house".

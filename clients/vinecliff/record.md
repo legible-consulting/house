@@ -11,7 +11,7 @@ salesman:
 commission:
   sourced_by:
   owed:
-repo: legible-consulting/vinecliff-vineyard
+repo: k0d0minio/vinecliff
 tier: app
 owner: jamie
 vercel_project:
