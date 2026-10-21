@@ -1,6 +1,13 @@
 // Every value comes from the deployment's environment (the Vercel project's variables).
 // Only the names live in git: see .env.example.
-export type EnvName = "DATABASE_URL" | "NEON_AUTH_BASE_URL" | "NEON_AUTH_COOKIE_SECRET" | "DESK_PAT" | "ESTATE_PAT";
+// ESTATE_PAT_<OWNER> is one read-only token per client repo owner (lib/repos.ts).
+export type EnvName =
+  | "DATABASE_URL"
+  | "NEON_AUTH_BASE_URL"
+  | "NEON_AUTH_COOKIE_SECRET"
+  | "DESK_PAT"
+  | "ESTATE_PAT"
+  | `ESTATE_PAT_${string}`;
 
 export function env(name: EnvName): string {
   const value = process.env[name];
@@ -8,7 +15,7 @@ export function env(name: EnvName): string {
   return value;
 }
 
-// A variable that only one cell needs (ESTATE_PAT): unset gives null, and the caller says so
+// A variable that only one cell needs (an ESTATE_PAT): unset gives null, and the caller says so
 // in that cell instead of failing the page.
 export function maybeEnv(name: EnvName): string | null {
   return process.env[name] || null;

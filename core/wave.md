@@ -70,16 +70,16 @@ What is left is Jamie's hand.
   run ends with the ping step green.
 - [ ] **E6** (J) The client repos' status in the desk (D2's release and check runs). The code
   is in: the clients table and the client's page read each repo's latest release and
-  `check.yml` run per request (`desk/app/lib/repos.ts`), and each cell says "ESTATE_PAT is
-  not set" until the token exists. The token is what remains:
-  1. Create a fine-grained token on `k0d0minio`, all repositories, read-only, repository
-     permissions Contents, Actions and Metadata.
-  2. Store it as the Vercel project's variable `ESTATE_PAT` (Production and Preview).
-  3. Add the name to `desk/app/.env.example`. A session cannot read that file.
+  `check.yml` run per request (`desk/app/lib/repos.ts`) with one token per owner, and each
+  cell says which variable is not set until the tokens exist. The tokens are what remains:
+  1. Create two fine-grained tokens, read-only, repository permissions Contents, Actions and
+     Metadata: one with resource owner `k0d0minio`, all repositories; one with resource owner
+     `sustentus`. A `sustentus` owner approves the second when the org asks for approval.
+  2. Store them as the Vercel project's variables `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS`
+     (Production and Preview), then redeploy.
+  3. Add the two names to `desk/app/.env.example`. A session cannot read that file.
 
-  One fine-grained token reads one owner, so `sustentus/sustentus` stays out of reach unless
-  the token reaches `sustentus` too. Check: a client's page names the last release and whether
-  `check.yml` is green.
+  Check: a client's page names the last release and whether `check.yml` is green.
 
 ## F · Writing and hygiene
 

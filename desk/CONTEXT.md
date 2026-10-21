@@ -46,16 +46,23 @@ C3 produces the morning glance, the Friday review (every client's next action an
   from `users.role`: `jamie`, `salesman`, `client`; a new account starts as `client` with
   no folder and sees nothing until Jamie sets the role in the console (the upserts are in
   `app/db/schema.sql`). Variables, names only, set on the Vercel project: `DATABASE_URL`,
-  `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT`, `ESTATE_PAT`
-  (`app/.env.example`). Kept out of module context by a path-scoped rule in `.claude/rules/`.
-  - `ESTATE_PAT` is a read-only GitHub token on the client repos, repository permissions
-    Contents read, Actions read and Metadata read. With it the desk reads, per request, each
-    record's `repo:`: the latest release (tag, date) and the latest completed `check.yml` run
-    on the default branch (`app/lib/repos.ts`, kept five minutes per repo in the function's
-    memory). A fine-grained token reads one owner's repos: one on `k0d0minio` does not reach
-    `sustentus/sustentus`, and that cell says so. Unset, or a repo out of reach, only that
-    cell says so in words, and the page renders (why: `DESK_PAT` reaches the house only and
-    stays so, and a missing token must not stop the desk · 2026-10-21).
+  `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT`, `ESTATE_PAT`,
+  `ESTATE_PAT_SUSTENTUS` (`app/.env.example`). Kept out of module context by a path-scoped
+  rule in `.claude/rules/`.
+  - `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` are fine-grained GitHub tokens, read-only, on the
+    client repos: repository permissions Contents read, Actions read and Metadata read. With
+    them the desk reads, per request, each record's `repo:`: the latest release (tag, date)
+    and the latest completed `check.yml` run on the default branch (`app/lib/repos.ts`, kept
+    five minutes per repo in the function's memory).
+  - A fine-grained token reads one owner's repos, so each owner has its own token. A repo
+    under an owner uses `ESTATE_PAT_<OWNER>` (the owner in capitals, other characters as
+    `_`) when it is set, else `ESTATE_PAT`. Today: `ESTATE_PAT` on `k0d0minio`,
+    `ESTATE_PAT_SUSTENTUS` on `sustentus`. A new client org needs one more variable and no
+    code (why: a fine-grained token cannot span owners, and a classic token would give write
+    to every private repo · 2026-10-21).
+  - A token unset, or a repo out of reach, fails only that cell, which says so in words. The
+    page renders (why: `DESK_PAT` reaches the house only and stays so, and a missing token
+    must not stop the desk · 2026-10-21).
   - The house is read once, at build (`app/scripts/read-house.mjs`): the records, the
     invoices, each client's economics and client-facing documents, `core/open-items.md`,
     the latest glance, the latest review, every close file and the latest drift report. The
