@@ -12,6 +12,7 @@ import { signOut } from "./sign-in/actions";
 const LINKS: Record<DeskUser["role"], [string, string][]> = {
   jamie: [
     ["/", "Desk"],
+    ["/work", "Work"],
     ["/review", "Review"],
     ["/close", "Close"],
     ["/estate", "Estate"],
