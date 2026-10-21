@@ -1,11 +1,12 @@
 import { maybeEnv } from "./env";
 
 // The client repos' status (D2's release and check runs), read per request over the GitHub
-// REST API: per repo, the latest release and the latest completed check.yml run on the
-// default branch. The tokens are fine-grained and read-only, with Contents read, Actions read
-// and Metadata read (desk/CONTEXT.md). A fine-grained token reads one owner's repos, so each
-// owner has its own variable: ESTATE_PAT_<OWNER> (owner in capitals, other characters as _,
-// e.g. ESTATE_PAT_SUSTENTUS), and ESTATE_PAT for k0d0minio and every owner without its own.
+// REST API: per repo, the latest release, the latest completed check.yml run on the default
+// branch, and the latest check.yml run of any status, which is the one in flight when one is.
+// The tokens are fine-grained and read-only, with Contents read, Actions read and Metadata
+// read (desk/CONTEXT.md). A fine-grained token reads one owner's repos, so each owner has its
+// own variable: ESTATE_PAT_<OWNER> (owner in capitals, other characters as _, e.g.
+// ESTATE_PAT_SUSTENTUS), and ESTATE_PAT for k0d0minio and every owner without its own.
 // DESK_PAT reaches the house only and stays as it is. When a token is unset or a repo is
 // unreachable, the status says so in words and the page still renders: a missing variable
 // fails only the cell.
@@ -14,8 +15,9 @@ import { maybeEnv } from "./env";
 // force-dynamic, where Next.js makes each fetch no-store by default, and the map does not
 // depend on how Next.js applies that rule to a fetch with an Authorization header. The map
 // lives as long as the warm function instance: one read per repo every five minutes at most,
-// and concurrent page views share the one read in flight. A failed read is kept one minute
-// only, so a new token takes effect soon. A cold instance reads again.
+// every 15 seconds while the latest run is queued or running, and concurrent page views
+// share the one read in flight. A failed read is kept one minute only, so a new token takes
+// effect soon. A cold instance reads again.
 
 export interface Release {
   tag: string;
@@ -23,14 +25,21 @@ export interface Release {
   url: string;
 }
 
-export interface CheckRun {
-  conclusion: string; // success, failure, cancelled, timed_out, …
-  date: string; // YYYY-MM-DD
+// One Actions run as the desk shows it. GitHub's status is queued, waiting, pending,
+// requested, in_progress or completed; the conclusion is set once completed (success,
+// failure, cancelled, timed_out, …). lib/github.ts and lib/work.ts read runs into the same
+// shape.
+export interface Run {
+  status: string;
+  conclusion: string | null;
+  created: string; // ISO time: when GitHub listed the run
+  started: string; // ISO time: run_started_at, else created_at
+  updated: string; // ISO time: the last change; the end, once completed
   url: string;
 }
 
 export type RepoStatus =
-  | { ok: true; release: Release | null; check: CheckRun | null; checkFile: boolean }
+  | { ok: true; release: Release | null; check: Run | null; latest: Run | null; checkFile: boolean }
   | { ok: false; reason: string };
 
 const API = "https://api.github.com";
@@ -38,6 +47,11 @@ const FRESH_MS = 5 * 60 * 1000;
 const FAILED_MS = 60 * 1000;
 const TIMEOUT_MS = 5000;
 const REPO_RE = /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/;
+
+// How long a read is kept while the run it shows is queued or running: the page re-reads
+// itself at the same pace (app/_shell.tsx). lib/github.ts keeps the house's runs by the
+// same rule.
+export const FLIGHT_MS = 15 * 1000;
 
 const cache = new Map<string, { at: number; ttl: number; value: Promise<RepoStatus> }>();
 
@@ -88,6 +102,25 @@ async function get(token: Token, path: string): Promise<{ status: number; body: 
 
 const day = (v: unknown): string => String(v ?? "").slice(0, 10);
 
+// A run from GitHub's shape.
+export const runOf = (raw: Record<string, unknown>): Run => ({
+  status: String(raw.status ?? "unknown"),
+  conclusion: raw.conclusion == null ? null : String(raw.conclusion),
+  created: String(raw.created_at ?? ""),
+  started: String(raw.run_started_at ?? raw.created_at ?? ""),
+  updated: String(raw.updated_at ?? raw.created_at ?? ""),
+  url: String(raw.html_url ?? ""),
+});
+
+// A run is in flight until it is completed: queued, waiting, in progress.
+export const inFlight = (run: Run | null): boolean => run !== null && run.status !== "completed";
+
+// The first run of a runs answer, else null.
+const firstRun = (body: Record<string, unknown>): Run | null => {
+  const raw = (body.workflow_runs as Record<string, unknown>[] | undefined)?.[0];
+  return raw ? runOf(raw) : null;
+};
+
 async function read(token: Token, repo: string): Promise<RepoStatus> {
   try {
     // The repo first: a 404 here means the repo does not exist or the token cannot see it.
@@ -100,10 +133,12 @@ async function read(token: Token, repo: string): Promise<RepoStatus> {
     }
     if (meta.status !== 200) return { ok: false, reason: `GitHub answered ${meta.status} for ${repo}` };
     const branch = encodeURIComponent(String(meta.body.default_branch ?? "main"));
+    const runsPath = `/repos/${repo}/actions/workflows/check.yml/runs?branch=${branch}&per_page=1`;
 
-    const [rel, runs] = await Promise.all([
+    const [rel, done, any] = await Promise.all([
       get(token, `/repos/${repo}/releases/latest`),
-      get(token, `/repos/${repo}/actions/workflows/check.yml/runs?branch=${branch}&status=completed&per_page=1`),
+      get(token, `${runsPath}&status=completed`),
+      get(token, runsPath),
     ]);
 
     let release: Release | null = null;
@@ -118,20 +153,14 @@ async function read(token: Token, repo: string): Promise<RepoStatus> {
     }
 
     // A 404 on the workflow means the repo has no .github/workflows/check.yml.
-    let check: CheckRun | null = null;
-    if (runs.status === 200) {
-      const run = (runs.body.workflow_runs as Record<string, unknown>[] | undefined)?.[0];
-      if (run) {
-        check = {
-          conclusion: String(run.conclusion ?? "unknown"),
-          date: day(run.updated_at ?? run.created_at),
-          url: String(run.html_url ?? ""),
-        };
+    for (const r of [done, any]) {
+      if (r.status !== 200 && r.status !== 404) {
+        return { ok: false, reason: `GitHub answered ${r.status} for the check.yml runs` };
       }
-    } else if (runs.status !== 404) {
-      return { ok: false, reason: `GitHub answered ${runs.status} for the check.yml runs` };
     }
-    return { ok: true, release, check, checkFile: runs.status !== 404 };
+    const check = done.status === 200 ? firstRun(done.body) : null;
+    const latest = any.status === 200 ? firstRun(any.body) : null;
+    return { ok: true, release, check, latest, checkFile: done.status !== 404 };
   } catch (e) {
     return { ok: false, reason: e instanceof Unreachable ? e.message : "GitHub read failed" };
   }
@@ -152,6 +181,12 @@ export function repoStatus(repo: string): Promise<RepoStatus> {
   cache.set(repo, entry);
   void value.then((s) => {
     if (!s.ok) entry.ttl = FAILED_MS;
+    else if (inFlight(s.latest)) entry.ttl = FLIGHT_MS;
   });
   return value;
 }
+
+// Whether the repo's latest check.yml run is queued or running: the page re-reads itself
+// while it is (app/_shell.tsx). A failed read is not in flight.
+export const repoInFlight = (repo: string): Promise<boolean> =>
+  repoStatus(repo).then((s) => s.ok && inFlight(s.latest));

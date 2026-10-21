@@ -1,4 +1,4 @@
-import { ownerVariable, tokenFor, type Token } from "./repos";
+import { inFlight, ownerVariable, runOf, tokenFor, type Run, type Token } from "./repos";
 
 // The work in each client repo, read per request over the GitHub REST API: the tickets in
 // `.icm/intake/` on the default branch and the pull requests. The data contract is the
@@ -17,7 +17,10 @@ import { ownerVariable, tokenFor, type Token } from "./repos";
 // requests with each head's Actions runs and commit statuses, and the pull requests merged in
 // the last 14 days. The whole read is kept 60 seconds per repo in the function's memory, a
 // failed read 30 seconds, and concurrent page views share the one read in flight. A failed
-// read returns `error` in words and empty lists, and the page still renders.
+// read returns `error` in words and empty lists, and the page still renders. Each read says
+// when it was made (`readAt`), so a list can say how old it is. A pull request whose CI is
+// pending because a run is queued or running is in flight, like a run (workInFlight); the
+// page re-reads itself while one is (app/_shell.tsx).
 
 export type StubState = "next" | "queued" | "blocked" | "running";
 
@@ -63,6 +66,7 @@ export interface Pr {
   stub: string | null; // the path of the open stub matched to it
   gates: { specApproved: GateState; readyToMerge: GateState };
   ci: Ci;
+  run: Run | null; // the head's Actions run the word comes from: the one in flight, else the newest
   preview: string | null;
   updatedAt: string; // YYYY-MM-DD
   waiting: Waiting | null;
@@ -83,6 +87,7 @@ export interface RepoWork {
   merged: Merged[];
   waitingOnJamie: Pr[];
   error: string | null;
+  readAt: number; // epoch ms: when this read was made
 }
 
 const API = "https://api.github.com";
@@ -378,6 +383,13 @@ function ciOf(runs: Record<string, unknown>[]): Ci {
   return pending ? "pending" : "green";
 }
 
+// The run the CI word comes from: the first one in flight, else the newest. GitHub lists
+// the runs newest first.
+const runFor = (runs: Record<string, unknown>[]): Run | null => {
+  const raw = runs.find((r) => r.status !== "completed") ?? runs[0];
+  return raw ? runOf(raw) : null;
+};
+
 // A Vercel preview arrives as a commit status with a target_url.
 const vercelPreview = (statuses: Record<string, unknown>[]): string | null => {
   const s = statuses.find((x) => str(x.context).startsWith("Vercel") && x.state === "success" && str(x.target_url));
@@ -405,13 +417,16 @@ async function prOf(token: Token, repo: string, raw: Record<string, unknown>): P
   const head = obj(raw.head);
   const sha = str(head.sha);
   const body = str(raw.body);
-  const [runs, status] = await Promise.all([
+  const [runsAnswer, status] = await Promise.all([
     request(token, "GET", `/repos/${repo}/actions/runs?head_sha=${sha}&per_page=100`),
     request(token, "GET", `/repos/${repo}/commits/${sha}/status`),
   ]);
-  if (runs.status !== 200) {
-    throw new ReadFailed(`${token.name} cannot read the Actions runs of ${repo} (${runs.status}): it needs Actions read`);
+  if (runsAnswer.status !== 200) {
+    throw new ReadFailed(
+      `${token.name} cannot read the Actions runs of ${repo} (${runsAnswer.status}): it needs Actions read`,
+    );
   }
+  const runs = list(obj(runsAnswer.body).workflow_runs);
   if (status.status !== 200) {
     throw new ReadFailed(
       `${token.name} cannot read the commit statuses of ${repo} (${status.status}): it needs Commit statuses read`,
@@ -426,7 +441,8 @@ async function prOf(token: Token, repo: string, raw: Record<string, unknown>): P
     ticketPath: ticketPathOf(body),
     stub: null,
     gates: { specApproved: gateOf(body, "spec-approved"), readyToMerge: gateOf(body, "ready-to-merge") },
-    ci: ciOf(list(obj(runs.body).workflow_runs)),
+    ci: ciOf(runs),
+    run: runFor(runs),
     preview: previewOf(body) ?? vercelPreview(list(obj(status.body).statuses)),
     updatedAt: day(raw.updated_at),
   };
@@ -454,8 +470,8 @@ function matchStub(pr: Omit<Pr, "waiting">, body: string, stubs: Stub[]): Stub |
 
 // --- The read -----------------------------------------------------------------------------
 
-async function read(token: Token, repo: string): Promise<RepoWork> {
-  const empty: RepoWork = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], error: null };
+async function read(token: Token, repo: string, readAt: number): Promise<RepoWork> {
+  const empty: RepoWork = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], error: null, readAt };
   try {
     // The repo first: a 404 here means the repo does not exist or the token cannot see it.
     const meta = await request(token, "GET", `/repos/${repo}`);
@@ -525,7 +541,7 @@ async function read(token: Token, repo: string): Promise<RepoWork> {
       .filter((p) => p.merged_at && Date.parse(str(p.merged_at)) >= since)
       .map((p) => ({ number: Number(p.number), title: str(p.title), url: str(p.html_url), mergedAt: day(p.merged_at) }));
 
-    return { repo, epics, triage, prs, merged, waitingOnJamie: prs.filter((p) => p.waiting), error: null };
+    return { repo, epics, triage, prs, merged, waitingOnJamie: prs.filter((p) => p.waiting), error: null, readAt };
   } catch (e) {
     return { ...empty, error: e instanceof ReadFailed ? e.message : "GitHub read failed" };
   }
@@ -533,13 +549,13 @@ async function read(token: Token, repo: string): Promise<RepoWork> {
 
 // One repo's work, from the cache when it is fresh. `repo` is the record's `repo:` field.
 export function repoWork(repo: string): Promise<RepoWork> {
-  const empty = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [] };
+  const now = Date.now();
+  const empty = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], readAt: now };
   const t = tokenOrReason(repo);
   if ("reason" in t) return Promise.resolve({ ...empty, error: t.reason });
-  const now = Date.now();
   const hit = cache.get(repo);
   if (hit && now - hit.at < hit.ttl) return hit.value;
-  const value = read(t.token, repo);
+  const value = read(t.token, repo, now);
   const entry = { at: now, ttl: FRESH_MS, value };
   cache.set(repo, entry);
   void value.then((w) => {
@@ -552,3 +568,9 @@ export function repoWork(repo: string): Promise<RepoWork> {
 export function dropWork(repo: string): void {
   cache.delete(repo);
 }
+
+// Whether a pull request of the repo has a run queued or running on its head. A completed
+// run without a verdict (action_required, stale) waits for a hand and is not in flight. A
+// failed read is not in flight.
+export const workInFlight = (repo: string): Promise<boolean> =>
+  repoWork(repo).then((w) => w.prs.some((p) => inFlight(p.run)));

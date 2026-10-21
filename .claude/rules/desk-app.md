@@ -15,6 +15,8 @@ writes Jamie's tick on a gate.
 `DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
 (`lib/github.ts`), Actions for the refresh that starts `sweep-deadlines.yml` and
 `rhythms.yml` on `main` by `workflow_dispatch` (`lib/refresh.ts`).
+`lib/github.ts` also reads the house workflows' latest run and the distance from the build's
+commit to `main`.
 `scripts/rhythms.mjs` writes the review and close files with the rules in `lib/rhythms.ts`.
 Do not run
 `npm run build`, `dev` or `test` here: `check.yml` builds it on every push, and Vercel deploys

@@ -5,13 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { tickGate } from "@/lib/gates";
 import { clients, type ClientRow } from "@/lib/house";
+import { inFlight, type Run } from "@/lib/repos";
 import { repoWork, type Ci, type Epic, type GateName, type GateState, type Pr, type RepoWork, type Stub } from "@/lib/work";
+import { ReadAgo, stateWord } from "./_repo";
 
 // The work in a client repo (lib/work.ts): the pull requests with their gates, CI and
 // preview, the epics with their stubs, the triage and what shipped. Each repo streams in
 // behind a Suspense boundary, so one slow repo never holds the page. Jamie gets the links,
 // the gates and the reason when a read fails. A client gets three lists in words: in
 // progress with the preview link, shipped, queued. Never the gates, CI, triage or a reason.
+// Each of Jamie's lists says when it was read; the CI word of a pull request links its run
+// and, while the run is queued or running, says so with the time.
 
 const LABEL: Record<GateName, string> = { "spec-approved": "Spec approved", "ready-to-merge": "Ready to merge" };
 const withRepo = clients.filter((c): c is ClientRow & { repo: string } => Boolean(c.repo));
@@ -37,7 +41,10 @@ const ciTone: Record<Ci, "secondary" | "destructive" | "outline"> = {
   pending: "outline",
   none: "outline",
 };
-const CiBadge = ({ ci }: { ci: Ci }) => <Badge variant={ciTone[ci]}>{ci === "none" ? "no CI" : ci}</Badge>;
+const CiBadge = ({ ci, run }: { ci: Ci; run: Run | null }) => {
+  const text = ci === "none" ? "no CI" : run && inFlight(run) ? stateWord(run) : ci;
+  return <Badge variant={ciTone[ci]}>{run?.url ? link(run.url, text) : text}</Badge>;
+};
 
 const Muted = ({ children }: { children: ReactNode }) => (
   <span className="text-xs text-muted-foreground">{children}</span>
@@ -48,49 +55,65 @@ const Muted = ({ children }: { children: ReactNode }) => (
 async function WaitingRows() {
   const reads = await Promise.all(withRepo.map(async (c) => ({ c, w: await repoWork(c.repo) })));
   const rows = reads.flatMap(({ c, w }) => w.waitingOnJamie.map((p) => ({ c, p })));
-  if (rows.length === 0) return <p className="text-sm text-muted-foreground">Nothing waits on you.</p>;
+  const oldest = Math.min(...reads.map(({ w }) => w.readAt));
+  const ago = reads.length > 0 && (
+    <p className="mt-1">
+      <ReadAgo at={oldest} />
+    </p>
+  );
+  if (rows.length === 0) {
+    return (
+      <>
+        <p className="text-sm text-muted-foreground">Nothing waits on you.</p>
+        {ago}
+      </>
+    );
+  }
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Client</TableHead>
-          <TableHead>Pull request</TableHead>
-          <TableHead>Next act</TableHead>
-          <TableHead>CI</TableHead>
-          <TableHead>Preview</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {rows.map(({ c, p }) => (
-          <TableRow key={`${c.slug}#${p.number}`}>
-            <TableCell className="font-medium">
-              <a href={`/clients/${c.slug}`} className="hover:underline">
-                {c.name ?? c.slug}
-              </a>
-            </TableCell>
-            <TableCell className="whitespace-normal">
-              {link(p.url, `#${p.number} ${p.title}`)}
-              {p.draft && <Muted> · draft</Muted>}
-            </TableCell>
-            <TableCell>
-              {p.waiting === "merge" ? (
-                link(p.url, "Merge on GitHub")
-              ) : p.waiting ? (
-                <form action={tickGate.bind(null, c.repo, p.number, p.waiting)}>
-                  <Button type="submit" size="sm">
-                    Tick {LABEL[p.waiting]}
-                  </Button>
-                </form>
-              ) : null}
-            </TableCell>
-            <TableCell>
-              <CiBadge ci={p.ci} />
-            </TableCell>
-            <TableCell>{p.preview ? link(p.preview, "Preview") : <Muted>no preview</Muted>}</TableCell>
+    <>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Client</TableHead>
+            <TableHead>Pull request</TableHead>
+            <TableHead>Next act</TableHead>
+            <TableHead>CI</TableHead>
+            <TableHead>Preview</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {rows.map(({ c, p }) => (
+            <TableRow key={`${c.slug}#${p.number}`}>
+              <TableCell className="font-medium">
+                <a href={`/clients/${c.slug}`} className="hover:underline">
+                  {c.name ?? c.slug}
+                </a>
+              </TableCell>
+              <TableCell className="whitespace-normal">
+                {link(p.url, `#${p.number} ${p.title}`)}
+                {p.draft && <Muted> · draft</Muted>}
+              </TableCell>
+              <TableCell>
+                {p.waiting === "merge" ? (
+                  link(p.url, "Merge on GitHub")
+                ) : p.waiting ? (
+                  <form action={tickGate.bind(null, c.repo, p.number, p.waiting)}>
+                    <Button type="submit" size="sm">
+                      Tick {LABEL[p.waiting]}
+                    </Button>
+                  </form>
+                ) : null}
+              </TableCell>
+              <TableCell>
+                <CiBadge ci={p.ci} run={p.run} />
+              </TableCell>
+              <TableCell>{p.preview ? link(p.preview, "Preview") : <Muted>no preview</Muted>}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {ago}
+    </>
   );
 }
 
@@ -137,7 +160,7 @@ function PrTable({ prs }: { prs: Pr[] }) {
               </span>
             </TableCell>
             <TableCell>
-              <CiBadge ci={p.ci} />
+              <CiBadge ci={p.ci} run={p.run} />
             </TableCell>
             <TableCell>{p.preview ? link(p.preview, "Preview") : <Muted>none</Muted>}</TableCell>
             <TableCell className="whitespace-normal">
@@ -203,7 +226,9 @@ function Sections({ w }: { w: RepoWork }) {
   return (
     <div className="grid gap-5">
       <section>
-        <h3 className="mb-2 text-sm font-medium">Pull requests</h3>
+        <h3 className="mb-2 flex flex-wrap items-baseline gap-2 text-sm font-medium">
+          Pull requests <ReadAgo at={w.readAt} />
+        </h3>
         <PrTable prs={w.prs} />
       </section>
       <section>
@@ -252,7 +277,13 @@ function Sections({ w }: { w: RepoWork }) {
 
 async function Body({ repo }: { repo: string }) {
   const w = await repoWork(repo);
-  if (w.error) return <p className="text-sm text-muted-foreground">{w.error}</p>;
+  if (w.error) {
+    return (
+      <p className="text-sm text-muted-foreground">
+        {w.error} · <ReadAgo at={w.readAt} />
+      </p>
+    );
+  }
   return <Sections w={w} />;
 }
 
