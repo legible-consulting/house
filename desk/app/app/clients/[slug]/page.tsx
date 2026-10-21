@@ -8,13 +8,17 @@ import { currentUser } from "@/lib/user";
 import { RepoFacts } from "../../_repo";
 import { Shell } from "../../_shell";
 import { Heading, Prose } from "../../_ui";
+import { ClientWork, WorkBody } from "../../_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
 // reads (proposal, quote, agreement, handover) and the invoices. The repo's latest release
 // and check.yml run are read per request (lib/repos.ts); the client sees those two facts and
-// nothing else from the repo. Jamie reads every folder; a client reads the one linked to
-// their account (users.client); a salesman follows a deal from the pool row instead and
-// never lands here. Research, negotiation and economics are internal and never on this page.
+// nothing else from the repo's status. The work (the tickets and the pull requests,
+// lib/work.ts) is the same card as /work for Jamie, and three lists in words for the client:
+// in progress with the preview link, shipped, queued. Jamie reads every folder; a client
+// reads the one linked to their account (users.client); a salesman follows a deal from the
+// pool row instead and never lands here. Research, negotiation and economics are internal
+// and never on this page.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -89,6 +93,15 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
             <CardContent>
               <RepoFacts repo={c.repo} jamie={jamie} />
             </CardContent>
+          </Card>
+        )}
+
+        {c.repo && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Work</CardTitle>
+            </CardHeader>
+            <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
           </Card>
         )}
 

@@ -43,7 +43,7 @@ const cache = new Map<string, { at: number; ttl: number; value: Promise<RepoStat
 
 class Unreachable extends Error {}
 
-interface Token {
+export interface Token {
   name: string; // the variable that holds it
   value: string;
 }
@@ -52,7 +52,9 @@ interface Token {
 export const ownerVariable = (owner: string) =>
   `ESTATE_PAT_${owner.toUpperCase().replace(/[^A-Z0-9]/g, "_")}` as const;
 
-function tokenFor(owner: string): Token | null {
+// The token for a repo owner. lib/work.ts reads the tickets and the pull requests with the
+// same token.
+export function tokenFor(owner: string): Token | null {
   for (const name of [ownerVariable(owner), "ESTATE_PAT"] as const) {
     const value = maybeEnv(name);
     if (value) return { name, value };
