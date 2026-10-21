@@ -1,10 +1,13 @@
 import { env } from "./env";
 import type { Prospect } from "./pool";
 
-// "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
-// at stage prospect. The commit carries the desk's identity; the PR is opened by the account
-// that owns DESK_PAT (a fine-grained token: this repo, Contents and Pull requests). The
-// folder is the record from the merge on; "Check the PR" moves the row to handed off.
+// The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
+// only: Contents, Pull requests and Actions, read and write). Two uses:
+// - "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
+//   at stage prospect. The commit carries the desk's identity; the PR is opened by the account
+//   that owns DESK_PAT. The folder is the record from the merge on; "Check the PR" moves the
+//   row to handed off.
+// - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 
 const REPO = "legible-consulting/house";
 const COMMITTER = { name: "desk", email: "desk@users.noreply.github.com" };
@@ -98,6 +101,43 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
   });
   if (pr.status !== 201) fail("open PR", pr);
   return pr.body.html_url as string;
+}
+
+// The three runs Jamie starts from the desk, each a workflow_dispatch on main. The glance is
+// sweep-deadlines.yml; the Friday review and the monthly close are rhythms.yml with its
+// `rhythm` input, and the close takes an optional `month` (YYYY-MM).
+export type WorkflowFile = "sweep-deadlines.yml" | "rhythms.yml";
+export type RunKey = "glance" | "review" | "close";
+
+export const RUNS: Record<RunKey, { label: string; file: WorkflowFile; inputs: Record<string, string> }> = {
+  glance: { label: "Glance", file: "sweep-deadlines.yml", inputs: {} },
+  review: { label: "Friday review", file: "rhythms.yml", inputs: { rhythm: "review" } },
+  close: { label: "Monthly close", file: "rhythms.yml", inputs: { rhythm: "close" } },
+};
+
+export const isRunKey = (v: unknown): v is RunKey => typeof v === "string" && Object.hasOwn(RUNS, v);
+
+// The workflow's runs page on GitHub, where Jamie follows a run.
+export const runsUrl = (file: WorkflowFile) => `https://github.com/${REPO}/actions/workflows/${file}`;
+
+// Start one run of a house workflow on main. GitHub answers 204 and queues the run: the run
+// itself commits to main when its file changed, and Vercel redeploys the desk from that
+// push. The call needs Actions write on DESK_PAT. GitHub answers 403 when the token has no
+// Actions write, and 404 when the token cannot see the workflow at all; both say so here in
+// words, with GitHub's own message.
+export async function dispatchWorkflow(file: WorkflowFile, inputs: Record<string, string> = {}): Promise<void> {
+  const r = await gh("POST", `/actions/workflows/${file}/dispatches`, {
+    ref: "main",
+    ...(Object.keys(inputs).length ? { inputs } : {}),
+  });
+  if (r.status === 204) return;
+  if (r.status === 403 || r.status === 404) {
+    const msg = typeof r.body.message === "string" ? r.body.message : "no message";
+    throw new Error(
+      `DESK_PAT cannot start ${file} (${r.status}: ${msg}). Give it Actions read and write on ${REPO}, then redeploy the desk.`,
+    );
+  }
+  fail(`start ${file}`, r);
 }
 
 // The handoff PR's state: open, merged, or closed without a merge.

@@ -2,20 +2,23 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
+import { flash, type Search } from "@/lib/guard";
 import { clients, day, glance } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
+import { Refresh } from "./_refresh";
 import { RepoCells } from "./_repo";
 import { Shell } from "./_shell";
-import { Heading, Prose } from "./_ui";
+import { Flash, Heading, Prose } from "./_ui";
 
 // Jamie's page: the morning glance (desk/glance/<latest>.md, written by sweep-deadlines),
+// the refresh (three buttons that start the house's workflows on GitHub, lib/refresh.ts),
 // the pool's count per status (request time) and the clients table (clients/*/record.md,
 // build time; each repo's latest release and check.yml run per request, lib/repos.ts). A
 // salesman goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Search }) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
   if (user.role === "salesman") redirect("/pool");
@@ -31,8 +34,12 @@ export default async function Home() {
     );
   }
   const counts = await countsByStatus();
+  const { error, note } = await flash(searchParams);
+  const q = await searchParams;
+  const started = typeof q.started === "string" ? q.started : "";
   return (
     <Shell user={user} current="/">
+      <Flash error={error} note={note} />
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>{glance?.title ?? "Morning glance"}</CardTitle>
@@ -45,6 +52,8 @@ export default async function Home() {
           )}
         </CardContent>
       </Card>
+
+      <Refresh started={started} />
 
       <h2 className="mb-3 text-base font-medium">Pool</h2>
       <ul className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">

@@ -49,6 +49,14 @@ C3 produces the morning glance, the Friday review (every client's next action an
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT`, `ESTATE_PAT`,
   `ESTATE_PAT_SUSTENTUS` (`app/.env.example`). Kept out of module context by a path-scoped
   rule in `.claude/rules/`.
+  - `DESK_PAT` is a fine-grained GitHub token on the house only (resource owner
+    `legible-consulting`, repository `house`): repository permissions Contents and Pull
+    requests, read and write, for the pool handoff's branch, commit and PR
+    (`app/lib/github.ts`), and Actions, read and write, for the refresh's
+    `workflow_dispatch` (`app/lib/refresh.ts`). It reaches no other repo, and the client
+    repos have their own tokens below (why: everything the desk writes to the house, a PR
+    or a run on `main`, passes `check.yml` and Jamie's merge or GitHub's failed-run mail; a
+    token on one repo cannot touch a client's · 2026-10-21).
   - `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` are fine-grained GitHub tokens, read-only, on the
     client repos: repository permissions Contents read, Actions read and Metadata read. With
     them the desk reads, per request, each record's `repo:`: the latest release (tag, date)
@@ -79,6 +87,19 @@ C3 produces the morning glance, the Friday review (every client's next action an
     latest drift report) and every client's page (`/clients/<slug>`). `/review` and `/close`
     render the committed file for the current week or the month shown when one exists, and
     compute the same rules live otherwise or with `?live=1`.
+  - The refresh, on the desk under the glance (Jamie only, `app/lib/refresh.ts`): three
+    buttons, Glance, Friday review and Monthly close (with an optional month, `YYYY-MM`),
+    each a `workflow_dispatch` on `main` of `sweep-deadlines.yml` or `rhythms.yml` through
+    the GitHub API with `DESK_PAT`. The page then says the run has started, links the
+    workflow's runs on GitHub, and says the desk shows the result after the next deploy:
+    a run that changes a file commits to `main`, and Vercel redeploys the desk from that
+    push, a few minutes later; a run that changes nothing makes no commit and no deploy.
+    `DESK_PAT` unset, or GitHub refusing (403: the token has no Actions write), the page
+    shows the reason in GitHub's words and still renders (why: the schedules run once a
+    day or once a week, and a record edited at the desk's hour should not wait for the
+    next one; the buttons start the same jobs the schedules start, on `main`, so the file
+    and its rules stay the workflows' and a session never writes a glance by hand ·
+    2026-10-21).
   - A salesman's pages: the pool and Sell, and on a handed-off row the deal's stage up to
     `agreement` and nothing after it (S1).
   - A client's page: `/clients/<slug>` for the one folder `users.client` names: where it
@@ -86,9 +107,11 @@ C3 produces the morning glance, the Friday review (every client's next action an
     and no reason when the read fails), the invoices, and the documents the client reads
     (`proposal/proposal.md`, `quote/quote.md`, `agreement/*.md`, `handover/*.md`).
     Research, negotiation and economics never reach it.
-- Alerts: GitHub's failed-run email; Healthchecks as the dead-man's switch, pinged by
-  `sweep-deadlines.yml` at the end of every run through the secret `HEALTHCHECKS_URL` (a
-  day without a ping reaches Jamie by Healthchecks' mail; the secret unset, the step passes
-  and says so). `rhythms.yml` logs each run on the same check through its `/log` endpoint,
-  which is not a success ping (why: a weekly success ping would hide a missed sweep on that
-  day · 2026-10-21).
+- Alerts: GitHub's failed-run email, and Jamie's own eyes: a glance missing from the desk,
+  or an old one, is the sign that a run did not happen, and the refresh starts it by hand.
+  Healthchecks is not in use: no check exists and the secret `HEALTHCHECKS_URL` is unset.
+  The ping step stays in `sweep-deadlines.yml` and the `/log` step in `rhythms.yml`; with
+  the secret unset each says so and passes, and the day the secret is set they work again
+  without a code change (why: a dead-man's switch is one more service with its own account
+  for one daily signal that the desk already shows; the step stays because it costs
+  nothing and keeps the option · 2026-10-21).
