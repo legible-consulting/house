@@ -27,6 +27,7 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 | 1 | Remove the repo secret `VERCEL_TOKEN` and the variables `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` from the house: nothing reads them once `dashboard.yml` is gone | J | after the PR merges |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 | 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
+| 5 | Delete `BUILD.md` from vinecliff, agorasim and berceo, one commit each: the adoption added it by mistake, tickets live in `.icm/intake/` (lexicon: intake) | J | after C3's PR confirms the template |
 
 Next: C3 (the `app` tier from what the three adopted repos share, then `v0.3.0`); D3 after the MotoArk call on 21 Oct; A2 (the move) when you take an afternoon; A4, A5, B3, F3 as listed below.
 
