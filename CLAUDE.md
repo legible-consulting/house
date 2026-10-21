@@ -71,5 +71,5 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - `legible-consulting/blueprint` — public: the copier template per tier, conventions, the
   workshop kit.
 - `legible-consulting/.github` — the org's front page and the reusable client CI workflows.
-- `legible-consulting/<client-slug>` — one per build; the client folder's `repo:` field
-  points at it.
+- `k0d0minio/<client-slug>` — one per build, under Jamie's own account; the client folder's
+  `repo:` field points at it.

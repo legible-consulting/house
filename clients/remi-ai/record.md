@@ -11,7 +11,7 @@ salesman:
 commission:
   sourced_by:
   owed:
-repo: legible-consulting/remi-ai
+repo: k0d0minio/remi-ai
 tier: platform
 owner: jamie
 vercel_project:

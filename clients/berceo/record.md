@@ -11,7 +11,7 @@ salesman:
 commission:
   sourced_by:
   owed:
-repo: legible-consulting/berceo
+repo: k0d0minio/berceo
 tier: app
 owner: jamie
 vercel_project:

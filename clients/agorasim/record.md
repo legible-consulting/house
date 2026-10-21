@@ -11,7 +11,7 @@ salesman:
 commission:
   sourced_by:
   owed:
-repo: legible-consulting/agorasim
+repo: k0d0minio/agorasim
 tier: app
 owner: jamie
 vercel_project:

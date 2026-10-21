@@ -6,22 +6,22 @@
 projects:
   berceo:
     path: ~/Desktop/Apps/projects/berceo
-    url: https://github.com/legible-consulting/berceo.git
+    url: https://github.com/k0d0minio/berceo.git
     tags: [live]
 
   vinecliff:
     path: ~/Desktop/Apps/projects/vinecliff
-    url: https://github.com/legible-consulting/vinecliff-vineyard.git
+    url: https://github.com/k0d0minio/vinecliff.git
     tags: [live]
 
   agorasim:
     path: ~/Desktop/Apps/projects/agorasim
-    url: https://github.com/legible-consulting/agorasim.git
+    url: https://github.com/k0d0minio/agorasim.git
     tags: [live]
 
   remi-ai:
     path: ~/Desktop/Apps/projects/remi-ai
-    url: https://github.com/legible-consulting/remi-ai.git
+    url: https://github.com/k0d0minio/remi-ai.git
     tags: [live]
 
   sustentus:

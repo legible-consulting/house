@@ -28,7 +28,7 @@ D4 produces a report that every live repo matches its tier's template and carrie
   the like) are listed in the report, not removed: whether one is still used is Jamie's call.
 - From the local lane, Jamie's own `gh` login: `bash deliver/04-conformance/drift.sh` writes the
   report, then per drifted repo
-  `GITHUB_TOKEN="$(gh auth token)" multi-gitter run "$PWD/deliver/04-conformance/conform.sh" -R legible-consulting/<repo> -B conformance/blueprint -m "chore: conform to the blueprint"`
+  `GITHUB_TOKEN="$(gh auth token)" multi-gitter run "$PWD/deliver/04-conformance/conform.sh" -R k0d0minio/<repo> -B conformance/blueprint -m "chore: conform to the blueprint"`
   opens the PR. Opening a PR is remote, so the run is Jamie's hand; the merge is the gate.
 
 ## Outputs
