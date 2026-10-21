@@ -24,7 +24,6 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1 | Remove the repo secret `VERCEL_TOKEN` and the variables `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` from the house: nothing reads them once `dashboard.yml` is gone | J | after the PR merges |
 | 1a | Bring the three adopted repos and site-proof to `v0.3.0`: from the local lane, `conform.sh` through multi-gitter opens one PR per repo (D4's Process). Each PR carries one conflict region in `.claude/settings.json` to resolve by hand, once. Delete the stray `BUILD.md` in the same PR | J runs, S can resolve | drift 2026-10-21: four behind |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 | 4 | Archive courseday and firedough, or give them a record and `live` | J | drift report says not archived |
