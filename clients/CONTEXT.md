@@ -7,6 +7,7 @@ holds:
   - "*/outreach/*.md"
   - "*/proposal/*.md"
   - "*/quote/*.md"
+  - "*/quote/economics.yaml"
   - "*/quote/invoices/*.yaml"
   - "*/agreement/*.md"
   - "*/kickoff/*.md"

@@ -24,12 +24,10 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1a | Bring the three adopted repos and site-proof to `v0.3.0`: from the local lane, `conform.sh` through multi-gitter opens one PR per repo (D4's Process). Each PR carries one conflict region in `.claude/settings.json` to resolve by hand, once. Delete the stray `BUILD.md` in the same PR | J runs, S can resolve | drift 2026-10-21: four behind |
+| 1a | Merge the three `copier update` PRs to `v0.3.0`: vinecliff#26, agorasim and berceo (links in chat). site-proof follows when the proof repo is next touched | J | open |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
-| 4 | Archive courseday and firedough on `k0d0minio`, or give them a record and `live` | J | still not archived after the move |
-| 5 | Delete `BUILD.md` from vinecliff, agorasim and berceo, one commit each: the adoption added it by mistake, tickets live in `.icm/intake/` (lexicon: intake) | J | after C3's PR confirms the template |
 
-Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23). Landed 2026-10-21: A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects) and A3 (the pointers). Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. The platform tier is unwritten, so remi-ai and sustentus stay not adopted until it exists.
+Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. The platform tier is unwritten, so remi-ai and sustentus stay not adopted until it exists.
 
 ## A · Ownership and access
 
