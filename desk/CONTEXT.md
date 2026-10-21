@@ -97,6 +97,25 @@ C3 produces the morning glance, the Friday review (every client's next action an
     shows the house as of the last push to `main`, and a page never reads the repo (why: a
     deployed function has no checkout; a push is the one way a fact reaches the desk ·
     2026-10-21).
+  - The desk says how fresh each part is. The footer names the build's commit and time
+    (`BUILD_COMMIT` from `VERCEL_GIT_COMMIT_SHA` on Vercel, from `GITHUB_SHA` in
+    `check.yml`) and the distance from that commit to `main`: up to date, or the commits
+    ahead with their messages (one compare read with `DESK_PAT`, kept 30 seconds). The desk,
+    the refresh and each client's row show the latest run of `sweep-deadlines.yml`,
+    `rhythms.yml` and the repo's `check.yml`, any status, with its link: queued, running, or
+    done with its conclusion (kept 15 seconds while queued or running, 5 minutes when done).
+    The pull requests of each client repo are in the same picture: `/work` and the Work card
+    read them per request with the owner's token (the `/work` bullet: 60 seconds), each list
+    says when it was read, and a tick from the desk writes the box in the pull request's body
+    and forgets that repo's read, so the next view shows the tick. A pull request whose CI is
+    pending is in flight, like a run. A page re-reads itself every 15 seconds while anything
+    it shows is in flight, and stops when nothing is. The house itself stays read at build
+    (why: a push deploys in about half a minute, so the house is at most a minute behind
+    `main`; what the desk lacked was the sign of its own age and of a run's state, both
+    reads it already makes elsewhere per request, with the tokens it has; the pull requests
+    are where Jamie's own acts land, so a tick shows on the next view and a pending CI is the
+    wait he reads; a per-request read of the house waits for the day a deploy is the
+    bottleneck · 2026-10-21).
   - Jamie's pages: the desk (the glance, the pool's counts, the clients table with each
     repo's latest release and `check.yml` result), the Friday review (`/review`: every
     client's next action and deadline, the open items), the monthly close
