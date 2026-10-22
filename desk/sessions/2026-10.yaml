@@ -1,10 +1,11 @@
-# Written 2026-10-22 by desk/app/scripts/sessions.mjs from the Claude Code transcripts on this
-# machine. Hours are active time: the gaps between a session's turns, capped at 30 minutes.
+# Written 2026-10-22 by desk/app/scripts/sessions.mjs from the Claude Code transcripts on this machine.
+# Hours are active time: the gaps between a session's turns, capped at 30 minutes.
 # Cost is the plan's price shared by tokens. The monthly close reads it (desk/CONTEXT.md).
 month: 2026-10
 written: 2026-10-22
+ledger: false
 plan: 180
-tokens: 2928128441
+tokens: 2935178587
 clients:
   agorasim:
     sessions: 3
@@ -33,6 +34,6 @@ clients:
     cost: 1
 other:
   sessions: 72
-  hours: 73.1
-  tokens: 2330522899
+  hours: 73.2
+  tokens: 2337573045
   cost: 143

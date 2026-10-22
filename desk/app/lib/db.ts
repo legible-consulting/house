@@ -145,6 +145,47 @@ export async function setHandedOff(id: string, record: string): Promise<void> {
   `;
 }
 
+// --- The session ledger (app/api/sessions/route.ts) ---------------------------------------
+
+// One Claude Code session as the hook reports it: counts and names, never content.
+export interface SessionRow {
+  id: string;
+  repo: string; // owner/name from the origin remote, or ""
+  cwd: string;
+  host: string;
+  started: string; // ISO time
+  ended: string;
+  active_ms: number;
+  tokens: number;
+  turns: number;
+}
+
+// The hook posts after every turn: the row is brought up to date, and the first start and
+// the last end are kept.
+export async function upsertSession(r: SessionRow): Promise<void> {
+  await sql()`
+    insert into sessions (id, repo, cwd, host, started, ended, active_ms, tokens, turns, updated_at)
+    values (${r.id}, ${r.repo}, ${r.cwd}, ${r.host}, ${r.started}, ${r.ended}, ${r.active_ms}, ${r.tokens},
+      ${r.turns}, now())
+    on conflict (id) do update set
+      repo = excluded.repo, cwd = excluded.cwd, host = excluded.host,
+      started = least(sessions.started, excluded.started), ended = greatest(sessions.ended, excluded.ended),
+      active_ms = excluded.active_ms, tokens = excluded.tokens, turns = excluded.turns, updated_at = now()
+  `;
+}
+
+// The sessions that started in a month, Lisbon time, as the hook reported them.
+export async function sessionsOfMonth(month: string): Promise<SessionRow[]> {
+  return (await sql().query(
+    `select id, repo, cwd, host, started::text as started, ended::text as ended,
+       active_ms::int as active_ms, tokens::int as tokens, turns
+     from sessions
+     where to_char(started at time zone 'Europe/Lisbon', 'YYYY-MM') = $1
+     order by started`,
+    [month],
+  )) as SessionRow[];
+}
+
 // The PR was closed without a merge: back to where the row was, so a new handoff can open.
 export async function revertReady(id: string): Promise<void> {
   await sql()`

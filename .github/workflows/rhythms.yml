@@ -3,9 +3,12 @@
 # morning and desk/close/<YYYY-MM>.md on the 1st for the month that ended, with the app's own
 # rules (desk/app/scripts/rhythms.mjs imports lib/rhythms.ts), and commits the file to main.
 # The desk computes the same words live on every request; the file is the day's record for
-# the phone, Google and the terminal. It sends nothing and moves no stage. Not run on a PR:
-# CI cannot test a scheduled push. The desk job in check.yml runs the script on every push
-# without a commit. Run it once by hand (workflow_dispatch) after each change.
+# the phone, Google and the terminal. Each run also measures the month's sessions from the
+# desk's ledger into desk/sessions/<YYYY-MM>.yaml when the DESK_SESSIONS_TOKEN secret is set:
+# the current month with the glance, the month that ended with the close. It sends nothing
+# and moves no stage. Not run on a PR: CI cannot test a scheduled push. The desk job in
+# check.yml runs the rhythms script on every push without a commit. Run it once by hand
+# (workflow_dispatch) after each change.
 name: rhythms
 
 on:
@@ -92,13 +95,24 @@ jobs:
           else
             node scripts/rhythms.mjs "$RHYTHM"
           fi
-      - name: Commit to main when the file changed
+      - name: Measure the month's sessions from the ledger
+        if: env.DESK_SESSIONS_TOKEN != ''
+        working-directory: desk/app
+        env:
+          DESK_SESSIONS_TOKEN: ${{ secrets.DESK_SESSIONS_TOKEN }}
+          RHYTHM: ${{ steps.pick.outputs.rhythm }}
+          NAME: ${{ steps.write.outputs.name }}
+        run: |
+          # The glance measures the month it is in; the close measures the month it closed.
+          if [ "$RHYTHM" = close ]; then month="$NAME"; else month="${NAME%-*}"; fi
+          node scripts/sessions.mjs "$month" --ledger
+      - name: Commit to main when a file changed
         env:
           RHYTHM: ${{ steps.pick.outputs.rhythm }}
           NAME: ${{ steps.write.outputs.name }}
         run: |
-          # The folder has the rhythm's name: desk/glance or desk/close.
-          git add -A -- "desk/${RHYTHM}"
+          # The folder has the rhythm's name: desk/glance or desk/close. The sessions follow.
+          git add -A -- "desk/${RHYTHM}" desk/sessions
           if git diff --cached --quiet; then
             echo "The ${RHYTHM} did not change. No commit."
             exit 0

@@ -39,15 +39,20 @@ The files:
   closes, because `/close?month=` reads them (why: one set of rules for the page and the
   file, so every reader gets the same words, and a push to `main` reaches the desk without
   waiting for the morning run · 2026-10-22).
-- `sessions/<YYYY-MM>.yaml`: the Claude Code sessions per client that month, measured from
-  the transcripts on Jamie's machine by `app/scripts/sessions.mjs`, run from the laptop at
-  the close: `node desk/app/scripts/sessions.mjs <YYYY-MM> --plan <eur>`. A session belongs
-  to the client whose local-lane folder its cwd is in. Hours are the active time between a
-  session's turns, capped at 30 minutes per gap. Cost is the plan's price for the month
-  shared by tokens, and is left out without `--plan`. Sessions in the cloud are not on the
-  machine and are not counted. 13 months, which the close reads; the quote's estimates stand
-  for a month not measured (why: Jamie only works in sessions, so the sessions are the
-  measure, and nothing is typed by hand · 2026-10-22).
+- `sessions/<YYYY-MM>.yaml`: the Claude Code sessions per client that month, measured by
+  `app/scripts/sessions.mjs` from two sources: the transcripts on Jamie's machine, and the
+  session ledger, where the `session-ledger.sh` hook (`.claude/hooks/`, the blueprint's
+  templates and `~/.claude/hooks/`) posts every session's counts at the end of every turn,
+  on the laptop, in the cloud and on the phone. The ledger is the table `sessions` in Neon
+  behind `app/api/sessions` (bearer `SESSIONS_TOKEN`; the hook and the script carry it as
+  `DESK_SESSIONS_TOKEN`). `rhythms.yml` runs the script with `--ledger` on every run, and
+  the file commits with the glance or the close. A session belongs to the client whose repo
+  its origin remote names, else whose local-lane folder its cwd is in. Hours are the active
+  time between a session's turns, capped at 30 minutes per gap. Cost is the plan's price
+  (`sessions/plan.yaml`) shared by tokens. 13 months, which the close reads; the quote's
+  estimates stand for a month not measured (why: Jamie only works in sessions, so the
+  sessions are the measure, and nothing is typed by hand · 2026-10-22).
+- `sessions/plan.yaml`: the Claude plan's monthly price, in euros.
 - `estate/drift-<date>.md`: D4's report, the latest only. The desk reads each repo's line
   into its client's row at build (why: a drifted repo is a fact about the client, not a page
   of its own · 2026-10-22).
@@ -63,13 +68,15 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   listed at its top). The pool, the house workflow and the client repos are read per
   request. A page never reads the repo (why: a deployed function has no checkout; a push is
   the one way a fact reaches the desk · 2026-10-21).
-- Sign-in by Neon Auth. Tables `users`, `prospects` and `touches` in Neon Postgres, from
-  `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
+- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches` and `sessions` in Neon
+  Postgres, from `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
   account starts as `client` with no folder and sees nothing until Jamie sets the role in the
   Neon console (the upserts are at the foot of `schema.sql`).
 - Variables, names only, on the Vercel project (`app/.env.example`): `DATABASE_URL`,
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT` (the house only: Contents, Pull
-  requests and Actions, read and write), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
+  requests and Actions, read and write), `SESSIONS_TOKEN` (the ledger's bearer; the same
+  value is `DESK_SESSIONS_TOKEN` in the cloud environment, in `~/.claude/settings.json` on
+  the laptop and in the house's Actions secrets), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
   repo owner: Contents, Actions, Metadata, Commit statuses and Pull requests read, Pull
   requests write for the gates). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not

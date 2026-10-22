@@ -77,6 +77,7 @@ hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
 | `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | yes |
 | `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit, Bash) | refuses plaintext secrets in files outside an ignored `.env`; on Bash it reads the whole command, heredoc included | yes |
+| `session-ledger.sh` | Stop, SessionEnd | posts the session's counts (times, active time, tokens, turns, repo) to the desk's ledger, so the monthly close measures every session, on the laptop, in the cloud and on the phone; needs `DESK_SESSIONS_TOKEN` in the environment (`~/.claude/settings.json` `env` here) and posts nothing without it | yes |
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
 writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
@@ -107,7 +108,7 @@ One environment, `legible`, in claude.ai/code.
 | Setting | Value |
 |---|---|
 | Network access | Trusted |
-| Environment variables | none |
+| Environment variables | `DESK_SESSIONS_TOKEN`, the value of the desk's `SESSIONS_TOKEN`, so the session-ledger hook reports cloud and phone sessions |
 | Network secrets | none |
 | Setup script | `setup/cloud.sh`, pasted in full |
 

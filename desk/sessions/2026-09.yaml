@@ -1,8 +1,9 @@
-# Written 2026-10-22 by desk/app/scripts/sessions.mjs from the Claude Code transcripts on this
-# machine. Hours are active time: the gaps between a session's turns, capped at 30 minutes.
+# Written 2026-10-22 by desk/app/scripts/sessions.mjs from the Claude Code transcripts on this machine.
+# Hours are active time: the gaps between a session's turns, capped at 30 minutes.
 # Cost is the plan's price shared by tokens. The monthly close reads it (desk/CONTEXT.md).
 month: 2026-09
 written: 2026-10-22
+ledger: false
 plan: 180
 tokens: 3951501782
 clients:

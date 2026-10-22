@@ -1,0 +1,3 @@
+# The Claude plan's monthly price, in euros: what the sessions' cost is shared from
+# (desk/app/scripts/sessions.mjs; desk/CONTEXT.md). Change it here when the plan changes.
+eur: 180   # Max 20x, 2026-10-22

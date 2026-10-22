@@ -1,6 +1,6 @@
 -- Desk (C3) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
 -- run the whole file again after a change (Neon console, SQL editor). Neon Auth owns
--- neon_auth.*; the app owns these three tables. The prospect row follows
+-- neon_auth.*; the app owns these four tables. The prospect row follows
 -- sell/01-prospecting/prospect.md (S1). Four names differ from that schema, because the
 -- first two tables were applied on 2026-10-19 and are reused, not recreated: contact_name
 -- is `contact`, created_at is `added`, updated_at is `updated`, and `sourced_by` is the
@@ -59,6 +59,23 @@ create table if not exists touches (
 );
 
 create index if not exists touches_prospect_idx on touches (prospect);
+
+-- The session ledger: one row per Claude Code session, posted by the session-ledger hook at
+-- the end of every turn (desk/CONTEXT.md). Counts and names, never content.
+create table if not exists sessions (
+  id text primary key,
+  repo text not null default '',
+  cwd text not null default '',
+  host text not null default '',
+  started timestamptz not null,
+  ended timestamptz not null,
+  active_ms bigint not null default 0,
+  tokens bigint not null default 0,
+  turns integer not null default 0,
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists sessions_started_idx on sessions (started);
 
 -- Migration of the 2026-10-19 tables to the S1 fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.

@@ -8,8 +8,10 @@ reads the house at build time into `lib/house.json` (what it reads is listed at 
 records, economics, client documents, what Jamie decides (`core/wave.md`), the latest drift
 report, the close files, the Sell words). `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
-`scripts/sessions.mjs` measures a month's Claude Code sessions per client from the transcripts
-on Jamie's machine into `desk/sessions/` (no dependency; run from the laptop, never in CI).
+`scripts/sessions.mjs` measures a month's Claude Code sessions per client into `desk/sessions/`
+from the transcripts on Jamie's machine and, with `--ledger`, from the session ledger that
+`app/api/sessions/route.ts` keeps in Neon (table `sessions`), posted by the `session-ledger.sh`
+hook at the end of every turn; `rhythms.yml` runs it with the ledger on every run.
 The pool is read per request from Neon.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).
