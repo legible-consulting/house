@@ -12,9 +12,10 @@ import { Shell } from "../_shell";
 import { Heading, Prose } from "../_ui";
 
 // The monthly close (desk/CONTEXT.md): every engaged client against its quote/economics.yaml,
-// the agreed price, the hours and the cost put in this month, and what is left; the price a
-// prospect's economics project, apart; the pipeline from the pool and the folders. Invoices
-// and payments are handled outside the house. Jamie's page. ?month=YYYY-MM picks the month;
+// the agreed price, the quote's estimate of the hours and the cost per month, and what is
+// left; the price a prospect's economics project, apart; the pipeline from the pool and the
+// folders. The house measures neither hours nor cost. Invoices and payments are handled
+// outside the house. Jamie's page. ?month=YYYY-MM picks the month;
 // the default is the current one. When rhythms.yml has committed desk/close/<that month>.md
 // (on the 1st, for the month that ended), the page renders that file and reads only the pool
 // live; otherwise, or with ?live=1, it computes the same rules live (lib/rhythms.ts).
@@ -41,14 +42,13 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
   const live = q.live === "1";
   const file = live ? undefined : closeDocs.find((d) => d.file === `${month}.md`);
   const counts = await countsByStatus();
-  const { rows, projected } = close(clients, month);
+  const { rows, projected } = close(clients);
   const t = closeTotals(rows);
   const pipe = pipeline(counts, clients);
   const cur = rows[0]?.currency ?? "EUR";
   const num = (n: number | null, strong = false, c = cur) => (
     <TableCell className={cn("text-right tabular-nums", strong && "font-medium")}>{n === null ? "—" : money(n, c)}</TableCell>
   );
-  const est = (r: CloseRow) => (r.actual ? "" : " est.");
 
   const nav = (
     <>
@@ -128,9 +128,9 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
 
   const tiles: [string, string][] = [
     ["Monthly price, agreed", money(t.monthly, cur)],
-    ["Cost this month", money(t.cost, cur)],
-    ["Margin this month", money(t.margin, cur)],
-    ["Hours this month", String(t.hours)],
+    ["Cost per month, estimated", money(t.cost, cur)],
+    ["Margin per month", money(t.margin, cur)],
+    ["Hours per month, estimated", String(t.hours)],
   ];
 
   return (
@@ -139,8 +139,8 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         title={`Monthly close · ${label(month)}`}
         lede={
           <>
-            {nav}. Every engaged client against its economics: the agreed price, the hours and the cost put in this
-            month, and what is left. Invoices and payments are handled outside the house.
+            {nav}. Every engaged client against its economics: the agreed price, the quote&apos;s estimate of the
+            hours and the cost per month, and what is left. Invoices and payments are handled outside the house.
           </>
         }
       />
@@ -165,9 +165,9 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
             <TableHead>Client</TableHead>
             <TableHead>Kind</TableHead>
             <TableHead className="text-right">Price</TableHead>
-            <TableHead className="text-right">Hours</TableHead>
-            <TableHead className="text-right">Cost</TableHead>
-            <TableHead className="text-right">Margin</TableHead>
+            <TableHead className="text-right">Hours / month</TableHead>
+            <TableHead className="text-right">Cost / month</TableHead>
+            <TableHead className="text-right">Margin / month</TableHead>
             <TableHead className="text-right">Hourly</TableHead>
             <TableHead className="text-right">Commission owed</TableHead>
           </TableRow>
@@ -191,12 +191,10 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
               <TableCell className={cn("text-right tabular-nums", r.price === null && "text-muted-foreground")}>
                 {price(r)}
               </TableCell>
-              <TableCell className="text-right tabular-nums">{r.hours === null ? "—" : `${r.hours}${est(r)}`}</TableCell>
-              <TableCell className="text-right tabular-nums">
-                {r.cost === null ? "—" : `${money(r.cost, r.currency)}${est(r)}`}
-              </TableCell>
+              <TableCell className="text-right tabular-nums">{r.hours === null ? "—" : r.hours}</TableCell>
+              {num(r.cost, false, r.currency)}
               <TableCell className={cn("text-right tabular-nums", r.margin !== null && r.margin < 0 && "text-destructive")}>
-                {r.margin === null ? "—" : `${money(r.margin, r.currency)}${r.priceKind === "total" ? " to date" : ""}`}
+                {r.margin === null ? "—" : money(r.margin, r.currency)}
               </TableCell>
               {num(r.hourly, false, r.currency)}
               {num(r.commission, false, r.currency)}
@@ -238,11 +236,11 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         </div>
         <div>
           <dt className="font-medium text-foreground">Hours and cost</dt>
-          <dd>The month&apos;s actuals in months.YYYY-MM of that file, typed at the close. Without them, the estimates hours.per_month and costs_monthly, marked est.</dd>
+          <dd>The quote&apos;s estimates, hours.per_month and costs_monthly in that file. The house measures neither.</dd>
         </div>
         <div>
           <dt className="font-medium text-foreground">Margin and hourly</dt>
-          <dd>Price less cost this month, and price over hours. A build: the total less every month&apos;s cost to date, over the hours to date.</dd>
+          <dd>The monthly price less the monthly cost, and the monthly price over the hours. A build shows neither: its price is a total.</dd>
         </div>
         <div>
           <dt className="font-medium text-foreground">Commission owed</dt>

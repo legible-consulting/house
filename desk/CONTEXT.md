@@ -9,7 +9,7 @@ holds:
 ---
 # Desk — C3
 
-C3 produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the hours and the cost put in; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
+C3 produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the quote's estimated hours and cost; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
 
 ## Inputs
 
