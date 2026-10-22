@@ -35,8 +35,13 @@ Internal, English. Never sent, never quoted.
 
 - Payment monthly in advance, due 14 days: hold.
 - 30 days' notice: hold. The fixed end of the evaluation is the real exit. Use it.
-- Hours: never quote hours. The written monthly scope and the outputs are the unit. Sam said
-  so himself.
+- Hours: the quote promises 60 hours a month of Jamie's own attention, as `core/services.md`
+  asks. The written monthly scope and the outputs stay the unit of delivery; the hours are the
+  promise, not a timesheet. Hours beyond the promise are agreed with Sam first and billed at
+  the anchor, €120 an hour, on the next invoice. Never a surprise line (Jamie's decision ·
+  2026-10-22).
+- Early exit: 30 days' notice holds inside the block. If Sam ends the evaluation before its
+  three months, the €300 a month is invoiced on the months already billed. Hold.
 - Equity, or a lower cash rate against equity: not in the evaluation. A position (`kind: role`)
   is a month 3 conversation.
 - Start date: flexible by a few weeks. Jamie closes other work first. The first invoice paid
@@ -49,8 +54,14 @@ Internal, English. Never sent, never quoted.
   question is what MotoArk loses if you are gone. Month 1 answers that in the repos.
 - "Can you do it for 3,000?" Not for this scope. For €3,200, months 2 and 3 become the
   development flow and review only (concession 4).
-- "Full-time means 40 hours." The retainer buys the written scope and the outputs. My
-  attention is close to full-time. Hours are not the unit.
+- "Full-time means 40 hours." The retainer promises 60 hours of my own attention a month and
+  the written scope. The sessions I run multiply those hours. What we measure is what lands.
+- "So the €120 is a meter after all." No. Sixty hours are in the rate, and the sessions do the
+  volume, so a month beyond sixty is rare. If one comes, you hear about it before it happens
+  and you say yes or no.
+- "Why do I pay the discount back if I leave?" The lower rate buys the three months. Leave the
+  block early and the months you had were at the standard rate. The notice period is still
+  yours.
 - "What about after month 3?" €3,800 against a written monthly scope, or a position agreed on
   its own terms.
 
@@ -60,9 +71,11 @@ Internal, English. Never sent, never quoted.
   for near full-time and a stand-in CTO. The smallest honest version of that job is the whole
   job. Jamie's decision, 2026-10-21. The half option (development flow and review only) exists
   as concession 4, not as an offer.
-- **A rate below the standard.** The reason is the committed block of three months and
-  recurring work. The next retainer quote reads this as precedent: a committed block earns the
-  lower end of the range.
+- **A rate below the rule.** `core/services.md` § Retainer pricing gives 60 hours × €120 =
+  €7,200 a month, and €6,120 for a 3-month block. The quote says €3,800 and €3,500: the range
+  Sam heard on the call, against a technology burn under 3,000 USD a month. The discount the
+  quote names is the committed block. The next retainer quote reads the rule, and this entry
+  as the deviation (2026-10-22).
 
 ## Record
 

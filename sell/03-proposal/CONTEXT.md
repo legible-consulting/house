@@ -38,9 +38,10 @@ S3 produces the client-facing offer (problem, approach, scope, timeline) in the 
   5. Internal notes the send needs go in `proposal/`, in English, named in the PR body. They
      leave when the send is done.
   6. Commit on a branch with a message that starts `S3:`. Push. Open a PR against `main`.
-- For a retainer the scope is written per month: what month 1 builds, what the months after
-  it build, a checkpoint at each month's end, and a decision point at the block's end (why: a
-  retainer sells a written monthly scope, never hours · `services.md`).
+- For a retainer the proposal promises the hours of Jamie's attention a month and writes the
+  scope per month: what month 1 builds, what the months after it build, a checkpoint at each
+  month's end, and a decision point at the block's end. Progress is measured by scope
+  completion, never by hours worked (`services.md` § Retainer pricing).
 - The gate: Jamie reads the proposal, sets the date, renders it and sends it. A session drafts
   into the folder. It never sends to the client, never moves `stage`, never ticks a gate
   (boundary).

@@ -48,7 +48,8 @@ C2 produces one folder per relationship, opened when Jamie takes the lead and ke
   - `build`: a build with an end. It reaches `handover`.
   - `retainer`: Jamie is paid monthly for ongoing work. It stays at `build`. No handover
     pack, no retainer offer. The monthly close reads it as retainer income.
-  - `role`: Jamie holds a position in the client's company. It stays at `build`. No handover.
+  - `role`: Jamie holds a position in the client's company and owns part of the product. It
+    stays at `build`. No handover.
   - `training`: a workshop, a coaching block, or both, at a fixed price with an end and no
     repo. It goes from `kickoff` to `after` when the week is delivered and the materials and
     the attestations are sent. `build` and `handover` do not apply (why: the first training
