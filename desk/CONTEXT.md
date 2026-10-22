@@ -5,18 +5,19 @@ holds:
   - "estate/*.md"
   - "glance/*.md"
   - "close/*.md"
+  - "sessions/*.yaml"
   - "app/**"
 ---
 # Desk — C3
 
-C3 produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the hours and the cost put in; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
+C3 produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the hours and the cost the sessions put in; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
 
 ## Inputs
 
 - `clients/*/record.md` frontmatter, `clients/*/quote/economics.yaml`, the client-facing
   documents in `clients/*/`, `core/wave.md` (the "Jamie decides" list), `desk/estate/`,
-  `sell/01-prospecting/`, the pool in Neon, and the house and the client repos over the
-  GitHub API.
+  `desk/sessions/`, `sell/01-prospecting/`, the pool in Neon, the Claude Code transcripts on
+  Jamie's machine, and the house and the client repos over the GitHub API.
 
 ## Process
 
@@ -38,6 +39,15 @@ The files:
   closes, because `/close?month=` reads them (why: one set of rules for the page and the
   file, so every reader gets the same words, and a push to `main` reaches the desk without
   waiting for the morning run · 2026-10-22).
+- `sessions/<YYYY-MM>.yaml`: the Claude Code sessions per client that month, measured from
+  the transcripts on Jamie's machine by `app/scripts/sessions.mjs`, run from the laptop at
+  the close: `node desk/app/scripts/sessions.mjs <YYYY-MM> --plan <eur>`. A session belongs
+  to the client whose local-lane folder its cwd is in. Hours are the active time between a
+  session's turns, capped at 30 minutes per gap. Cost is the plan's price for the month
+  shared by tokens, and is left out without `--plan`. Sessions in the cloud are not on the
+  machine and are not counted. 13 months, which the close reads; the quote's estimates stand
+  for a month not measured (why: Jamie only works in sessions, so the sessions are the
+  measure, and nothing is typed by hand · 2026-10-22).
 - `estate/drift-<date>.md`: D4's report, the latest only. The desk reads each repo's line
   into its client's row at build (why: a drifted repo is a fact about the client, not a page
   of its own · 2026-10-22).

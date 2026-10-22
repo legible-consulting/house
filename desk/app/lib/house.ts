@@ -16,15 +16,32 @@ export interface ClientDoc extends Doc {
 }
 
 // quote/economics.yaml, S4's file (sell/04-quote/CONTEXT.md). The close reads the price
-// (`price.monthly` for a retainer or a role, `price.total` for a build), the estimates
-// (`hours.per_month`, `costs_monthly`) and the actuals per month (`months.<YYYY-MM>`).
+// (`price.monthly` for a retainer or a role, `price.total` for a build) and the estimates
+// (`hours.per_month`, `costs_monthly`), which stand until the month is measured.
 export interface Economics {
   kind?: string;
   currency?: string;
   price?: Record<string, number | string>;
   hours?: Record<string, number | string>;
   costs_monthly?: Record<string, number | string>;
-  months?: Record<string, { hours?: number | string; costs?: Record<string, number | string> }>;
+}
+
+// desk/sessions/<YYYY-MM>.yaml, written by scripts/sessions.mjs on Jamie's machine: the
+// Claude Code sessions per client that month. The close reads hours and cost from it.
+export interface MeasuredClient {
+  sessions: number;
+  hours: number; // active time between turns, capped at 30 minutes per gap
+  tokens: number;
+  cost?: number | null; // the plan's price shared by tokens; absent when the plan was not given
+}
+
+export interface MeasuredMonth {
+  month: string;
+  written: string;
+  plan: number | null;
+  tokens: number;
+  clients: Record<string, MeasuredClient>;
+  other: MeasuredClient;
 }
 
 // The repo's line in the latest drift report (desk/estate/drift-<date>.md, D4).
@@ -74,6 +91,8 @@ export const decides = data.decides as Doc;
 export const estate = data.estate as unknown as Estate | null;
 // Every desk/close/<YYYY-MM>.md (rhythms.yml).
 export const closeDocs = data.closes as unknown as Doc[];
+// Every measured month, by YYYY-MM.
+export const measured = data.measured as unknown as Record<string, MeasuredMonth>;
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[] };
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);

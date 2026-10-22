@@ -62,9 +62,9 @@ C2 produces one folder per relationship, opened when Jamie takes the lead and ke
   commission fields.
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one
   subfolder per module that has produced for this client.
-- `<slug>/quote/economics.yaml`, S4's file: the price, the estimates and the actuals per
-  month that the monthly close reads (the shape: `sell/04-quote/CONTEXT.md`). Jamie types a
-  month's hours and cost at the close (why: invoices and payments are handled outside the
-  house, and the close measures the engagement, not the cash · 2026-10-22).
+- `<slug>/quote/economics.yaml`, S4's file: the price and the estimates the monthly close
+  reads (the shape: `sell/04-quote/CONTEXT.md`). The measured hours and cost come from
+  `desk/sessions/` (why: invoices and payments are handled outside the house, and the
+  sessions are the measure · 2026-10-22).
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is
   submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).

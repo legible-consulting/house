@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
 import type { Search } from "@/lib/guard";
-import { clients, closeDocs } from "@/lib/house";
+import { clients, closeDocs, measured } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { STAGES, close, closeTotals, money, pipeline, today, type CloseRow } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
@@ -11,10 +11,11 @@ import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
 import { Heading, Prose } from "../_ui";
 
-// The monthly close (desk/CONTEXT.md): every engaged client against its quote/economics.yaml,
-// the agreed price, the hours and the cost put in this month, and what is left; the price a
-// prospect's economics project, apart; the pipeline from the pool and the folders. Invoices
-// and payments are handled outside the house. Jamie's page. ?month=YYYY-MM picks the month;
+// The monthly close (desk/CONTEXT.md): every engaged client against its quote/economics.yaml
+// and the month's measured sessions (desk/sessions/<month>.yaml): the agreed price, the hours
+// and the cost the sessions put in this month, and what is left; the price a prospect's
+// economics project, apart; the pipeline from the pool and the folders. Invoices and payments
+// are handled outside the house. Jamie's page. ?month=YYYY-MM picks the month;
 // the default is the current one. When rhythms.yml has committed desk/close/<that month>.md
 // (on the 1st, for the month that ended), the page renders that file and reads only the pool
 // live; otherwise, or with ?live=1, it computes the same rules live (lib/rhythms.ts).
@@ -41,14 +42,14 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
   const live = q.live === "1";
   const file = live ? undefined : closeDocs.find((d) => d.file === `${month}.md`);
   const counts = await countsByStatus();
-  const { rows, projected } = close(clients, month);
+  const { rows, projected } = close(clients, month, measured);
+  const mm = measured[month];
   const t = closeTotals(rows);
   const pipe = pipeline(counts, clients);
   const cur = rows[0]?.currency ?? "EUR";
   const num = (n: number | null, strong = false, c = cur) => (
     <TableCell className={cn("text-right tabular-nums", strong && "font-medium")}>{n === null ? "—" : money(n, c)}</TableCell>
   );
-  const est = (r: CloseRow) => (r.actual ? "" : " est.");
 
   const nav = (
     <>
@@ -130,7 +131,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
     ["Monthly price, agreed", money(t.monthly, cur)],
     ["Cost this month", money(t.cost, cur)],
     ["Margin this month", money(t.margin, cur)],
-    ["Hours this month", String(t.hours)],
+    ["Hours this month", String(Math.round(t.hours * 10) / 10)],
   ];
 
   return (
@@ -139,8 +140,8 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         title={`Monthly close · ${label(month)}`}
         lede={
           <>
-            {nav}. Every engaged client against its economics: the agreed price, the hours and the cost put in this
-            month, and what is left. Invoices and payments are handled outside the house.
+            {nav}. Every engaged client against its economics: the agreed price, the hours and the cost the sessions
+            put in this month, and what is left. Invoices and payments are handled outside the house.
           </>
         }
       />
@@ -158,6 +159,11 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         ))}
       </ul>
 
+      <p className="mb-4 text-sm text-muted-foreground">
+        {mm
+          ? `Sessions measured on ${mm.written} from the transcripts on Jamie's machine: ${Object.values(mm.clients).reduce((n, c) => n + c.sessions, 0)} on client repos, ${mm.other.sessions} elsewhere${mm.plan === null ? ". The plan's price was not given, so the cost is the estimate" : `, against a plan of ${money(mm.plan, cur)}`}. Sessions in the cloud are not counted.`
+          : "This month is not measured yet: hours and cost are the quote's estimates. Measure it from the laptop with desk/app/scripts/sessions.mjs."}
+      </p>
       <h3 className="mb-2 text-sm font-medium">Engagements</h3>
       <Table>
         <TableHeader>
@@ -165,6 +171,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
             <TableHead>Client</TableHead>
             <TableHead>Kind</TableHead>
             <TableHead className="text-right">Price</TableHead>
+            <TableHead className="text-right">Sessions</TableHead>
             <TableHead className="text-right">Hours</TableHead>
             <TableHead className="text-right">Cost</TableHead>
             <TableHead className="text-right">Margin</TableHead>
@@ -175,7 +182,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         <TableBody>
           {rows.length === 0 && (
             <TableRow>
-              <TableCell colSpan={8} className="text-muted-foreground">
+              <TableCell colSpan={9} className="text-muted-foreground">
                 Nothing to close: no client is at agreement or later.
               </TableCell>
             </TableRow>
@@ -191,9 +198,12 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
               <TableCell className={cn("text-right tabular-nums", r.price === null && "text-muted-foreground")}>
                 {price(r)}
               </TableCell>
-              <TableCell className="text-right tabular-nums">{r.hours === null ? "—" : `${r.hours}${est(r)}`}</TableCell>
+              <TableCell className="text-right tabular-nums">{r.sessions === null ? "—" : r.sessions}</TableCell>
               <TableCell className="text-right tabular-nums">
-                {r.cost === null ? "—" : `${money(r.cost, r.currency)}${est(r)}`}
+                {r.hours === null ? "—" : `${r.hours}${r.measured ? "" : " est."}`}
+              </TableCell>
+              <TableCell className="text-right tabular-nums">
+                {r.cost === null ? "—" : `${money(r.cost, r.currency)}${r.costMeasured ? "" : " est."}`}
               </TableCell>
               <TableCell className={cn("text-right tabular-nums", r.margin !== null && r.margin < 0 && "text-destructive")}>
                 {r.margin === null ? "—" : `${money(r.margin, r.currency)}${r.priceKind === "total" ? " to date" : ""}`}
@@ -207,7 +217,8 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
               <TableCell className="font-medium">Total</TableCell>
               <TableCell />
               <TableCell className="text-right font-medium tabular-nums">{money(t.monthly, cur)} / month</TableCell>
-              <TableCell className="text-right font-medium tabular-nums">{t.hours}</TableCell>
+              <TableCell />
+              <TableCell className="text-right font-medium tabular-nums">{Math.round(t.hours * 10) / 10}</TableCell>
               {num(t.cost, true)}
               {num(t.margin, true)}
               <TableCell />
@@ -237,12 +248,12 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
           <dd>price.monthly for a retainer or a role, price.total for a build, in quote/economics.yaml. Agreed from the agreement stage; before it, projected.</dd>
         </div>
         <div>
-          <dt className="font-medium text-foreground">Hours and cost</dt>
-          <dd>The month&apos;s actuals in months.YYYY-MM of that file, typed at the close. Without them, the estimates hours.per_month and costs_monthly, marked est.</dd>
+          <dt className="font-medium text-foreground">Sessions, hours and cost</dt>
+          <dd>The Claude Code sessions on Jamie&apos;s machine, measured by desk/app/scripts/sessions.mjs into desk/sessions/: hours are the active time between turns, cost is the plan&apos;s price shared by tokens. Without a measure, the quote&apos;s estimates, marked est.</dd>
         </div>
         <div>
           <dt className="font-medium text-foreground">Margin and hourly</dt>
-          <dd>Price less cost this month, and price over hours. A build: the total less every month&apos;s cost to date, over the hours to date.</dd>
+          <dd>Price less cost this month, and price over hours. A build: the total less every measured month&apos;s cost to date, over the hours to date.</dd>
         </div>
         <div>
           <dt className="font-medium text-foreground">Commission owed</dt>

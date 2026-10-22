@@ -35,11 +35,11 @@ S4 produces the price, options and payment terms; the engagement's own economics
   5. Write `quote/economics.yaml` (internal): the anchor, the price, the hours, the effective
      hourly rate, the costs (model, hosting, other), the margin, the precedent read, and the
      open item the quote closes if any. An estimate is marked as an estimate. The desk reads
-     four keys: `price.monthly` (a retainer or a role) or `price.total` (a build), the
-     estimates `hours.per_month` and `costs_monthly`, and the actuals per month under
-     `months.<YYYY-MM>` (`hours`, `costs`), which Jamie types at the monthly close (why: the
-     close measures the engagement against what was agreed; invoices and payments are handled
-     outside the house · 2026-10-22).
+     three keys: `price.monthly` (a retainer or a role) or `price.total` (a build), and the
+     estimates `hours.per_month` and `costs_monthly`, which the monthly close shows until the
+     month's sessions are measured (`desk/CONTEXT.md`) (why: the close measures the
+     engagement against what was agreed; invoices and payments are handled outside the house
+     · 2026-10-22).
   6. Write `quote/negotiation.md` (private, English): the positions (opening, standard,
      floor), the concessions in order with what each costs, the non-price positions, what the
      client may say and the answer, each deviation from a house rule with its reason, and a

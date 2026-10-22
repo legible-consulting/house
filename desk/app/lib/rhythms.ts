@@ -1,4 +1,4 @@
-import type { ClientRow } from "./house";
+import type { ClientRow, MeasuredClient, MeasuredMonth } from "./house";
 import type { Status } from "./pool";
 
 // The desk's rhythms as pure functions over the house (desk/CONTEXT.md): the morning glance
@@ -119,11 +119,13 @@ export interface CloseRow {
   client: ClientRow;
   price: number | null; // agreed: per month for a retainer or a role, in total for a build
   priceKind: "monthly" | "total" | null;
-  hours: number | null; // this month: the actual when economics.yaml has the month, else the estimate
-  cost: number | null; // this month: the actual, else the estimate
-  actual: boolean; // economics.yaml carries this month's actuals
-  costToDate: number | null; // a build: every month's actual cost up to this month
-  hoursToDate: number | null; // a build: every month's actual hours up to this month
+  sessions: number | null; // the Claude Code sessions measured this month
+  hours: number | null; // this month: measured from the sessions, else the estimate
+  cost: number | null; // this month: the plan's share measured from the sessions, else the estimate
+  measured: boolean; // the month's sessions were measured (desk/sessions/<month>.yaml)
+  costMeasured: boolean; // and the plan's price was given, so the cost is measured too
+  costToDate: number | null; // a build: every measured month's cost up to this month
+  hoursToDate: number | null; // a build: every measured month's hours up to this month
   margin: number | null; // price − cost this month; a build: total − cost to date
   hourly: number | null; // what an hour earned: price ÷ hours; a build: total ÷ hours to date
   commission: number | null; // the record's commission.owed, settled as the client pays, outside the house
@@ -138,18 +140,20 @@ const num = (v: unknown): number | null => {
 const sumOf = (o: Record<string, number | string> | undefined): number | null =>
   o ? Object.values(o).reduce<number>((n, v) => n + (Number(v) || 0), 0) : null;
 
-export function closeRow(c: ClientRow, month: string): CloseRow {
+export function closeRow(c: ClientRow, month: string, measured: Record<string, MeasuredMonth>): CloseRow {
   const e = c.economics;
   const build = c.kind === "build";
   const price = build ? num(e?.price?.total) : num(e?.price?.monthly);
-  const months = Object.entries(e?.months ?? {}).filter(([m]) => /^\d{4}-\d{2}$/.test(m));
-  const thisMonth = e?.months?.[month];
-  const actual = thisMonth !== undefined;
-  const hours = thisMonth ? num(thisMonth.hours) : num(e?.hours?.per_month);
-  const cost = thisMonth ? (sumOf(thisMonth.costs) ?? 0) : sumOf(e?.costs_monthly);
-  const upTo = months.filter(([m]) => m <= month);
-  const costToDate = upTo.length ? upTo.reduce((n, [, v]) => n + (sumOf(v.costs) ?? 0), 0) : null;
-  const hoursToDate = upTo.length ? upTo.reduce((n, [, v]) => n + (num(v.hours) ?? 0), 0) : null;
+  const m = measured[month]?.clients[c.slug];
+  const costMeasured = m !== undefined && m.cost !== undefined && m.cost !== null;
+  const hours = m ? m.hours : num(e?.hours?.per_month);
+  const cost = costMeasured ? (m.cost ?? 0) : sumOf(e?.costs_monthly);
+  const upTo = Object.values(measured)
+    .filter((x) => x.month <= month)
+    .map((x) => x.clients[c.slug])
+    .filter((x): x is MeasuredClient => x !== undefined);
+  const costToDate = upTo.length ? upTo.reduce((n, x) => n + (x.cost ?? 0), 0) : null;
+  const hoursToDate = upTo.length ? upTo.reduce((n, x) => n + x.hours, 0) : null;
   let margin: number | null = null;
   if (price !== null) {
     if (build) margin = costToDate === null ? null : price - costToDate;
@@ -161,9 +165,11 @@ export function closeRow(c: ClientRow, month: string): CloseRow {
     client: c,
     price,
     priceKind: price === null ? null : build ? "total" : "monthly",
+    sessions: m ? m.sessions : null,
     hours,
     cost,
-    actual,
+    measured: m !== undefined,
+    costMeasured,
     costToDate,
     hoursToDate,
     margin,
@@ -173,20 +179,25 @@ export function closeRow(c: ClientRow, month: string): CloseRow {
   };
 }
 
-// The monthly close for one month (YYYY-MM): every engaged client against its economics,
-// and, apart, the price a prospect's economics project. A lost client is not listed.
-export function close(clients: ClientRow[], month: string): { rows: CloseRow[]; projected: CloseRow[] } {
+// The monthly close for one month (YYYY-MM): every engaged client against its economics
+// and the month's measured sessions, and, apart, the price a prospect's economics project. A
+// lost client is not listed.
+export function close(
+  clients: ClientRow[],
+  month: string,
+  measured: Record<string, MeasuredMonth>,
+): { rows: CloseRow[]; projected: CloseRow[] } {
   const live = clients.filter((c) => c.stage !== "lost");
   const order = (a: CloseRow, b: CloseRow) =>
     stageRank(a.client.stage) - stageRank(b.client.stage) || a.client.slug.localeCompare(b.client.slug);
   return {
     rows: live
       .filter(isEngaged)
-      .map((c) => closeRow(c, month))
+      .map((c) => closeRow(c, month, measured))
       .sort(order),
     projected: live
       .filter((c) => !isEngaged(c) && c.economics)
-      .map((c) => closeRow(c, month))
+      .map((c) => closeRow(c, month, measured))
       .sort(order),
   };
 }

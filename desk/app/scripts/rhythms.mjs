@@ -82,16 +82,16 @@ function writeGlance() {
 function writeClose() {
   const month = monthArg ?? addMonths(today.slice(0, 7), -1);
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) throw new Error(`month "${month}" is not YYYY-MM`);
-  const { rows, projected } = close(house.clients, month);
+  const { rows, projected } = close(house.clients, month, house.measured);
   const t = closeTotals(rows);
   const cur = rows[0]?.currency ?? "EUR";
   const m = (n, c = cur) => (n === null || n === undefined ? "—" : money(n, c));
-  const est = (r) => (r.actual ? "" : " est.");
+  const measuredMonth = house.measured[month];
   const lines = [
     front({ title: `Monthly close ${month}`, kind: "close", date: today, month }),
     `# Monthly close ${month}`,
     "",
-    `Written ${today} by \`rhythms.yml\` from the house as of this date. Every engaged client against its \`quote/economics.yaml\`: the agreed price, the hours and the cost put in this month, and what is left. A value marked est. is the estimate, because the month's actuals are not in the file yet. Invoices and payments are handled outside the house.`,
+    `Written ${today} by \`rhythms.yml\` from the house as of this date. Every engaged client against its \`quote/economics.yaml\`: the agreed price, the hours and the cost the sessions put in this month, and what is left. ${measuredMonth ? `The sessions were measured on ${measuredMonth.written} (\`desk/sessions/${month}.yaml\`)${measuredMonth.plan === null ? ", without the plan's price, so the cost is the estimate" : ""}.` : "The month is not measured yet, so hours and cost are the estimates."} A value marked est. is the estimate from the quote. Invoices and payments are handled outside the house.`,
     "",
     "## Engagements",
     "",
@@ -100,19 +100,19 @@ function writeClose() {
     lines.push("Nothing to close: no client is at agreement or later.");
   } else {
     lines.push(
-      "| Client | Kind | Price | Hours | Cost | Margin | Hourly | Commission owed |",
-      "|---|---|--:|--:|--:|--:|--:|--:|",
+      "| Client | Kind | Price | Sessions | Hours | Cost | Margin | Hourly | Commission owed |",
+      "|---|---|--:|--:|--:|--:|--:|--:|--:|",
     );
     for (const r of rows) {
       const c = r.client;
       const price = r.price === null ? "not set" : `${money(r.price, r.currency)} ${r.priceKind === "total" ? "total" : "/ month"}`;
       const margin = r.margin === null ? "—" : `${money(r.margin, r.currency)}${r.priceKind === "total" ? " to date" : ""}`;
       lines.push(
-        `| ${link(c)} | ${cell(c.kind)} | ${price} | ${r.hours === null ? "—" : `${r.hours}${est(r)}`} | ${r.cost === null ? "—" : `${money(r.cost, r.currency)}${est(r)}`} | ${margin} | ${r.hourly === null ? "—" : money(r.hourly, r.currency)} | ${r.commission === null ? "—" : money(r.commission, r.currency)} |`,
+        `| ${link(c)} | ${cell(c.kind)} | ${price} | ${r.sessions === null ? "—" : r.sessions} | ${r.hours === null ? "—" : `${r.hours}${r.measured ? "" : " est."}`} | ${r.cost === null ? "—" : `${money(r.cost, r.currency)}${r.costMeasured ? "" : " est."}`} | ${margin} | ${r.hourly === null ? "—" : money(r.hourly, r.currency)} | ${r.commission === null ? "—" : money(r.commission, r.currency)} |`,
       );
     }
     lines.push(
-      `| **Total** | | **${m(t.monthly)} / month** | **${t.hours}** | **${m(t.cost)}** | **${m(t.margin)}** | | **${m(t.commission)}** |`,
+      `| **Total** | | **${m(t.monthly)} / month** | | **${Math.round(t.hours * 10) / 10}** | **${m(t.cost)}** | **${m(t.margin)}** | | **${m(t.commission)}** |`,
     );
   }
   if (projected.length > 0) {
@@ -125,7 +125,7 @@ function writeClose() {
   }
   lines.push(
     "",
-    "Price is `price.monthly` for a retainer or a role and `price.total` for a build. Hours and cost are the month's actuals in `months.<YYYY-MM>`, else the estimates `hours.per_month` and `costs_monthly`. Margin is price less cost this month, or for a build the total less every month's cost to date. Hourly is the price over the hours. Commission is the record's `commission.owed`, settled as the client pays, outside the house (`sell/01-prospecting/prospect.md`).",
+    "Price is `price.monthly` for a retainer or a role and `price.total` for a build. Sessions, hours and cost come from the Claude Code sessions on Jamie's machine, measured by `desk/app/scripts/sessions.mjs`: hours are the active time between turns, cost is the plan's price shared by tokens; sessions in the cloud are not counted. Without a measure, the estimates `hours.per_month` and `costs_monthly`. Margin is price less cost this month, or for a build the total less every measured month's cost to date. Hourly is the price over the hours. Commission is the record's `commission.owed`, settled as the client pays, outside the house (`sell/01-prospecting/prospect.md`).",
     "",
     "## Pipeline",
     "",

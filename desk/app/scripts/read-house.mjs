@@ -8,6 +8,7 @@
 //   clients/_template/record.md     the handoff PR
 //   core/wave.md                    the Jamie decides list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
+//   desk/sessions/*.yaml            the sessions measured per client and month (sessions.mjs)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
 //   sell/01-prospecting/            the Sell page and the seller's next touch
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
@@ -110,6 +111,27 @@ const closes = files(closeDir, ".md")
   .filter((d) => d.fm.kind === "close")
   .map(plain);
 
+// The measured months: desk/sessions/<YYYY-MM>.yaml, written by scripts/sessions.mjs on
+// Jamie's machine from the Claude Code transcripts. The close reads hours and cost from it.
+const sessionsDir = join(house, "desk", "sessions");
+const measured = Object.fromEntries(
+  files(sessionsDir, ".yaml").map((f) => {
+    const v = parse(read(sessionsDir, f)) ?? {};
+    const month = String(v.month ?? f.replace(/\.yaml$/, ""));
+    return [
+      month,
+      {
+        month,
+        written: String(v.written ?? ""),
+        plan: v.plan == null ? null : Number(v.plan),
+        tokens: Number(v.tokens ?? 0),
+        clients: v.clients ?? {},
+        other: v.other ?? { sessions: 0, hours: 0, tokens: 0 },
+      },
+    ];
+  }),
+);
+
 // S1's words for a salesman (sell/01-prospecting/prospect.md, "The salesman's deal"): the
 // target profile, the cadence and every pitch draft, in file order (touch, then language).
 const sellDoc = (...path) => doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
@@ -125,9 +147,9 @@ const sell = {
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, decides, closes, estate, sell }, null, 2),
+  JSON.stringify({ built, clients, template, decides, closes, measured, estate, sell }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${closes.length} closes, ` +
-    `drift ${estate?.date ?? "none"}`,
+    `${Object.keys(measured).length} measured months, drift ${estate?.date ?? "none"}`,
 );
