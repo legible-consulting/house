@@ -40,30 +40,23 @@ factory proves nothing · 2026-10-22).
   `core/terms.md`, MotoArk's draft on the branch, `status: built`. S. Check: a yes on Friday
   has a document to render on Monday.
 - The render stack in `core/render/` and `render.yml`: a changed proposal, quote or agreement
-  renders to a branded PDF and lands in Drive when `GOOGLE_SA_KEY` is set. S. Check: the
-  MotoArk proposal PDF is a run artifact on the PR.
-- A Google service account on the `Clients` Drive folder, its key as the house secret
-  `GOOGLE_SA_KEY`. J.
+  renders to a branded PDF as a run artifact. The Drive copy is placed from the desktop by
+  `core/render/place.sh` over the Drive mount, the route the legacy script proved. No key, no
+  secret. S. Check: the MotoArk proposal PDF is a run artifact on the PR.
 - D1's Process, the access-table, kickoff-note and client questionnaire templates,
   `status: built`. S.
 - D3's Process and its five templates, `status: built`. S.
-- Neon, project `legible-desk`: Cunha as `salesman` with handle `cunha`, one client account
-  linked to a folder. J. Check: Cunha lands on `/pool`, the client lands on its page.
-- The handoff walked once with a test row as Cunha: the desk opens the PR, Jamie merges, the
-  row reads `handed off`, the test folder is deleted. J and S.
+- Neon, project `legible-desk`: one client account linked to a folder. J. Check: the client
+  lands on its page.
 - The blueprint's functionality questionnaire designed and reviewed: the question bank in
   `copier.yml`, one template root, the legacy UAT and promotion files behind `uat`, two proof
   renders in `check.yml`, the MIT `LICENSE`. S, J reviews. Check: `check.yml` green on the
   PR, every question has a default and a help line.
-- Berceo, Agorasim, Vinecliff and Remi AI private. J. Check:
-  `gh repo list k0d0minio --visibility public` lists none of them.
-- `desk/mani.yaml` tags Sustentus `client` and `drift.sh` reads it for status only. Then pull
-  `site-proof`, run `drift.sh`, conform `site-proof` to v0.6.0, run it again. S, then J.
-  Check: every live and proof row says current against v0.6.0.
-- Cloud sessions read the estate read-only: the Claude GitHub App on `blueprint`, `library`,
-  `.github` and `site-proof`, and the "One session, one repo" rule in `CLAUDE.md` gains its
-  line. J and S. Check: `gh api repos/legible-consulting/blueprint --jq .full_name` answers
-  from a `legible` session.
+- Pull `site-proof`, run `drift.sh`, conform `site-proof` to v0.6.0, run it again. J. Check:
+  every live and proof row says current against v0.6.0.
+- The "One session, one repo" rule in `CLAUDE.md` gains its read-only line, after a `legible`
+  session with the siblings attached proves the read. S. Check:
+  `gh api repos/legible-consulting/blueprint --jq .full_name` answers from that session.
 - The desk as a phone app and the design restyle, from
   `~/Desktop/legible-consulting/desk-design-prompt.md` in its § 11 order, after the inbox
   and the C3 Process merge. S. Check: the desk installs on the phone and every route passes
@@ -71,6 +64,8 @@ factory proves nothing · 2026-10-22).
 
 ## Next week
 
+- The handoff walked once with a test row as Cunha, after Jamie meets him: the desk opens
+  the PR, Jamie merges, the row reads `handed off`, the test folder is deleted. J and S.
 - The blueprint build: every question group's files, `copier update` on the four repos with
   their answers, `tier` leaves `core/lexicon.md`, `conform.sh` and `check-client.yml`,
   `deliver/02-sdlc/CONTEXT.md` reads flags. S.
