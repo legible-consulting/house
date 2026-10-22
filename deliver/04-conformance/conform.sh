@@ -24,7 +24,6 @@ done
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 copier copy --defaults \
-  -d tier="$(yq --front-matter=extract '.tier' "$rec")" \
   -d slug="${REPOSITORY#*/}" \
   -d client_name="$(yq --front-matter=extract '.name' "$rec")" \
   -d language="$(yq --front-matter=extract '.language' "$rec")" \

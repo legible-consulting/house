@@ -1,25 +1,27 @@
-# rhythms: the Friday review and the monthly close as files. It reads the house with the
-# desk's own reader (desk/app/scripts/read-house.mjs), writes desk/review/<ISO week>.md on
-# Fridays and desk/close/<YYYY-MM>.md on the 1st for the month that ended, with the app's own
+# rhythms: the morning glance and the monthly close as files. It reads the house with the
+# desk's own reader (desk/app/scripts/read-house.mjs), writes desk/glance/<date>.md every
+# morning and desk/close/<YYYY-MM>.md on the 1st for the month that ended, with the app's own
 # rules (desk/app/scripts/rhythms.mjs imports lib/rhythms.ts), and commits the file to main.
-# It sends nothing and moves no stage. Not run on a PR: CI cannot test a scheduled push. The
-# desk job in check.yml runs the script on every push without a commit. Run it once by hand
-# (workflow_dispatch) after each change.
+# The desk computes the same words live on every request; the file is the day's record for
+# the phone, Google and the terminal. It sends nothing and moves no stage. Not run on a PR:
+# CI cannot test a scheduled push. The desk job in check.yml runs the script on every push
+# without a commit. Run it once by hand (workflow_dispatch) after each change.
 name: rhythms
 
 on:
   schedule:
-    # GitHub cron is UTC. 05:30 UTC is after the glance (05:00 UTC), and before 07:00 Lisbon
-    # in both seasons. GitHub can start a scheduled run late.
-    - cron: "30 5 * * 5" # Friday: the review
+    # GitHub cron is UTC. 05:00 UTC is 05:00 in winter (WET, UTC+0) and 06:00 in summer
+    # (WEST, UTC+1), so the glance is ready by 06:00 Lisbon in both seasons. GitHub can start
+    # a scheduled run late.
+    - cron: "0 5 * * *" # every day: the glance
     - cron: "30 5 1 * *" # the 1st: the close of the month that ended
   workflow_dispatch:
     inputs:
       rhythm:
         description: Which file to write
         type: choice
-        options: [review, close]
-        default: review
+        options: [glance, close]
+        default: glance
       month:
         description: The month to close, YYYY-MM (close only; empty is the month that ended)
         type: string
@@ -69,10 +71,10 @@ jobs:
             rhythm=close
             month=""
           else
-            rhythm=review
+            rhythm=glance
             month=""
           fi
-          case "$rhythm" in review | close) ;; *) echo "::error::unknown rhythm '${rhythm}'"; exit 1 ;; esac
+          case "$rhythm" in glance | close) ;; *) echo "::error::unknown rhythm '${rhythm}'"; exit 1 ;; esac
           if [ -n "$month" ] && ! [[ "$month" =~ ^[0-9]{4}-(0[1-9]|1[0-2])$ ]]; then
             echo "::error::month '${month}' is not YYYY-MM"; exit 1
           fi
@@ -95,7 +97,7 @@ jobs:
           RHYTHM: ${{ steps.pick.outputs.rhythm }}
           NAME: ${{ steps.write.outputs.name }}
         run: |
-          # The folder has the rhythm's name: desk/review or desk/close.
+          # The folder has the rhythm's name: desk/glance or desk/close.
           git add -A -- "desk/${RHYTHM}"
           if git diff --cached --quiet; then
             echo "The ${RHYTHM} did not change. No commit."

@@ -4,18 +4,6 @@ import data from "./house.json";
 // what it reads is there). The deployed function never reads the repo. A change in the
 // house ships with the next push to main.
 
-export interface Invoice {
-  file: string;
-  number: string;
-  issued: string; // YYYY-MM-DD
-  due: string;
-  paid: string; // YYYY-MM-DD, or "" while unpaid
-  amount: number; // excluding VAT
-  currency: string;
-  vat: number;
-  for: string;
-}
-
 export interface Doc {
   file: string;
   title: string;
@@ -27,14 +15,22 @@ export interface ClientDoc extends Doc {
   stage: "proposal" | "quote" | "agreement" | "handover";
 }
 
+// quote/economics.yaml, S4's file (sell/04-quote/CONTEXT.md). The close reads the price
+// (`price.monthly` for a retainer or a role, `price.total` for a build), the estimates
+// (`hours.per_month`, `costs_monthly`) and the actuals per month (`months.<YYYY-MM>`).
 export interface Economics {
   kind?: string;
   currency?: string;
   price?: Record<string, number | string>;
   hours?: Record<string, number | string>;
   costs_monthly?: Record<string, number | string>;
-  margin_monthly?: number;
-  margin_ratio?: number;
+  months?: Record<string, { hours?: number | string; costs?: Record<string, number | string> }>;
+}
+
+// The repo's line in the latest drift report (desk/estate/drift-<date>.md, D4).
+export interface Blueprint {
+  tracks: string; // the blueprint tag the repo tracks, or "—"
+  drift: string; // "current", "behind: copier update", "not adopted: …"
 }
 
 export interface ClientRow {
@@ -43,7 +39,6 @@ export interface ClientRow {
   language?: string;
   stage?: string;
   kind?: string | null;
-  tier?: string | null;
   opened?: string | null;
   next_action?: string | null;
   deadline?: string | null;
@@ -52,9 +47,9 @@ export interface ClientRow {
   repo?: string | null;
   owner?: string | null;
   vercel_project?: string[] | null;
-  invoices: Invoice[];
   economics: Economics | null;
   documents: ClientDoc[];
+  blueprint: Blueprint | null;
 }
 
 export interface Pitch extends Doc {
@@ -62,16 +57,22 @@ export interface Pitch extends Doc {
   language: string;
 }
 
+// The latest drift report: its file, its date and the blueprint tag it was read against.
+export interface Estate {
+  file: string;
+  date: string;
+  blueprint: string;
+}
+
 export const built: string = String(data.built);
 export const clients = data.clients as unknown as ClientRow[];
 export const clientBySlug = (slug: string): ClientRow | undefined => clients.find((c) => c.slug === slug);
 export const template: string = String(data.template);
 export const clientSlugs = new Set(clients.map((c) => c.slug));
-export const openItems = data.openItems as Doc;
-export const glance = data.glance as unknown as Doc | null;
-export const estate = data.estate as unknown as Doc | null;
-// The latest desk/review/<ISO week>.md and every desk/close/<YYYY-MM>.md (rhythms.yml).
-export const reviewDoc = data.review as unknown as Doc | null;
+// The "Jamie decides" list of core/wave.md, as the glance prints it.
+export const decides = data.decides as Doc;
+export const estate = data.estate as unknown as Estate | null;
+// Every desk/close/<YYYY-MM>.md (rhythms.yml).
 export const closeDocs = data.closes as unknown as Doc[];
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[] };
 

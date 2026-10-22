@@ -12,7 +12,6 @@ commission:
   sourced_by:
   owed:
 repo: sustentus/sustentus
-tier: platform
 owner: client
 vercel_project:
   - sustentus/web

@@ -24,12 +24,13 @@ import {
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
 import { Shell } from "../../_shell";
+import { NextTouch } from "../../_touch";
 import { Field, Flash, StatusBadge } from "../../_ui";
 import { checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
-// One prospect: the facts, the touches, the move, and "Ready for Jamie", which opens the
-// handoff PR on the house and keeps its link here. Read-only for every salesman but the
-// sourcer, and for everyone once handed off.
+// One prospect: the facts, the touches, the next touch's draft (app/_touch.tsx), the move,
+// and "Ready for Jamie", which opens the handoff PR on the house and keeps its link here.
+// Read-only for every salesman but the sourcer, and for everyone once handed off.
 export const dynamic = "force-dynamic";
 
 type Props = {
@@ -244,6 +245,8 @@ export default async function ProspectPage({ params, searchParams }: Props) {
             )}
           </CardContent>
         </Card>
+
+        {canTouch && <NextTouch p={p} />}
 
         {moves.length > 0 && (
           <Card>

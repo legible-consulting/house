@@ -4,7 +4,7 @@ holds: []
 ---
 # Quote — S4
 
-S4 produces the price, options and payment terms; the engagement's own economics (hours, model cost, hosting, margin); a private negotiation record (positions, concessions, a floor); and every invoice the agreement calls for, as branded PDF, so that Jamie quotes informed by the last deal, never goes below his floor, and sends an invoice he did not write by hand.
+S4 produces the price, options and payment terms; the engagement's own economics (the price, hours, model cost, hosting, margin, and the actuals per month); and a private negotiation record (positions, concessions, a floor), so that Jamie quotes informed by the last deal and never goes below his floor.
 
 ## Inputs
 
@@ -34,8 +34,12 @@ S4 produces the price, options and payment terms; the engagement's own economics
      the proposal's last section when rendered.
   5. Write `quote/economics.yaml` (internal): the anchor, the price, the hours, the effective
      hourly rate, the costs (model, hosting, other), the margin, the precedent read, and the
-     open item the quote closes if any. An estimate is marked as an estimate. The monthly
-     close replaces it with the measured figure.
+     open item the quote closes if any. An estimate is marked as an estimate. The desk reads
+     four keys: `price.monthly` (a retainer or a role) or `price.total` (a build), the
+     estimates `hours.per_month` and `costs_monthly`, and the actuals per month under
+     `months.<YYYY-MM>` (`hours`, `costs`), which Jamie types at the monthly close (why: the
+     close measures the engagement against what was agreed; invoices and payments are handled
+     outside the house · 2026-10-22).
   6. Write `quote/negotiation.md` (private, English): the positions (opening, standard,
      floor), the concessions in order with what each costs, the non-price positions, what the
      client may say and the answer, each deviation from a house rule with its reason, and a
@@ -47,10 +51,7 @@ S4 produces the price, options and payment terms; the engagement's own economics
   reason. The next quote reads it as precedent (`services.md`).
 - The gate: Jamie sends the price with the proposal. A session never sends, never moves
   `stage`, never ticks a gate (boundary).
-- Not yet walked: the invoices. The first one is written when Jamie moves the stage to
-  `agreement`, one per payment the quote names, as `invoices/<n>.yaml`. The first agreement
-  sets the file's shape.
 
 ## Outputs
 
-- `clients/<slug>/quote/quote.md` · `economics.yaml` · `negotiation.md` (private) · `invoices/<n>.yaml` (structured, not prose; the dashboard reads them). `clients/CONTEXT.md` holds them.
+- `clients/<slug>/quote/quote.md` · `economics.yaml` (the desk reads it) · `negotiation.md` (private). `clients/CONTEXT.md` holds them.

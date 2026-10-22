@@ -1,17 +1,15 @@
 // Reads the house at build time and writes lib/house.json, which the pages import, so the
 // deployed function never touches the repo. Runs first in `npm run build`. What it reads:
-//   clients/*/record.md            frontmatter: the clients table, the review, the close
-//   clients/*/quote/invoices/*.yaml the invoices (fields: clients/CONTEXT.md)
-//   clients/*/quote/economics.yaml  the engagement's own economics (S4)
+//   clients/*/record.md            frontmatter: the clients table, the glance, the close
+//   clients/*/quote/economics.yaml  the engagement's economics (S4): the price, the estimates,
+//                                   the actuals per month
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
 //   clients/_template/record.md     the handoff PR
-//   core/wave.md                    the Jamie decides list the Friday review prints
-//   desk/glance/<latest>.md         the morning glance
-//   desk/review/<latest>.md         the Friday review file (rhythms.yml)
+//   core/wave.md                    the Jamie decides list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
-//   desk/estate/<latest drift>.md   the estate drift report
-//   sell/01-prospecting/            the Sell page
+//   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
+//   sell/01-prospecting/            the Sell page and the seller's next touch
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -32,9 +30,9 @@ const read = (...path) => readFileSync(join(...path), "utf8");
 const files = (dir, ext) =>
   existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(ext)).sort() : [];
 
-// A markdown file as { file, title, body }: the body without the frontmatter, the title
-// from it. Links to a client record (../../clients/<slug>/record.md, as the glance writes
-// them) point at the client's page in the desk.
+// A markdown file as { file, title, date, body, fm }: the body without the frontmatter, the
+// title from it. Links to a client record (../../clients/<slug>/record.md, as the files
+// write them) point at the client's page in the desk.
 const doc = (dir, file) => {
   const { fm, body } = split(read(dir, file));
   return {
@@ -45,14 +43,33 @@ const doc = (dir, file) => {
     fm,
   };
 };
-const latest = (dir, ext, keep = () => true) => {
-  const f = files(dir, ext).map((file) => doc(dir, file)).filter(keep).at(-1);
-  return f ? { file: f.file, title: f.title, date: f.date, body: f.body } : null;
-};
+const latest = (dir, ext, keep = () => true) => files(dir, ext).map((file) => doc(dir, file)).filter(keep).at(-1) ?? null;
+const plain = ({ file, title, date, body }) => ({ file, title, date, body });
 
-// One client: the record's frontmatter, its invoices, its economics and its client-facing
-// documents. The template folder is skipped: its {{PLACEHOLDERS}} are not a client.
-// research/, negotiation.md and economics.yaml are internal: never a document.
+// The latest drift report (D4): one line per repo, keyed by the repo. The header names the
+// columns, so a column added to or removed from drift.sh does not move the read.
+const drift = latest(join(house, "desk", "estate"), ".md", (d) => d.fm.kind === "estate");
+const blueprintOf = new Map();
+if (drift) {
+  const rows = drift.body.split("\n").filter((l) => l.startsWith("|"));
+  const cells = (l) => l.split("|").slice(1, -1).map((c) => c.trim());
+  const header = rows[0] ? cells(rows[0]).map((h) => h.toLowerCase()) : [];
+  const col = (name) => header.indexOf(name);
+  for (const row of rows.slice(2)) {
+    const c = cells(row);
+    const repo = /`([^`]+)`/.exec(c[col("repo")] ?? "")?.[1];
+    if (!repo) continue;
+    blueprintOf.set(repo, {
+      tracks: (c[col("tracks")] ?? "").replace(/`/g, ""),
+      drift: (c[col("drift")] ?? "").replace(/`/g, ""),
+    });
+  }
+}
+const estate = drift ? { file: drift.file, date: drift.date, blueprint: String(drift.fm.blueprint ?? "") } : null;
+
+// One client: the record's frontmatter, its economics, its client-facing documents and its
+// repo's line in the drift report. The template folder is skipped: its {{PLACEHOLDERS}} are
+// not a client. research/, negotiation.md and economics.yaml are internal: never a document.
 const clients = readdirSync(clientsDir, { withFileTypes: true })
   .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
   .flatMap((d) => {
@@ -64,20 +81,6 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
       return [];
     }
     const slug = String(fm.slug ?? d.name);
-    const invoices = files(join(dir, "quote", "invoices"), ".yaml").map((f) => {
-      const v = parse(read(dir, "quote", "invoices", f)) ?? {};
-      return {
-        file: f,
-        number: String(v.number ?? f.replace(/\.yaml$/, "")),
-        issued: String(v.issued ?? ""),
-        due: String(v.due ?? ""),
-        paid: v.paid ? String(v.paid) : "",
-        amount: Number(v.amount ?? 0),
-        currency: String(v.currency ?? "EUR"),
-        vat: Number(v.vat ?? 0.23),
-        for: String(v.for ?? ""),
-      };
-    });
     const economics = existsSync(join(dir, "quote", "economics.yaml"))
       ? (parse(read(dir, "quote", "economics.yaml")) ?? null)
       : null;
@@ -88,64 +91,43 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
       ...files(join(dir, "handover"), ".md").map((f) => ["handover", f]),
     ]
       .filter(([stage, f]) => existsSync(join(dir, stage, f)))
-      .map(([stage, f]) => ({ stage, ...doc(join(dir, stage), f), fm: undefined }));
-    return [{ ...fm, slug, invoices, economics, documents }];
+      .map(([stage, f]) => ({ stage, ...plain(doc(join(dir, stage), f)) }));
+    const blueprint = fm.repo ? (blueprintOf.get(String(fm.repo)) ?? null) : null;
+    return [{ ...fm, slug, economics, documents, blueprint }];
   })
   .sort((a, b) => a.slug.localeCompare(b.slug));
 
 const template = read(clientsDir, "_template", "record.md");
-// What Jamie decides: the bullet lines under "## Jamie decides" in core/wave.md.
+// What Jamie decides: the bullets under "## Jamie decides" in core/wave.md, whole.
 const wave = read(house, "core", "wave.md");
-const decides = (wave.split(/^## Jamie decides[^\n]*\n/m)[1] ?? "").split(/^## /m)[0].trim();
-const openItems = { file: "wave.md", title: "Jamie decides", body: decides };
-const glance = latest(join(house, "desk", "glance"), ".md");
-const estate = latest(join(house, "desk", "estate"), ".md", (d) => d.fm.kind === "estate");
-// The review and the close files: the page renders the file for its week or month when one
-// exists, and computes the same words live otherwise.
-const review = latest(join(house, "desk", "review"), ".md", (d) => d.fm.kind === "review");
+const decidesBody = (wave.split(/^## Jamie decides[^\n]*\n/m)[1] ?? "").split(/^## /m)[0].trim();
+const decides = { file: "wave.md", title: "Jamie decides", body: decidesBody };
+// The close files: the page renders the file for its month when one exists, and computes the
+// same words live otherwise.
 const closeDir = join(house, "desk", "close");
 const closes = files(closeDir, ".md")
   .map((f) => doc(closeDir, f))
   .filter((d) => d.fm.kind === "close")
-  .map(({ file, title, date, body }) => ({ file, title, date, body }));
+  .map(plain);
 
 // S1's words for a salesman (sell/01-prospecting/prospect.md, "The salesman's deal"): the
 // target profile, the cadence and every pitch draft, in file order (touch, then language).
-const sellDoc = (...path) => {
-  const d = doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
-  return { fm: d.fm, doc: { file: d.file, title: d.title, body: d.body } };
-};
+const sellDoc = (...path) => doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
 const sell = {
-  profile: sellDoc("target-profile.md").doc,
-  cadence: sellDoc("cadence.md").doc,
+  profile: plain(sellDoc("target-profile.md")),
+  cadence: plain(sellDoc("cadence.md")),
   pitch: files(join(sellDir, "pitch"), ".md").map((f) => {
-    const { fm, doc: d } = sellDoc("pitch", f);
-    return { ...d, touch: Number(fm.touch ?? 0), language: String(fm.language ?? "") };
+    const d = sellDoc("pitch", f);
+    return { ...plain(d), touch: Number(d.fm.touch ?? 0), language: String(d.fm.language ?? "") };
   }),
 };
 
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify(
-    {
-      built,
-      clients,
-      template,
-      openItems: { file: openItems.file, title: openItems.title, body: openItems.body },
-      glance,
-      review,
-      closes,
-      estate,
-      sell,
-    },
-    null,
-    2,
-  ),
+  JSON.stringify({ built, clients, template, decides, closes, estate, sell }, null, 2),
 );
-const invoices = clients.reduce((n, c) => n + c.invoices.length, 0);
 console.log(
-  `lib/house.json: ${clients.length} clients, ${invoices} invoices, ${sell.pitch.length} pitch drafts, ` +
-    `glance ${glance?.date ?? "none"}, review ${review?.file ?? "none"}, ${closes.length} closes, ` +
-    `estate ${estate?.date ?? "none"}`,
+  `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${closes.length} closes, ` +
+    `drift ${estate?.date ?? "none"}`,
 );

@@ -8,7 +8,7 @@ import { inFlight, repoStatus, type RepoStatus, type Run } from "@/lib/repos";
 // boundary, so a slow GitHub never holds the rest of the page. Jamie gets the links and the
 // reason when a read fails; a client gets the words only (the repo is private, and the
 // reason names the desk's token). RunState is the one way a run is shown on the desk: the
-// Refresh card and the Work card use it too.
+// sync pill and the Work rows use it too.
 
 type Ok = Extract<RepoStatus, { ok: true }>;
 
@@ -18,7 +18,7 @@ const word = (conclusion: string) =>
 const tone = (conclusion: string): "secondary" | "destructive" | "outline" =>
   conclusion === "success" ? "secondary" : RED.has(conclusion) ? "destructive" : "outline";
 
-// Times are Lisbon's, the house's clock: the glance is dated there (sweep-deadlines.sh).
+// Times are Lisbon's, the house's clock: the glance is dated there (lib/rhythms.ts).
 const LISBON = "Europe/Lisbon";
 const clockFormat = new Intl.DateTimeFormat("en-GB", { timeZone: LISBON, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
 const dayFormat = new Intl.DateTimeFormat("en-CA", { timeZone: LISBON });

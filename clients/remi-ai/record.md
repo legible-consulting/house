@@ -12,7 +12,6 @@ commission:
   sourced_by:
   owed:
 repo: k0d0minio/remi-ai
-tier: platform
 owner: jamie
 vercel_project:
   - remi21/app

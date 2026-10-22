@@ -12,7 +12,6 @@ commission:
   sourced_by:
   owed:
 repo:
-tier:
 owner: jamie
 vercel_project: []
 collaborators: []

@@ -8,7 +8,6 @@ holds:
   - "*/proposal/*.md"
   - "*/quote/*.md"
   - "*/quote/economics.yaml"
-  - "*/quote/invoices/*.yaml"
   - "*/agreement/*.md"
   - "*/kickoff/*.md"
   - "*/handover/*.md"
@@ -58,16 +57,14 @@ C2 produces one folder per relationship, opened when Jamie takes the lead and ke
 
 ## Outputs
 
-- `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `repo`, `tier`, `owner`,
+- `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `repo`, `owner`,
   `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`,
   commission fields.
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one
   subfolder per module that has produced for this client.
-- `<slug>/quote/invoices/<number>.yaml`, one per invoice S4 produces, structured so the desk
-  reads it (the monthly close, the client's page). Fields: `number`, `issued` (date), `due`
-  (date), `amount` (excluding VAT), `currency` (`EUR` unless set), `vat` (`0.23` unless set),
-  `for` (one line), `paid` (the date the money arrived; absent until then). Jamie sets `paid`
-  by hand (why: Revolut and Stripe are the truth and the folder records it; money is a
-  rhythm's output, not a module · 2026-10-21).
+- `<slug>/quote/economics.yaml`, S4's file: the price, the estimates and the actuals per
+  month that the monthly close reads (the shape: `sell/04-quote/CONTEXT.md`). Jamie types a
+  month's hours and cost at the close (why: invoices and payments are handled outside the
+  house, and the close measures the engagement, not the cash · 2026-10-22).
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is
   submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).

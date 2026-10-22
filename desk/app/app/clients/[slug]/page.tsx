@@ -1,10 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { clientBySlug, day } from "@/lib/house";
 import { repoInFlight } from "@/lib/repos";
-import { money } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
 import { RepoFacts } from "../../_repo";
@@ -13,15 +11,15 @@ import { Heading, Prose } from "../../_ui";
 import { ClientWork, WorkBody } from "../../_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
-// reads (proposal, quote, agreement, handover) and the invoices. The repo's latest release
-// and check.yml run are read per request (lib/repos.ts); the client sees those two facts and
-// nothing else from the repo's status. The work (the tickets and the pull requests,
-// lib/work.ts) is the same card as /work for Jamie, and three lists in words for the client:
-// in progress with the preview link, shipped, queued. For Jamie the page re-reads itself
-// while a check.yml run, a pull request's run or a deploy is in flight (app/_shell.tsx).
-// Jamie reads every folder; a client reads the one linked to their account (users.client);
-// a salesman follows a deal from the pool row instead and never lands here. Research,
-// negotiation and economics are internal and never on this page.
+// reads (proposal, quote, agreement, handover). The repo's latest release and check.yml run
+// are read per request (lib/repos.ts); the client sees those two facts and nothing else from
+// the repo's status. The work (the tickets and the pull requests, lib/work.ts) is the same
+// list as /work for Jamie, and three lists in words for the client: in progress with the
+// preview link, shipped, queued. For Jamie the page re-reads itself while a check.yml run, a
+// pull request's run or a deploy is in flight (app/_shell.tsx). Jamie reads every folder; a
+// client reads the one linked to their account (users.client); a salesman follows a deal
+// from the pool row instead and never lands here. Research, negotiation, economics and the
+// repo's drift are internal and never on this page for a client.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -39,16 +37,19 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
   const facts: [string, string][] = [
     ["Stage", c.stage ?? ""],
     ["Kind", c.kind ?? ""],
-    ["Tier", c.tier ?? ""],
     ["Language", c.language ?? ""],
     ["Opened", day(c.opened)],
     ["Next action", c.next_action ?? ""],
     ["Deadline", day(c.deadline)],
     ["Repo", c.repo ?? ""],
     ["Vercel", (c.vercel_project ?? []).join(", ")],
-    ...(jamie ? ([["Salesman", c.salesman ?? ""]] as [string, string][]) : []),
+    ...(jamie
+      ? ([
+          ["Blueprint", c.blueprint ? `${c.blueprint.drift} (tracks ${c.blueprint.tracks})` : c.repo ? "not in the drift report" : ""],
+          ["Salesman", c.salesman ?? ""],
+        ] as [string, string][])
+      : []),
   ].filter(([, v]) => v) as [string, string][];
-  const unpaid = c.invoices.filter((i) => !i.paid);
   const live = jamie && c.repo ? [repoInFlight(c.repo), workInFlight(c.repo)] : [];
 
   return (
@@ -108,49 +109,6 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
             <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
           </Card>
         )}
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Invoices</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {c.invoices.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No invoice yet.</p>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Number</TableHead>
-                    <TableHead>For</TableHead>
-                    <TableHead>Issued</TableHead>
-                    <TableHead>Due</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
-                    <TableHead>Paid</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {c.invoices.map((i) => (
-                    <TableRow key={i.file}>
-                      <TableCell className="font-medium">{i.number}</TableCell>
-                      <TableCell>{i.for}</TableCell>
-                      <TableCell className="tabular-nums">{i.issued}</TableCell>
-                      <TableCell className="tabular-nums">{i.due}</TableCell>
-                      <TableCell className="text-right tabular-nums">{money(i.amount, i.currency)}</TableCell>
-                      <TableCell className="tabular-nums">
-                        {i.paid ? i.paid : <Badge variant="outline">open</Badge>}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
-            {unpaid.length > 0 && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                {unpaid.length} open, {money(unpaid.reduce((n, i) => n + i.amount, 0), unpaid[0]!.currency)} excluding VAT.
-              </p>
-            )}
-          </CardContent>
-        </Card>
 
         {c.documents.length === 0 ? (
           <p className="text-sm text-muted-foreground">No document yet.</p>

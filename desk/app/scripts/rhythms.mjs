@@ -1,18 +1,17 @@
-// Writes the Friday review and the monthly close as files, the way sweep-deadlines writes the
-// glance, so phone, Google and terminal read the same words as the desk. The rules are the
-// app's own: this script imports lib/rhythms.ts (Node 24 strips the types) and reads
-// lib/house.json, so run scripts/read-house.mjs first. It does not touch git: rhythms.yml
-// commits the result. Usage, from desk/app:
-//   node scripts/rhythms.mjs review [--root <dir>]          desk/review/<ISO week>.md
+// Writes the morning glance and the monthly close as files, with the app's own rules: this
+// script imports lib/rhythms.ts (Node 24 strips the types) and reads lib/house.json, so run
+// scripts/read-house.mjs first. It does not touch git: rhythms.yml commits the result. Usage,
+// from desk/app:
+//   node scripts/rhythms.mjs glance [--root <dir>]          desk/glance/<date>.md
 //   node scripts/rhythms.mjs close [YYYY-MM] [--root <dir>]  desk/close/<YYYY-MM>.md
 // The close covers the month that ended before today unless a month is given: the workflow
 // runs on the 1st. --root writes under <dir>/desk/ instead of the house (check.yml uses it to
-// run the script on every push without a commit). It deletes the previous reviews (git holds
-// them) and the closes older than 13 months, which /close?month= reads.
+// run the script on every push without a commit). The glance keeps the latest file only and
+// the closes keep 13 months, which /close?month= reads. Git holds the past.
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { STAGES, close, isoWeek, money, review } from "../lib/rhythms.ts";
+import { STAGES, close, closeTotals, glance, money, today as lisbon } from "../lib/rhythms.ts";
 
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = JSON.parse(readFileSync(join(app, "lib", "house.json"), "utf8"));
@@ -23,8 +22,7 @@ const root = at >= 0 ? args.splice(at, 2)[1] : join(app, "..", "..");
 if (!root) throw new Error("--root needs a directory");
 const [rhythm, monthArg] = args;
 
-// Today in Lisbon, as the sweep dates the glance.
-const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
+const today = lisbon();
 const addMonths = (month, n) => {
   const [y, m] = month.split("-").map(Number);
   return new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 7);
@@ -33,8 +31,8 @@ const addMonths = (month, n) => {
 // A table cell: one line, no pipe. A client name links to the record, as the glance does;
 // read-house.mjs turns the link into the client's page in the desk.
 const cell = (v) => String(v ?? "").replace(/\|/g, "\\|").replace(/\s*\n\s*/g, " ").trim();
-const link = (c) => `[${cell(c.name ?? c.slug)}](../../clients/${c.slug}/record.md)`;
-const day = (v) => String(v ?? "").slice(0, 10);
+const recordOf = (c) => `../../clients/${c.slug}/record.md`;
+const link = (c) => `[${cell(c.name ?? c.slug)}](${recordOf(c)})`;
 const front = (fields) => ["---", ...Object.entries(fields).map(([k, v]) => `${k}: ${v}`), "---"].join("\n");
 
 function write(dir, name, text) {
@@ -69,77 +67,65 @@ function keepOnly(dir, pattern, name) {
   }
 }
 
-function writeReview() {
-  const week = isoWeek(today);
-  const { rows, ongoing } = review(house.clients, today);
-  const lines = [
-    front({ title: `Friday review ${week}`, kind: "review", date: today, week }),
-    `# Friday review ${week}`,
+function writeGlance() {
+  const text = [
+    front({ title: `Morning glance ${today}`, kind: "glance", date: today }),
+    `# Morning glance ${today}`,
     "",
-    `${today}. Every client's next action and deadline, the soonest deadline first, then what Jamie decides. Written by \`rhythms.yml\` from the house as of this date.`,
-    "",
-    "## Clients",
-    "",
-  ];
-  if (rows.length === 0) {
-    lines.push("No client with a next action or a deadline.");
-  } else {
-    lines.push("| Client | Stage | Kind | Next action | Deadline | Days | Salesman |", "|---|---|---|---|---|---|---|");
-    for (const { client: c, days } of rows) {
-      const left = days === null ? "" : days < 0 ? `**${-days} overdue**` : days <= 7 ? `**${days}**` : String(days);
-      lines.push(
-        `| ${link(c)} | ${cell(c.stage)} | ${cell(c.kind)} | ${cell(c.next_action) || "no next action"} | ${day(c.deadline)} | ${left} | ${cell(c.salesman)} |`,
-      );
-    }
-  }
-  if (ongoing.length > 0) {
-    lines.push("", `Ongoing, no next action needed: ${ongoing.map((c) => `${c.name ?? c.slug} (${c.kind})`).join(", ")}.`);
-  }
-  lines.push("", "## Jamie decides", "", house.openItems.body.trim(), "");
-  write("review", `${week}.md`, lines.join("\n"));
-  // The latest review only: delete every other one. Git holds the past reviews.
-  keepOnly("review", /^\d{4}-W\d{2}$/, `${week}.md`);
-  return week;
+    glance(house.clients, house.decides.body, today, recordOf),
+  ].join("\n");
+  write("glance", `${today}.md`, text);
+  keepOnly("glance", /^\d{4}-\d{2}-\d{2}$/, `${today}.md`);
+  return today;
 }
 
 function writeClose() {
   const month = monthArg ?? addMonths(today.slice(0, 7), -1);
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) throw new Error(`month "${month}" is not YYYY-MM`);
-  const rows = close(house.clients, month);
+  const { rows, projected } = close(house.clients, month);
+  const t = closeTotals(rows);
   const cur = rows[0]?.currency ?? "EUR";
-  const m = (n, c = cur) => (n ? money(n, c) : "—");
-  const total = (k) => rows.reduce((n, r) => n + r[k], 0);
-  const commission = rows.reduce((n, r) => n + (r.commission ?? 0), 0);
+  const m = (n, c = cur) => (n === null || n === undefined ? "—" : money(n, c));
+  const est = (r) => (r.actual ? "" : " est.");
   const lines = [
     front({ title: `Monthly close ${month}`, kind: "close", date: today, month }),
     `# Monthly close ${month}`,
     "",
-    `Written ${today} by \`rhythms.yml\` from the house as of this date. Amounts exclude VAT. Owed is every invoice issued by the month's end and unpaid at it.`,
+    `Written ${today} by \`rhythms.yml\` from the house as of this date. Every engaged client against its \`quote/economics.yaml\`: the agreed price, the hours and the cost put in this month, and what is left. A value marked est. is the estimate, because the month's actuals are not in the file yet. Invoices and payments are handled outside the house.`,
     "",
-    "## Money",
+    "## Engagements",
     "",
   ];
   if (rows.length === 0) {
-    lines.push("Nothing to close: no client has an invoice in `quote/invoices/` or an `economics.yaml`.");
+    lines.push("Nothing to close: no client is at agreement or later.");
   } else {
     lines.push(
-      "| Client | Kind | Invoiced | Paid | Owed | Overdue | Cost / month | Margin / month | Commission due |",
-      "|---|---|--:|--:|--:|--:|--:|--:|--:|",
+      "| Client | Kind | Price | Hours | Cost | Margin | Hourly | Commission owed |",
+      "|---|---|--:|--:|--:|--:|--:|--:|",
     );
     for (const r of rows) {
       const c = r.client;
-      const due = c.salesman ? (r.commission === null ? "owed not set" : money(r.commission, r.currency)) : "—";
+      const price = r.price === null ? "not set" : `${money(r.price, r.currency)} ${r.priceKind === "total" ? "total" : "/ month"}`;
+      const margin = r.margin === null ? "—" : `${money(r.margin, r.currency)}${r.priceKind === "total" ? " to date" : ""}`;
       lines.push(
-        `| ${link(c)} | ${cell(c.kind)} | ${m(r.invoiced, r.currency)} | ${m(r.paid, r.currency)} | ${m(r.owed, r.currency)} | ${r.overdue ? `**${money(r.overdue, r.currency)}**` : "—"} | ${r.costMonthly === null ? "—" : money(r.costMonthly, r.currency)} | ${r.marginMonthly === null ? "—" : money(r.marginMonthly, r.currency)} | ${due} |`,
+        `| ${link(c)} | ${cell(c.kind)} | ${price} | ${r.hours === null ? "—" : `${r.hours}${est(r)}`} | ${r.cost === null ? "—" : `${money(r.cost, r.currency)}${est(r)}`} | ${margin} | ${r.hourly === null ? "—" : money(r.hourly, r.currency)} | ${r.commission === null ? "—" : money(r.commission, r.currency)} |`,
       );
     }
     lines.push(
-      `| **Total** | | **${m(total("invoiced"))}** | **${m(total("paid"))}** | **${m(total("owed"))}** | **${m(total("overdue"))}** | | | **${m(commission)}** |`,
+      `| **Total** | | **${m(t.monthly)} / month** | **${t.hours}** | **${m(t.cost)}** | **${m(t.margin)}** | | **${m(t.commission)}** |`,
+    );
+  }
+  if (projected.length > 0) {
+    lines.push(
+      "",
+      `Projected, not agreed: ${projected
+        .map((r) => `${link(r.client)} (${r.client.stage}) ${r.price === null ? "no price" : `${money(r.price, r.currency)} ${r.priceKind === "total" ? "total" : "/ month"}`}`)
+        .join(", ")}.`,
     );
   }
   lines.push(
     "",
-    "Cost and margin per month come from each client's `quote/economics.yaml`, where a value marked estimate stays an estimate until measured. Commission is the record's `commission.owed`, due in proportion to what the client paid this month (`sell/01-prospecting/prospect.md`).",
+    "Price is `price.monthly` for a retainer or a role and `price.total` for a build. Hours and cost are the month's actuals in `months.<YYYY-MM>`, else the estimates `hours.per_month` and `costs_monthly`. Margin is price less cost this month, or for a build the total less every month's cost to date. Hourly is the price over the hours. Commission is the record's `commission.owed`, settled as the client pays, outside the house (`sell/01-prospecting/prospect.md`).",
     "",
     "## Pipeline",
     "",
@@ -161,8 +147,8 @@ function writeClose() {
 }
 
 let done;
-if (rhythm === "review") done = writeReview();
+if (rhythm === "glance") done = writeGlance();
 else if (rhythm === "close") done = writeClose();
-else throw new Error('usage: node scripts/rhythms.mjs review|close [YYYY-MM] [--root <dir>]');
+else throw new Error("usage: node scripts/rhythms.mjs glance|close [YYYY-MM] [--root <dir>]");
 
 if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `name=${done}\n`);

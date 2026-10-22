@@ -5,12 +5,12 @@ holds:
 ---
 # Estate conformance — D4
 
-D4 produces a report that every live repo matches its tier's template and carries only the Claude assets it uses, and that every dormant repo is archived, secret-free and named, so that the estate is in order and drift is known before it costs anything.
+D4 produces a report that every live repo matches the blueprint and carries only the Claude assets it uses, and that every dormant repo is archived, secret-free and named, so that the estate is in order and drift is known before it costs anything.
 
 ## Inputs
 
 - `desk/mani.yaml`, hand-written: every client build and the proof render, with their tags.
-- `legible-consulting/blueprint` tags (what "conformant" means per tier).
+- `legible-consulting/blueprint` tags (what "conformant" means).
 
 ## Process
 
