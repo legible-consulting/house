@@ -22,3 +22,13 @@ decision lands in the file that owns the fact.
 - The `quote` stage in `clients/CONTEXT.md` ends when the client accepts `quote/quote.md`.
   The proposal now carries the price as its last section (`voice.md`, 2026-10-19). Decide
   whether `quote.md` is S4's section rendered into the proposal, or the stage table changes.
+- Cloud read access to `blueprint`, `library`, `.github` and `site-proof`: every read returned
+  403 from the `legible` session of 2026-10-22, the org endpoints too. Default: no; one
+  session, one repo stays, and the sibling-repo and org parts of the stocktake run from the
+  local lane with Jamie's login (2026-10-22).
+- The next action of agorasim, berceo and vinecliff: the three `kind: build` records carry
+  none, so the glance lists none of them. Default: vinecliff carries vinecliff#29; agorasim
+  and berceo carry none until a ticket opens, and the record says so (2026-10-22).
+- When the research intake is first tried: `operator/research/intake.md` calls `gh issue
+  list`, `gh pr create` and `gh issue close`, which fail in `legible`. Default: after the
+  file is rewritten for REST, with one issue labelled `research` on the house (2026-10-22).
