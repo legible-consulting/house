@@ -20,14 +20,16 @@ S4 produces the price, options and payment terms; the engagement's own economics
      two-options rule in `services.md`, and the terms in `terms.md`. Read the last closed
      quote if one exists.
   2. Compute a default. For a build: honest hours × the anchor, checked against the last
-     closed proposal. For a retainer: the range in `services.md`, or, while the range is an
-     open item, the range Jamie named to the client, against the written monthly scope. The
-     hours are an honest estimate of Jamie's own attention per month, not the sessions' time.
-  3. Ask Jamie, in one batch: the price (the standard rate and any discounted rate, with the
-     reason for the discount), the floor, whether a second option exists (the smallest honest
-     version of the job), and his hours. Offer the computed default in each question. A
-     session never sets the discount or the floor (why: the floor is where Jamie's judgement
-     enters · 2026-10-21).
+     closed proposal. For a retainer: Jamie's hours of attention a month × the anchor, less
+     the term discount (`services.md` § Retainer pricing), checked against the last retainer
+     quote's `economics.yaml`. The hours are an honest estimate of Jamie's own attention per
+     month, not the sessions' time.
+  3. Ask Jamie, in one batch: the price (his hours, the committed term, and any discount
+     beyond the term table with its reason), the floor, whether a second option exists (the
+     smallest honest version of the job), and for a retainer whether hours beyond the promise
+     are absorbed or billed at the anchor. Offer the computed default in each question. A
+     session never sets a discount beyond the table or the floor (why: the floor is where
+     Jamie's judgement enters · 2026-10-21).
   4. Write `quote/quote.md` in the client's language: the price table, what the rate covers
      and what it does not, payment, ending, ownership and access, validity, the parties, law
      and language, from `terms.md`. A deviation from a term is named in the text. The file is

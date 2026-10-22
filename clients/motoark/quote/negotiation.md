@@ -60,9 +60,11 @@ Internal, English. Never sent, never quoted.
   for near full-time and a stand-in CTO. The smallest honest version of that job is the whole
   job. Jamie's decision, 2026-10-21. The half option (development flow and review only) exists
   as concession 4, not as an offer.
-- **A rate below the standard.** The reason is the committed block of three months and
-  recurring work. The next retainer quote reads this as precedent: a committed block earns the
-  lower end of the range.
+- **A rate below the rule.** `core/services.md` § Retainer pricing gives 60 hours × €120 =
+  €7,200 a month, and €6,120 for a 3-month block. The quote says €3,800 and €3,500: the range
+  Sam heard on the call, against a technology burn under 3,000 USD a month. The discount the
+  quote names is the committed block. The next retainer quote reads the rule, and this entry
+  as the deviation (2026-10-22).
 
 ## Record
 

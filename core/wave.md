@@ -87,7 +87,5 @@ factory proves nothing · 2026-10-22).
 ## Jamie decides
 
 - Where the business site is served (O3's output; `jamienisbet.com` is personal today).
-- The retainer price range. S4 proposed 3,500 to 3,800 a month
-  (`clients/motoark/quote/economics.yaml`). `services.md` names no range.
 - The workshop day price and the coaching hour price. `services.md` names neither. Distil
   them from the first engagements.

@@ -59,6 +59,9 @@ record names who hosts what and the monthly cost, per client.
 - Either side may end with 30 days' written notice.
 - Work done to the notice date is invoiced. The deposit is not refunded.
 - A retainer ends at the end of the notice period. The month in progress is not refunded.
+- A retainer that ends before its committed block ends: the term discount
+  (`services.md` § Retainer pricing) on the months already billed is invoiced with the last
+  invoice (why: the discount buys the block; without the block it was not earned · 2026-10-22).
 
 ## Law and language
 
