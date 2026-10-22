@@ -9,6 +9,7 @@ currency: EUR
 standard_monthly: 3800
 evaluation_monthly: 3500
 evaluation_months: 3
+hours_month: 60
 status: draft
 ---
 
@@ -33,8 +34,10 @@ applies, against a written monthly scope.
 ### What the rate covers
 
 - The scope in this proposal, month by month, as written at the start of each month.
-- My time, and the AI sessions I run, model cost included. There is no hourly billing and no
-  timesheet. You pay for the written scope and what lands in the repositories.
+- Sixty hours of my own attention a month, and the AI sessions I run with them, model cost
+  included. How I spend those hours is my call. There is no timesheet: what we measure is the
+  written scope and what lands in the repositories. Hours do not carry over from one month to
+  the next. If a month needs more than sixty, I absorb it.
 - The weekly planning call and the monthly checkpoint.
 
 Not covered: hosting, third-party services and licences, which stay in MotoArk's name; the two
@@ -54,6 +57,9 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.
+- The lower rate buys the block of three. If you end the evaluation before it is over, the
+  €300 a month between the standard rate and the evaluation rate is invoiced for each month
+  already billed, with the last invoice.
 
 ### Ownership and access
 

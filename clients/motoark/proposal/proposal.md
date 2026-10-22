@@ -74,9 +74,8 @@ What you get each month:
   cadence.
 - A short written scope at the start of the month, and a checkpoint at its end: what landed,
   what did not and why, and what comes next.
-- A weekly 30-minute planning call with you. Everything else happens in the repository, in
-  whatever hours the work takes. You said you care about repos and outputs, not nine to five.
-  So do I.
+- A weekly 30-minute planning call with you. Everything else happens in the repository. You
+  said you care about repos and outputs, not nine to five. So do I.
 - Review and guidance for the two developers. Their pull requests go through the same loop,
   and they learn the method by working inside it.
 - Access to everything I do. No private tooling, no step that only I can run.

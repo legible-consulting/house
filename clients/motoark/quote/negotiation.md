@@ -35,8 +35,12 @@ Internal, English. Never sent, never quoted.
 
 - Payment monthly in advance, due 14 days: hold.
 - 30 days' notice: hold. The fixed end of the evaluation is the real exit. Use it.
-- Hours: never quote hours. The written monthly scope and the outputs are the unit. Sam said
-  so himself.
+- Hours: the quote promises 60 hours a month of Jamie's own attention, as `core/services.md`
+  asks. The written monthly scope and the outputs stay the unit of delivery; the hours are the
+  promise, not a timesheet. Hours beyond the promise are absorbed, not billed (why: the
+  proposal sells near full-time attention; an hourly overage reads as a meter · 2026-10-22).
+- Early exit: 30 days' notice holds inside the block. If Sam ends the evaluation before its
+  three months, the €300 a month is invoiced on the months already billed. Hold.
 - Equity, or a lower cash rate against equity: not in the evaluation. A position (`kind: role`)
   is a month 3 conversation.
 - Start date: flexible by a few weeks. Jamie closes other work first. The first invoice paid
@@ -49,8 +53,11 @@ Internal, English. Never sent, never quoted.
   question is what MotoArk loses if you are gone. Month 1 answers that in the repos.
 - "Can you do it for 3,000?" Not for this scope. For €3,200, months 2 and 3 become the
   development flow and review only (concession 4).
-- "Full-time means 40 hours." The retainer buys the written scope and the outputs. My
-  attention is close to full-time. Hours are not the unit.
+- "Full-time means 40 hours." The retainer promises 60 hours of my own attention a month and
+  the written scope. The sessions I run multiply those hours. What we measure is what lands.
+- "Why do I pay the discount back if I leave?" The lower rate buys the three months. Leave the
+  block early and the months you had were at the standard rate. The notice period is still
+  yours.
 - "What about after month 3?" €3,800 against a written monthly scope, or a position agreed on
   its own terms.
 

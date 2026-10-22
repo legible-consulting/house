@@ -102,8 +102,8 @@ hours a month to near full-time, and one range fits none of them · 2026-10-22).
 - **Beyond the promise.** A month that needs more than the promised hours is absorbed, or
   the extra hours are billed at the undiscounted anchor. Jamie decides per relationship, and
   the quote says which.
-- **Leaving a block early.** The 30-day exit in `terms.md` holds inside a block. The term
-  discount on the months already billed is invoiced with the last invoice (`terms.md`
-  § Ending an engagement).
+- **Leaving a block early.** The 30-day exit in `terms.md` holds inside a block. When the
+  client ends inside it, the term discount on the months already billed is invoiced with the
+  last invoice (`terms.md` § Ending an engagement).
 - **Precedent.** No retainer has closed at the rule yet. Sustentus and MotoArk sit below it;
   each is recorded in its `quote/economics.yaml`.
