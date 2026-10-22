@@ -37,8 +37,9 @@ Internal, English. Never sent, never quoted.
 - 30 days' notice: hold. The fixed end of the evaluation is the real exit. Use it.
 - Hours: the quote promises 60 hours a month of Jamie's own attention, as `core/services.md`
   asks. The written monthly scope and the outputs stay the unit of delivery; the hours are the
-  promise, not a timesheet. Hours beyond the promise are absorbed, not billed (why: the
-  proposal sells near full-time attention; an hourly overage reads as a meter · 2026-10-22).
+  promise, not a timesheet. Hours beyond the promise are agreed with Sam first and billed at
+  the anchor, €120 an hour, on the next invoice. Never a surprise line (Jamie's decision ·
+  2026-10-22).
 - Early exit: 30 days' notice holds inside the block. If Sam ends the evaluation before its
   three months, the €300 a month is invoiced on the months already billed. Hold.
 - Equity, or a lower cash rate against equity: not in the evaluation. A position (`kind: role`)
@@ -55,6 +56,9 @@ Internal, English. Never sent, never quoted.
   development flow and review only (concession 4).
 - "Full-time means 40 hours." The retainer promises 60 hours of my own attention a month and
   the written scope. The sessions I run multiply those hours. What we measure is what lands.
+- "So the €120 is a meter after all." No. Sixty hours are in the rate, and the sessions do the
+  volume, so a month beyond sixty is rare. If one comes, you hear about it before it happens
+  and you say yes or no.
 - "Why do I pay the discount back if I leave?" The lower rate buys the three months. Leave the
   block early and the months you had were at the standard rate. The notice period is still
   yours.

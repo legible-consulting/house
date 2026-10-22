@@ -18,7 +18,7 @@ price:
 
 hours:
   per_month: 60                 # promised in the quote (2026-10-22). Jamie's estimate, 2026-10-21: about 15 hours a week of his own attention; the sessions run the rest
-  beyond_promise: absorbed      # the quote says so; core/services.md § Retainer pricing leaves it per relationship
+  beyond_promise: billed at anchor_hourly   # agreed with the client first, on the next invoice; the quote says so (Jamie, 2026-10-22)
   effective_hourly: 58.33       # evaluation_monthly / per_month
   effective_vs_anchor: 0.49     # effective_hourly / anchor_hourly
 

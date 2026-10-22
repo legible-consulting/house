@@ -35,9 +35,11 @@ applies, against a written monthly scope.
 
 - The scope in this proposal, month by month, as written at the start of each month.
 - Sixty hours of my own attention a month, and the AI sessions I run with them, model cost
-  included. How I spend those hours is my call. There is no timesheet: what we measure is the
-  written scope and what lands in the repositories. Hours do not carry over from one month to
-  the next. If a month needs more than sixty, I absorb it.
+  included. How I spend those hours is my call. There is no timesheet for them: what we
+  measure is the written scope and what lands in the repositories. Hours do not carry over
+  from one month to the next.
+- Hours beyond sixty in a month are agreed with you first, and invoiced at €120 an hour,
+  listed on the next invoice.
 - The weekly planning call and the monthly checkpoint.
 
 Not covered: hosting, third-party services and licences, which stay in MotoArk's name; the two
