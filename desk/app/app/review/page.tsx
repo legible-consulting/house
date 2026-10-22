@@ -10,7 +10,7 @@ import { Shell } from "../_shell";
 import { Heading, Prose } from "../_ui";
 
 // The Friday review (desk/CONTEXT.md): every client's next action and deadline, soonest
-// first, plus the one flat open-items list from core/open-items.md. Jamie's page. When
+// first, plus what Jamie decides (core/wave.md). Jamie's page. When
 // rhythms.yml has committed desk/review/<this ISO week>.md, the page renders that file, as
 // the desk renders the glance; otherwise, or with ?live=1, it computes the same rules live
 // (lib/rhythms.ts).
@@ -51,7 +51,7 @@ export default async function Review({ searchParams }: { searchParams: Search })
     <Shell user={user} current="/review">
       <Heading
         title={`Friday review · ${week}`}
-        lede={`${now}. Every client's next action and deadline, then the open items. A red deadline is inside seven days or past.`}
+        lede={`${now}. Every client's next action and deadline, then what Jamie decides. A red deadline is inside seven days or past.`}
       />
       <Table>
         <TableHeader>
@@ -108,7 +108,7 @@ export default async function Review({ searchParams }: { searchParams: Search })
           <CardTitle>{openItems.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <Prose markdown={openItems.body.replace(/^# .*\n+/, "")} />
+          <Prose markdown={openItems.body} />
         </CardContent>
       </Card>
     </Shell>

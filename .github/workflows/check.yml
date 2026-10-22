@@ -60,7 +60,7 @@ jobs:
             s="$(yq --front-matter=extract '.status // ""' "$f" 2>/dev/null)" || s=""
             if [ "$s" != stub ] && [ "$s" != built ]; then
               echo "::error file=${f}::frontmatter 'status' must be 'stub' or 'built'"; fail=1
-            elif [ "$s" = built ] && grep -qF 'Defined when the module is built' "$f"; then
+            elif [ "$s" = built ] && grep -qF 'Not written yet' "$f"; then
               echo "::error file=${f}::status is 'built' but Process keeps the placeholder line"; fail=1
             fi
           done < <(git ls-files '*CONTEXT.md')

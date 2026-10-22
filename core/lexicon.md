@@ -6,13 +6,13 @@ here and a word in another file disagree, this file wins and the other file is f
 
 ## The repos
 
-| Term | Is | Was | Visibility |
-|---|---|---|---|
-| **house** | the operating repo: core, client folders, module contracts, desk. Where the business runs. | `icm-workshop` | private, Jamie only; in the org, with no grant to any member |
-| **blueprint** | the public method: the copier template per tier, conventions, workshop kit. Every client build is rendered from it. | — | public |
-| **library** | read-only reference: Jake Van Clief's course, the ICM paper, research ledgers, and the design trail (`research/design-trail/`, the house's former `meta/`). | — | private |
-| **.github** | the org's front page and reusable CI. Name fixed by GitHub. | — | public |
-| **client repo** | one per build, `k0d0minio/<slug>`, under Jamie's own account, rendered from the blueprint. | `legible-consulting/<slug>` | per tier; Jamie owns it |
+| Term | Is | Visibility |
+|---|---|---|
+| **house** | the operating repo: core, client folders, module contracts, desk. Where the business runs. | private, Jamie only; in the org, with no grant to any member |
+| **blueprint** | the public method: the copier template per tier, conventions, workshop kit. Every client build is rendered from it. | public |
+| **library** | read-only reference: Jake Van Clief's course, the ICM paper, the goals the house is measured against and the audited tool verdicts (`research/design-trail/`). | private |
+| **.github** | the org's front page and reusable CI. Name fixed by GitHub. | public |
+| **client repo** | one per build, `k0d0minio/<slug>`, under Jamie's own account, rendered from the blueprint. | per tier; Jamie owns it |
 
 The org `legible-consulting` holds the house, the blueprint, the library, `.github`, the proof
 repo and the projects Jamie shares with collaborators. Every client build is Jamie's own, under
@@ -25,7 +25,7 @@ material, not house".
 ## Tiers (the blueprint's `tier` question)
 
 `site` · `app` · `platform` · **workspace** (a coached client's own ICM workspace, rendered
-into their account; was `icm-workspace`).
+into their account).
 
 ## Modules
 
@@ -47,8 +47,8 @@ into their account; was `icm-workspace`).
   **Spec approved** and **Ready to merge**, each anchored by an HTML comment
   (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A
   session reads a gate and never ticks it. Jamie ticks on GitHub or from the desk.
-- **wave** — a build phase of the system itself (Wave 1: C1, C2, D2, D4). The current wave's
-  steps live in `core/wave.md`.
+- **wave** — a build phase of the system itself. What is open in it, and what Jamie decides,
+  lives in `core/wave.md`.
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
   Defined in `clients/CONTEXT.md`.
 - **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are
@@ -60,4 +60,4 @@ into their account; was `icm-workspace`).
 - **holds** — the globs in a contract's frontmatter that name the files its folder may carry:
   its outputs and its own tools. `check.yml` fails on a file no contract holds.
 - **status** — a contract's frontmatter says `stub` (no Process yet) or `built`.
-- **legible** — the cloud environment every session runs in (was `icm`).
+- **legible** — the cloud environment every session runs in.

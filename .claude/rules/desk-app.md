@@ -5,7 +5,7 @@ paths:
 
 `desk/app/` is the desk dashboard (the stack: `core/stack.md`). `scripts/read-house.mjs`
 reads the house at build time into `lib/house.json` (what it reads is listed at its top:
-records, invoices, economics, client documents, open items, the latest glance and drift
+records, invoices, economics, client documents, what Jamie decides (`core/wave.md`), the latest glance and drift
 report, the review and close files, the Sell words). The pool is read per request from Neon.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).

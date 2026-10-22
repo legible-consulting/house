@@ -1,7 +1,7 @@
 # MotoArk: prospect profile
 
 Prepared 2026-10-19 for the discovery call. Updated 2026-10-21 from the call itself (Sam Cherry,
-COO and CTO, 26 minutes; notes and transcript in `discovery-call-2026-10-21.md`). The first part
+COO and CTO, 26 minutes; the notes and the recording are in Drive). The first part
 is what the call settled. The second part is the pre-call read from the overview pack, kept with
 the corrections the call made. Sources for the pre-call part: the overview pack Sam sent (Drive,
 `MotoArk Overview Pack.pdf`, dated October 2026), the email thread "Interest in working with

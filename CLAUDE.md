@@ -31,11 +31,11 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - Never, even if asked in the moment: send anything to a client; merge or release; advance
   a stage or tick a gate; spend money or sign (why: each one reaches a client, the estate or
   money and cannot be taken back; the human is the gate).
-- Unattended runs only: the estate drift check, the deadline and next-action sweep and the
-  research recheck, each writing lines for the morning glance; and the research intake, which
-  only opens a PR (why: the first three are deterministic reads with nothing to send; the
-  intake reads an issue Jamie opened, writes a draft and opens a PR, and sends nothing to
-  anyone; anything that acts waits for Jamie · 2026-10-19).
+- Unattended runs only: the sweep that writes the glance, the Friday review and the monthly
+  close, and the research intake, which only opens a PR (why: the first three are
+  deterministic reads with nothing to send; the intake reads what Jamie shared, writes a
+  draft and opens a PR, and sends nothing to anyone; anything that acts waits for Jamie ·
+  2026-10-19).
 - Never in git: credentials and identity documents. Client words, negotiation positions and
   contact details may live here (why: this repo is private; a secret in git outlives every
   rotation).
@@ -66,8 +66,8 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 
 ## Sibling repos (same org; attached only when a contract names them)
 
-- `legible-consulting/library` — read-only: Jake Van Clief's course, the ICM paper,
-  the research ledger, the design trail (why the system is shaped this way).
+- `legible-consulting/library` — read-only: Jake Van Clief's course, the ICM paper, the
+  goals the house is measured against, the audited tool verdicts.
 - `legible-consulting/blueprint` — public: the copier template per tier, conventions, the
   workshop kit.
 - `legible-consulting/.github` — the org's front page and the reusable client CI workflows.

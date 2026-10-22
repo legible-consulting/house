@@ -9,7 +9,7 @@ D4 produces a report that every live repo matches its tier's template and carrie
 
 ## Inputs
 
-- `desk/mani.yaml` (generated from `clients/*/record.md`; hand-written until the generator exists).
+- `desk/mani.yaml`, hand-written: every client build and the proof render, with their tags.
 - `legible-consulting/blueprint` tags (what "conformant" means per tier).
 
 ## Process
@@ -35,4 +35,4 @@ D4 produces a report that every live repo matches its tier's template and carrie
 
 - `desk/estate/drift-<date>.md`.
 - One PR per drifted repo (`copier update` and the asset check via multi-gitter); the gate stays human.
-- Runs from `.github/workflows/conformance.yml` for the live set and from the local lane (`~/Desktop/Apps/projects/`) for bulk work.
+- Runs from the local lane (`~/Desktop/Apps/projects/`), Jamie's hand.

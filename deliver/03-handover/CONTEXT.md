@@ -13,7 +13,7 @@ D3 produces the handover pack, a walkthrough, the support and hosting record (wh
 
 ## Process
 
-- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
+- Not written yet. A session writes it from the first real walk.
 - Start cold from this folder. Read only what Inputs names.
 - Not every client reaches D3. A client with `kind: retainer` or `kind: role` (`clients/CONTEXT.md`) gets no handover pack and no retainer offer (why: the engagement has no end to hand over · 2026-10-16).
 

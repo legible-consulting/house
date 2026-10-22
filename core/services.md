@@ -55,9 +55,9 @@ regretted deals were the ones where the price moved and the scope did not · 202
 | Site | €1,000 – €2,500 | per build | From the band. Below it is a very small build, still at or above the floor. Above it means real integrations, named in the proposal. |
 | App | not banded | per build | Honest hours × the anchor, checked against the last closed proposal. |
 | Platform | not banded | per build | As app. |
-| Workshop | open | per day | No number yet (`open-items.md`). |
-| Coaching | open | per hour | No number yet (`open-items.md`). |
-| Retainer | open | per month | Against the written monthly scope. No range yet (`open-items.md`). |
+| Workshop | open | per day | No number yet (`wave.md`, Jamie decides). |
+| Coaching | open | per hour | No number yet (`wave.md`, Jamie decides). |
+| Retainer | open | per month | Against the written monthly scope. No range yet (`wave.md`, Jamie decides). |
 
 - **Anchor: €120 per hour.** Internal. It turns hours into a fixed price and answers the
   rare client who asks for a rate. It is never a billing basis.
