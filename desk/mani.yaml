@@ -23,11 +23,6 @@ projects:
     url: https://github.com/k0d0minio/remi-ai.git
     tags: [live]
 
-  sustentus:
-    path: ~/Desktop/Apps/projects/sustentus
-    url: https://github.com/sustentus/sustentus.git
-    tags: [live]
-
   site-proof:
     path: ~/Desktop/Apps/projects/site-proof
     url: https://github.com/legible-consulting/site-proof.git
