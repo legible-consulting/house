@@ -3,25 +3,31 @@
 # Cost is the plan's price shared by tokens. The monthly close reads it (desk/CONTEXT.md).
 month: 2026-09
 written: 2026-10-22
+plan: 180
 tokens: 3951501782
 clients:
   agorasim:
     sessions: 6
     hours: 3
     tokens: 180697005
+    cost: 8
   berceo:
     sessions: 3
     hours: 2.3
     tokens: 47455323
+    cost: 2
   remi-ai:
     sessions: 4
     hours: 2.3
     tokens: 97034744
+    cost: 4
   sustentus:
     sessions: 2
     hours: 4.1
     tokens: 217210983
+    cost: 10
 other:
   sessions: 138
   hours: 74
   tokens: 3409103727
+  cost: 155
