@@ -52,8 +52,6 @@ factory proves nothing · 2026-10-22).
   `copier.yml`, one template root, the legacy UAT and promotion files behind `uat`, two proof
   renders in `check.yml`, the MIT `LICENSE`. S, J reviews. Check: `check.yml` green on the
   PR, every question has a default and a help line.
-- Berceo, Agorasim, Vinecliff and Remi AI private. J. Check:
-  `gh repo list k0d0minio --visibility public` lists none of them.
 - Pull `site-proof`, run `drift.sh`, conform `site-proof` to v0.6.0, run it again. J. Check:
   every live and proof row says current against v0.6.0.
 - The "One session, one repo" rule in `CLAUDE.md` gains its read-only line, after a `legible`
