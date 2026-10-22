@@ -7,8 +7,8 @@
 //   node scripts/rhythms.mjs close [YYYY-MM] [--root <dir>]  desk/close/<YYYY-MM>.md
 // The close covers the month that ended before today unless a month is given: the workflow
 // runs on the 1st. --root writes under <dir>/desk/ instead of the house (check.yml uses it to
-// run the script on every push without a commit). It deletes reviews older than 8 weeks and
-// closes older than 13 months, the way the sweep prunes the glances.
+// run the script on every push without a commit). It deletes the previous reviews (git holds
+// them) and the closes older than 13 months, which /close?month= reads.
 import { appendFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -25,7 +25,6 @@ const [rhythm, monthArg] = args;
 
 // Today in Lisbon, as the sweep dates the glance.
 const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
-const addDays = (d, n) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
 const addMonths = (month, n) => {
   const [y, m] = month.split("-").map(Number);
   return new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 7);
@@ -58,6 +57,18 @@ function prune(dir, pattern, cutoff) {
   }
 }
 
+// Delete every file in the folder that matches the pattern, except the one named.
+function keepOnly(dir, pattern, name) {
+  const path = join(root, "desk", dir);
+  if (!existsSync(path)) return;
+  for (const f of readdirSync(path)) {
+    if (f !== name && f.endsWith(".md") && pattern.test(f.replace(/\.md$/, ""))) {
+      rmSync(join(path, f));
+      console.log(`Deleted desk/${dir}/${f}`);
+    }
+  }
+}
+
 function writeReview() {
   const week = isoWeek(today);
   const { rows, ongoing } = review(house.clients, today);
@@ -65,7 +76,7 @@ function writeReview() {
     front({ title: `Friday review ${week}`, kind: "review", date: today, week }),
     `# Friday review ${week}`,
     "",
-    `${today}. Every client's next action and deadline, the soonest deadline first, then the open items. Written by \`rhythms.yml\` from the house as of this date.`,
+    `${today}. Every client's next action and deadline, the soonest deadline first, then what Jamie decides. Written by \`rhythms.yml\` from the house as of this date.`,
     "",
     "## Clients",
     "",
@@ -84,10 +95,10 @@ function writeReview() {
   if (ongoing.length > 0) {
     lines.push("", `Ongoing, no next action needed: ${ongoing.map((c) => `${c.name ?? c.slug} (${c.kind})`).join(", ")}.`);
   }
-  lines.push("", "## Open items", "", house.openItems.body.replace(/^# .*\n+/, "").trim(), "");
+  lines.push("", "## Jamie decides", "", house.openItems.body.trim(), "");
   write("review", `${week}.md`, lines.join("\n"));
-  // Keep 8 weeks: delete a review whose week is before the week 56 days ago.
-  prune("review", /^\d{4}-W\d{2}$/, isoWeek(addDays(today, -56)));
+  // The latest review only: delete every other one. Git holds the past reviews.
+  keepOnly("review", /^\d{4}-W\d{2}$/, `${week}.md`);
   return week;
 }
 

@@ -2,7 +2,7 @@
 
 One home for which tools Legible Consulting uses, where each runs, and how a machine gets
 them. Why a tool was chosen lives in its research verdict (`library`:
-`research/design-trail/02-tool-research.md`, later `operator/research/verdicts/`); this file says what is installed where. A change to the tool
+`research/design-trail/02-tool-research.md`); this file says what is installed where. A change to the tool
 set edits this file and `setup/` in the same commit (why: one home per fact; a script that
 drifts from its list installs the wrong toolbox · 2026-10-16).
 
@@ -36,7 +36,7 @@ framework, first-party Neon Auth support for Next.js, and one framework for the 
 transition vocabulary for every app the house builds; shadcn's components are source in
 `desk/app/components/ui/`, owned here, not a dependency to chase · 2026-10-20).
 
-Adopted but installed nowhere until a module calls them: mdq, duckdb and dateutils. Their verdicts stay in the research file. The cloud image ships
+The cloud image ships
 kislyuk's Python yq, a jq wrapper without `--front-matter`; `setup/cloud.sh` puts mikefarah's
 ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's checks ·
 2026-10-16). Homebrew installs the current stable formula, so local versions are read, not

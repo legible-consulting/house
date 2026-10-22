@@ -12,7 +12,7 @@ Four independent modules with no order between them, so the folders are not numb
 
 ## Process
 
-- Defined when the module is built (Wave 1 for C1, C2, D2, D4; later waves for the rest).
+- Not written yet. A session writes it from the first real walk.
 - Start cold from this folder. Read only what Inputs names.
 
 ## Outputs

@@ -35,8 +35,8 @@ S3 produces the client-facing offer (problem, approach, scope, timeline) in the 
   4. Frontmatter: `title`, `kind: proposal`, `client`, `language`, `date`, `valid_until` (14
      days after `date`, `terms.md`), `status: draft`. `date` is the day Jamie sends. Jamie
      sets it when he sends.
-  5. Internal notes the send needs go in `proposal/`, in English, named in the PR body (for
-     MotoArk: `demo-outline.md`, the outline of the demo video Sam asked for).
+  5. Internal notes the send needs go in `proposal/`, in English, named in the PR body. They
+     leave when the send is done.
   6. Commit on a branch with a message that starts `S3:`. Push. Open a PR against `main`.
 - For a retainer the scope is written per month: what month 1 builds, what the months after
   it build, a checkpoint at each month's end, and a decision point at the block's end (why: a
@@ -50,5 +50,5 @@ S3 produces the client-facing offer (problem, approach, scope, timeline) in the 
 ## Outputs
 
 - `clients/<slug>/proposal/proposal.md` (source) → PDF rendered in CI, Doc placed in Drive from the session, page read by the dashboard.
-- `clients/<slug>/proposal/<note>.md`: an internal English note the send needs (a demo outline, a cover note). Only when the walk needs one.
+- `clients/<slug>/proposal/<note>.md`: an internal English note the send needs (a cover note). Only when the send needs one, deleted after it.
 - The proposal's scope section is the ticket list. D1 cuts it into the client repo's `.icm/intake/<epic-slug>/` (why: tickets have one home, the client repo's intake; a second list in the house drifts · 2026-10-21).

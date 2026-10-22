@@ -6,7 +6,7 @@
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
 //   clients/_template/record.md     the handoff PR
-//   core/open-items.md              the one flat list the Friday review reads
+//   core/wave.md                    the Jamie decides list the Friday review prints
 //   desk/glance/<latest>.md         the morning glance
 //   desk/review/<latest>.md         the Friday review file (rhythms.yml)
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
@@ -94,7 +94,10 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
   .sort((a, b) => a.slug.localeCompare(b.slug));
 
 const template = read(clientsDir, "_template", "record.md");
-const openItems = doc(join(house, "core"), "open-items.md");
+// What Jamie decides: the bullet lines under "## Jamie decides" in core/wave.md.
+const wave = read(house, "core", "wave.md");
+const decides = (wave.split(/^## Jamie decides[^\n]*\n/m)[1] ?? "").split(/^## /m)[0].trim();
+const openItems = { file: "wave.md", title: "Jamie decides", body: decides };
 const glance = latest(join(house, "desk", "glance"), ".md");
 const estate = latest(join(house, "desk", "estate"), ".md", (d) => d.fm.kind === "estate");
 // The review and the close files: the page renders the file for its week or month when one

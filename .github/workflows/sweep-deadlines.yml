@@ -1,4 +1,4 @@
-# sweep-deadlines: the morning glance. It reads every client record and core/open-items.md,
+# sweep-deadlines: the morning glance. It reads every client record and core/wave.md,
 # writes desk/glance/<date>.md and commits it to main. It sends nothing and moves no stage
 # (CLAUDE.md: an unattended run only writes lines for the glance). Not run on a PR: CI cannot
 # test a scheduled push. Run it once by hand (workflow_dispatch) after each change.
@@ -58,12 +58,3 @@ jobs:
             git pull --rebase --quiet origin main
           done
           [ "$pushed" = 1 ] || { echo "::error::push to main failed three times"; exit 1; }
-      - name: Ping the dead-man's switch
-        # Healthchecks expects one ping a day (desk/CONTEXT.md, Alerts). A day without one, or
-        # a run that failed before this step, reaches Jamie by Healthchecks' own mail. The
-        # secret HEALTHCHECKS_URL is the check's ping URL; unset, the step says so and passes.
-        env:
-          HEALTHCHECKS_URL: ${{ secrets.HEALTHCHECKS_URL }}
-        run: |
-          if [ -z "$HEALTHCHECKS_URL" ]; then echo "HEALTHCHECKS_URL is not set. No ping."; exit 0; fi
-          curl -fsS -m 10 --retry 3 -o /dev/null "$HEALTHCHECKS_URL"

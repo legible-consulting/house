@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# sweep-deadlines.sh: write desk/glance/<date>.md from the client records and
-# core/open-items.md, and delete the glances older than 14 days. It does not touch git: the
-# workflow commits the result. Run from the repo root with mikefarah yq on PATH.
+# sweep-deadlines.sh: write desk/glance/<date>.md from the client records and the Jamie
+# decides list in core/wave.md, and delete the previous glances (git holds them). It does not
+# touch git: the workflow commits the result. Run from the repo root with mikefarah yq on PATH.
 # The script is a file, not inline YAML, so the `scripts` job in check.yml runs shellcheck
 # over it (this workflow does not run on a PR).
 set -euo pipefail
@@ -23,7 +23,6 @@ stage_rank() {
     prospect) echo 1 ;;
     research) echo 2 ;;
     proposal) echo 3 ;;
-    quote) echo 4 ;;
     agreement) echo 5 ;;
     kickoff) echo 6 ;;
     build) echo 7 ;;
@@ -39,10 +38,9 @@ field() {
   yq --front-matter=extract ".$1 // \"\"" "$2"
 }
 
-[ -f core/open-items.md ] || { echo "::error::core/open-items.md is missing"; exit 1; }
+[ -f core/wave.md ] || { echo "::error::core/wave.md is missing"; exit 1; }
 
 horizon="$(add_days "$today" 7)"
-cutoff="$(add_days "$today" -14)"
 tab=$'\t'
 
 inside="$(mktemp)"
@@ -124,10 +122,10 @@ out="desk/glance/${today}.md"
     echo "No next action, and none needed: ${ongoing}."
   fi
   echo
-  echo "## Open items"
+  echo "## Jamie decides"
   echo
-  # The bullet lines of the file, as they are.
-  items="$(grep -E '^- ' core/open-items.md || true)"
+  # The bullet lines under "## Jamie decides" in core/wave.md, as they are.
+  items="$(awk '/^## Jamie decides/ { f = 1; next } /^## / { f = 0 } f && /^- /' core/wave.md || true)"
   if [ -n "$items" ]; then
     printf '%s\n' "$items"
   else
@@ -135,13 +133,10 @@ out="desk/glance/${today}.md"
   fi
 } > "$out"
 
-# Keep two weeks: delete a glance whose file name date is older than 14 days.
+# The latest glance only: delete every other one. Git holds the past glances.
 for f in desk/glance/*.md; do
   [ -e "$f" ] || continue
-  d="$(basename "$f" .md)"
-  if [[ "$d" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ && "$d" < "$cutoff" ]]; then
-    rm -f -- "$f"
-  fi
+  [ "$f" = "$out" ] || rm -f -- "$f"
 done
 
 rm -f -- "$inside" "$actions"
