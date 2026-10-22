@@ -24,10 +24,12 @@ No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js re
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1a | Merge the three `copier update` PRs to `v0.3.0`: vinecliff#26, agorasim and berceo (links in chat). site-proof follows when the proof repo is next touched | J | open |
+| 1b | Merge blueprint#7 (the ticket loop stands alone, gates at the top of the pull request, the platform tier), then tag the merge commit `v0.4.0` and push the tag | J | open |
+| 1c | After the tag: tick and merge the four `v0.4.0` pull requests, berceo#70, agorasim#200, vinecliff#27 and remi-ai (the platform adoption). site-proof follows when the proof repo is next touched | J | open |
+| 1d | Merge house `d2-gates-loop` (D2 says the loop in the blueprint's words) and the desk work view (`/work`: tickets and pull request gates per repo). Then give `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS` the `Pull requests` permission, read to show the gates and write to tick them from the desk | J | open |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 
-Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. The platform tier is unwritten, so remi-ai and sustentus stay not adopted until it exists.
+Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. The platform tier is written in blueprint#7. remi-ai adopts it in its pull request. sustentus follows once Jamie decides how its own org adopts the loop.
 
 ## A · Ownership and access
 

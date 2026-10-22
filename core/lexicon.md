@@ -43,7 +43,10 @@ into their account; was `icm-workspace`).
 - **desk** — the morning glance, Friday review, monthly close, estate audit and the dashboard.
 - **estate** — every repo in the org; D4 checks it conforms to its tier.
 - **local lane** — `~/Desktop/Apps/projects/` clones on Jamie's machine for bulk estate work.
-- **gate** — a human checkbox. Read it, never tick it.
+- **gate** — a human checkbox. In a client repo, the two at the top of a pull request body,
+  **Spec approved** and **Ready to merge**, each anchored by an HTML comment
+  (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A
+  session reads a gate and never ticks it. Jamie ticks on GitHub or from the desk.
 - **wave** — a build phase of the system itself (Wave 1: C1, C2, D2, D4). The current wave's
   steps live in `core/wave.md`.
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
