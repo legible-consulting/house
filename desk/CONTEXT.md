@@ -59,8 +59,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   Neon console (the upserts are at the foot of `schema.sql`).
 - Variables, names only, on the Vercel project (`app/.env.example`): `DATABASE_URL`,
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT` (the house only: Contents, Pull
-  requests and Actions, read and write), `DEPLOY_HOOK_URL` (the Vercel deploy hook on `main`,
-  for the pill's Redeploy), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
+  requests and Actions, read and write), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
   repo owner: Contents, Actions, Metadata, Commit statuses and Pull requests read, Pull
   requests write for the gates). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not
@@ -73,10 +72,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   and computes the same rules live otherwise, or with `?live=1`.
 - The sync pill (Jamie only), at the top of every page: up to date, running, deploying, out
   of sync, or unknown, with the reason in its panel. The panel starts `rhythms.yml` on `main`
-  by `workflow_dispatch` with `DESK_PAT` (the glance or the close), and posts to
-  `DEPLOY_HOOK_URL` when `main` has been ahead of the build for ten minutes (why: one word
-  says whether the desk shows `main`, and the one act that fixes it is beside it ·
-  2026-10-22).
+  by `workflow_dispatch` with `DESK_PAT` (the glance or the close). A failed deploy is fixed
+  from the laptop (why: one word says whether the desk shows `main` · 2026-10-22).
 - Gates: a tick from the desk writes the box in the pull request's body with the owner's
   token, for the `jamie` role only. The house never ticks one (why: a gate ticked from the
   phone is still Jamie's own tick · 2026-10-21).
