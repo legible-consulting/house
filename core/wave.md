@@ -18,18 +18,18 @@ wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
 
-## Now (as of 2026-10-20 afternoon)
+## Now (as of 2026-10-22 morning)
 
-No PR is open. Landed today: D1, D2, E1, E2 (the Astro desk, then its Next.js replacement with Tailwind, shadcn/ui, Motion and the password reset in house#20, the Sell page in house#21), E3 (the first glance exists), F4, the pitch drafts (house#18), and C2 for all three repos (vinecliff#25, agorasim#198, berceo#67).
+Open: site-proof#1 (the proof repo conforms to `v0.5.0`) and vinecliff#29 (the first ticket through the loop). Landed 2026-10-20: D1, D2, E1, E2 (the Astro desk, then its Next.js replacement with Tailwind, shadcn/ui, Motion and the password reset in house#20, the Sell page in house#21), E3 (the first glance exists), F4, the pitch drafts (house#18), and C2 for all three repos (vinecliff#25, agorasim#198, berceo#67).
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1b | Merge blueprint#7 (the ticket loop stands alone, gates at the top of the pull request, the platform tier), then tag the merge commit `v0.4.0` and push the tag | J | open |
-| 1c | After the tag: tick and merge the four `v0.4.0` pull requests, berceo#70, agorasim#200, vinecliff#27 and remi-ai (the platform adoption). site-proof follows when the proof repo is next touched | J | open |
-| 1d | Merge house `d2-gates-loop` (D2 says the loop in the blueprint's words) and the desk work view (`/work`: tickets and pull request gates per repo). Then give `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS` the `Pull requests` permission, read to show the gates and write to tick them from the desk | J | open |
+| 1e | Give `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS` the `Pull requests` permission, read and write (read shows the gates, write ticks them from the desk), and `Commit statuses` read (the Vercel preview) on GitHub. Then redeploy the desk and open desk.jamienisbet.com/work | J | open |
+| 1f | Delete the three stale `conform/v0.4.0` branches on berceo, agorasim and vinecliff. Their pull requests are merged | J | open |
+| 2 | The first ticket through the new loop: vinecliff, `triage/declare-node-env-in-env-example` (vinecliff#29), with `new-run.sh` and `close-out.sh` | S | open |
 | 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
 
-Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. The platform tier is written in blueprint#7. remi-ai adopts it in its pull request. sustentus follows once Jamie decides how its own org adopts the loop.
+Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Landed 2026-10-22: blueprint `v0.5.0` (the ticket loop stands alone in `.icm/intake/CONTEXT.md`, the gates at the top of the pull request, the platform tier, `new-run.sh` and `close-out.sh`), the four live repos at `v0.5.0` (berceo, agorasim, vinecliff, remi-ai), house#28 (D2 says the loop in the blueprint's words), house#29 (`/work` reads the tickets and the pull request gates) and the drift report of 2026-10-22. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. sustentus follows once Jamie decides how its own org adopts the loop.
 
 ## A · Ownership and access
 
