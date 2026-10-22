@@ -99,8 +99,8 @@ here keeps the template's value.
   owed on an unpaid invoice. The monthly close lists the commission owed per deal, and Jamie
   settles it against the payments, which are handled outside the house (why: Jamie's answer ·
   2026-10-19; invoices left the house · 2026-10-22).
-- In the desk a salesman sees: this folder's `target-profile.md`, `cadence.md` and `pitch/`,
-  read-only. Every row of the pool, others' rows read-only. For a deal they sourced, the
+- In the desk a salesman sees: this folder's `target-profile.md`, `cadence.md`, `pitch/` and
+  `kit.<language>.md`, read-only. Every row of the pool, others' rows read-only. For a deal they sourced, the
   `stage` of the client folder up to `agreement`, and nothing after it, no documents. Their
   own commission only, never another salesman's (why: Jamie's answer, from interview round
   R11 · 2026-10-19).

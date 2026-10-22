@@ -8,7 +8,8 @@ reads the house at build time into `lib/house.json` (what it reads is listed at 
 records, economics, client documents, what Jamie decides (`core/wave.md`), the latest drift
 report, the close files, the Sell words). `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
-The pool is read per request from Neon.
+The pool is read per request from Neon. `app/api/pool/route.ts` is the one route without a
+session: the portfolio's contact form posts a lead to it with `POOL_TOKEN`.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).
 The work view (`/work`, and the Work card on a client's page) reads `.icm/intake/` and the

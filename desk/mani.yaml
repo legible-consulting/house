@@ -1,7 +1,9 @@
-# Hand-written (desk/CONTEXT.md). Every client build and the proof render. tags: live (a
-# client build, checked against the blueprint tag), dormant (archived, nothing changes in it),
-# proof (the blueprint's own test render, checked as a live repo). Jamie's own projects on
-# k0d0minio that are not client builds are not estate and are not listed (2026-10-21).
+# Hand-written (desk/CONTEXT.md). Every client build, the proof render, and Jamie's own repos
+# the blueprint governs (jamienisbet, adopted 2026-10-22). tags: live (a build the blueprint
+# governs, checked against the blueprint tag), dormant (archived, nothing changes in it),
+# proof (the blueprint's own test render, checked as a live repo). Jamie's other projects on
+# k0d0minio, which the blueprint does not govern, are not estate and are not listed
+# (2026-10-21).
 projects:
   berceo:
     path: ~/Desktop/Apps/projects/berceo
@@ -21,6 +23,11 @@ projects:
   remi-ai:
     path: ~/Desktop/Apps/projects/remi-ai
     url: https://github.com/k0d0minio/remi-ai.git
+    tags: [live]
+
+  jamienisbet:
+    path: ~/Desktop/legible-consulting/projects/jamienisbet
+    url: https://github.com/k0d0minio/jamienisbet.git
     tags: [live]
 
   site-proof:

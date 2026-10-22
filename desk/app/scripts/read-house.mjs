@@ -9,7 +9,8 @@
 //   core/wave.md                    the Jamie decides list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
-//   sell/01-prospecting/            the Sell page and the seller's next touch
+//   sell/01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
+//                                   seller kit) and the seller's next touch
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -111,7 +112,8 @@ const closes = files(closeDir, ".md")
   .map(plain);
 
 // S1's words for a salesman (sell/01-prospecting/prospect.md, "The salesman's deal"): the
-// target profile, the cadence and every pitch draft, in file order (touch, then language).
+// target profile, the cadence, every pitch draft, in file order (touch, then language), and
+// the seller kit, one file per language.
 const sellDoc = (...path) => doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
 const sell = {
   profile: plain(sellDoc("target-profile.md")),
@@ -120,6 +122,12 @@ const sell = {
     const d = sellDoc("pitch", f);
     return { ...plain(d), touch: Number(d.fm.touch ?? 0), language: String(d.fm.language ?? "") };
   }),
+  kit: files(sellDir, ".md")
+    .filter((f) => f.startsWith("kit."))
+    .map((f) => {
+      const d = sellDoc(f);
+      return { ...plain(d), language: String(d.fm.language ?? "") };
+    }),
 };
 
 const built = new Date().toISOString().slice(0, 10);
@@ -128,6 +136,7 @@ writeFileSync(
   JSON.stringify({ built, clients, template, decides, closes, estate, sell }, null, 2),
 );
 console.log(
-  `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${closes.length} closes, ` +
+  `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +
+    `${closes.length} closes, ` +
     `drift ${estate?.date ?? "none"}`,
 );
