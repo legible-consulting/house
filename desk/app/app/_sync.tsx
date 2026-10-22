@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { maybeEnv } from "@/lib/env";
 import {
   BUILD,
   BUILD_IS_COMMIT,
@@ -15,7 +14,7 @@ import {
   type Start,
 } from "@/lib/github";
 import { built } from "@/lib/house";
-import { redeploy, refresh } from "@/lib/refresh";
+import { refresh } from "@/lib/refresh";
 import { inFlight } from "@/lib/repos";
 import { cn } from "@/lib/utils";
 import { RunState } from "./_repo";
@@ -24,10 +23,10 @@ import { RunState } from "./_repo";
 // main. Up to date: the build is main's head. Running: a house run is queued or running on
 // GitHub (the glance or the close; its commit redeploys the desk). Deploying: main is ahead
 // and its newest commit is under ten minutes old, so Vercel is on it. Out of sync: main is
-// ahead for longer, a failed or missing deploy; the panel offers Redeploy through the Vercel
-// deploy hook. Unknown: the distance could not be read; the panel says why. The pill opens a
-// panel (a details element, no script): the build, the distance, the runs with their Run
-// buttons, Redeploy. While anything is in flight the page re-reads itself (app/_shell.tsx).
+// ahead for longer, a failed or missing deploy, which Jamie fixes from the laptop. Unknown:
+// the distance could not be read; the panel says why. The pill opens a panel (a details
+// element, no script): the build, the distance, the runs with their Run buttons. While
+// anything is in flight the page re-reads itself (app/_shell.tsx).
 
 type Word = "Up to date" | "Running" | "Deploying" | "Out of sync" | "Unknown";
 
@@ -70,7 +69,6 @@ async function Panel({ start }: { start: Start | null }) {
         : deploying
           ? "Deploying"
           : "Out of sync";
-  const hook = Boolean(maybeEnv("DEPLOY_HOOK_URL"));
   const followed = start ? RUNS[start.key] : null;
   return (
     <details className="relative">
@@ -93,24 +91,10 @@ async function Panel({ start }: { start: Start | null }) {
               {d.messages.length > SHOWN ? "; …" : ""}.{" "}
               {deploying
                 ? "Vercel deploys each push in about a minute."
-                : "No deploy in ten minutes: a failed build, or one that never started."}
+                : "No deploy in ten minutes: a failed build, or one that never started. Fix it from the laptop and push."}
             </>
           )}
         </p>
-        {d.ok &&
-          ahead > 0 &&
-          !deploying &&
-          (hook ? (
-            <form action={redeploy}>
-              <Button type="submit" size="sm">
-                Redeploy main
-              </Button>
-            </form>
-          ) : (
-            <p className="text-xs text-muted-foreground">
-              Set DEPLOY_HOOK_URL on the Vercel project to redeploy from here. Until then, redeploy from Vercel.
-            </p>
-          ))}
         <dl className="grid gap-1">
           {runs.map(({ file, read }) => (
             <div key={file} className="flex flex-wrap items-center gap-2">
