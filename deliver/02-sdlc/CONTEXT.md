@@ -4,7 +4,7 @@ holds: []
 ---
 # SDLC pipeline — D2
 
-D2 produces a build from ticket to release, sized by tier (site · app · platform), with live status the client can read at any time and a UAT environment they sign off before release, so that every build runs the same way at the right weight and the client is never in the dark.
+D2 produces a build from ticket to release, sized by the blueprint's answers, with live status the client can read at any time and a UAT environment they sign off before release, so that every build runs the same way at the right weight and the client is never in the dark.
 
 ## Inputs
 
@@ -46,8 +46,9 @@ D2 produces a build from ticket to release, sized by tier (site · app · platfo
      A session never merges and never ticks a gate (boundary).
   7. On the merge, release-please opens or updates the release pull request. Jamie merges it.
      That merge is the release. `main` changes by pull request only.
-- Sized by tier: `site` runs `check-client` and the preview. `app` adds `release.yml`.
-  `platform` runs `check-client` and keeps its own release workflow, named in its `CLAUDE.md`.
+- Sized by the blueprint's answers: every build runs `check-client` and the preview. A build
+  with a UAT environment adds `release.yml`. A build with its own release workflow names it in
+  its `CLAUDE.md`.
 - Every question for Jamie and every stub, breakdown and pull request body is written in
   Simplified Technical English, in the shape the contract gives (why: Jamie reads on a phone,
   and a numbered list with defaults is answered in one reply · 2026-10-21).

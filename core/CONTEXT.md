@@ -34,9 +34,9 @@ C1 produces the business's identity and bio, its services and pricing, its voice
 
 Built (2026-10-16):
 
-- `lexicon.md`: the house words (repo names, tiers, module codes) every artefact uses.
+- `lexicon.md`: the house words (repo names, module codes) every artefact uses.
 - `stack.md`: which tools Legible Consulting uses, where each runs, and how a machine gets them.
-- `wave.md`: what is open in the system's own build: this week, next, and what Jamie decides. The glance and the Friday review print the last list. Rewritten when a wave ends.
+- `wave.md`: what is open in the system's own build: this week, next, and what Jamie decides. The glance prints the last list. Rewritten when a wave ends.
 - `setup/local.sh` · `setup/cloud.sh`: install the toolbox `stack.md` lists, on this machine (Homebrew) and in the `legible` cloud environment (pasted setup script).
 
 Built (2026-10-19):

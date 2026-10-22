@@ -6,6 +6,7 @@ date: 2026-10-22
 currency: EUR
 
 price:
+  monthly: 3500                 # the price the desk reads: proposed now, agreed from stage agreement
   anchor_hourly: 120            # core/services.md, internal, never a billing basis
   standard_monthly: 3800        # from month 4, against a written monthly scope
   evaluation_monthly: 3500      # months 1 to 3, the committed block

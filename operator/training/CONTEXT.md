@@ -10,7 +10,7 @@ O4 produces a workshop kit (deliverable in a day), a client ICM workspace scaffo
 ## Inputs
 
 - `operator/research/concepts/`; `legible-consulting/library` for the course and paper (second repo, read only).
-- `legible-consulting/blueprint`: the `workspace` tier and `workshop-kit/` live there because attendees read them.
+- `legible-consulting/blueprint`: the `workspace` template and `workshop-kit/` live there because attendees read them.
 
 ## Process
 

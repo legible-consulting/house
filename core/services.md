@@ -13,14 +13,14 @@ catalogue that is not the one home for price becomes a habit of quoting from mem
 
 ## The lines
 
-| Line | The client gets | Tier (`lexicon.md`) |
-|---|---|---|
-| **Site** | Their business findable and presentable: pages, a contact, booking or menu flow, their own domain, live and handed over. | `site` |
-| **App** | A working tool with state: accounts, data, an admin view, the workflows their business runs on. | `app` |
-| **Platform** | An app with several roles or several surfaces over shared services: a marketplace, a product with its admin, docs and support. | `platform` |
-| **Workshop** | One day, on site or remote, that teaches ICM: folders as the architecture, markdown contracts as the interface, a human gate at every boundary. The materials stay with them, and an attendance record they can file as evidence of AI-literacy measures (EU AI Act, Article 4). | — |
-| **Coaching** | One-to-one hours in which each person applies ICM to their own work, and a workspace rendered for them from the blueprint. | `workspace` |
-| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). D3 offers it as one section of the handover pack (why: the client decides before the first month without support · 2026-10-19). | — |
+| Line | The client gets |
+|---|---|
+| **Site** | Their business findable and presentable: pages, a contact, booking or menu flow, their own domain, live and handed over. |
+| **App** | A working tool with state: accounts, data, an admin view, the workflows their business runs on. |
+| **Platform** | An app with several roles or several surfaces over shared services: a marketplace, a product with its admin, docs and support. |
+| **Workshop** | One day, on site or remote, that teaches ICM: folders as the architecture, markdown contracts as the interface, a human gate at every boundary. The materials stay with them, and an attendance record they can file as evidence of AI-literacy measures (EU AI Act, Article 4). |
+| **Coaching** | One-to-one hours in which each person applies ICM to their own work, and a workspace rendered for them from the blueprint. |
+| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). D3 offers it as one section of the handover pack (why: the client decides before the first month without support · 2026-10-19). |
 
 Every build (site, app, platform) runs through D2: brief and tickets in the repo, a preview
 environment the client signs off before every release, live status they can read at any
@@ -33,7 +33,7 @@ position in the client's company, not a line. It is agreed per case.
 - A privacy page and a contact route that fit the data collected. Analytics or none, with
   consent handling.
 - For anything with state: an error tracker and a fail-safe page, so basic support can exist.
-- The repository rendered from the blueprint at its tier, carrying its own pipeline, guards
+- The repository rendered from the blueprint, carrying its own pipeline, guards
   and `CLAUDE.md`.
 
 ## Not in a build's price

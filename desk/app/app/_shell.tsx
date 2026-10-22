@@ -1,24 +1,22 @@
 import { Suspense, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BUILD, BUILD_IS_COMMIT, deployInFlight, distance } from "@/lib/github";
-import { built } from "@/lib/house";
+import { BUILD_IS_COMMIT, deployInFlight, houseInFlight, WORKFLOWS, type Start } from "@/lib/github";
 import type { DeskUser } from "@/lib/pool";
 import { cn } from "@/lib/utils";
 import { Fade } from "./_fade";
+import { Sync } from "./_sync";
 import { signOut } from "./sign-in/actions";
 
-// The desk's shell: one header with the links the role has, the user and sign-out, one
-// footer that names the build and, for Jamie, its distance from main (lib/github.ts). Plain
-// HTML forms post to server actions. A page passes what it shows that may be in flight
-// (`live`), and the page re-reads itself every 15 seconds while anything is.
+// The desk's shell: one header with the links the role has, the sync pill for Jamie
+// (app/_sync.tsx), the user and sign-out. Plain HTML forms post to server actions. A page
+// passes what it shows that may be in flight (`live`), and the page re-reads itself every
+// 15 seconds while anything is: a house run, a deploy, or what the page passed.
 const LINKS: Record<DeskUser["role"], [string, string][]> = {
   jamie: [
     ["/", "Desk"],
     ["/work", "Work"],
-    ["/review", "Review"],
     ["/close", "Close"],
-    ["/estate", "Estate"],
     ["/pool", "Pool"],
     ["/sell", "Sell"],
   ],
@@ -28,25 +26,6 @@ const LINKS: Record<DeskUser["role"], [string, string][]> = {
   ],
   client: [["/", "Desk"]],
 };
-
-const SHOWN_MESSAGES = 5;
-
-// Up to date with main, or how many commits main is ahead and their first lines. Jamie
-// only: the messages name the house's files. A failed read says why, on this line only.
-async function Distance() {
-  const d = await distance();
-  if (!d.ok) return <> · main: {d.reason}</>;
-  if (d.ahead === 0) return <> · up to date with main</>;
-  const shown = d.messages.slice(0, SHOWN_MESSAGES).join("; ");
-  const more = d.messages.length > SHOWN_MESSAGES ? "; …" : "";
-  return (
-    <>
-      {" "}
-      · main is {d.ahead === 1 ? "1 commit" : `${d.ahead} commits`} ahead: {shown}
-      {more}. Vercel deploys each push in about a minute; longer means a failed build.
-    </>
-  );
-}
 
 // The page re-reads itself every 15 seconds while anything it shows is in flight: a run
 // queued or running, a pull request with a run on its head, a push to main not deployed
@@ -63,16 +42,19 @@ export function Shell({
   user,
   current,
   live = [],
+  start = null,
   children,
 }: {
   user: DeskUser | null;
   current?: string;
   live?: Promise<boolean>[];
+  start?: Start | null; // a run Jamie started from the pill, followed on this page
   children: ReactNode;
 }) {
   const links = user ? LINKS[user.role] : [];
   const jamie = user?.role === "jamie";
-  const checks = jamie && BUILD_IS_COMMIT ? [...live, deployInFlight()] : live;
+  const checks =
+    jamie && BUILD_IS_COMMIT ? [...live, deployInFlight(), ...WORKFLOWS.map((f) => houseInFlight(f, start))] : live;
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
       {checks.length > 0 && (
@@ -98,7 +80,8 @@ export function Shell({
           ))}
         </nav>
         {user && (
-          <div className="ml-auto flex items-center gap-3 text-sm text-muted-foreground">
+          <div className="ml-auto flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+            {jamie && <Sync start={start} />}
             <span>{user.name || user.email}</span>
             <Badge variant="outline">{user.role}</Badge>
             <form action={signOut}>
@@ -112,14 +95,6 @@ export function Shell({
       <main>
         <Fade>{children}</Fade>
       </main>
-      <footer className="mt-10 text-xs text-muted-foreground">
-        built {process.env.BUILD_TIME} from {BUILD.slice(0, 7)} · house read {built}
-        {jamie && BUILD_IS_COMMIT && (
-          <Suspense fallback={<> · reading main…</>}>
-            <Distance />
-          </Suspense>
-        )}
-      </footer>
     </div>
   );
 }

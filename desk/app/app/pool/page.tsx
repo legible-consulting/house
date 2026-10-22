@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { allProspects } from "@/lib/db";
 import { flash, type Search } from "@/lib/guard";
 import { clientBySlug } from "@/lib/house";
-import { LANGUAGES, today } from "@/lib/pool";
+import { LANGUAGES, today, type Prospect } from "@/lib/pool";
 import { stageForSalesman } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
@@ -29,10 +29,28 @@ export default async function Pool({ searchParams }: { searchParams: Search }) {
   const [rows, { error, note }] = await Promise.all([allProspects(), flash(searchParams)]);
   const now = today();
   const open = (s: string) => s !== "handed off" && s !== "lost";
+  // The rows due now: a next action today or past, on an open row the user works (Jamie: all).
+  const mine = (p: Prospect) => user.role === "jamie" || p.salesman === user.id;
+  const due = rows.filter((p) => p.next_action && p.next_action <= now && open(p.status) && mine(p));
   return (
     <Shell user={user} current="/pool">
       <h2 className="mb-3 text-base font-medium">Pool</h2>
       <Flash error={error} note={note} />
+      {due.length > 0 && (
+        <p className="mb-4 text-sm">
+          <span className="font-medium">Due now:</span>{" "}
+          {due.map((p, i) => (
+            <span key={p.id}>
+              {i > 0 && ", "}
+              <a href={`/pool/${p.id}`} className="underline">
+                {p.company}
+              </a>{" "}
+              <span className="tabular-nums text-muted-foreground">{p.next_action}</span>
+            </span>
+          ))}
+          .
+        </p>
+      )}
       <Table>
         <TableHeader>
           <TableRow>

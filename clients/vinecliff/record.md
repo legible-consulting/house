@@ -12,7 +12,6 @@ commission:
   sourced_by:
   owed:
 repo: k0d0minio/vinecliff
-tier: app
 owner: jamie
 vercel_project:
   - kodominio/vinecliff

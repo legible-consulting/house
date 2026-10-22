@@ -83,7 +83,6 @@ table is fixed (why: a copy that wins over its source drifts the site · 2026-10
 |---|---|---|
 | Proposal | S3 writes it; S4 writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section (why: a client says yes to one document they understand, without a second call · 2026-10-19). |
 | Agreement | S5 | Numbered clauses from `terms.md`. The accepted proposal attached. The signature block last. |
-| Invoice | S4 | One page. The particulars from `identity.md` at the top. A line table. Bank details and the due date at the bottom. |
 | Handover pack | D3 | Defined when D3 is built. |
 
 Every document is written as markdown in the client folder, in the client's language,

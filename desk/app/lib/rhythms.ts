@@ -1,11 +1,12 @@
-import type { ClientRow, Invoice } from "./house";
+import type { ClientRow } from "./house";
 import type { Status } from "./pool";
 
-// The desk's rhythms as pure functions over the house (desk/CONTEXT.md): the Friday review
-// and the monthly close. The pages use them live, and scripts/rhythms.mjs uses them to write
-// desk/review/ and desk/close/ (rhythms.yml), so one set of rules makes both. That script
-// loads this file through Node's type stripping: keep the syntax erasable (type-only
-// imports, no enum, no namespace). The glance is a file the sweep writes; the page renders it.
+// The desk's rhythms as pure functions over the house (desk/CONTEXT.md): the morning glance
+// and the monthly close. The pages compute them live from the house as of the last push to
+// main, and scripts/rhythms.mjs writes desk/glance/ and desk/close/ with the same functions
+// (rhythms.yml), so one set of rules makes the page and the file. That script loads this
+// file through Node's type stripping: keep the syntax erasable (type-only imports, no enum,
+// no namespace).
 
 // The order of the stage table in clients/CONTEXT.md.
 export const STAGES = [
@@ -19,8 +20,9 @@ export const STAGES = [
   "after",
   "lost",
 ] as const;
+export type Stage = (typeof STAGES)[number];
 export const stageRank = (s: string | undefined): number => {
-  const i = STAGES.indexOf((s ?? "") as (typeof STAGES)[number]);
+  const i = STAGES.indexOf((s ?? "") as Stage);
   return i < 0 ? 99 : i;
 };
 
@@ -37,34 +39,42 @@ export function stageForSalesman(stage: string | undefined): string {
 export const isOngoing = (c: ClientRow): boolean =>
   !c.next_action && (c.kind === "retainer" || c.kind === "role");
 
-export const today = (): string => new Date().toISOString().slice(0, 10);
+// The price is agreed from agreement on. Before it, economics.yaml is a projection.
+const ENGAGED = new Set<string>(["agreement", "kickoff", "build", "handover", "after"]);
+export const isEngaged = (c: ClientRow): boolean => ENGAGED.has(c.stage ?? "");
+
+// Today in Lisbon, the house's clock, as YYYY-MM-DD.
+export const today = (): string => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Lisbon" }).format(new Date());
+
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+const dayOf = (v: unknown): string => String(v ?? "").slice(0, 10);
+const oneLine = (v: unknown): string => String(v ?? "").replace(/\s*\n\s*/g, " ").trim();
+const nameOf = (c: ClientRow): string => c.name ?? c.slug;
 
 export function daysBetween(from: string, to: string): number {
   return Math.round((Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86400000);
 }
 
-// ISO week of a date, as "YYYY-Www".
-export function isoWeek(day: string): string {
-  const d = new Date(`${day}T00:00:00Z`);
-  const dow = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dow);
-  const jan1 = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const week = Math.ceil(((d.getTime() - jan1.getTime()) / 86400000 + 1) / 7);
-  return `${d.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
-}
+// --- The glance ---------------------------------------------------------------------------
 
-export interface ReviewRow {
+export interface GlanceRow {
   client: ClientRow;
-  days: number | null; // to the deadline; negative when overdue
+  deadline: string; // YYYY-MM-DD, or "" when the record has none
+  days: number | null; // to the deadline; negative when overdue; null without a valid date
 }
 
-// The Friday review: every client's next action and deadline, the soonest deadline first,
-// then by stage; retainer and role with no next action listed apart as ongoing.
-export function review(clients: ClientRow[], day: string): { rows: ReviewRow[]; ongoing: ClientRow[] } {
-  const ongoing = clients.filter(isOngoing);
-  const rows = clients
-    .filter((c) => !isOngoing(c))
-    .map((c) => ({ client: c, days: c.deadline ? daysBetween(day, String(c.deadline).slice(0, 10)) : null }))
+// Every client with a next action or a deadline, the soonest deadline first (an overdue one
+// first of all), then the rest by stage and slug. Retainer and role with no next action are
+// ongoing and listed apart. A lost client is not listed.
+export function glanceRows(clients: ClientRow[], day: string): { rows: GlanceRow[]; ongoing: ClientRow[] } {
+  const live = clients.filter((c) => c.stage !== "lost");
+  const ongoing = live.filter(isOngoing);
+  const rows = live
+    .filter((c) => !isOngoing(c) && (c.next_action || c.deadline))
+    .map((c) => {
+      const deadline = dayOf(c.deadline);
+      return { client: c, deadline, days: DATE.test(deadline) ? daysBetween(day, deadline) : null };
+    })
     .sort((a, b) => {
       if (a.days !== null && b.days !== null && a.days !== b.days) return a.days - b.days;
       if ((a.days === null) !== (b.days === null)) return a.days === null ? 1 : -1;
@@ -73,54 +83,127 @@ export function review(clients: ClientRow[], day: string): { rows: ReviewRow[]; 
   return { rows, ongoing };
 }
 
+// The due words after a deadline: today, in N days, or N days overdue. Inside seven days,
+// and past, the words are bold: that is what must reach Jamie unprompted (desk/CONTEXT.md).
+export function dueWords(days: number): string {
+  if (days < 0) return `**${-days} ${-days === 1 ? "day" : "days"} overdue**`;
+  if (days === 0) return "**today**";
+  const words = `in ${days} ${days === 1 ? "day" : "days"}`;
+  return days <= 7 ? `**${words}**` : words;
+}
+
+// The glance as markdown without its H1: the next actions, then the clients with none,
+// the ongoing ones, and what Jamie decides (core/wave.md). `link` gives each client's link:
+// the record's path in the committed file, the client's page on the desk.
+export function glance(clients: ClientRow[], decides: string, day: string, link: (c: ClientRow) => string): string {
+  const { rows, ongoing } = glanceRows(clients, day);
+  const silent = clients.filter((c) => c.stage !== "lost" && !isOngoing(c) && !c.next_action && !c.deadline);
+  const lines: string[] = ["## Next actions", ""];
+  if (rows.length === 0) lines.push("None.");
+  for (const { client: c, deadline, days } of rows) {
+    const action = oneLine(c.next_action) || "no next action";
+    const due = !deadline ? "" : days === null ? ` · due ${deadline}` : ` · due ${deadline}, ${dueWords(days)}`;
+    lines.push(`- [${nameOf(c)}](${link(c)}) (${c.stage ?? ""}): ${action}${due}`);
+  }
+  if (silent.length > 0) lines.push("", `No next action: ${silent.map(nameOf).join(", ")}.`);
+  if (ongoing.length > 0) {
+    lines.push("", "## Ongoing", "", `No next action, and none needed: ${ongoing.map((c) => `${nameOf(c)} (${c.kind})`).join(", ")}.`);
+  }
+  lines.push("", "## Jamie decides", "", decides.trim() || "None.");
+  return `${lines.join("\n")}\n`;
+}
+
+// --- The close ----------------------------------------------------------------------------
+
 export interface CloseRow {
   client: ClientRow;
-  invoiced: number; // issued in the month
-  paid: number; // paid in the month
-  owed: number; // issued by the end of the month, unpaid by its end
-  overdue: number; // owed and past due at the end of the month
-  commission: number | null; // due this month: owed × paid this month ÷ all invoiced (S1)
-  costMonthly: number | null; // from economics.yaml costs_monthly
-  marginMonthly: number | null;
+  price: number | null; // agreed: per month for a retainer or a role, in total for a build
+  priceKind: "monthly" | "total" | null;
+  hours: number | null; // this month: the actual when economics.yaml has the month, else the estimate
+  cost: number | null; // this month: the actual, else the estimate
+  actual: boolean; // economics.yaml carries this month's actuals
+  costToDate: number | null; // a build: every month's actual cost up to this month
+  hoursToDate: number | null; // a build: every month's actual hours up to this month
+  margin: number | null; // price − cost this month; a build: total − cost to date
+  hourly: number | null; // what an hour earned: price ÷ hours; a build: total ÷ hours to date
+  commission: number | null; // the record's commission.owed, settled as the client pays, outside the house
   currency: string;
 }
 
-const inMonth = (d: string, month: string) => d.startsWith(month);
-const sum = (xs: Invoice[]) => xs.reduce((n, i) => n + i.amount, 0);
-const lastDay = (month: string): string => {
-  const [y, m] = month.split("-").map(Number);
-  return new Date(Date.UTC(y!, m!, 0)).toISOString().slice(0, 10);
+const num = (v: unknown): number | null => {
+  if (v === undefined || v === null || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
 };
+const sumOf = (o: Record<string, number | string> | undefined): number | null =>
+  o ? Object.values(o).reduce<number>((n, v) => n + (Number(v) || 0), 0) : null;
 
-// The monthly close for one month (YYYY-MM): invoiced, paid and owed per client; cost to run
-// each engagement where economics.yaml names it; commission due. Clients with no invoice
-// and no economics are left out: nothing to close.
-export function close(clients: ClientRow[], month: string): CloseRow[] {
-  const end = lastDay(month);
-  return clients
-    .filter((c) => c.invoices.length > 0 || c.economics)
-    .map((c) => {
-      const inv = c.invoices;
-      const issuedByEnd = inv.filter((i) => i.issued && i.issued <= end);
-      const unpaidAtEnd = issuedByEnd.filter((i) => !i.paid || i.paid > end);
-      const paidThisMonth = inv.filter((i) => i.paid && inMonth(i.paid, month));
-      const all = sum(inv);
-      const owedTotal = Number(c.commission?.owed ?? 0);
-      const costs = c.economics?.costs_monthly;
-      const costMonthly = costs ? Object.values(costs).reduce<number>((n, v) => n + (Number(v) || 0), 0) : null;
-      return {
-        client: c,
-        invoiced: sum(inv.filter((i) => inMonth(i.issued, month))),
-        paid: sum(paidThisMonth),
-        owed: sum(unpaidAtEnd),
-        overdue: sum(unpaidAtEnd.filter((i) => i.due && i.due < end)),
-        commission:
-          c.salesman && owedTotal > 0 && all > 0 ? Math.round((owedTotal * sum(paidThisMonth)) / all) : null,
-        costMonthly,
-        marginMonthly: typeof c.economics?.margin_monthly === "number" ? c.economics.margin_monthly : null,
-        currency: inv[0]?.currency ?? c.economics?.currency ?? "EUR",
-      };
-    });
+export function closeRow(c: ClientRow, month: string): CloseRow {
+  const e = c.economics;
+  const build = c.kind === "build";
+  const price = build ? num(e?.price?.total) : num(e?.price?.monthly);
+  const months = Object.entries(e?.months ?? {}).filter(([m]) => /^\d{4}-\d{2}$/.test(m));
+  const thisMonth = e?.months?.[month];
+  const actual = thisMonth !== undefined;
+  const hours = thisMonth ? num(thisMonth.hours) : num(e?.hours?.per_month);
+  const cost = thisMonth ? (sumOf(thisMonth.costs) ?? 0) : sumOf(e?.costs_monthly);
+  const upTo = months.filter(([m]) => m <= month);
+  const costToDate = upTo.length ? upTo.reduce((n, [, v]) => n + (sumOf(v.costs) ?? 0), 0) : null;
+  const hoursToDate = upTo.length ? upTo.reduce((n, [, v]) => n + (num(v.hours) ?? 0), 0) : null;
+  let margin: number | null = null;
+  if (price !== null) {
+    if (build) margin = costToDate === null ? null : price - costToDate;
+    else margin = cost === null ? null : price - cost;
+  }
+  const h = build ? hoursToDate : hours;
+  const hourly = price !== null && h ? Math.round(price / h) : null;
+  return {
+    client: c,
+    price,
+    priceKind: price === null ? null : build ? "total" : "monthly",
+    hours,
+    cost,
+    actual,
+    costToDate,
+    hoursToDate,
+    margin,
+    hourly,
+    commission: num(c.commission?.owed),
+    currency: String(e?.currency ?? "EUR"),
+  };
+}
+
+// The monthly close for one month (YYYY-MM): every engaged client against its economics,
+// and, apart, the price a prospect's economics project. A lost client is not listed.
+export function close(clients: ClientRow[], month: string): { rows: CloseRow[]; projected: CloseRow[] } {
+  const live = clients.filter((c) => c.stage !== "lost");
+  const order = (a: CloseRow, b: CloseRow) =>
+    stageRank(a.client.stage) - stageRank(b.client.stage) || a.client.slug.localeCompare(b.client.slug);
+  return {
+    rows: live
+      .filter(isEngaged)
+      .map((c) => closeRow(c, month))
+      .sort(order),
+    projected: live
+      .filter((c) => !isEngaged(c) && c.economics)
+      .map((c) => closeRow(c, month))
+      .sort(order),
+  };
+}
+
+// The month's totals: the monthly prices and their margin (a build's total is not a monthly
+// figure), the cost and the hours of every row, and the commission owed.
+export function closeTotals(rows: CloseRow[]) {
+  const monthly = rows.filter((r) => r.priceKind === "monthly");
+  const sum = (xs: CloseRow[], k: "price" | "cost" | "hours" | "margin" | "commission") =>
+    xs.reduce((n, r) => n + (r[k] ?? 0), 0);
+  return {
+    monthly: sum(monthly, "price"),
+    margin: sum(monthly, "margin"),
+    cost: sum(rows, "cost"),
+    hours: sum(rows, "hours"),
+    commission: sum(rows, "commission"),
+  };
 }
 
 // Pipeline and conversion: the pool by status (request time) and the folders by stage.
@@ -129,7 +212,7 @@ export function pipeline(counts: Record<Status, number>, clients: ClientRow[]) {
   const lost = counts.lost;
   const decided = handedOff + lost;
   const byStage = Object.fromEntries(STAGES.map((s) => [s, clients.filter((c) => c.stage === s).length])) as Record<
-    (typeof STAGES)[number],
+    Stage,
     number
   >;
   return {

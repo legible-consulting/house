@@ -18,6 +18,16 @@ export type Channel = (typeof CHANNELS)[number];
 export const isChannel = (v: unknown): v is Channel => CHANNELS.includes(v as Channel);
 
 export const LANGUAGES = ["pt-PT", "fr-BE", "en-GB"] as const;
+
+// cadence.md: three touches on days 0, 7 and 21 from the first touch, each a different angle;
+// day 28 is when the row is due for `lost`. The desk sets next_action from it and the Sell
+// page shows it as a strip.
+export const CADENCE = [
+  { day: 0, touch: 1, angle: "opener" },
+  { day: 7, touch: 2, angle: "follow-up" },
+  { day: 21, touch: 3, angle: "last note" },
+  { day: 28, touch: null, angle: "due for lost" },
+] as const;
 export const LINES = ["local", "sme"] as const;
 export const SIZES = ["1", "2-9", "10-49", "50+"] as const;
 export const SERVICES = ["site", "app", "platform", "workshop", "coaching", "unknown"] as const;
@@ -163,15 +173,14 @@ export function missingForReady(p: Prospect): string[] {
 export const canGoReady = (p: Prospect): boolean =>
   (p.status === "replied" || p.status === "meeting") && !p.pr_url;
 
-// cadence.md: three touches on days 0, 7 and 21, counted from the first touch; day 28 is
-// when the row is due for `lost`. After each logged touch, before a reply, next_action is
-// the next of those dates. From `replied` on the sourcer sets it by hand: null means keep.
+// After each logged touch, before a reply, next_action is the cadence's next date, counted
+// from the first touch. From `replied` on the sourcer sets it by hand: null means keep.
 export function nextActionAfterTouch(status: Status, touches: Touch[]): string | null {
   if (status !== "new" && status !== "contacted") return null;
   const first = touches.map((t) => t.touched_on).sort()[0];
   if (!first) return null;
-  const days = touches.length <= 1 ? 7 : touches.length === 2 ? 21 : 28;
-  return addDays(first, days);
+  const step = CADENCE[Math.min(Math.max(touches.length, 1), 3)]!;
+  return addDays(first, step.day);
 }
 
 // Form input to the stored fields: trimmed strings. Company and source are required at add

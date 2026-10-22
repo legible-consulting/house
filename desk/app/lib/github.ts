@@ -9,10 +9,10 @@ import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 //   that owns DESK_PAT. The folder is the record from the merge on; "Check the PR" moves the
 //   row to handed off.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
-// - The latest run of each house workflow, any status (houseRun): the Refresh card says
+// - The latest run of each house workflow, any status (houseRun): the sync pill says
 //   queued, running or done.
-// - The distance from the build's commit to main (distance): the footer says up to date, or
-//   how many commits main is ahead.
+// - The distance from the build's commit to main (distance): the sync pill says up to date,
+//   deploying, or out of sync.
 // The two reads keep the posture of lib/repos.ts: a module-level map each, concurrent views
 // share the one read in flight, a failed read is kept shorter, no-store on the fetch, a
 // 5-second timeout. Each read fails only its own line, in words, and the page renders.
@@ -115,20 +115,18 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
   return pr.body.html_url as string;
 }
 
-// The three runs Jamie starts from the desk, each a workflow_dispatch on main. The glance is
-// sweep-deadlines.yml; the Friday review and the monthly close are rhythms.yml with its
-// `rhythm` input, and the close takes an optional `month` (YYYY-MM).
-export type WorkflowFile = "sweep-deadlines.yml" | "rhythms.yml";
-export type RunKey = "glance" | "review" | "close";
+// The two runs Jamie starts from the desk, each a workflow_dispatch of rhythms.yml on main
+// with its `rhythm` input; the close takes an optional `month` (YYYY-MM).
+export type WorkflowFile = "rhythms.yml";
+export type RunKey = "glance" | "close";
 
 export const RUNS: Record<RunKey, { label: string; file: WorkflowFile; inputs: Record<string, string> }> = {
-  glance: { label: "Glance", file: "sweep-deadlines.yml", inputs: {} },
-  review: { label: "Friday review", file: "rhythms.yml", inputs: { rhythm: "review" } },
+  glance: { label: "Glance", file: "rhythms.yml", inputs: { rhythm: "glance" } },
   close: { label: "Monthly close", file: "rhythms.yml", inputs: { rhythm: "close" } },
 };
 
-// The house workflows the Refresh card follows, in its order.
-export const WORKFLOWS: WorkflowFile[] = ["sweep-deadlines.yml", "rhythms.yml"];
+// The house workflows the sync pill follows.
+export const WORKFLOWS: WorkflowFile[] = ["rhythms.yml"];
 
 export const isRunKey = (v: unknown): v is RunKey => typeof v === "string" && Object.hasOwn(RUNS, v);
 
@@ -283,7 +281,7 @@ const COMPARE_MS = 30 * 1000;
 const COMPARE_FAILED_MS = 15 * 1000;
 // How long a push to main is waited for: Vercel deploys one in about a minute. After this,
 // main ahead of the build is a failed build, and the page stops re-reading itself.
-const DEPLOY_MS = 10 * 60 * 1000;
+export const DEPLOY_MS = 10 * 60 * 1000;
 
 const compares = new Map<string, Entry<Distance>>();
 
@@ -329,7 +327,7 @@ export function distance(): Promise<Distance> {
 }
 
 // Whether a deploy is on its way: main ahead of the build, and the newest commit ahead
-// pushed in the last ten minutes. Older means the build failed; the footer still says the
-// distance, and the page stops re-reading itself.
+// pushed in the last ten minutes. Older means the build failed; the pill says out of sync,
+// and the page stops re-reading itself.
 export const deployInFlight = (): Promise<boolean> =>
   distance().then((d) => d.ok && d.ahead > 0 && Date.now() - Date.parse(d.newest) < DEPLOY_MS);

@@ -4,7 +4,7 @@ Legible Consulting is Jamie Nisbet's AI consultancy in Mafra, Portugal: sites, a
 platforms built for clients, and ICM workshops and coaching. This repo is where the business
 runs. It follows the Interpretable Context Methodology: the folder tree is the orchestration,
 every stage folder carries a `CONTEXT.md` contract, and this file only says who we are and
-where to go. Our words (house, blueprint, library, tiers, module codes) are defined once in
+where to go. Our words (house, blueprint, library, module codes) are defined once in
 `core/lexicon.md`.
 
 ## Routing
@@ -16,7 +16,7 @@ where to go. Our words (house, blueprint, library, tiers, module codes) are defi
 | prospect, research a client, write a proposal, quote or agreement | `sell/CONTEXT.md` |
 | kick off, build, hand over, or check the estate | `deliver/CONTEXT.md` |
 | research a tool, write a case study, publish content, run training | `operator/CONTEXT.md` |
-| the morning glance, Friday review, monthly close, estate audit, the dashboard | `desk/CONTEXT.md` |
+| the morning glance, monthly close, estate audit, the dashboard | `desk/CONTEXT.md` |
 
 Read the contract you are routed to, then only what its Inputs name. Do not read other
 stages' folders.
@@ -31,11 +31,10 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - Never, even if asked in the moment: send anything to a client; merge or release; advance
   a stage or tick a gate; spend money or sign (why: each one reaches a client, the estate or
   money and cannot be taken back; the human is the gate).
-- Unattended runs only: the sweep that writes the glance, the Friday review and the monthly
-  close, and the research intake, which only opens a PR (why: the first three are
-  deterministic reads with nothing to send; the intake reads what Jamie shared, writes a
-  draft and opens a PR, and sends nothing to anyone; anything that acts waits for Jamie ·
-  2026-10-19).
+- Unattended runs only: the runs that write the glance and the monthly close, and the
+  research intake, which only opens a PR (why: the first two are deterministic reads with
+  nothing to send; the intake reads what Jamie shared, writes a draft and opens a PR, and
+  sends nothing to anyone; anything that acts waits for Jamie · 2026-10-19).
 - Never in git: credentials and identity documents. Client words, negotiation positions and
   contact details may live here (why: this repo is private; a secret in git outlives every
   rotation).
@@ -68,8 +67,8 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 
 - `legible-consulting/library` — read-only: Jake Van Clief's course, the ICM paper, the
   goals the house is measured against, the audited tool verdicts.
-- `legible-consulting/blueprint` — public: the copier template per tier, conventions, the
-  workshop kit.
+- `legible-consulting/blueprint` — public: the copier template, conventions, the workshop
+  kit.
 - `legible-consulting/.github` — the org's front page and the reusable client CI workflows.
 - `k0d0minio/<client-slug>` — one per build, under Jamie's own account; the client folder's
   `repo:` field points at it.

@@ -40,6 +40,8 @@ export interface Stub {
   foundBy: string | null;
   state: StubState;
   pr: number | null; // the open pull request matched to it
+  body: string; // the stub's text after its meta lines, markdown; "" when the blob was not read
+  prompt: string | null; // the stub's own "## Prompt" section, when it has one
 }
 
 export interface Epic {
@@ -81,6 +83,8 @@ export interface Merged {
 
 export interface RepoWork {
   repo: string;
+  branch: string; // the default branch, where the intake is read
+  runScript: boolean; // .icm/scripts/new-run.sh exists: the blueprint's loop starts a ticket with it
   epics: Epic[];
   triage: Stub[];
   prs: Pr[];
@@ -96,6 +100,7 @@ const FAILED_MS = 30 * 1000;
 const TIMEOUT_MS = 5000;
 const REPO_RE = /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/;
 const INTAKE = ".icm/intake/";
+const RUN_SCRIPT = ".icm/scripts/new-run.sh";
 const STUB_CAP = 80;
 const MERGED_DAYS = 14;
 const OPEN_PRS = 30;
@@ -177,19 +182,25 @@ interface Entry {
 const entriesOf = (body: unknown, prefix = ""): Entry[] =>
   list(obj(body).tree).map((e) => ({ path: prefix + str(e.path), sha: str(e.sha), type: str(e.type) }));
 
-// Every entry under .icm/intake/. A truncated answer may have cut the intake, so then the
-// intake's own tree is read by its sha: that tree is small and comes whole.
-async function intakeEntries(token: Token, repo: string, branch: string): Promise<Entry[]> {
+// Every entry under .icm/intake/, and whether .icm/scripts/new-run.sh exists (the start of
+// the loop, blueprint .icm/intake/CONTEXT.md). A truncated answer may have cut the intake, so
+// then the intake's own tree is read by its sha: that tree is small and comes whole.
+async function intakeEntries(
+  token: Token,
+  repo: string,
+  branch: string,
+): Promise<{ inside: Entry[]; runScript: boolean }> {
   const t = await request(token, "GET", `/repos/${repo}/git/trees/${encodeURIComponent(branch)}?recursive=1`);
   if (t.status !== 200) throw new ReadFailed(`GitHub answered ${t.status} for the tree of ${repo}`);
   const entries = entriesOf(t.body);
+  const runScript = entries.some((e) => e.path === RUN_SCRIPT && e.type === "blob");
   const inside = entries.filter((e) => e.path.startsWith(INTAKE));
-  if (obj(t.body).truncated !== true) return inside;
+  if (obj(t.body).truncated !== true) return { inside, runScript };
   const root = entries.find((e) => e.path === ".icm/intake" && e.type === "tree");
-  if (!root) return inside;
+  if (!root) return { inside, runScript };
   const sub = await request(token, "GET", `/repos/${repo}/git/trees/${root.sha}?recursive=1`);
   if (sub.status !== 200) throw new ReadFailed(`GitHub answered ${sub.status} for the intake tree of ${repo}`);
-  return entriesOf(sub.body, INTAKE);
+  return { inside: entriesOf(sub.body, INTAKE), runScript };
 }
 
 // A blob's text, kept forever by sha: a sha is its content. A failed read is not kept.
@@ -245,9 +256,28 @@ const dependsOnOf = (v: string | undefined): string[] =>
 
 const humanize = (slug: string) => slug.replace(/-/g, " ");
 
+// The stub's text after its meta lines, and its own "## Prompt" section when it has one: the
+// words that start it in a session. The Prompt section leaves the body, so the page shows it
+// once, beside the copy button.
+function sections(text: string): { body: string; prompt: string | null } {
+  const lines = text.split(/\r?\n/);
+  const first = lines.findIndex((l) => /^##\s/.test(l.trim()));
+  const body: string[] = [];
+  const prompt: string[] = [];
+  let inPrompt = false;
+  for (const line of first < 0 ? [] : lines.slice(first)) {
+    const heading = /^##\s/.test(line.trim());
+    if (heading) inPrompt = /^##\s+prompt\s*$/i.test(line.trim());
+    if (!inPrompt) body.push(line);
+    else if (!heading) prompt.push(line);
+  }
+  return { body: body.join("\n").trim(), prompt: prompt.join("\n").trim() || null };
+}
+
 function stubOf(path: string, epic: string | null, text: string | null): Stub {
   const slug = path.slice(path.lastIndexOf("/") + 1).replace(/\.md$/, "");
   const meta = text === null ? { title: "", fields: new Map<string, string>() } : parseMeta(text, "Stub");
+  const { body, prompt } = text === null ? { body: "", prompt: null } : sections(text);
   const f = meta.fields;
   const [sequence, sequenceTotal] = sequenceOf(f.get("sequence"));
   const blocked = f.get("blocked") ?? null;
@@ -267,6 +297,8 @@ function stubOf(path: string, epic: string | null, text: string | null): Stub {
     foundBy: f.get("found-by") ?? null,
     state: "queued",
     pr: null,
+    body,
+    prompt,
   };
 }
 
@@ -471,7 +503,18 @@ function matchStub(pr: Omit<Pr, "waiting">, body: string, stubs: Stub[]): Stub |
 // --- The read -----------------------------------------------------------------------------
 
 async function read(token: Token, repo: string, readAt: number): Promise<RepoWork> {
-  const empty: RepoWork = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], error: null, readAt };
+  const empty: RepoWork = {
+    repo,
+    branch: "",
+    runScript: false,
+    epics: [],
+    triage: [],
+    prs: [],
+    merged: [],
+    waitingOnJamie: [],
+    error: null,
+    readAt,
+  };
   try {
     // The repo first: a 404 here means the repo does not exist or the token cannot see it.
     const meta = await request(token, "GET", `/repos/${repo}`);
@@ -483,7 +526,7 @@ async function read(token: Token, repo: string, readAt: number): Promise<RepoWor
     if (meta.status !== 200) return { ...empty, error: `GitHub answered ${meta.status} for ${repo}` };
     const branch = str(obj(meta.body).default_branch) || "main";
 
-    const [entries, openRaw, closedRaw] = await Promise.all([
+    const [{ inside: entries, runScript }, openRaw, closedRaw] = await Promise.all([
       intakeEntries(token, repo, branch),
       pulls(token, repo, `state=open&per_page=${OPEN_PRS}`),
       pulls(token, repo, `state=closed&sort=updated&direction=desc&per_page=${CLOSED_PRS}`),
@@ -541,7 +584,18 @@ async function read(token: Token, repo: string, readAt: number): Promise<RepoWor
       .filter((p) => p.merged_at && Date.parse(str(p.merged_at)) >= since)
       .map((p) => ({ number: Number(p.number), title: str(p.title), url: str(p.html_url), mergedAt: day(p.merged_at) }));
 
-    return { repo, epics, triage, prs, merged, waitingOnJamie: prs.filter((p) => p.waiting), error: null, readAt };
+    return {
+      repo,
+      branch,
+      runScript,
+      epics,
+      triage,
+      prs,
+      merged,
+      waitingOnJamie: prs.filter((p) => p.waiting),
+      error: null,
+      readAt,
+    };
   } catch (e) {
     return { ...empty, error: e instanceof ReadFailed ? e.message : "GitHub read failed" };
   }
@@ -550,7 +604,7 @@ async function read(token: Token, repo: string, readAt: number): Promise<RepoWor
 // One repo's work, from the cache when it is fresh. `repo` is the record's `repo:` field.
 export function repoWork(repo: string): Promise<RepoWork> {
   const now = Date.now();
-  const empty = { repo, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], readAt: now };
+  const empty = { repo, branch: "", runScript: false, epics: [], triage: [], prs: [], merged: [], waitingOnJamie: [], readAt: now };
   const t = tokenOrReason(repo);
   if ("reason" in t) return Promise.resolve({ ...empty, error: t.reason });
   const hit = cache.get(repo);
@@ -574,3 +628,28 @@ export function dropWork(repo: string): void {
 // failed read is not in flight.
 export const workInFlight = (repo: string): Promise<boolean> =>
   repoWork(repo).then((w) => w.prs.some((p) => inFlight(p.run)));
+
+// --- The start of a ticket ----------------------------------------------------------------
+
+// The words that start a ticket in a session, copied from the desk: the stub's own Prompt
+// section when it has one; else the start of the loop in the blueprint's words when the repo
+// has new-run.sh; else a plain read-and-do line for a repo with its own conventions.
+export function startPrompt(w: RepoWork, s: Stub): string {
+  if (s.prompt) return s.prompt;
+  const ref = s.path.slice(INTAKE.length).replace(/\.md$/, "");
+  if (w.runScript) {
+    return (
+      `In ${w.repo}, read .icm/intake/CONTEXT.md, then run .icm/scripts/new-run.sh ${ref} and build the stub ` +
+      `${s.path} as the loop says. Stop at the first gate. Your last message names the pull request and what ` +
+      `waits on Jamie.`
+    );
+  }
+  return (
+    `In ${w.repo}, read ${s.path} for the full context, then do the work it describes. Follow the repo's own ` +
+    `CLAUDE.md and .icm/ contracts. Stop at the first gate and say what waits on Jamie.`
+  );
+}
+
+// The stub's file on GitHub, on the default branch.
+export const stubUrl = (w: RepoWork, s: Stub): string =>
+  `https://github.com/${w.repo}/blob/${w.branch || "main"}/${s.path}`;

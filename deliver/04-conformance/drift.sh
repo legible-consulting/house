@@ -12,19 +12,6 @@ assets=(.claude CLAUDE.md AGENTS.md .mcp.json .icm .opencode opencode.jsonc .cur
 tag="$(git ls-remote --tags --refs "$blueprint" 'v*' | sed 's#.*refs/tags/##' | sort -V | tail -n1)"
 [ -n "$tag" ] || { echo "blueprint has no v* tag yet; nothing to conform to" >&2; exit 1; }
 
-# The client record whose repo: field names this repo gives the tier.
-tier_of() {
-  local f
-  for f in "$house"/clients/*/record.md; do
-    case "$f" in */_template/*) continue ;; esac
-    if [ "$(yq --front-matter=extract '.repo' "$f")" = "$1" ]; then
-      yq --front-matter=extract '.tier' "$f"
-      return
-    fi
-  done
-  echo "no record"
-}
-
 date="$(date +%F)"
 out="$house/desk/estate/drift-${date}.md"
 mkdir -p "$(dirname "$out")"
@@ -34,9 +21,8 @@ drifted=0
 while IFS=$'\t' read -r name path url tags; do
   path="${path/#\~/$HOME}"
   repo="$(printf '%s' "$url" | sed -E 's#^https://github.com/##; s#\.git$##')"
-  tier="$(tier_of "$repo")"
   if [ ! -d "$path/.git" ]; then
-    rows+="| \`${repo}\` (${name}, ${tags}) | ${tier} | — | no local clone at \`${path}\` | — |"$'\n'
+    rows+="| \`${repo}\` (${name}, ${tags}) | — | no local clone at \`${path}\` | — |"$'\n'
     drifted=$((drifted + 1))
     continue
   fi
@@ -51,7 +37,6 @@ while IFS=$'\t' read -r name path url tags; do
     *)
       if answers="$(git -C "$path" show "${ref}:.copier-answers.yml" 2>/dev/null)"; then
         tracks="$(printf '%s\n' "$answers" | yq '._commit')"
-        [ "$tier" = "no record" ] && tier="$(printf '%s\n' "$answers" | yq '.tier') (answers)"
         if [ "$tracks" = "$tag" ]; then drift="current"; else drift="behind: \`copier update\`"; drifted=$((drifted + 1)); fi
       else
         tracks="—"
@@ -64,7 +49,7 @@ while IFS=$'\t' read -r name path url tags; do
   for a in "${assets[@]}"; do
     git -C "$path" cat-file -e "${ref}:${a}" 2>/dev/null && found+="\`${a}\` "
   done
-  rows+="| \`${repo}\` (${name}, ${tags}) | ${tier} | ${tracks} | ${drift} | ${found:-none} |"$'\n'
+  rows+="| \`${repo}\` (${name}, ${tags}) | ${tracks} | ${drift} | ${found:-none} |"$'\n'
 done < <(yq -r '.projects | to_entries[] | [.key, .value.path, .value.url, (.value.tags | join(","))] | @tsv' "$house/desk/mani.yaml")
 
 cat > "$out" <<EOF
@@ -82,8 +67,8 @@ blueprint \`${tag}\`; a dormant repo is read for its archived flag. A drifted re
 from \`conform.sh\` through multi-gitter; the merge is Jamie's.
 Claude and agent assets are listed for the human check that each one is still used.
 
-| Repo | Tier | Tracks | Drift | Claude and agent assets |
-|---|---|---|---|---|
+| Repo | Tracks | Drift | Claude and agent assets |
+|---|---|---|---|
 ${rows}
 EOF
 echo "$out"

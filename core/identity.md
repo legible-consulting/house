@@ -31,7 +31,7 @@ the UAE and the United States.
 | NIF | 336899076 |
 | Business email | contact@jamienisbet.com |
 | Public front | jamienisbet.com · github.com/legible-consulting |
-| IBAN | Never in git. S4 reads `INVOICE_IBAN` from the environment when it renders an invoice. |
+| IBAN | Never in git. Invoices are written and sent outside the house. |
 
 Agreements and invoices carry the legal name and the NIF, never the trade name alone (why:
 the sole trader is the party that signs and is paid; a trade name binds nobody · 2026-10-19).

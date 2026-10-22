@@ -9,9 +9,8 @@ date: 2026-10-22
 One home for what is open in the system's own build: this week, next, and what Jamie decides.
 A step leaves this file when it is done and its result lives in the file that owns it. When
 the wave ends, this file is rewritten for the next one (why: a plan with two homes drifts, and
-a finished step kept here is a decision trail · 2026-10-19). The glance and the Friday review
-print the "Jamie decides" list (why: a decision he owes is a next action of the house itself ·
-2026-10-22). The prompt for each session step is in `~/Desktop/legible-consulting/prompts-2026-10-22.md`,
+a finished step kept here is a decision trail · 2026-10-19). The glance prints the "Jamie
+decides" list (why: a decision he owes is a next action of the house itself · 2026-10-22). The prompt for each session step is in `~/Desktop/legible-consulting/prompts-2026-10-22.md`,
 not in git.
 
 Done when: the factory is done, then MotoArk has walked `research` → `proposal` → `agreement`
@@ -70,8 +69,7 @@ factory proves nothing · 2026-10-22).
   their answers, `tier` leaves `core/lexicon.md`, `conform.sh` and `check-client.yml`,
   `deliver/02-sdlc/CONTEXT.md` reads flags. S.
 - MotoArk after the call: `next_action` and `deadline` set, the PDF sent, on a yes the
-  agreement rendered and sent for signature, `stage: agreement`, `invoices/1.yaml` and its
-  PDF. J, then S.
+  agreement rendered and sent for signature, `stage: agreement`. J, then S.
 - Vinecliff kickoff: the owner answers the questionnaire, `clients/vinecliff/kickoff/`, the
   first epic in the repo, `next_action` set. J and S.
 - Berceo #68 merged as changelog and tag or closed, then the next promotion through
