@@ -114,8 +114,3 @@ One environment, `legible`, in claude.ai/code.
 The pasted copy is not linked to this repo: after editing `setup/cloud.sh`, paste it into the
 environment dialog again. That rebuilds the environment cache on the next session. Check: a
 session's setup log ends with an `ok` line per tool and no `MISSING` line.
-
-Pasted copy status: behind `setup/cloud.sh` since 2026-10-19, when trafilatura joined for the
-research intake. Jamie pastes the file again, then deletes this paragraph (why: the pasted copy
-is the one that runs; a routine that needs a tool the paste lacks fails its first run ·
-2026-10-19).

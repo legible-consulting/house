@@ -12,7 +12,6 @@ export const STAGES = [
   "prospect",
   "research",
   "proposal",
-  "quote",
   "agreement",
   "kickoff",
   "build",

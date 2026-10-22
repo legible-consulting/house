@@ -18,18 +18,23 @@ wants it.
 
 Legend: **J** Jamie's hand · **S** a session · **J+S** Jamie's answers, a session's writing.
 
-## Now (as of 2026-10-22 morning)
+## Now (as of 2026-10-22, after Jamie's answers to the stocktake)
 
-Open: site-proof#1 (the proof repo conforms to `v0.5.0`) and vinecliff#29 (the first ticket through the loop). Landed 2026-10-20: D1, D2, E1, E2 (the Astro desk, then its Next.js replacement with Tailwind, shadcn/ui, Motion and the password reset in house#20, the Sell page in house#21), E3 (the first glance exists), F4, the pitch drafts (house#18), and C2 for all three repos (vinecliff#25, agorasim#198, berceo#67).
+Client work (MotoArk's next action, the three build records, the client repos' branches) waits
+until Jamie is satisfied with the house and the blueprint. The records and the glance carry it
+meanwhile (why: the estate is the factory; a client run through a half-built factory proves
+nothing · 2026-10-22). W is this week, N is next.
 
 | Order | What | Whose hand | State |
 |---|---|---|---|
-| 1e | Give `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS` the `Pull requests` permission, read and write (read shows the gates, write ticks them from the desk), and `Commit statuses` read (the Vercel preview) on GitHub. Then redeploy the desk and open desk.jamienisbet.com/work | J | open |
-| 1f | Delete the three stale `conform/v0.4.0` branches on berceo, agorasim and vinecliff. Their pull requests are merged | J | open |
-| 2 | The first ticket through the new loop: vinecliff, `triage/declare-node-env-in-env-example` (vinecliff#29), with `new-run.sh` and `close-out.sh` | S | open |
-| 3 | Try the intake: an issue on the house labelled `research` with a link in the title; the routine runs daily at 06:00 UTC | J | not yet tried |
-
-Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the house (house#23), A2 (every client repo is `k0d0minio/<slug>`; the org is the house, the blueprint, the library, `.github`, site-proof and shared projects), A3 (the pointers, house#24), the stray `BUILD.md` files deleted, the house's Vercel credentials removed. Landed 2026-10-22: blueprint `v0.5.0` (the ticket loop stands alone in `.icm/intake/CONTEXT.md`, the gates at the top of the pull request, the platform tier, `new-run.sh` and `close-out.sh`), the four live repos at `v0.5.0` (berceo, agorasim, vinecliff, remi-ai), house#28 (D2 says the loop in the blueprint's words), house#29 (`/work` reads the tickets and the pull request gates) and the drift report of 2026-10-22. Next: D3 after the MotoArk call; A4, A5, B3, F3 as listed below. sustentus follows once Jamie decides how its own org adopts the loop.
+| W1 | The research inbox from the phone: the desk becomes a PWA with a `share_target`, so a link shared from the phone's share sheet (a repo, a reel, an article) lands in a Neon `inbox` table with Jamie's note; `operator/research/intake.md` reads that table instead of issues, with `gh api` only, and drafts one verdict per link. Check: a link shared from the phone is in the desk's inbox and the next 06:00 UTC run opens a PR with its draft | S | open |
+| W2 | Run `bash deliver/04-conformance/drift.sh` from the local lane now that site-proof#1 is merged. Check: the newest `desk/estate/drift-*.md` lists site-proof as current | J | open |
+| W3 | Delete the 30 merged branches on the house and switch on "Automatically delete head branches" in the repo's settings. Check: `gh api repos/legible-consulting/house/branches --paginate --jq '.[].name'` prints `main` only | J | open |
+| W4 | Cloud sessions read the whole estate, read-only: the Claude GitHub App covers `blueprint`, `library`, `.github` and `site-proof`, a session attaches them with read access only, and the "One session, one repo" rule in `CLAUDE.md` gains that line with its why. Check: `gh api repos/legible-consulting/blueprint --jq .full_name` answers from a `legible` session | J+S | open |
+| W5 | Commit an MIT `LICENSE` to the blueprint, in a blueprint session. Check: `gh api repos/legible-consulting/blueprint/contents --jq '.[].name'` lists `LICENSE` | S | open |
+| N1 | Write C3's Process in `desk/CONTEXT.md` from the running desk and S2's Process in `sell/02-research/CONTEXT.md` from the MotoArk research, and set both `status: built`. Check: neither file carries "Defined when the module is built" and `check.yml` is green | S | open |
+| N2 | The desk's client page and `desk/CONTEXT.md` list `quote/quote.md` as a document the client reads. The price is the proposal's last section now, so the client sees the proposal only. Check: `/clients/<slug>` shows no separate quote document | S | open |
+| N3 | Confirm the desk after 1e, E4 and E6: desk.jamienisbet.com shows Jamie the clients table with each repo's last release, and `/work` shows the gates. Check: Jamie's eyes | J | open |
 
 ## A · Ownership and access
 
@@ -48,40 +53,7 @@ Landed 2026-10-21: C3 (blueprint#6, tag `v0.3.0`), the intake convention in the 
 
 ## D · Core and sell
 
-- [ ] **D3** (the real deal, after 21 Oct) Motoark walks `research` → `proposal`. S3's
-  Process is written from that walk. Check: `clients/motoark/proposal/proposal.md` exists
-  and S3 has no placeholder.
-
 ## E · The desk as an app
-
-Landed 2026-10-21 (house PR, C3): the glance, the Friday review, the monthly close, the
-estate and the client's page in the app; the deal's stage on a handed-off pool row; the
-Healthchecks ping. Landed 2026-10-21 (house PR, E6 and E7): E7, the review and the close as
-files: `rhythms.yml` commits `desk/review/<ISO week>.md` on Fridays and
-`desk/close/<YYYY-MM>.md` on the 1st with the app's own rules, and `/review` and `/close`
-render the file when one exists (`desk/CONTEXT.md`, Outputs). The code of E6 landed too.
-What is left is Jamie's hand.
-
-- [ ] **E4** (J) Set the roles in the Neon console, project `legible-desk`, database
-  `neondb`: run `desk/app/db/schema.sql` once (it adds `users.client`), then the three upserts
-  at its foot with the real emails: Jamie as `jamie`; each salesman as `salesman` with a
-  handle; a client as `client` with the folder's slug. Check: the desk shows Jamie the
-  clients table, not the client placeholder.
-- [ ] **E5** (J) A Healthchecks check with a daily period and a one-hour grace, its ping URL
-  stored as the house's Actions secret `HEALTHCHECKS_URL`. Check: the next `sweep-deadlines`
-  run ends with the ping step green.
-- [ ] **E6** (J) The client repos' status in the desk (D2's release and check runs). The code
-  is in: the clients table and the client's page read each repo's latest release and
-  `check.yml` run per request (`desk/app/lib/repos.ts`) with one token per owner, and each
-  cell says which variable is not set until the tokens exist. The tokens are what remains:
-  1. Create two fine-grained tokens, read-only, repository permissions Contents, Actions and
-     Metadata: one with resource owner `k0d0minio`, all repositories; one with resource owner
-     `sustentus`. A `sustentus` owner approves the second when the org asks for approval.
-  2. Store them as the Vercel project's variables `ESTATE_PAT` and `ESTATE_PAT_SUSTENTUS`
-     (Production and Preview), then redeploy.
-  3. Add the two names to `desk/app/.env.example`. A session cannot read that file.
-
-  Check: a client's page names the last release and whether `check.yml` is green.
 
 ## F · Writing and hygiene
 
