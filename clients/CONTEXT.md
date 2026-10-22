@@ -37,9 +37,8 @@ C2 produces one folder per relationship, opened when Jamie takes the lead and ke
 |---|---|---|
 | `prospect` | We know who they are. No artefact exists. | Jamie decides to research. `research/` opens. |
 | `research` | We learn their trade. `research/profile.md` or `primer.md` exists. | `research/profile.md` is complete. |
-| `proposal` | The proposal is written or sent. | The client says yes to `proposal/proposal.md`. |
-| `quote` | The quote is sent. | The client accepts `quote/quote.md`, by email. |
-| `agreement` | The quote is accepted. The agreement is not signed. | The signed copy's Drive link is in `record.md`. |
+| `proposal` | The proposal is written or sent. Its last section is the price, rendered from S4's `quote/quote.md` (why: a client says yes to one document, so there is no quote stage · 2026-10-22). | The client says yes to `proposal/proposal.md`, price included, by email. |
+| `agreement` | The proposal is accepted. The agreement is not signed. | The signed copy's Drive link is in `record.md`. |
 | `kickoff` | The agreement is signed. `repo:` is empty. | `repo:` is set in `record.md`. |
 | `build` | `repo:` is set. The work is in the client repo. | The last release is merged. Only for `kind: build`. |
 | `handover` | The last release is merged. The pack is not sent. | `handover/pack.md` is sent. |

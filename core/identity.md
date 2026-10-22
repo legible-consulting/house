@@ -28,6 +28,8 @@ the UAE and the United States.
 | Legal name | Jamie Nisbet |
 | Status | Sole trader (trabalhador independente), registered in Portugal |
 | Location | Mafra, Portugal |
+| NIF | 336899076 |
+| Business email | contact@jamienisbet.com |
 | Public front | jamienisbet.com · github.com/legible-consulting |
 | IBAN | Never in git. S4 reads `INVOICE_IBAN` from the environment when it renders an invoice. |
 
