@@ -48,7 +48,8 @@ C2 produces one folder per relationship, opened when Jamie takes the lead and ke
   - `build`: a build with an end. It reaches `handover`.
   - `retainer`: Jamie is paid monthly for ongoing work. It stays at `build`. No handover
     pack, no retainer offer. The monthly close reads it as retainer income.
-  - `role`: Jamie holds a position in the client's company. It stays at `build`. No handover.
+  - `role`: Jamie holds a position in the client's company and owns part of the product. It
+    stays at `build`. No handover.
   - Empty until the shape is known (why: a prospect can become any of the three ·
     2026-10-19).
 - The desk's pool, before handoff, has its own statuses: `new` → `contacted` → `replied` →

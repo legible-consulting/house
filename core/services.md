@@ -25,7 +25,9 @@ catalogue that is not the one home for price becomes a habit of quoting from mem
 Every build (site, app, platform) runs through D2: brief and tickets in the repo, a preview
 environment the client signs off before every release, live status they can read at any
 time, and a handover pack at the end. A role (`kind: role` in a client record) is a
-position in the client's company, not a line. It is agreed per case.
+position in the client's company in which Jamie owns part of the product, not a line. It is
+agreed per case. A retainer at any number of hours stays a retainer; the role starts where
+the ownership starts (why: Remi AI · 2026-10-22).
 
 ## In every build
 
@@ -57,16 +59,51 @@ regretted deals were the ones where the price moved and the scope did not · 202
 | Platform | not banded | per build | As app. |
 | Workshop | open | per day | No number yet (`wave.md`, Jamie decides). |
 | Coaching | open | per hour | No number yet (`wave.md`, Jamie decides). |
-| Retainer | open | per month | Against the written monthly scope. No range yet (`wave.md`, Jamie decides). |
+| Retainer | not banded | per month | Jamie's hours of attention a month × the anchor, less the term discount (§ Retainer pricing). |
 
-- **Anchor: €120 per hour.** Internal. It turns hours into a fixed price and answers the
-  rare client who asks for a rate. It is never a billing basis.
+- **Anchor: €120 per hour.** Internal. It turns hours into a fixed price or a monthly
+  retainer, and it is the rate Jamie names on a call so that a discount reads as one. No
+  engagement has closed at it yet (2026-10-22). It is never a billing basis, except retainer
+  hours beyond the promise (§ Retainer pricing).
 - **Floor: €500.** Nothing goes below it. Below the floor the answer is the smallest honest
   version at or above it, or a decline.
 - **Two options in every proposal:** the smallest honest version that does the job, and the
   whole scope. Options are scope. A lower number takes a named piece of scope with it.
-- **Never public:** the anchor, the floor, the bands and the retainer range. Each is said on
+- **Never public:** the anchor, the floor, the bands and the term discounts. Each is said on
   a call or in a proposal, never on a page (why: a number on a page is a number to argue
   with before the work is scoped · 2026-10-19).
 - **Deviations are decisions.** A price below band is written in the client's `quote/`
   folder with its reason. The next proposal reads it as precedent.
+
+## Retainer pricing
+
+A retainer is priced from Jamie's hours, not from a range (why: a retainer runs from five
+hours a month to near full-time, and one range fits none of them · 2026-10-22).
+
+- **The unit is Jamie's attention.** The hours count Jamie's own attention in the month.
+  What he does with them (sessions, calls, review) is his discretion. The sessions' time is
+  not counted.
+- **The price.** Hours a month × the anchor, less the discount for the committed term. The
+  floor holds on the discounted monthly price.
+- **The term discount.** The longer the committed block, the larger the discount (why: a
+  committed block is income Jamie can plan on · 2026-10-22). 25% is the maximum. A block
+  that renews keeps its discount.
+
+| Committed term | Discount |
+|---|---|
+| Month to month | 0% |
+| 3 months | 15% |
+| 6 months | 20% |
+| 12 months | 25% |
+
+- **What the client sees.** The proposal and the agreement promise the hours a month.
+  Delivery and progress are measured by scope completion, never by hours worked. Hours do
+  not roll over.
+- **Beyond the promise.** A month that needs more than the promised hours is absorbed, or
+  the extra hours are billed at the undiscounted anchor. Jamie decides per relationship, and
+  the quote says which.
+- **Leaving a block early.** The 30-day exit in `terms.md` holds inside a block. When the
+  client ends inside it, the term discount on the months already billed is invoiced with the
+  last invoice (`terms.md` § Ending an engagement).
+- **Precedent.** No retainer has closed at the rule yet. Sustentus and MotoArk sit below it;
+  each is recorded in its `quote/economics.yaml`.

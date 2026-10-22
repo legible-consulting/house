@@ -1,0 +1,20 @@
+# Sustentus retainer: the engagement's own economics. Internal. Written on 2026-10-22 from
+# Jamie's answers. No quote was written: the price was agreed on a call before the house
+# existed. The desk reads price.monthly. No estimate is on file: the house measures neither
+# hours nor model cost.
+client: sustentus
+kind: retainer
+date: 2026-10-22
+currency: EUR
+
+price:
+  monthly: 3890                 # paid every month
+  anchor_hourly: 120            # core/services.md, internal, never a billing basis
+  term_months: 1                # month to month: no committed block, no term discount
+
+costs_monthly:
+  hosting: 0                    # client-owned: the repo and the Vercel team are in Sustentus's org (core/terms.md § Hosting and support)
+
+precedent: none. The first retainer.
+
+deviation: below core/services.md § Retainer pricing. Sustentus expects full-time, and full-time at the anchor is far above 3,890. Agreed before the rule existed. The next retainer quote reads it as precedent (2026-10-22).
