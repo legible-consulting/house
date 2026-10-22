@@ -37,7 +37,9 @@ material, not house".
   carries the `stage`.
 - **desk** — the morning glance, monthly close, estate audit and the dashboard.
 - **estate** — every repo in the org; D4 checks it conforms to the blueprint.
-- **local lane** — `~/Desktop/Apps/projects/` clones on Jamie's machine for bulk estate work.
+- **local lane** — `~/Desktop/legible-consulting/projects/<slug>/` clones on Jamie's machine
+  for bulk estate work (from 2026-10-22; `~/Desktop/Apps/projects/` until every clone moves,
+  `core/stack.md` Layout).
 - **gate** — a human checkbox. In a client repo, the two at the top of a pull request body,
   **Spec approved** and **Ready to merge**, each anchored by an HTML comment
   (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A

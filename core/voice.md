@@ -58,10 +58,13 @@ The same offer, said three ways. The floor, the anchor and the method do not cha
 
 ## Document design
 
-The brand is Jamie Nisbet's. Its one home is the `jamienisbet` repo: `packages/ui/tokens/`
-(colours, typography, fonts) and `packages/ui/assets/logo/`. The table below is the copy a
-session uses when that repo is not attached. When the two disagree, the tokens win and this
-table is fixed (why: a copy that wins over its source drifts the site · 2026-10-19).
+The brand is Jamie Nisbet's. Its one home is the `jamienisbet` repo, cloned at
+`~/Desktop/legible-consulting/projects/jamienisbet/`. Today (2026-10-22) the tokens are in
+`packages/ui/tokens/` (colours, typography, fonts) and the logo in `packages/ui/assets/logo/`.
+After that repo's `one-app-at-root` stub merges they are `tokens/` and `assets/logo/` at its
+root, and this sentence is fixed. The table below is the copy a session uses when that repo is
+not attached. When the two disagree, the tokens win and this table is fixed (why: a copy that
+wins over its source drifts the site · 2026-10-19).
 
 | Element | Value |
 |---|---|

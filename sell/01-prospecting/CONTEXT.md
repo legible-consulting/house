@@ -5,6 +5,7 @@ holds:
   - cadence.md
   - prospect.md
   - "pitch/*.md"
+  - "kit.*.md"
   - "targets/*.md"
 ---
 # Prospecting — S1
@@ -24,7 +25,8 @@ S1 produces a target profile, researched target lists, outreach drafts in the pr
 
 How a salesman works the pool, in the desk:
 
-1. Read `target-profile.md` and the drafts in `pitch/`. Both are read-only in the desk.
+1. Read `target-profile.md`, the drafts in `pitch/` and the kit, `kit.<language>.md`. All
+   three are read-only in the desk.
 2. Add a prospect, or take one from a `targets/<list>.md` a session researched. The desk
    fills `slug`, `sourced_by`, `added` and `status: new`. The desk refuses a `slug` that
    exists in the pool or in `clients/*/record.md` (why: one company has one row, and a
@@ -61,6 +63,13 @@ A session in this folder produces the stage-level material, never a pool row:
 - `pitch/<touch>.<language>.md`: one draft per touch in `cadence.md` and per language in
   `target-profile.md`, written from `core/voice.md` and `core/services.md`. The sender adapts
   it by hand.
+- `kit.<language>.md`: the seller kit, one per language in `target-profile.md`: how a lead
+  reaches Jamie, the openers for the seller's own channels, the follow-ups, the answers when
+  a prospect hesitates, what makes a lead worth sending, the lines, and what the 10% looks
+  like. Written from `core/voice.md`, `core/services.md` and `prospect.md`. Where a price
+  disagrees with `core/services.md` or a term with `prospect.md`, the house wins and the kit
+  is fixed. No price reaches a prospect through it (why: `core/services.md`, "Never public"
+  · 2026-10-22).
 - After handoff, outreach a session drafts for Jamie goes to `clients/<slug>/outreach/`.
 
 ## Outputs
@@ -69,6 +78,8 @@ A session in this folder produces the stage-level material, never a pool row:
   and `commission.sourced_by` set. `commission.owed` is set at S5 (`prospect.md`).
 - `target-profile.md` · `cadence.md` · `prospect.md`: the model (built 2026-10-19).
 - `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
+- `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
+  on `/sell`.
 - `targets/<list>.md`: one researched list per search.
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.

@@ -1,7 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 import { env } from "./env";
+import { clientSlugs } from "./house";
 import type { Channel, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
-import { STATUSES } from "./pool";
+import { slugOf, STATUSES } from "./pool";
 
 // A client per call: the driver speaks HTTP, there is nothing to pool, and a missing
 // DATABASE_URL then fails the page that needs it instead of every page. Dates come back as
@@ -73,6 +74,38 @@ export async function slugTaken(slug: string, exceptId: string | null = null): P
     [slug, exceptId],
   )) as unknown[];
   return rows.length > 0;
+}
+
+// The slug from the company, free in the pool and against clients/*/: the base, then base-2
+// to base-9. The sourcer may edit it until the handoff (prospect.md).
+export async function freeSlug(company: string): Promise<string> {
+  const base = slugOf(company);
+  let slug = base;
+  for (let n = 2; clientSlugs.has(slug) || (await slugTaken(slug)); n++) {
+    if (n > 9) throw new Error(`No free slug for ${base}: edit the company name.`);
+    slug = `${base}-${n}`;
+  }
+  return slug;
+}
+
+// The jamie user: the salesman of a row the portfolio sources (app/api/pool). The oldest
+// row with the role, should two ever carry it.
+export async function jamieId(): Promise<string> {
+  const rows = (await sql()`
+    select id from users where role = 'jamie' order by created_at limit 1
+  `) as { id: string }[];
+  if (!rows[0]) throw new Error("No user has the role jamie (db/schema.sql).");
+  return rows[0].id;
+}
+
+// The open row with this email, if one exists: not lost and not handed off. The pool API
+// answers 422 with it instead of a second row (why: one company has one row · prospect.md).
+export async function openProspectByEmail(email: string): Promise<string | null> {
+  const rows = (await sql()`
+    select id from prospects where email = ${email} and status not in ('lost', 'handed off')
+    order by created_at limit 1
+  `) as { id: string }[];
+  return rows[0]?.id ?? null;
 }
 
 export async function insertProspect(salesman: string, slug: string, f: ProspectFields): Promise<string> {

@@ -56,6 +56,11 @@ export interface Pitch extends Doc {
   language: string;
 }
 
+// sell/01-prospecting/kit.<language>.md: the seller kit, one per language.
+export interface Kit extends Doc {
+  language: string;
+}
+
 // The latest drift report: its file, its date and the blueprint tag it was read against.
 export interface Estate {
   file: string;
@@ -73,6 +78,6 @@ export const decides = data.decides as Doc;
 export const estate = data.estate as unknown as Estate | null;
 // Every desk/close/<YYYY-MM>.md (rhythms.yml).
 export const closeDocs = data.closes as unknown as Doc[];
-export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[] };
+export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[]; kit: Kit[] };
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);

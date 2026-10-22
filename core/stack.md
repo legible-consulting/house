@@ -61,7 +61,8 @@ Layout:
 | Path | Holds |
 |---|---|
 | `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo (client repos are not here; they are `k0d0minio/<slug>`) |
-| `~/Desktop/Apps/projects/<slug>/` | the local lane: clones of client repos for estate work (mani, multi-gitter, copier) |
+| `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, multi-gitter, copier). `jamienisbet` is here. |
+| `~/Desktop/Apps/projects/<slug>/` | legacy: the local lane's old home. The client clones still there move one by one; a clone's row in `desk/mani.yaml` says where it is today. The row leaves this table when every clone has moved. |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 
 Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A repo that
@@ -93,7 +94,7 @@ writes; a linter that drifts from the skill reports rules the writer never saw Â
 | Allow | version reads (`node`, `npm`, `nvm`), `command -v`, `brew list` and `search`, `gsettings get`; Read on `~/.claude/` and the local lane |
 | Ask | `curl`, `sudo tee`, `sudo apt-get`, `brew install`, `link`, `unlink`, `gsettings set` |
 | Deny | Read on `.env` files, `*.pem`, `*.key`, `secrets/`, Claude's own credentials; the vercel, neon and resend plugins' MCP servers (the claude.ai connectors of the same name serve them) |
-| Additional directory | `~/Desktop/Apps/projects` |
+| Additional directories | `~/Desktop/legible-consulting/projects` and, until every clone moves, `~/Desktop/Apps/projects` |
 | Plugins | official marketplace: vercel, neon, resend, stripe, sentry, sentry-cli, code-review, code-simplifier, claude-md-management, claude-code-setup, claude-security, hookify, frontend-design, modern-web-guidance, superdesign, playwright, browser-use; own marketplaces: understand-anything, diagram-design, hyperframes. github is off (`gh` covers it) |
 
 Connectors (Gmail, Calendar, Drive, Docs, Sheets, Slides, Slack, Vercel, Neon, Supabase,

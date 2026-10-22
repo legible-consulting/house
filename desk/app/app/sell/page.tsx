@@ -15,7 +15,8 @@ import { Prose } from "../_ui";
 // salesman's deal"), from sell/01-prospecting/ at build time. The target profile and the
 // cadence as cards, one per section of the file; the cadence's days as a strip; every pitch
 // draft by touch, in one language or all (?lang=), each with a Copy button and its
-// placeholders marked. A row's next touch, filled from the row, is on the pool row's page.
+// placeholders marked; the seller kit (kit.<language>.md) as cards, one per section, in the
+// same language or all. A row's next touch, filled from the row, is on the pool row's page.
 // A change in the folder ships with the next push to main.
 export const dynamic = "force-dynamic";
 
@@ -44,6 +45,10 @@ const profile = sections(sell.profile.body);
 const cadence = sections(sell.cadence.body);
 const pitches = sell.pitch.map((p) => ({ ...p, html: marked(render(p.body)) }));
 const touches = [...new Set(pitches.map((p) => p.touch))].sort((a, b) => a - b);
+const kits = sell.kit.map((k) => ({
+  ...k,
+  sections: sections(k.body).map((s) => ({ ...s, html: marked(s.html) })),
+}));
 
 // "Opener · en-GB" → "Opener"
 const angle = (p: Pitch) => p.title.split(" · ")[0];
@@ -78,13 +83,26 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
       "rounded-full border px-3 py-1 text-xs",
       active ? "border-foreground bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
     );
+  // One language or all, for the pitches and the kit alike; the anchor keeps the reader in place.
+  const languages = (anchor: string) => (
+    <nav className="flex flex-wrap gap-2" aria-label="Language">
+      <a href={`/sell#${anchor}`} aria-current={lang === "" ? "true" : undefined} className={chip(lang === "")}>
+        Every language
+      </a>
+      {LANGUAGES.map((l) => (
+        <a key={l} href={`/sell?lang=${l}#${anchor}`} aria-current={lang === l ? "true" : undefined} className={chip(lang === l)}>
+          {l}
+        </a>
+      ))}
+    </nav>
+  );
   return (
     <Shell user={user} current="/sell">
       <h2 className="mb-1 text-base font-medium">Sell</h2>
       <p className="mb-4 text-sm text-muted-foreground">
-        Who the pool chases, how a prospect is approached, and the draft for each touch. Read-only: the words live in{" "}
-        <code className="font-mono text-xs">sell/01-prospecting/</code> and change there. On a pool row, the next touch
-        comes filled in.
+        Who the pool chases, how a prospect is approached, the draft for each touch, and the seller kit. Read-only: the
+        words live in <code className="font-mono text-xs">sell/01-prospecting/</code> and change there. On a pool row,
+        the next touch comes filled in.
       </p>
       <nav className="mb-6 flex gap-3 text-sm">
         <a href="#profile" className="text-muted-foreground hover:text-foreground">
@@ -95,6 +113,9 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
         </a>
         <a href="#pitch" className="text-muted-foreground hover:text-foreground">
           Pitch
+        </a>
+        <a href="#kit" className="text-muted-foreground hover:text-foreground">
+          Kit
         </a>
       </nav>
       <div className="grid gap-8">
@@ -124,16 +145,7 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
               prospect&apos;s language; the desk sends nothing.
             </p>
           </div>
-          <nav className="flex flex-wrap gap-2" aria-label="Language">
-            <a href="/sell#pitch" aria-current={lang === "" ? "true" : undefined} className={chip(lang === "")}>
-              Every language
-            </a>
-            {LANGUAGES.map((l) => (
-              <a key={l} href={`/sell?lang=${l}#pitch`} aria-current={lang === l ? "true" : undefined} className={chip(lang === l)}>
-                {l}
-              </a>
-            ))}
-          </nav>
+          {languages("pitch")}
           {touches.map((t) => {
             const drafts = pitches.filter((p) => p.touch === t && (!lang || p.language === lang));
             if (drafts.length === 0) return null;
@@ -158,6 +170,28 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
               </Card>
             );
           })}
+        </section>
+
+        <section id="kit" className="grid gap-4">
+          <div>
+            <h3 className="text-base font-medium">Kit</h3>
+            <p className="text-sm text-muted-foreground">
+              How a lead reaches Jamie, the openers for your own channels, the answers when a prospect hesitates, what
+              Jamie sells, and what your 10% looks like. A marked part is yours to fill.
+            </p>
+          </div>
+          {languages("kit")}
+          {kits
+            .filter((k) => !lang || k.language === lang)
+            .map((k) => (
+              <div key={k.file} className="grid gap-3">
+                <div className="flex items-center gap-2">
+                  <Badge variant="outline">{k.language}</Badge>
+                  <span className="text-sm font-medium">{k.title}</span>
+                </div>
+                <Sections list={k.sections} />
+              </div>
+            ))}
         </section>
       </div>
     </Shell>

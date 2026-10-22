@@ -1,12 +1,14 @@
 // Every value comes from the deployment's environment (the Vercel project's variables).
 // Only the names live in git: see .env.example.
 // ESTATE_PAT_<OWNER> is one read-only token per client repo owner (lib/repos.ts).
+// POOL_TOKEN is the bearer the portfolio's contact form sends to /api/pool.
 export type EnvName =
   | "DATABASE_URL"
   | "NEON_AUTH_BASE_URL"
   | "NEON_AUTH_COOKIE_SECRET"
   | "DESK_PAT"
   | "ESTATE_PAT"
+  | "POOL_TOKEN"
   | `ESTATE_PAT_${string}`;
 
 export function env(name: EnvName): string {

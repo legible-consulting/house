@@ -61,9 +61,20 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT` (the house only: Contents, Pull
   requests and Actions, read and write), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
   repo owner: Contents, Actions, Metadata, Commit statuses and Pull requests read, Pull
-  requests write for the gates). A token unset, or a repo out of reach, fails only its own
+  requests write for the gates), `POOL_TOKEN` (the bearer the portfolio's contact form sends
+  to the pool API; the Vercel project `portfolio` holds the same value as
+  `DESK_POOL_TOKEN`). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not
   stop the desk · 2026-10-21).
+- The pool API, `app/api/pool/route.ts`, the one route without a session: `POST /api/pool`
+  with `Authorization: Bearer <POOL_TOKEN>` and a JSON body (`name`, `email`, `message`,
+  `language`, `company?`, `phone?`) inserts a `prospects` row at `new` with `source:
+  portfolio`, `sourced_by: jamie` and the `jamie` user as its salesman, like a row Jamie adds
+  by hand. 201 with the id. 401 on a missing or wrong token. 400 on a bad body. 422 with the
+  open row's id when a prospect with that email is open (not `lost`, not `handed off`), and
+  nothing is inserted. No mail: the portfolio sends its own (why: the site's contact form is
+  the one door from the public into the pool, and a lead copied by hand from a mail is a
+  lead lost; the token stands in for the session the form has none of · 2026-10-22).
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
   blueprint drift, latest release and `check.yml` run), `/work` (every repo's open tickets in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
@@ -77,8 +88,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Gates: a tick from the desk writes the box in the pull request's body with the owner's
   token, for the `jamie` role only. The house never ticks one (why: a gate ticked from the
   phone is still Jamie's own tick · 2026-10-21).
-- A salesman's pages: `/pool` and `/sell`. On a handed-off row, the deal's stage up to
-  `agreement` and nothing after it (S1). On a row at `new` or `contacted`, the next touch's
+- A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
+  and the seller kit, `sell/01-prospecting/kit.<language>.md`, in one language or all). On a
+  handed-off row, the deal's stage up to `agreement` and nothing after it (S1). On a row at `new` or `contacted`, the next touch's
   draft from `sell/01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own
   account, and the desk sends nothing · 2026-10-22).
