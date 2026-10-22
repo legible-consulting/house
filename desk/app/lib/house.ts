@@ -16,15 +16,14 @@ export interface ClientDoc extends Doc {
 }
 
 // quote/economics.yaml, S4's file (sell/04-quote/CONTEXT.md). The close reads the price
-// (`price.monthly` for a retainer or a role, `price.total` for a build), the estimates
-// (`hours.per_month`, `costs_monthly`) and the actuals per month (`months.<YYYY-MM>`).
+// (`price.monthly` for a retainer or a role, `price.total` for a build) and the estimates
+// (`hours.per_month`, `costs_monthly`).
 export interface Economics {
   kind?: string;
   currency?: string;
   price?: Record<string, number | string>;
   hours?: Record<string, number | string>;
   costs_monthly?: Record<string, number | string>;
-  months?: Record<string, { hours?: number | string; costs?: Record<string, number | string> }>;
 }
 
 // The repo's line in the latest drift report (desk/estate/drift-<date>.md, D4).
