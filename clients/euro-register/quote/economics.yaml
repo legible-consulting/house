@@ -1,0 +1,41 @@
+# Euro Register training week: the engagement's own economics. Internal. Written 2026-10-22
+# from the legacy pricing note (2026-10-09, revised 2026-10-12) and Jamie's answers of
+# 2026-10-22. A value marked estimate is replaced by the monthly close.
+client: euro-register
+kind: training
+date: 2026-10-22
+currency: EUR
+
+price:
+  total: 6500                   # the price the desk reads: agreed 2026-10-12, fixed, excl. VAT
+  anchor_hourly: 120            # core/services.md, internal, never a billing basis
+  first_proposed: 9500          # the offer of 2026-10-09
+  discount: 3000                # relationship, Jamie's decision of 2026-10-12; sets no reference rate
+  travel_inside: 400            # flight and transfers, flat, inside the 6500; the hotel is the client's
+  deposit_invoice: 945.75       # 15 % (975) minus the 3 % escompte (29.25), at signature
+  balance_invoice: 5525         # 85 %, at the end of the week
+  net_cash: 6470.75
+  option_follow_up_monthly: 0   # 450 a month was offered on 2026-10-12 and not taken (2026-10-22)
+
+hours:
+  delivery: 17.5                # 5 x 3.5 h
+  preparation: 20               # estimate
+  materials: 6                  # estimate
+  coaching: 20                  # 5 x 4 h
+  total: 63.5
+  per_month: 63.5               # all in November 2026; the key the desk reads
+  unbilled_travel_days: 2
+  effective_hourly: 96.06       # (6500 - 400) / 63.5
+  effective_vs_anchor: 0.80
+
+costs_monthly:                  # November 2026, estimates
+  model: 50                     # the Claude usage the materials and the week take
+  hosting: 0
+  other: 400                    # the flight LIS-BRU return and the transfers
+
+margin: 6050                    # total - costs
+margin_ratio: 0.93
+
+precedent: "none. First training engagement. The market read of 2026-10-09 is in quote/negotiation.md."
+
+closes_open_item: "none. core/wave.md, Jamie decides, the workshop day and the coaching hour: Jamie parked it on 2026-10-22. This week is a relationship price and is not read as the rate."
