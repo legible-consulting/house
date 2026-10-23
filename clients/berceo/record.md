@@ -30,8 +30,8 @@ Stripe service fee.
 
 ## Who they are
 
-Berceo SRL, BCE 0801 875 541. Two midwives, Alix Hahusseau (+32 491 12 25 44) and Jordane
-(surname not on file), decide together, by e-mail. Their brand, art direction and editorial
+Berceo SRL, BCE 0801 875 541. Two midwives, Alix Hahusseau (alixhahusseau@gmail.com, +32 491 12 25 44)
+and Jordane (surname unknown to Jamie, 2026-10-23), decide together, by e-mail. Their brand, art direction and editorial
 guide come from the agency Surya (Chloé Sanfilipo, Romane), shared in Drive (`research/profile.md`).
 Jamie's own contact: no salesman, no commission.
 
