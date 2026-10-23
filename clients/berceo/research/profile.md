@@ -45,9 +45,9 @@ The fourth part is what this profile cannot tell. Jamie answered the open points
 |---|---|---|
 | Legal name | Berceo SRL | `DEAL.md`, the internal quote |
 | Company number | BCE 0801 875 541 | the internal quote, the agreement draft (not checked on the KBO) |
-| Founders | Alix Hahusseau and Jordane (surname not on file), two midwives | `DEAL.md`, feedback round 1 |
+| Founders | Alix Hahusseau and Jordane (surname unknown to Jamie), two midwives | `DEAL.md`, feedback round 1, Jamie 2026-10-23 |
 | Who decides | Both, together, by e-mail | `DEAL.md` |
-| Contact | Alix: +32 491 12 25 44. No e-mail address on file | the internal quote, Jamie 2026-10-23 |
+| Contact | Alix: alixhahusseau@gmail.com, +32 491 12 25 44. No address for Jordane | the internal quote, Jamie 2026-10-23 |
 | Brand agency | Surya: Chloé Sanfilipo (editorial and SEO guide, kick-off brief of 2026-09-11), Romane (logo pack, brand identity, web art direction, image bank) | Drive listings |
 | Domains | berceo.be, berceo.eu. Transfer from the previous developer done. DNS managed by Jamie. Registrar not on file | the devis, Jamie 2026-10-23 |
 | Funding | Personal savings. No lawyer, insurance or running-cost budget at quote time | the internal quote [3.1 to 3.3] |
@@ -140,7 +140,7 @@ epics live in `.icm/intake/` in the client repo.
 
 ## What this profile cannot tell
 
-- Jordane's surname and the founders' e-mail addresses.
+- Jordane's surname and e-mail address. Jamie does not have them (2026-10-23).
 - Who holds the registrar of berceo.be and berceo.eu.
 - Whether a lawyer is engaged on chapter 5, and whether the insurance contract moved.
 - Whether the subscription prices of the devis (24,90 · 59,90 · 94,90 · 159,90 €) still stand.
