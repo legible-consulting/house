@@ -2,6 +2,8 @@
 .claude/settings.local.json
 .env
 .env.*
+# The root .env.example holds names only (core/CONTEXT.md holds it).
+!.env.example
 *.pem
 *.key
 node_modules/
