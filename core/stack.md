@@ -69,7 +69,7 @@ Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A r
 commits its own copy of a hook overrides the global one, and cloud sessions see only the
 repo's copy. Each guard defers only when the repo copy is a different file, so a verbatim
 copy still runs (why: a copy that deferred to itself left the house unguarded · 2026-10-19).
-The house and the blueprint's `templates/site/` carry the same three files. `check.yml`'s `guards`
+The house and the blueprint's `template/` carry the same three files. `check.yml`'s `guards`
 job fails when a house copy differs from the blueprint's (why: three copies kept equal by
 hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 
