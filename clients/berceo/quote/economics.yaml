@@ -1,0 +1,39 @@
+# Berceo build: the engagement's own economics. Internal. Written by C2 on 2026-10-23 from the
+# legacy quote (03-quote.md, 2026-08-27), the devis (04-devis-berceo.md, 27 août 2026),
+# quote.yaml (2026-10-07) and Jamie's answers of 2026-10-23. A value marked estimate is replaced
+# by the monthly close. The desk reads price.total, hours.per_month and costs_monthly.
+client: berceo
+kind: build
+date: 2026-10-23
+currency: EUR
+
+price:
+  total: 7500                   # the price the desk reads: fixed, accepted 2026-08-27
+  anchor_hourly: 120            # core/services.md, internal, never a billing basis. Shown on the devis as the full rate (quote/negotiation.md § Number)
+  full_rate_total: 9600         # 80 h × anchor_hourly, shown on the devis
+  discount: 2100                # founder-funded first build, Jamie's decision of 2026-08-27. Precedent for a founder-funded first build, not a rate
+  deposit: 3750                 # 50 %, paid before 2026-09-23 (the dates are not recorded)
+  invoiced_early: 750           # a second invoice sent early, on top of the deposit (Jamie, 2026-10-23)
+  invoiced_to_date: 4500        # deposit + invoiced_early
+  balance: 3000                 # total - invoiced_to_date, due at balance_trigger
+  balance_trigger: "the earlier of: the platform is online with 25 active family subscriptions and 25 confirmed bookings, or 120 days after go-live (the devis wording, confirmed by Jamie 2026-10-23)"
+
+hours:
+  committed: 80                 # 5 h/week × 16 weeks, the devis
+  per_week: 5
+  per_month: 21.7               # 5 h/week; the key the desk reads. Estimate: the house measures no hours
+  effective_hourly: 93.75       # total / committed
+  effective_vs_anchor: 0.78     # effective_hourly / anchor_hourly
+
+costs_monthly:                  # estimates
+  model: 150                    # the Claude usage the build takes (Jamie, 2026-10-23)
+  hosting: 0                    # net: Jamie-hosted (Vercel kodominio, Neon, Resend, the domains), rebilled at cost, capped at 50 a month during development. Nothing invoiced yet (Jamie, 2026-10-23)
+  hosting_gross: 50             # the cap, before rebilling. Estimate
+  other: 0
+
+margin: 6900                    # total - model × 4 months (September to December 2026). Estimate
+margin_ratio: 0.92              # margin / total
+
+precedent: "none comparable at the time: the largest deal the business had priced (quote/negotiation.md § Number). Read the discount as precedent for a founder-funded first build, not as a standing rate."
+
+closes_open_item: "none. The devis predates core/services.md. Two deviations are named in quote/negotiation.md: an hourly rate shown to the client as an anchor, and half the fee tied to launch traction with a 120-day longstop."
