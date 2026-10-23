@@ -105,10 +105,10 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
    carries from month 4. The quote and the economics read it.
 2. The hours line. Answered by Jamie, 2026-10-23: 40 to 60, as said on the call. The quote
    reads it. The desk still reads 60, the top, from `economics.yaml`.
-3. The demo video asked for on 21 Oct: send one before Monday, or let the live walk stand?
-   Default: let it stand. Sam said the walk gave him the majority of what he needed.
-4. Send the proposal before Monday? Default: yes, today or Saturday, so that it is in the
-   pile Sam reads on the flight.
+3. The demo video. Answered by Jamie, 2026-10-23: no video. The live walk stands. Sam said it
+   gave him the majority of what he needed.
+4. The proposal. Answered by Jamie, 2026-10-23: he sends it before Monday, so that it is in
+   the pile Sam reads on the flight.
 
 ## Record
 
