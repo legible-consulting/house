@@ -1,0 +1,42 @@
+# Agorasim build: the engagement's own economics. Internal. Written 2026-10-23 from the accepted
+# proposal of 2026-07-23 (recovered from the client repo's git history, commit c1c12cb) and
+# Jamie's answers of 2026-10-23. No quote document exists: the price is the proposal's § 3. The
+# desk reads price.total. Hours and costs are not measured (Jamie, 2026-10-23), so those keys
+# stay empty. A value marked estimate is replaced by the monthly close.
+client: agorasim
+kind: build
+date: 2026-10-23
+currency: EUR
+
+price:
+  total: 2000                   # the price the desk reads. Flat, the six features. Paid in full (Jamie, 2026-10-23)
+  anchor_hourly: 120            # core/services.md, internal, never a billing basis
+  scoped_value: 5900            # the six features itemised in the proposal § 2
+  discount: 3900                # 66 %, in exchange for the commission below (proposal § 3)
+  payment_state: "paid in full" # Jamie, 2026-10-23. Date not recorded
+
+commission:                     # the ongoing side of the deal. Not read by the desk today
+  instrument: "Commission & Payments Agreement, 2026-07-27, unsigned (agreement/agreement.md)"
+  tours_rate: 0.04              # of the total the guest pays
+  tours_min: 10                 # per booking
+  tours_cap: 50                 # per booking
+  events_rate: 0.06             # weddings and events, taken on each payment, deposit and balance
+  collected_via: "Stripe Connect application fee on Agorasim's own account"
+  starts: "first live booking"  # fees on from booking one, the agreement signed after (client repo register D17, 2026-09-10)
+  review_at_months: 24
+  received_to_date: 0           # no live booking yet. agorasim.pt serves the old site until Agorasim approves UAT (observed 2026-10-23)
+
+hours:
+  total:                        # not measured (Jamie, 2026-10-23)
+  per_month:                    # not measured. The key the desk reads
+
+costs_monthly:                  # not measured (Jamie, 2026-10-23). Jamie pays Vercel, Neon, Resend and Sentry inside the commission. The client owes nothing for them
+  model:
+  hosting:
+  other:
+
+margin:                         # not computed. Hours and costs are not measured
+
+precedent: "none. The first build. Agreed before the house existed."
+
+deviation: "below the anchor. 2,000 for work the proposal values at 5,900, in exchange for the commission on bookings. Agreed 2026-07-23, before core/services.md existed. The next build quote reads it as precedent."
