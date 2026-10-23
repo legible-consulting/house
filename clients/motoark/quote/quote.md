@@ -10,7 +10,8 @@ standard_monthly: 3700
 evaluation_monthly: 3700
 evaluation_split: [3500, 3500, 3700]
 evaluation_months: 3
-hours_month: 60
+hours_month_min: 40
+hours_month_max: 60
 status: draft
 ---
 
@@ -38,8 +39,8 @@ forward.
 ### What the rate covers
 
 - The scope in this proposal, month by month, as written at the start of each month.
-- Sixty hours of my own attention a month, and the AI sessions I run with them, model cost
-  included. How I spend those hours is my call. There is no timesheet for them: what we
+- Forty to sixty hours of my own attention a month, and the AI sessions I run with them, model
+  cost included. How I spend those hours is my call. There is no timesheet for them: what we
   measure is the written scope and what lands in the repositories. Hours do not carry over
   from one month to the next.
 - Hours beyond sixty in a month are agreed with you first, and invoiced at €120 an hour,

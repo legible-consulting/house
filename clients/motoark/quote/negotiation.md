@@ -42,11 +42,12 @@ Jamie said €3,700 month to month on the call (2026-10-23).
   €5,350 on signature and €5,350 at the end of month 3 (Jamie offered it on 2026-10-23). Hold
   either.
 - 30 days' notice: hold. The fixed end of the evaluation is the real exit. Use it.
-- Hours: the quote promises 60 hours a month of Jamie's own attention, as `core/services.md`
-  asks. Jamie said 40 to 60 on the call. The written monthly scope and the outputs stay the
-  unit of delivery; the hours are the promise, not a timesheet. Hours beyond the promise are
-  agreed with Sam first and billed at the anchor, €120 an hour, on the next invoice. Never a
-  surprise line (Jamie's decision · 2026-10-22).
+- Hours: the quote promises 40 to 60 hours a month of Jamie's own attention, as said on the
+  call (Jamie's decision · 2026-10-23). `core/services.md` prices from the top of the range,
+  and beyond-the-promise starts at 60. The written monthly scope and the outputs stay the unit
+  of delivery; the hours are the promise, not a timesheet. Hours beyond the promise are agreed
+  with Sam first and billed at the anchor, €120 an hour, on the next invoice. Never a surprise
+  line (Jamie's decision · 2026-10-22).
 - Early exit: 30 days' notice holds inside the block. Under the one-job structure, if Sam
   ends the job before its three months, the €200 a month below €3,700 is invoiced on the
   months delivered at €3,500, and the half paid on signature is not refunded. Month to month
@@ -66,8 +67,8 @@ Jamie said €3,700 month to month on the call (2026-10-23).
   the deliverable.
 - "Can you do it for 3,000?" Not for this scope. For €3,200, months 2 and 3 become the
   development flow and review only (concession 4).
-- "Full-time means 40 hours." The retainer promises 60 hours of my own attention a month and
-  the written scope. The sessions I run multiply those hours. What we measure is what lands.
+- "Full-time means 40 hours." The retainer promises 40 to 60 hours of my own attention a month
+  and the written scope. The sessions I run multiply those hours. What we measure is what lands.
 - "What if the agents make a mess?" (his 2 percent, 23 Oct). I read the code the old way. The
   spec gate and the review of every ticket are there so that the mess is caught at the spec,
   not after 15 pull requests. When it still happens, I am the one who stops, cleans and fixes.
@@ -102,8 +103,8 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
 
 1. Month 4 onward. Answered by Jamie, 2026-10-23: €3,700 is the month-to-month rate and
    carries from month 4. The quote and the economics read it.
-2. The hours line in the quote: keep 60, or write 40 to 60 as said? Default: keep 60. One
-   number reads as a promise. Sam heard 40 to 60 and said it was fine.
+2. The hours line. Answered by Jamie, 2026-10-23: 40 to 60, as said on the call. The quote
+   reads it. The desk still reads 60, the top, from `economics.yaml`.
 3. The demo video asked for on 21 Oct: send one before Monday, or let the live walk stand?
    Default: let it stand. Sam said the walk gave him the majority of what he needed.
 4. Send the proposal before Monday? Default: yes, today or Saturday, so that it is in the

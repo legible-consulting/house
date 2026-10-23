@@ -21,10 +21,13 @@ price:
   discount_split_vs_monthly: 0.036   # 1 - 10700 / 11100
 
 hours:
-  per_month: 60                 # promised in the quote (2026-10-22). Jamie said 40 to 60 on 2026-10-23; the quote keeps 60 unless Jamie changes it (quote/negotiation.md § Open)
+  per_month: 60                 # the top of the promise. The quote says 40 to 60 (Jamie's decision, 2026-10-23); beyond_promise starts at 60. The desk reads this number
+  per_month_min: 40             # the bottom of the promise
   beyond_promise: billed at anchor_hourly   # agreed with the client first, on the next invoice; the quote says so (Jamie, 2026-10-22)
   effective_hourly: 61.67       # evaluation_monthly / per_month
+  effective_hourly_at_min: 92.50   # evaluation_monthly / per_month_min
   effective_vs_anchor: 0.51     # effective_hourly / anchor_hourly
+  effective_vs_anchor_at_min: 0.77 # effective_hourly_at_min / anchor_hourly
 
 costs_monthly:
   model: 300                    # estimate, not measured: the share of Claude usage this retainer takes
