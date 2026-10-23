@@ -1,34 +1,41 @@
 # MotoArk retainer: the engagement's own economics. Internal. Written by S4 on 2026-10-22 from
-# Jamie's answers of 2026-10-21. A value marked estimate is replaced by the monthly close.
+# Jamie's answers of 2026-10-21. Updated 2026-10-23 to what Jamie said on the follow-up call.
+# A value marked estimate is replaced by the monthly close.
 client: motoark
 kind: retainer
-date: 2026-10-22
+date: 2026-10-23
 currency: EUR
 
 price:
-  monthly: 3500                 # the price the desk reads: proposed now, agreed from stage agreement
+  monthly: 3700                 # the price the desk reads: proposed now, agreed from stage agreement. The month-to-month structure
   anchor_hourly: 120            # core/services.md, internal, never a billing basis
   rule_standard_monthly: 7200   # hours.per_month × anchor_hourly (core/services.md § Retainer pricing)
   rule_block_monthly: 6120      # the rule less 15% for a 3-month block
-  standard_monthly: 3800        # from month 4, against a written monthly scope; below the rule (quote/negotiation.md § Deviations)
-  evaluation_monthly: 3500      # months 1 to 3, the committed block
+  standard_monthly: 3700        # from month 4, month to month, against a written monthly scope; below the rule (quote/negotiation.md § Deviations). Jamie confirmed 2026-10-23: 3,700 is the month-to-month rate
+  evaluation_monthly: 3700      # months 1 to 3, month to month, as said on 2026-10-23
+  evaluation_split: [3500, 3500, 3700]   # the one-job structure, as said on 2026-10-23: half of 10,700 on signature, half at the end of month 3
   evaluation_months: 3
-  evaluation_total: 10500
-  discount_vs_standard: 0.079   # 1 - 3500 / 3800
+  evaluation_total: 11100       # month to month
+  evaluation_total_split: 10700 # the one-job structure
+  discount_vs_standard: 0.0     # 1 - 3700 / 3700. The month-to-month rate is the standard rate
+  discount_split_vs_monthly: 0.036   # 1 - 10700 / 11100
 
 hours:
-  per_month: 60                 # promised in the quote (2026-10-22). Jamie's estimate, 2026-10-21: about 15 hours a week of his own attention; the sessions run the rest
+  per_month: 60                 # the top of the promise. The quote says 40 to 60 (Jamie's decision, 2026-10-23); beyond_promise starts at 60. The desk reads this number
+  per_month_min: 40             # the bottom of the promise
   beyond_promise: billed at anchor_hourly   # agreed with the client first, on the next invoice; the quote says so (Jamie, 2026-10-22)
-  effective_hourly: 58.33       # evaluation_monthly / per_month
-  effective_vs_anchor: 0.49     # effective_hourly / anchor_hourly
+  effective_hourly: 61.67       # evaluation_monthly / per_month
+  effective_hourly_at_min: 92.50   # evaluation_monthly / per_month_min
+  effective_vs_anchor: 0.51     # effective_hourly / anchor_hourly
+  effective_vs_anchor_at_min: 0.77 # effective_hourly_at_min / anchor_hourly
 
 costs_monthly:
   model: 300                    # estimate, not measured: the share of Claude usage this retainer takes
   hosting: 0                    # client-owned: MotoArk's Azure and accounts (core/terms.md § Hosting and support)
   other: 0
 
-margin_monthly: 3200            # evaluation_monthly - costs_monthly
-margin_ratio: 0.91              # margin_monthly / evaluation_monthly
+margin_monthly: 3400            # evaluation_monthly - costs_monthly
+margin_ratio: 0.92              # margin_monthly / evaluation_monthly
 
 precedent:
   sustentus: 3890 a month, month to month, full-time expected (clients/sustentus/quote/economics.yaml).
