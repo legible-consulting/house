@@ -7,25 +7,30 @@ private: true
 ---
 # MotoArk: negotiation record
 
-Private. Jamie's positions for the follow-up call on Fri 23 Oct 2026 and the days after it.
-Internal, English. Never sent, never quoted.
+Private. Jamie's positions after the follow-up call of Fri 23 Oct 2026, for the days until Sam
+decides and after. Internal, English. Never sent, never quoted.
 
 ## Positions
 
 | Position | A month | Why |
 |---|---|---|
-| Opening | €3,500 for the 3 evaluation months, €3,800 from month 4 | Sam heard 3,500 to 3,800 on the call and said he had not fallen off his chair. 3,500 is the bottom of what he heard. It reads as the promised discount. |
-| Standard | €3,800 | The top of the range Jamie named. The continuation is priced at it. |
+| Said on 23 Oct | €3,700 a month. Or €3,500, €3,500 and €3,700, in two invoices of half the block each | Jamie said both on the call. Sam heard both and will weigh them against the other candidates. The quote carries both. |
+| Standard | €3,800 from month 4 | The top of the range Jamie named on 21 Oct. Not said on 23 Oct. Jamie decides whether month 4 reads €3,800 or €3,700 (§ Open). |
 | Floor | €3,200 | Jamie's number, 2026-10-21. Nothing below it. Below it, scope leaves. |
+
+The opening of 22 Oct, €3,500 flat for the block, is no longer the offer. Jamie said €3,700 on
+the call (2026-10-23).
 
 ## Concessions, in order
 
-1. Hold €3,500. Say what the rate buys. The comparison is not the two developers' cost. It is
-   what MotoArk loses if Sam is gone. Month 1 answers that in the repositories.
-2. Hold €3,500 now, and offer months 4 to 9 at €3,500 instead of €3,800 if Sam commits to six
-   more months at the month 3 checkpoint. This costs nothing today.
+1. Hold what was said. Say what the rate buys. The comparison is not the two developers' cost,
+   and not the other candidates' rates. It is what MotoArk loses if Sam is gone. Month 1
+   answers that in the repositories.
+2. Hold now, and offer months 4 to 9 at the evaluation rate instead of the standard rate if
+   Sam commits to six more months at the month 3 checkpoint. This costs nothing today.
 3. €3,300 a month if the three months are paid in one invoice, in advance. Cash in hand, no
-   collection risk.
+   collection risk. The two-halves structure already brings half forward at €3,500 and
+   €3,700, so this is the next step down, not the first.
 4. €3,200, the floor, with a scope change: months 2 and 3 become the development flow and
    review only, and the two developers build the version two features. Not the same job at a
    lower price.
@@ -33,15 +38,19 @@ Internal, English. Never sent, never quoted.
 
 ## Non-price positions
 
-- Payment monthly in advance, due 14 days: hold.
+- Payment: monthly in advance, due 14 days, under the €3,700 structure. Under the two-halves
+  structure, €5,350 on signature and €5,350 at the end of month 3 (Jamie offered it on
+  2026-10-23). Hold either.
 - 30 days' notice: hold. The fixed end of the evaluation is the real exit. Use it.
 - Hours: the quote promises 60 hours a month of Jamie's own attention, as `core/services.md`
-  asks. The written monthly scope and the outputs stay the unit of delivery; the hours are the
-  promise, not a timesheet. Hours beyond the promise are agreed with Sam first and billed at
-  the anchor, €120 an hour, on the next invoice. Never a surprise line (Jamie's decision ·
-  2026-10-22).
-- Early exit: 30 days' notice holds inside the block. If Sam ends the evaluation before its
-  three months, the €300 a month is invoiced on the months already billed. Hold.
+  asks. Jamie said 40 to 60 on the call. The written monthly scope and the outputs stay the
+  unit of delivery; the hours are the promise, not a timesheet. Hours beyond the promise are
+  agreed with Sam first and billed at the anchor, €120 an hour, on the next invoice. Never a
+  surprise line (Jamie's decision · 2026-10-22).
+- Early exit: 30 days' notice holds inside the block. Under the two-halves structure, if Sam
+  ends the evaluation before its three months, the €200 a month below €3,700 is invoiced on
+  the months already billed, and a paid invoice is not refunded. Under the monthly structure
+  there is no discount to claw back. Hold.
 - Equity, or a lower cash rate against equity: not in the evaluation. A position (`kind: role`)
   is a month 3 conversation.
 - Start date: flexible by a few weeks. Jamie closes other work first. The first invoice paid
@@ -52,10 +61,16 @@ Internal, English. Never sent, never quoted.
 
 - "Your rate is more than my whole dev team." Yes. The team's cost is not the comparison. The
   question is what MotoArk loses if you are gone. Month 1 answers that in the repos.
+- "Another candidate is cheaper." The other candidate is a developer. This is a method that
+  stays in the repos after the person. Sam said on 23 Oct he wants the brain extracted; that is
+  the deliverable.
 - "Can you do it for 3,000?" Not for this scope. For €3,200, months 2 and 3 become the
   development flow and review only (concession 4).
 - "Full-time means 40 hours." The retainer promises 60 hours of my own attention a month and
   the written scope. The sessions I run multiply those hours. What we measure is what lands.
+- "What if the agents make a mess?" (his 2 percent, 23 Oct). I read the code the old way. The
+  spec gate and the review of every ticket are there so that the mess is caught at the spec,
+  not after 15 pull requests. When it still happens, I am the one who stops, cleans and fixes.
 - "So the €120 is a meter after all." No. Sixty hours are in the rate, and the sessions do the
   volume, so a month beyond sixty is rare. If one comes, you hear about it before it happens
   and you say yes or no.
@@ -72,10 +87,27 @@ Internal, English. Never sent, never quoted.
   job. Jamie's decision, 2026-10-21. The half option (development flow and review only) exists
   as concession 4, not as an offer.
 - **A rate below the rule.** `core/services.md` § Retainer pricing gives 60 hours × €120 =
-  €7,200 a month, and €6,120 for a 3-month block. The quote says €3,800 and €3,500: the range
-  Sam heard on the call, against a technology burn under 3,000 USD a month. The discount the
-  quote names is the committed block. The next retainer quote reads the rule, and this entry
-  as the deviation (2026-10-22).
+  €7,200 a month, and €6,120 for a 3-month block. The quote says €3,700 a month, or €3,500,
+  €3,500 and €3,700 in two halves, and €3,800 from month 4: the range Sam heard on 21 Oct and
+  the numbers Jamie said on 23 Oct, against a technology burn under 3,000 USD a month. The
+  next retainer quote reads the rule, and this entry as the deviation (2026-10-23).
+- **Two payment structures, one scope.** The two-halves structure was Jamie's offer on the
+  call, for his own first-year position in Portugal. It is a payment term, not a second scope
+  option (2026-10-23).
+
+## Open, Jamie decides
+
+Numbered, with a default. Answered in the pull request or by editing the quote.
+
+1. Month 4 onward: keep €3,800 as drafted, or €3,700, the floor Sam heard for month to month?
+   Default: keep €3,800. Nothing on the call contradicted it, and the continuation is a new
+   written scope.
+2. The hours line in the quote: keep 60, or write 40 to 60 as said? Default: keep 60. One
+   number reads as a promise. Sam heard 40 to 60 and said it was fine.
+3. The demo video asked for on 21 Oct: send one before Monday, or let the live walk stand?
+   Default: let it stand. Sam said the walk gave him the majority of what he needed.
+4. Send the proposal before Monday? Default: yes, today or Saturday, so that it is in the
+   pile Sam reads on the flight.
 
 ## Record
 
@@ -84,4 +116,8 @@ Internal, English. Never sent, never quoted.
   3-month block, to compare with his technology burn of under 3,000 USD a month. Gemini's
   summary wrote 35,000 to 38,000. The transcript says "35 38 mark", in euros, monthly.
 - 2026-10-22. Proposal and quote drafted at 3,500 for the block and 3,800 standard. Not sent.
-  Jamie sends.
+- 2026-10-23, follow-up call, Sam alone, 48 minutes. Jamie said 40 to 60 hours a month of his
+  own work, €3,700 a month as the floor for month to month, or €3,500, €3,500 and €3,700 in
+  two invoices of half the block, for his first-year tax position in Portugal. Sam: "we can
+  look at that", and he weighs it with the other candidates on a nine-hour flight. Decision
+  Mon 26 Oct. The quote rewritten to the two structures. Not sent. Jamie sends.

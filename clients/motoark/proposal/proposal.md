@@ -3,7 +3,7 @@ title: "MotoArk, from version one to version two"
 kind: proposal
 client: motoark
 language: en-GB
-date: 2026-10-22
+date: 2026-10-23
 valid_until: 2026-11-05
 status: draft
 ---
@@ -16,7 +16,7 @@ PROPOSAL
 
 A three-month engineering retainer with Jamie Nisbet
 
-Prepared for Sam Cherry, COO and CTO, MotoArk · 22 October 2026 · This proposal holds until 5 November 2026
+Prepared for Sam Cherry, COO and CTO, MotoArk · 23 October 2026 · This proposal holds until 5 November 2026
 
 ---
 
@@ -40,6 +40,10 @@ Three things are now true at once.
   agents from the start, and not someone who writes the code by hand and asks an AI to test it
   at the end.
 
+On Friday you added one more. When an agentic build goes wrong, it goes wrong badly, and the
+agents do not get you out of it. You want someone beside you who reads the code the old way and
+can stop, clean and fix, so that you are not the one who has to.
+
 You asked for a senior engineer who works on the bench beside you for three months, takes
 MotoArk from version one to version two, and could run the engineering if you were not there.
 This is my offer for those three months.
@@ -54,7 +58,8 @@ the next person who opens it. In your repositories it means five things.
   in, what the work is, what comes out, and where a person decides. A developer or an AI
   session starts from that contract, reads only what it names, and starts cold. Nothing lives
   only in someone's head. That is the bus test, answered in the repository rather than in a
-  person.
+  person. The routing file at the root is read first by every harness, so the method is not
+  tied to one model or one vendor. A model swap is a file change.
 - **Tickets live in the repository.** Your version two backlog is cut into epics and tickets,
   in one folder. A ticket's folder is its status. There is no second list to keep in step.
 - **One ticket, one branch, one pull request.** Every change runs the same loop: branch, build,
@@ -89,7 +94,9 @@ What you get each month:
 - Read the repositories, the design files and what runs today. Write down what I find. What
   exists decides how much of the rest of this month is new. I will not know until I have read
   the code.
-- Contracts in each repository: a routing file at the root and a contract per area, so that
+- You said you will put in the DevOps flow, the test scripts and the guardrails yourself next
+  week. Write down how you decide each piece, not only what you did. Month 1 starts from that.
+- Contracts in the monorepo: a routing file at the root and a contract per area, so that
   anyone, person or session, starts cold.
 - The ticket folder, with the version two backlog cut into epics and tickets, with you.
 - Checks on every pull request. Tests where the money moves: checkout, commission, payouts.
@@ -127,7 +134,8 @@ What you get each month:
 
 | When | What |
 |---|---|
-| Fri 23 Oct 2026 | Our follow-up call: this proposal, the demo video, your questions. |
+| Fri 23 Oct 2026 | Our follow-up call: the method, the desk and a pull request shown live, your questions. |
+| Mon 26 Oct 2026 | Your decision. |
 | On your yes | The agreement and the first invoice. I need access to the repositories, the design files and the environments. |
 | Mon 2 Nov 2026 | Start, or the Monday after the first invoice is paid and access is in. |
 | Fri 27 Nov 2026 | Checkpoint 1. The development flow runs. The month 2 scope is written. |

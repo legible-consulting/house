@@ -1,13 +1,82 @@
 # MotoArk: prospect profile
 
-Prepared 2026-10-19 for the discovery call. Updated 2026-10-21 from the call itself (Sam Cherry,
-COO and CTO, 26 minutes; the notes and the recording are in Drive). The first part
-is what the call settled. The second part is the pre-call read from the overview pack, kept with
-the corrections the call made. Sources for the pre-call part: the overview pack Sam sent (Drive,
+Prepared 2026-10-19 for the discovery call. Updated 2026-10-21 from that call (Sam Cherry, COO
+and CTO, 26 minutes) and 2026-10-23 from the follow-up call (Sam alone, 48 minutes). The notes,
+the transcripts and the recordings are in Drive, under Meet Recordings. The first part is what
+the follow-up call settled. The second is what the discovery call settled. The third is the
+pre-call read from the overview pack, kept with the corrections the calls made. Sources for the
+pre-call part: the overview pack Sam sent (Drive,
 `MotoArk Overview Pack.pdf`, dated October 2026), the email thread "Interest in working with
 MotoArk" (18–19 Oct), the screen explorer at motoark.tiiny.site, and web searches.
 
-## What the call settled (2026-10-21)
+## What the follow-up call settled (2026-10-23)
+
+### The call
+
+- Fri 23 Oct, 10:01 to 10:49 WEST. Sam alone. Mahmoud and John did not join. Jamie's laptop
+  lost power at minute 5 and the call resumed at minute 12. Jamie restarted the pitch.
+- Jamie pitched the method: the bus test, the AI-first build, folders and files as the
+  guardrails, a contract per stage with an input and an output, tickets in the repository,
+  token efficiency, a model-agnostic routing file, deterministic scripts. Sam asked for
+  examples. Jamie showed the desk, the tickets in his own business repo and a pull request with
+  its gates, live. No client repo was shown. Sam: that "gives me the majority of what I
+  needed". Neither side mentioned the demo video asked for on 21 Oct.
+
+### What Sam said
+
+- **How he builds today.** All repositories in GitHub, one monorepo ("keeps it clean"). Hosted
+  in Azure "at the moment"; the hosting is something Sam works on next week. An agency did the
+  first development. Sam threw them out and built version 1 himself in the last three weeks,
+  10 to 15 days of build. He wrote a few test scripts, merged his own pull requests and
+  released. Version 1 released overnight, 22 to 23 Oct.
+- **Next week.** Sam puts in a proper DevOps flow, test scripts and guardrails, and lays the
+  groundwork for whoever comes in. Jamie asked him to write down how he decides each piece,
+  not only what he did, so that it translates into the method's folder. Sam: "the brain's
+  already extracted by that point".
+- **His worry, the 2 percent.** An agentic build that goes wrong goes wrong badly, and agents
+  do not get you out of it. He wants someone beside him who understands code the old way and
+  can troubleshoot end to end, so that he is not the one who has to jump in. Jamie's answer:
+  the human reads the problem, the proposed change and the acceptance criteria before the
+  build, and the spec gate stops the agent when it is skipped.
+- **His worry, tokens and lock-in.** Sam expects Anthropic and the others to raise prices once
+  users are hooked. His approach is multi-model: image and video to Gemini, lighter or free
+  models where they do the job. Jamie's answer: the method is model-agnostic. The routing file
+  at the root is read first by every harness. Jamie runs it on the Claude Max 20x plan and
+  gets more from it than peers on the same plan.
+- **Requirements.** Both named unclear product requirements as the first bottleneck. Sam owns
+  product and operations as COO and CTO, which is why version 1 took 10 to 15 days. The second
+  bottleneck, named by Jamie and agreed by Sam: whoever reviews tickets gets bored, gates get
+  ticked to make progress, and 15 pull requests later nobody knows what moved.
+- **Monorepo.** Agreed by both. Sam would leave it only for a structure like FIFA's 211
+  sub-companies, and even then maybe not.
+- **Other candidates.** Sam will "go through all the candidates and who we're looking at".
+  Jamie is one of several.
+- **Decision.** Sam decides over the weekend, on a nine-hour flight, and comes back to
+  everybody on Mon 26 Oct.
+
+### What Jamie offered
+
+- **Availability.** 40 to 60 hours a month of his own work over three months from November.
+  The sessions do the volume. Sam: "that's fine".
+- **Price, as said.** €3,700 a month, the floor for month to month. Or €3,500 for months 1 and
+  2 and €3,700 for month 3, with two invoices: half the three-month total at the start and
+  half at the end. Jamie's stated reason: his first year as a freelancer in Portugal. Sam: "we
+  can look at that". He puts it into his thinking with the other candidates. The quote carries
+  both structures (`quote/quote.md`). The positions are in `quote/negotiation.md`.
+- **How he works.** His longest client sets objectives and deadlines, not hours. Sam: "that's
+  how I work".
+
+### Open after the follow-up call
+
+- Whether version 1 transacts with real buyers. It is released. Sam did not say whether orders
+  flow.
+- What the two developers own. Not mentioned on this call. Sam described building version 1
+  alone.
+- The contracting entity, and who signs.
+- The start date. Jamie said November. The proposal assumes Mon 2 Nov.
+- Where version 1 will be hosted after Sam's rework next week.
+
+## What the discovery call settled (2026-10-21)
 
 ### The business, in Sam's words
 
@@ -85,8 +154,8 @@ Jamie passed; (2) capability, shown by examples and a video; (3) availability an
 2. **The discounted rate for a 3-month block**, to set against their burn rate.
 3. **A follow-up call on Fri 23 Oct at 12:00 UAE time.** On the call Sam said that is 10:00
    Lisbon and Jamie agreed. It is 09:00 Lisbon: the UAE is UTC+4 and Lisbon is UTC+1 until
-   25 Oct. The record says 09:00. Jamie sends the invite, so the invite settles it. Mahmoud and
-   John may join.
+   25 Oct. The record said 09:00. The call ran at 10:01 WEST on the day. Mahmoud and John did
+   not join.
 4. **The shape:** a 3-month initial programme, version 1 to version 2, as a honeymoon for both
    sides. Sam said both sides can walk away. After it, near full-time.
 5. **Availability:** "pretty much full-time or close to full-time". Not nine to five. Sam cares
@@ -105,7 +174,11 @@ Jamie passed; (2) capability, shown by examples and a video; (3) availability an
   euros, meaning €3,500 to €3,800. Sam: "I've not fallen off my chair. We can work around that."
   (Gemini's summary wrote 35,000 to 38,000. The transcript says 35 to 38. The record is right.)
 
-### Open after the call
+### Open after the discovery call
+
+Updated 2026-10-23: the follow-up call answered the repositories (GitHub, one monorepo), the
+hosting (Azure, under rework next week), the release cadence (Sam released version 1 himself on
+22 Oct) and who joined (Sam alone). What stays open is listed under the follow-up call above.
 
 - Does version 1 transact with real buyers today? Where does it run (the pack says Azure UAE
   North)? Where do the repositories live (GitHub, Azure DevOps)?

@@ -3,11 +3,12 @@ title: "MotoArk: what it costs"
 kind: quote
 client: motoark
 language: en-GB
-date: 2026-10-22
+date: 2026-10-23
 valid_until: 2026-11-05
 currency: EUR
 standard_monthly: 3800
-evaluation_monthly: 3500
+evaluation_monthly: 3700
+evaluation_split: [3500, 3500, 3700]
 evaluation_months: 3
 hours_month: 60
 status: draft
@@ -19,17 +20,20 @@ status: draft
 
 ### The retainer
 
-| | A month |
-|---|---|
-| The three evaluation months, November 2026 to January 2027 | €3,500 |
-| The standard retainer, from month 4 if we continue | €3,800 |
-| The three evaluation months in total | €10,500 |
+Two ways to pay for the three evaluation months, November 2026 to January 2027. You choose one.
+
+| | A month | The three months |
+|---|---|---|
+| **Paid monthly** | €3,700 | €11,100 |
+| **Paid in two halves**: months 1 and 2 at €3,500, month 3 at €3,700, in two invoices of €5,350 | €3,500, €3,500, €3,700 | €10,700 |
+
+From month 4, if we continue: €3,800 a month, against a written monthly scope.
 
 Prices are in euros and exclude VAT.
 
-The evaluation months are at the lower rate because you commit to the block of three, and
-because this is recurring work rather than a one-off build. From month 4 the standard rate
-applies, against a written monthly scope.
+The evaluation months are below the standard rate because you commit to the block of three,
+and because this is recurring work rather than a one-off build. The two-halves structure is
+lower again because it brings half of the block forward.
 
 ### What the rate covers
 
@@ -47,8 +51,10 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Payment
 
-- Monthly, in advance. The first invoice on signature. Each later invoice on the first working
-  day of the month.
+- Paid monthly: in advance. The first invoice on signature. Each later invoice on the first
+  working day of the month.
+- Paid in two halves: €5,350 on signature, and €5,350 at the end of month 3, with the last
+  invoice of the evaluation.
 - By bank transfer, due 14 days from the invoice date.
 - Month 1 starts on the Monday after the first invoice is paid and I have access to the
   repositories, the design files and the environments.
@@ -59,9 +65,10 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.
-- The lower rate buys the block of three. If you end the evaluation before it is over, the
-  €300 a month between the standard rate and the evaluation rate is invoiced for each month
-  already billed, with the last invoice.
+- The lower rate in the two-halves structure buys the block of three. If you end the
+  evaluation before it is over, the €200 a month between €3,700 and €3,500 is invoiced for
+  each month already billed at €3,500, with the last invoice. An invoice already paid is not
+  refunded.
 
 ### Ownership and access
 
