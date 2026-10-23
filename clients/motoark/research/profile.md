@@ -58,11 +58,12 @@ MotoArk" (18–19 Oct), the screen explorer at motoark.tiiny.site, and web searc
 
 - **Availability.** 40 to 60 hours a month of his own work over three months from November.
   The sessions do the volume. Sam: "that's fine".
-- **Price, as said.** €3,700 a month, the floor for month to month. Or €3,500 for months 1 and
-  2 and €3,700 for month 3, with two invoices: half the three-month total at the start and
-  half at the end. Jamie's stated reason: his first year as a freelancer in Portugal. Sam: "we
-  can look at that". He puts it into his thinking with the other candidates. The quote carries
-  both structures (`quote/quote.md`). The positions are in `quote/negotiation.md`.
+- **Price, as said.** €3,700 a month, month to month. Or, if MotoArk treats the three months
+  as one job, €3,500 for months 1 and 2 and €3,700 for month 3, with half of the whole fee up
+  front and half at the end of month 3. Jamie's stated reason: his first year as a freelancer
+  in Portugal. Sam: "we can look at that". He puts it into his thinking with the other
+  candidates. The quote carries both structures (`quote/quote.md`). The positions are in
+  `quote/negotiation.md`.
 - **How he works.** His longest client sets objectives and deadlines, not hours. Sam: "that's
   how I work".
 

@@ -7,17 +7,18 @@ date: 2026-10-23
 currency: EUR
 
 price:
-  monthly: 3700                 # the price the desk reads: proposed now, agreed from stage agreement. The paid-monthly structure
+  monthly: 3700                 # the price the desk reads: proposed now, agreed from stage agreement. The month-to-month structure
   anchor_hourly: 120            # core/services.md, internal, never a billing basis
   rule_standard_monthly: 7200   # hours.per_month × anchor_hourly (core/services.md § Retainer pricing)
   rule_block_monthly: 6120      # the rule less 15% for a 3-month block
-  standard_monthly: 3800        # from month 4, against a written monthly scope; below the rule (quote/negotiation.md § Deviations). Not said on 2026-10-23; open (§ Open)
-  evaluation_monthly: 3700      # months 1 to 3, paid monthly, as said on 2026-10-23
-  evaluation_split: [3500, 3500, 3700]   # the two-halves structure, as said on 2026-10-23: two invoices of 5350
+  standard_monthly: 3700        # from month 4, month to month, against a written monthly scope; below the rule (quote/negotiation.md § Deviations). Jamie confirmed 2026-10-23: 3,700 is the month-to-month rate
+  evaluation_monthly: 3700      # months 1 to 3, month to month, as said on 2026-10-23
+  evaluation_split: [3500, 3500, 3700]   # the one-job structure, as said on 2026-10-23: half of 10,700 on signature, half at the end of month 3
   evaluation_months: 3
-  evaluation_total: 11100       # paid monthly
-  evaluation_total_split: 10700 # two halves
-  discount_vs_standard: 0.026   # 1 - 3700 / 3800
+  evaluation_total: 11100       # month to month
+  evaluation_total_split: 10700 # the one-job structure
+  discount_vs_standard: 0.0     # 1 - 3700 / 3700. The month-to-month rate is the standard rate
+  discount_split_vs_monthly: 0.036   # 1 - 10700 / 11100
 
 hours:
   per_month: 60                 # promised in the quote (2026-10-22). Jamie said 40 to 60 on 2026-10-23; the quote keeps 60 unless Jamie changes it (quote/negotiation.md § Open)

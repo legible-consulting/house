@@ -6,7 +6,7 @@ language: en-GB
 date: 2026-10-23
 valid_until: 2026-11-05
 currency: EUR
-standard_monthly: 3800
+standard_monthly: 3700
 evaluation_monthly: 3700
 evaluation_split: [3500, 3500, 3700]
 evaluation_months: 3
@@ -20,20 +20,20 @@ status: draft
 
 ### The retainer
 
-Two ways to pay for the three evaluation months, November 2026 to January 2027. You choose one.
+Two ways to engage for the three evaluation months, November 2026 to January 2027. You choose
+one.
 
 | | A month | The three months |
 |---|---|---|
-| **Paid monthly** | €3,700 | €11,100 |
-| **Paid in two halves**: months 1 and 2 at €3,500, month 3 at €3,700, in two invoices of €5,350 | €3,500, €3,500, €3,700 | €10,700 |
+| **Month to month** | €3,700 | €11,100 |
+| **The three months as one job**: months 1 and 2 at €3,500, month 3 at €3,700, half of the fee on signature and half at the end of month 3 | €3,500, €3,500, €3,700 | €10,700 |
 
-From month 4, if we continue: €3,800 a month, against a written monthly scope.
+From month 4, if we continue: €3,700 a month, month to month, against a written monthly scope.
 
 Prices are in euros and exclude VAT.
 
-The evaluation months are below the standard rate because you commit to the block of three,
-and because this is recurring work rather than a one-off build. The two-halves structure is
-lower again because it brings half of the block forward.
+The one-job structure is lower because it commits the block of three and brings half of the fee
+forward.
 
 ### What the rate covers
 
@@ -51,10 +51,10 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Payment
 
-- Paid monthly: in advance. The first invoice on signature. Each later invoice on the first
+- Month to month: in advance. The first invoice on signature. Each later invoice on the first
   working day of the month.
-- Paid in two halves: €5,350 on signature, and €5,350 at the end of month 3, with the last
-  invoice of the evaluation.
+- The three months as one job: €5,350 on signature, and €5,350 at the end of month 3, when the
+  job ends.
 - By bank transfer, due 14 days from the invoice date.
 - Month 1 starts on the Monday after the first invoice is paid and I have access to the
   repositories, the design files and the environments.
@@ -65,10 +65,9 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.
-- The lower rate in the two-halves structure buys the block of three. If you end the
-  evaluation before it is over, the €200 a month between €3,700 and €3,500 is invoiced for
-  each month already billed at €3,500, with the last invoice. An invoice already paid is not
-  refunded.
+- The lower rate in the one-job structure buys the block of three. If you end the job before
+  month 3 is over, the €200 a month between €3,700 and €3,500 is invoiced for each month
+  delivered at €3,500, with the last invoice. The half paid on signature is not refunded.
 
 ### Ownership and access
 
