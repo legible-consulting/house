@@ -11,7 +11,19 @@ The epics, and what each holds:
 | `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
 | `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo |
 
-The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`; across epics, `priority` and the deal that waits.
+The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by the rule in the blueprint's `template/.icm/intake/CONTEXT.md` (The order of the epics).
+
+## Order
+
+Set by Jamie on 2026-10-25.
+
+1. triage
+2. desk-forms
+3. desk-restyle
+4. house-modules
+5. render-and-publish
+
+One stub moves forward across epics: `house-modules/desk-process` runs before `desk-restyle`, because `desk-restyle/tokens-and-fonts` is blocked until it merges. The rest of `house-modules` keeps its place.
 
 ## Milestones
 
