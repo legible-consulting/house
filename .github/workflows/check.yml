@@ -186,6 +186,44 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: A broken form fails the read
+        # lib/forms.ts must refuse each break of the grammar (01-prospecting/CONTEXT.md) with the
+        # file and the reason, and a language file that does not match the others.
+        run: |
+          node --input-type=module <<'JS'
+          import { checkLanguages, parseForm } from "./lib/forms.ts";
+          const head = (lang) => `---\nkind: form\ntitle: T\nlanguage: ${lang}\nfolder: research\n---\n`;
+          const q = (h, ...lines) => `\n## ${h}\n\n${lines.map((l) => `- ${l}`).join("\n")}\n`;
+          const good = (lang) => head(lang) + q("One", "key: one") + q("Two", "type: select", "options: A | B", "key: two");
+          const file = (lang) => `test/forms/f.${lang}.md`;
+          const breaks = {
+            "no title": head("en-GB").replace("title: T\n", "") + q("One", "key: one"),
+            "no question": head("en-GB") + "\nProse only.\n",
+            "a select with no options": head("en-GB") + q("One", "type: select", "key: one"),
+            "a question without key": head("en-GB") + q("One", "type: text"),
+            "two questions with one key": head("en-GB") + q("One", "key: one") + q("Two", "key: one"),
+          };
+          let fail = 0;
+          const refuses = (what, run, ...names) => {
+            try {
+              run();
+              console.log(`::error::${what}: not refused`);
+              fail = 1;
+            } catch (e) {
+              const ok = names.every((n) => e.message.includes(n));
+              console.log(ok ? `refused, ${what}: ${e.message}` : `::error::${what}: the message does not name ${names.join(" and ")}: ${e.message}`);
+              if (!ok) fail = 1;
+            }
+          };
+          const en = parseForm(file("en-GB"), good("en-GB"));
+          for (const [what, raw] of Object.entries(breaks)) refuses(what, () => parseForm(file("en-GB"), raw), file("en-GB"));
+          const fr = parseForm(file("fr-BE"), good("fr-BE").replace("options: A | B", "options: A | B | C"));
+          refuses("an option count that differs", () => checkLanguages([{ file: file("en-GB"), snapshot: en }, { file: file("fr-BE"), snapshot: fr }]), file("en-GB"), file("fr-BE"));
+          const pt = parseForm(file("pt-PT"), head("pt-PT") + q("Two", "type: select", "options: A | B", "key: two") + q("One", "key: one"));
+          refuses("keys in another order", () => checkLanguages([{ file: file("en-GB"), snapshot: en }, { file: file("pt-PT"), snapshot: pt }]), file("en-GB"), file("pt-PT"));
+          checkLanguages([{ file: file("en-GB"), snapshot: en }, { file: file("pt-PT"), snapshot: parseForm(file("pt-PT"), good("pt-PT")) }]);
+          process.exit(fail);
+          JS
       - name: Write the glance and the close, no commit
         run: |
           node scripts/rhythms.mjs glance --root "$RUNNER_TEMP"

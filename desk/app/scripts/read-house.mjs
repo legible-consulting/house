@@ -14,10 +14,13 @@
 //   research/{verdicts,concepts}/*.md
 //                                   research's verdicts and concepts: the frontmatter as fields, the
 //                                   body as prose, for /research
+//   */forms/*.md                    every form, parsed by lib/forms.ts and grouped by form and
+//                                   language; a form that does not parse fails the build
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
+import { FORM_LANGUAGES, checkLanguages, parseForm } from "../lib/forms.ts";
 
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
@@ -163,13 +166,50 @@ const research = ["verdicts", "concepts"]
   )
   .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
+// Every form (<module>/forms/<form>.<language>.md), as forms[form][language] = its snapshot.
+// Every broken file is listed before the build fails, so one run shows all of them. On a
+// GitHub runner each line is an annotation on the file.
+const formErrors = [];
+const formFiles = new Map();
+for (const d of readdirSync(house, { withFileTypes: true })) {
+  if (!d.isDirectory() || d.name.startsWith(".") || d.name === "node_modules") continue;
+  for (const f of files(join(house, d.name, "forms"), ".md")) {
+    const file = `${d.name}/forms/${f}`;
+    try {
+      const snapshot = parseForm(file, read(house, file));
+      const langs = formFiles.get(snapshot.form) ?? new Map();
+      const twin = langs.get(snapshot.language);
+      if (twin) throw new Error(`${twin.file} and ${file}: one form and language in two files.`);
+      formFiles.set(snapshot.form, langs.set(snapshot.language, { file, snapshot }));
+    } catch (e) {
+      formErrors.push({ file, message: e.message });
+    }
+  }
+}
+const forms = {};
+for (const [form, langs] of formFiles) {
+  const byLanguage = FORM_LANGUAGES.filter((l) => langs.has(l)).map((l) => langs.get(l));
+  try {
+    checkLanguages(byLanguage);
+    forms[form] = Object.fromEntries(byLanguage.map(({ snapshot }) => [snapshot.language, snapshot]));
+  } catch (e) {
+    formErrors.push({ file: byLanguage[0].file, message: e.message });
+  }
+}
+if (formErrors.length) {
+  for (const { file, message } of formErrors) {
+    console.error(process.env.GITHUB_ACTIONS ? `::error file=${file}::${message}` : message);
+  }
+  process.exit(1);
+}
+
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research }, null, 2),
+  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research, forms }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +
-    `${closes.length} closes, ${research.length} verdicts and concepts, ` +
+    `${closes.length} closes, ${research.length} verdicts and concepts, ${Object.keys(forms).length} forms, ` +
     `drift ${estate?.date ?? "none"}`,
 );
