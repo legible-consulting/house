@@ -10,6 +10,10 @@ holds:
   - voice.md
   - terms.md
   - onboarding-collaborator.md
+  # The repo root's .env.example: every environment variable of the estate, by name and place. The
+  # stack owns where a value lives, so the core holds the list (why: one audit file instead of a
+  # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
+  - "../.env.example"
 ---
 # Core — C1 shared core
 
@@ -45,6 +49,13 @@ Built (2026-10-19):
 - `services.md`: the six lines, what each includes, what is never in a build's price, and the pricing table with the anchor and the floor.
 - `voice.md`: the register, the words never used, the three registers, the document design system and the shape of each document.
 - `terms.md`: payment, validity and revisions, ownership, hosting and support, ending an engagement, law and language.
+
+Built (2026-10-23):
+
+- `../.env.example`, at the repo root: every environment variable of the estate by name, one
+  section per place a value lives (Vercel production, preview, uat, development; Actions secrets
+  and variables; the local shell; the cloud session). Names only, never a value. Re-read the
+  sources and rewrite it when a name is added, renamed or removed.
 
 Not yet written:
 
