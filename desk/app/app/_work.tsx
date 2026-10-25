@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { tickGate } from "@/lib/gates";
+import { HOUSE_REPO } from "@/lib/github";
 import { clients, type ClientRow } from "@/lib/house";
 import { inFlight, type Run } from "@/lib/repos";
 import {
@@ -31,7 +32,18 @@ import { Prose } from "./_ui";
 // preview link, shipped, queued. Never the gates, CI, triage or a reason.
 
 const LABEL: Record<GateName, string> = { "spec-approved": "Spec approved", "ready-to-merge": "Ready to merge" };
-export const withRepo = clients.filter((c): c is ClientRow & { repo: string } => Boolean(c.repo));
+// The house's own tickets (.icm/intake/ of this repo) are one more row, last. It is not a
+// client: its home is its rows on /work, and lib/work.ts reads it with DESK_PAT.
+const house: ClientRow & { repo: string } = {
+  slug: "house",
+  name: "House",
+  repo: HOUSE_REPO,
+  economics: null,
+  documents: [],
+  blueprint: null,
+};
+export const withRepo = [...clients.filter((c): c is ClientRow & { repo: string } => Boolean(c.repo)), house];
+const homeOf = (c: ClientRow) => (c.repo === HOUSE_REPO ? "/work?repo=house" : `/clients/${c.slug}`);
 
 // The ticket filters of /work: a state, or the triage folder.
 export type StateFilter = "all" | StubState | "triage";
@@ -134,7 +146,7 @@ async function WaitingRows() {
           {rows.map(({ c, p }) => (
             <TableRow key={`${c.slug}#${p.number}`}>
               <TableCell className="font-medium">
-                <a href={`/clients/${c.slug}`} className="hover:underline">
+                <a href={homeOf(c)} className="hover:underline">
                   {c.name ?? c.slug}
                 </a>
               </TableCell>
@@ -360,7 +372,7 @@ async function RepoRows({
     <section className="grid gap-3">
       {heading && (
         <h3 className="flex flex-wrap items-baseline gap-2 text-sm font-medium">
-          <a href={`/clients/${c.slug}`} className="hover:underline">
+          <a href={homeOf(c)} className="hover:underline">
             {name}
           </a>
           <Muted>

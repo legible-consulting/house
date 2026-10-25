@@ -76,7 +76,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   the one door from the public into the pool, and a lead copied by hand from a mail is a
   lead lost; the token stands in for the session the form has none of · 2026-10-22).
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
-  blueprint drift, latest release and `check.yml` run), `/work` (every repo's open tickets in
+  blueprint drift, latest release and `check.yml` run), `/work` (every client repo's open tickets, and the house's own from `.icm/intake/` read with `DESK_PAT`, in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
   with their gates, CI and preview; what waits on Jamie first), `/close?month=`,
   `/clients/<slug>`, `/pool`, `/sell`, `/research` (every verdict and concept from `main`,
