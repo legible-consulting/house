@@ -135,7 +135,7 @@ jobs:
           echo "$out" | tail -n 40
 
   guards:
-    # The house and the blueprint's templates/site/ ship the same guards. A copy that drifts leaves
+    # The house and the blueprint's template/ ship the same guards. A copy that drifts leaves
     # one of them unguarded (core/stack.md, 2026-10-19). Compared against blueprint main.
     runs-on: ubuntu-latest
     steps:
@@ -148,8 +148,8 @@ jobs:
         run: |
           fail=0
           for f in .claude/hooks/*.sh; do
-            cmp -s "$f" "/tmp/blueprint/templates/site/$f" \
-              || { echo "::error file=${f}::differs from blueprint templates/site/${f}"; fail=1; }
+            cmp -s "$f" "/tmp/blueprint/template/$f" \
+              || { echo "::error file=${f}::differs from blueprint template/${f}"; fail=1; }
           done
           exit "$fail"
 
