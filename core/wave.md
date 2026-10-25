@@ -83,7 +83,21 @@ factory proves nothing · 2026-10-22).
   active login.
 - Secret scanning and push protection on the public repos that remain: `blueprint`,
   `.github`, `english-with-jamie`, `garmani`. J.
+- `clients/CONTEXT.md` and `_template/record.md` gain `public: named | anonymous | none`:
+  what the client allowed for a case study, by email, outside git. `named` is the name, the
+  logo and a link. `anonymous` is the trade and no link. `none` is no case. S.
+- O2's Process, `status: built`: the case is `clients/<slug>/case/case.md`, written from the
+  handover pack, with `ready: true | false` in its frontmatter. The writer names the client
+  as `public:` allows. `clients/CONTEXT.md` holds `*/case/*.md`; `cases/` and `index.md`
+  leave O2's Outputs. Seeded with the four case studies on `jamienisbet.com`: Agorasim,
+  Vinecliff, Collabimmo and Boys To Men, the last two with a folder each at `stage: after`.
+  S, J approves each case. Check: `check.yml` green and no placeholder line in
+  `operator/portfolio/CONTEXT.md`.
+- The publish workflow in `.github/workflows/`: on a push to `main`, every `ready: true`
+  case is committed to `content/work/<slug>.md` on the `main` of `k0d0minio/jamienisbet`,
+  and Vercel deploys it. Jamie's merge of the case here is the gate. One house Actions
+  secret, Contents write on that repo, name only. After that repo's stub `one-app-at-root`
+  merges. S, J sets the secret. Check: a case merged here is on `jamienisbet.com`.
 
 ## Jamie decides
 
-- Where the business site is served (O3's output; `jamienisbet.com` is personal today).
