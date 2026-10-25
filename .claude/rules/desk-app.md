@@ -15,6 +15,8 @@ API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.
 The work view (`/work`, and the Work card on a client's page) reads `.icm/intake/` and the
 pull requests per request through `lib/work.ts` with the same tokens, and `lib/gates.ts`
 writes Jamie's tick on a gate.
+`lib/mail.ts` sends Jamie a plain-text mail through Resend's HTTP API with `RESEND_API_KEY`,
+to the business email that `read-house.mjs` reads from `core/identity.md`.
 `DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
 (`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the house's own tickets on `/work` (`lib/work.ts`),
 Actions for the sync pill's runs that start `rhythms.yml` on `main` by

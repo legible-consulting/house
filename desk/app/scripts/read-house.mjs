@@ -6,6 +6,7 @@
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
 //   clients/_template/record.md     the handoff PR
+//   core/identity.md                the business email: where the desk's mail goes (lib/mail.ts)
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
@@ -163,10 +164,15 @@ const research = ["verdicts", "concepts"]
   )
   .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
+// core/identity.md: the business email, the value of its row in "The entity" table. The desk
+// mails Jamie there (lib/mail.ts). A missing row is "", and the mailer logs it.
+const identityRow = /^\|\s*Business email\s*\|\s*([^|\s]+)\s*\|/m.exec(read(house, "core", "identity.md"));
+const identity = { email: identityRow?.[1] ?? "" };
+
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research }, null, 2),
+  JSON.stringify({ built, identity, clients, template, hand, closes, estate, sell, research }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +

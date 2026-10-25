@@ -80,6 +80,9 @@ export const estate = data.estate as unknown as Estate | null;
 export const closeDocs = data.closes as unknown as Doc[];
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[]; kit: Kit[] };
 
+// core/identity.md: the business email, where the desk's mail goes (lib/mail.ts).
+export const identity = data.identity as { email: string };
+
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);
 
 // research/{verdicts,concepts}/<slug>.md (research, research/CONTEXT.md): one

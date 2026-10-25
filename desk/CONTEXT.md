@@ -15,8 +15,8 @@ The desk produces the morning glance (every client's next action and deadline, s
 
 - `clients/*/record.md` frontmatter, `clients/*/quote/economics.yaml`, the client-facing
   documents in `clients/*/`, `.icm/intake/README.md` (the Jamie's hand list), `desk/estate/`,
-  `01-prospecting/`, the pool in Neon, and the house and the client repos over the
-  GitHub API.
+  `01-prospecting/`, the business email in `core/identity.md`, the pool in Neon, and the
+  house and the client repos over the GitHub API.
 
 ## Process
 
@@ -63,7 +63,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   repo owner: Contents, Actions, Metadata, Commit statuses and Pull requests read, Pull
   requests write for the gates), `POOL_TOKEN` (the bearer the portfolio's contact form sends
   to the pool API; the Vercel project `portfolio` holds the same value as
-  `DESK_POOL_TOKEN`). A token unset, or a repo out of reach, fails only its own
+  `DESK_POOL_TOKEN`), `RESEND_API_KEY` (Resend, Sending access, from the account that holds
+  `mail.jamienisbet.com`). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not
   stop the desk · 2026-10-21).
 - The pool API, `app/api/pool/route.ts`, the one route without a session: `POST /api/pool`
@@ -114,3 +115,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Freshness: the sync pill. Each run and pull request shows its state with a link. A page
   re-reads itself every 15 seconds while anything it shows is in flight.
 - Alerts: GitHub's failed-run mail, and the pill.
+- Mail: `app/lib/mail.ts` sends Jamie one plain-text mail per submission through Resend's
+  HTTP API, from `Desk <desk@mail.jamienisbet.com>`, to the business email in
+  `core/identity.md`, reply-to the person who wrote. The desk sends no mail to a visitor. An
+  unset key or a failed send is logged with the reason, and the submission stands (why: the
+  answers are in git before the mail is sent · 2026-10-25).
