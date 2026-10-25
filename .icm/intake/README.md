@@ -18,12 +18,10 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 Set by Jamie on 2026-10-25.
 
 1. triage
-2. desk-forms
-3. desk-restyle
-4. house-modules
-5. render-and-publish
-
-One stub moves forward across epics: `house-modules/desk-process` runs before `desk-restyle`, because `desk-restyle/tokens-and-fonts` is blocked until it merges. The rest of `house-modules` keeps its place.
+2. house-modules
+3. render-and-publish
+4. desk-forms
+5. desk-restyle
 
 ## Milestones
 
