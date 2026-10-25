@@ -19,4 +19,4 @@ O3 produces site copy and posts drawn from case studies, research verdicts and t
 
 ## Outputs
 
-- `site/<page>.md` · `posts/<date>-<slug>.md`. Where the business site is served is open (`core/wave.md`, Jamie decides).
+- `site/<page>.md` · `posts/<date>-<slug>.md`. The business site is `jamienisbet.com`, the `k0d0minio/jamienisbet` repo, under the Jamie Nisbet brand (Jamie, 2026-10-25; Legible Consulting is not public for now).
