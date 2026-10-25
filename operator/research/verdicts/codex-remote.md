@@ -1,6 +1,10 @@
 ---
 tool: Codex Remote
+kind: service
 verdict: decline
+tier: verdict
+modules: [D2]
+tags: [codex, remote, phone]
 recheck: 2027-04-16
 source: library/course/jake-van-clief/03_building-your-stack/02_module-2-building-for-remote-access/02_connect-and-verify-a-remote-session.md
 date: 2026-10-16
