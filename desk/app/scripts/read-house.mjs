@@ -22,7 +22,7 @@ import { parse } from "yaml";
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
 const clientsDir = join(house, "clients");
-const sellDir = join(house, "sell", "01-prospecting");
+const sellDir = join(house, "01-prospecting");
 
 // A markdown file as its frontmatter fields and its body without them.
 const split = (raw) => {
@@ -136,7 +136,7 @@ const sell = {
 // research's verdicts and concepts (research/{verdicts,concepts}/<slug>.md): the
 // frontmatter as fields, the body without its first heading (the page sets the title), sorted
 // by name. A field the file lacks is "" or [], never missing, so a page reads every file alike.
-const researchDir = join(house, "operator", "research");
+const researchDir = join(house, "research");
 const list = (v) => (Array.isArray(v) ? v.map(String) : []);
 const research = ["verdicts", "concepts"]
   .flatMap((folder) =>
