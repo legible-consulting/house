@@ -79,7 +79,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   blueprint drift, latest release and `check.yml` run), `/work` (every repo's open tickets in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
   with their gates, CI and preview; what waits on Jamie first), `/close?month=`,
-  `/clients/<slug>`, `/pool`, `/sell`. `/close` renders the committed file when one exists
+  `/clients/<slug>`, `/pool`, `/sell`, `/research` (the links shared to the desk that the research
+  intake has not judged yet, and the form to paste one; `operator/research/CONTEXT.md`). `/close`
+  renders the committed file when one exists
   and computes the same rules live otherwise, or with `?live=1`.
 - The sync pill (Jamie only), at the top of every page: up to date, running, deploying, out
   of sync, or unknown, with the reason in its panel. The panel starts `rhythms.yml` on `main`
@@ -100,6 +102,13 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   `agreement/*.md`, `handover/*.md`), and the work in words: in progress with the preview
   link, shipped in the last 14 days, queued. Research, negotiation, economics, drift, gates,
   CI and triage never reach it.
+- The phone: the desk installs from Chrome's menu (`app/desk.webmanifest/route.ts`; the icons are drawn
+  by `app/_mark.tsx`, so no image file lives in git). Installed, it is a share target: a link
+  shared to Desk opens `/share`, which writes `operator/research/queue/<date>-<host>-<hash>.md`
+  on `main` with `DESK_PAT` and shows `/research` with the result. Jamie only. The desk judges
+  nothing: the file holds the link, the title, the text around it and the time (why: the share
+  sheet is the one tap Jamie takes on the phone; a link that waits in a chat is a link lost ·
+  2026-10-25).
 - Freshness: the sync pill. Each run and pull request shows its state with a link. A page
   re-reads itself every 15 seconds while anything it shows is in flight.
 - Alerts: GitHub's failed-run mail, and the pill.

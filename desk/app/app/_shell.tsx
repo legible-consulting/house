@@ -19,6 +19,7 @@ const LINKS: Record<DeskUser["role"], [string, string][]> = {
     ["/close", "Close"],
     ["/pool", "Pool"],
     ["/sell", "Sell"],
+    ["/research", "Research"],
   ],
   salesman: [
     ["/pool", "Pool"],

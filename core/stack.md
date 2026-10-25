@@ -23,6 +23,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | multi-gitter | one PR per repo across the estate (D4) | 0.63.1 | `setup/local.sh` | — |
 | copier | render a client repo from the blueprint (D1) | 9.19.1 | `setup/local.sh` | — |
 | trafilatura | fetch a web page as text (O1, the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
+| yt-dlp | a video's description and captions as text (O1, the research intake) | 2026.8.19 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 
 ## The desk app

@@ -3,11 +3,13 @@ import type { Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 
 // The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
-// only: Contents, Pull requests and Actions, read and write). Four uses:
+// only: Contents, Pull requests and Actions, read and write). Five uses:
 // - "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
 //   at stage prospect. The commit carries the desk's identity; the PR is opened by the account
 //   that owns DESK_PAT. The folder is the record from the merge on; "Check the PR" moves the
 //   row to handed off.
+// - The research queue: one file per link Jamie shares to the desk, written to main
+//   (writeFile), and the folder as it stands for /research (listFolder). lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 // - The latest run of each house workflow, any status (houseRun): the sync pill says
 //   queued, running or done.
@@ -331,3 +333,40 @@ export function distance(): Promise<Distance> {
 // and the page stops re-reading itself.
 export const deployInFlight = (): Promise<boolean> =>
   distance().then((d) => d.ok && d.ahead > 0 && Date.now() - Date.parse(d.newest) < DEPLOY_MS);
+
+// --- The research queue: a file on main, and a folder's files ------------------------------
+
+// Write one new file on main. 201 is the file created. 422 is a file already at that path:
+// the Contents API wants its sha for an update, and the caller never updates.
+export async function writeFile(path: string, content: string, message: string): Promise<"created" | "exists"> {
+  const r = await gh("PUT", `/contents/${path}`, {
+    message,
+    content: Buffer.from(content, "utf8").toString("base64"),
+    branch: "main",
+    committer: COMMITTER,
+    author: COMMITTER,
+  });
+  if (r.status === 201) return "created";
+  if (r.status === 422) return "exists";
+  fail(`write ${path}`, r);
+}
+
+export type FolderRead = { ok: true; files: { name: string; url: string }[] } | { ok: false; reason: string };
+
+// The files of a folder on main, by name, each with its link on GitHub. A folder that does
+// not exist yet is empty. Read per request, with the words of read() when it fails.
+export async function listFolder(path: string): Promise<FolderRead> {
+  try {
+    const r = await read(`/contents/${path}?ref=main`);
+    if (r.status === 404) return { ok: true, files: [] };
+    if (r.status !== 200) return { ok: false, reason: `GitHub answered ${r.status} for ${path}` };
+    const items = (Array.isArray(r.body) ? r.body : []) as Record<string, unknown>[];
+    const files = items
+      .filter((i) => i.type === "file")
+      .map((i) => ({ name: String(i.name), url: String(i.html_url) }))
+      .sort((a, b) => a.name.localeCompare(b.name));
+    return { ok: true, files };
+  } catch (e) {
+    return { ok: false, reason: reason(e) };
+  }
+}

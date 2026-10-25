@@ -38,7 +38,15 @@ if ! have trafilatura && ! have html2text; then
   fi
 fi
 
+# yt-dlp: the research intake reads a video's description and captions with it (intake.md,
+# step 4c). The same route as trafilatura. Without it, the intake works from the page text.
+if ! have yt-dlp && have uv; then
+  UV_TOOL_DIR=/opt/uv-tools UV_TOOL_BIN_DIR=/usr/local/bin uv tool install -q yt-dlp==2026.8.19 \
+    >>/tmp/setup-uv.log 2>&1 || log "yt-dlp install failed, see /tmp/setup-uv.log"
+fi
+
 for t in jq yq gitleaks; do have "$t" && log "ok $t" || log "MISSING $t"; done
 if have trafilatura; then log "ok trafilatura"; elif have html2text; then log "ok html2text (trafilatura fallback)"; else log "MISSING trafilatura"; fi
+if have yt-dlp; then log "ok yt-dlp"; else log "MISSING yt-dlp (the intake reads a video from its page text)"; fi
 yq --version 2>/dev/null | grep -q mikefarah || log "MISSING mikefarah yq (found $(yq --version 2>&1 | head -1))"
 exit 0
