@@ -56,7 +56,7 @@ sits below the 500 € floor by nature: it is a cost, not a service.
 | Workshop: 50 % on signature, 50 % after delivery (`terms.md`) | 15 % on signature, 85 % after the week | Arnaud does not pay advance invoices; Jamie accepted 2026-10-12 and 2026-10-22 |
 | Invoices due 14 days (`terms.md`) | 7 days on 12 October, back to 14 on 22 October | No deviation remains |
 | Floor 500 € on every line (`services.md`) | Travel at 400 € | A cost line, not a service |
-| Workshop day and coaching hour prices (`services.md`, open) | 1,200 €/morning and 120 €/h inside the opening price | Not a rate: Jamie parked the decision on 2026-10-22 |
+| Workshop day 1,800 € and coaching hour 120 € (`services.md` § Training pricing) | 1,820 €/day ex travel at the offer; 1,220 €/day agreed | No deviation at the offer: the list was distilled from it on 2026-10-25. The agreed day is the relationship discount in the first row |
 
 ## What the client may say, and the answer
 

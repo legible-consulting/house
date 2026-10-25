@@ -2,7 +2,7 @@
 title: Services
 kind: core
 owner: jamie
-date: 2026-10-19
+date: 2026-10-25
 ---
 # Services — what we sell, what each line includes, what it costs
 
@@ -57,14 +57,15 @@ regretted deals were the ones where the price moved and the scope did not · 202
 | Site | €1,000 – €2,500 | per build | From the band. Below it is a very small build, still at or above the floor. Above it means real integrations, named in the proposal. |
 | App | not banded | per build | Honest hours × the anchor, checked against the last closed proposal. |
 | Platform | not banded | per build | As app. |
-| Workshop | open | per day | No number yet (`wave.md`, Jamie decides). |
-| Coaching | open | per hour | No number yet (`wave.md`, Jamie decides). |
+| Workshop | €1,800 | per day | One day of Jamie, on site or remote, materials and attendance record inside. Travel is a flat cost line outside it (§ Training pricing). |
+| Coaching | €120 | per hour | The anchor. Sold as a fixed block of hours, never open-ended (§ Training pricing). |
 | Retainer | not banded | per month | Jamie's hours of attention a month × the anchor, less the term discount (§ Retainer pricing). |
 
 - **Anchor: €120 per hour.** Internal. It turns hours into a fixed price or a monthly
   retainer, and it is the rate Jamie names on a call so that a discount reads as one. No
   engagement has closed at it yet (2026-10-22). It is never a billing basis, except retainer
-  hours beyond the promise (§ Retainer pricing).
+  hours beyond the promise (§ Retainer pricing) and the coaching hour, which is priced at
+  the anchor (§ Training pricing · 2026-10-25).
 - **Floor: €500.** Nothing goes below it. Below the floor the answer is the smallest honest
   version at or above it, or a decline.
 - **Two options in every proposal:** the smallest honest version that does the job, and the
@@ -74,6 +75,29 @@ regretted deals were the ones where the price moved and the scope did not · 202
   with before the work is scoped · 2026-10-19).
 - **Deviations are decisions.** A price below band is written in the client's `quote/`
   folder with its reason. The next proposal reads it as precedent.
+
+## Training pricing
+
+The workshop day and the coaching hour were distilled on 2026-10-25 from the first training
+engagement, Euro Register's offer of 2026-10-09 (`clients/euro-register/quote/negotiation.md`).
+The offer, not the agreed price, is the source: it was built from the anchor and read against
+the market, and the agreed price is a relationship discount that the agreement names as no
+reference rate (why: a list read from a discount is a discount · 2026-10-25).
+
+- **A day is a day.** The workshop day is one day of Jamie, on site or remote. How the day
+  splits between the group session and one-to-one hours is the programme; the price does
+  not move with it. The materials, the starter kit and the attendance record are inside.
+  The day at the offer was 1,820 € ex travel: about 12.7 honest hours at the anchor and a
+  300 € premium for the method and the AI-literacy evidence. The market read of 2026-10-09
+  put in-company AI training at 1,500 to 2,000 € a day.
+- **Travel is a cost line.** Flights and transfers go in the proposal as one flat amount
+  outside the day price. It may sit below the floor: it is a cost, not a service. The hotel
+  is the client's.
+- **The coaching hour is the anchor.** It prices hours sold outside a workshop day: remote
+  sessions, a block after a week. The proposal sells a fixed block of hours, never an open
+  count. The workspace rendered from the blueprint is inside the block.
+- **Precedent.** Euro Register: 1,820 € a day ex travel at the offer, 1,220 € agreed, a 32 %
+  relationship discount written into the agreement as no precedent.
 
 ## Retainer pricing
 
