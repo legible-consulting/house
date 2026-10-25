@@ -56,6 +56,10 @@ A module the business needs and the house does not have yet (client research, th
   session reads a gate and never ticks it. Jamie ticks on GitHub or from the desk.
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
   Defined in `clients/CONTEXT.md`.
+- **form** — a questionnaire the house holds as content: `<stage>/forms/<form>.<language>.md`,
+  one file per language, with the same keys in the same order. A lead or a client answers
+  it, and the answers go to the client subfolder its `folder:` names. The grammar is in
+  `01-prospecting/CONTEXT.md`, Outputs.
 - **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are
   defined in `clients/CONTEXT.md` and live in the desk, never in a record.
 - **intake** — `.icm/intake/` in every client repo: the tickets, one folder per epic

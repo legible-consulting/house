@@ -7,6 +7,7 @@ holds:
   - "pitch/*.md"
   - "kit.*.md"
   - "targets/*.md"
+  - "forms/*.md"
 ---
 # Prospecting
 
@@ -70,6 +71,10 @@ A session in this folder produces the stage-level material, never a pool row:
   disagrees with `core/services.md` or a term with `prospect.md`, the house wins and the kit
   is fixed. No price reaches a prospect through it (why: `core/services.md`, "Never public"
   · 2026-10-22).
+- `forms/<form>.<language>.md`: the questions a lead answers, one file per language in
+  `target-profile.md`, in the grammar below. Written from `core/voice.md`. No price, band or
+  floor goes in a question or an option (why: a form is a public page, and
+  `core/services.md` keeps every number off a page · 2026-10-25).
 - After handoff, outreach a session drafts for Jamie goes to `clients/<slug>/outreach/`.
 
 ## Outputs
@@ -81,5 +86,34 @@ A session in this folder produces the stage-level material, never a pool row:
 - `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
   on `/sell`.
 - `targets/<list>.md`: one researched list per search.
+- `forms/free-look.<language>.md`: the free look, eight questions about how a lead works
+  today, in `en-GB`, `fr-BE` and `pt-PT` (built 2026-10-25). The answers go to `research/`.
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.
+
+### The form grammar
+
+Every `forms/` folder in the house uses this grammar. A later module that adds its own
+`forms/` points here.
+
+- One form per file, `<form>.<language>.md`. The name before the language tag is the form
+  slug. The slug never changes after a link was sent (why: a sent link and its answers name
+  the form by its slug · 2026-10-25).
+- The frontmatter has five fields: `kind: form`, `title`, `intro`, `language` (`en-GB`,
+  `fr-BE` or `pt-PT`) and `folder`. `folder` is the client subfolder the answers go to.
+- Each `##` heading is one question, in the words the visitor reads. Under it is one list
+  of `- key: value` lines:
+  - `type:` is `text` (the default), `textarea`, `select` or `boolean`.
+  - `options:` is for `select` only. The options are separated by ` | `.
+  - `optional: yes` makes the question optional.
+  - `hint:` is the help line under the question.
+  - `key:` is the answer key. It is required on every question (why: the old grammar made
+    the key from the heading, and a heading in three languages gives three keys. The
+    answers of one form must align across languages · 2026-10-25).
+- The desk ignores prose outside the list.
+- Four types. No conditional logic. No uploads. A link to a recording is a `text` question
+  (why: the answers go to git as a markdown file, and an upload has no home there ·
+  2026-10-25).
+- The language files of one form have the same keys in the same order. Their options are
+  in the same order too (why: the desk maps an answer to a pool field by the option's
+  position. The words change per language. The position does not · 2026-10-25).
