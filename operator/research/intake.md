@@ -16,7 +16,11 @@ This file is the procedure of the cloud routine `research-intake` (claude.ai/cod
    ls operator/research/queue/*.md
    ```
    If there is no file, stop. Write nothing. Open no PR. Your final message is: "The queue is empty."
-2. Check the tools. Run `gh auth status`. If it fails, stop; your final message names the failure. Run `command -v trafilatura || command -v html2text` and `command -v yt-dlp`. If a tool is missing, continue; step 4c says what to do without it.
+2. Check the tools:
+   - GitHub: `gh api repos/legible-consulting/house --jq .full_name`. If it fails, run `git ls-remote --heads origin main` and `gh auth status`, then stop. Your final message quotes the three results, with no token value in it (why: the sandbox's own token may serve git and not the API, and the message must say which route is dead · 2026-10-25).
+   - Text: `command -v trafilatura || command -v html2text`.
+   - Video: `command -v yt-dlp`. If it is missing and `uvx` exists, use `uvx yt-dlp` wherever step 4c says `yt-dlp` (why: the environment's pasted setup script can lag behind `core/setup/cloud.sh` · 2026-10-25).
+   If a tool is still missing, continue; step 4c says what to do without it.
 3. Make the branch from `main`:
    ```bash
    git checkout main && git pull --ff-only
