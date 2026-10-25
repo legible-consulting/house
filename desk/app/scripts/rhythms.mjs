@@ -123,7 +123,7 @@ function writeClose() {
   }
   lines.push(
     "",
-    "Price is `price.monthly` for a retainer or a role and `price.total` for a build. Hours and cost are the quote's estimates, `hours.per_month` and `costs_monthly`. Margin is the monthly price less the monthly cost, and hourly is the monthly price over the hours; a build shows neither, because its price is a total. Commission is the record's `commission.owed`, settled as the client pays, outside the house (`sell/01-prospecting/prospect.md`).",
+    "Price is `price.monthly` for a retainer or a role and `price.total` for a build. Hours and cost are the quote's estimates, `hours.per_month` and `costs_monthly`. Margin is the monthly price less the monthly cost, and hourly is the monthly price over the hours; a build shows neither, because its price is a total. Commission is the record's `commission.owed`, settled as the client pays, outside the house (`01-prospecting/prospect.md`).",
     "",
     "## Pipeline",
     "",

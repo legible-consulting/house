@@ -1,6 +1,6 @@
 import { maybeEnv } from "./env";
 
-// The client repos' status (D2's release and check runs), read per request over the GitHub
+// The client repos' status (the build's release and check runs), read per request over the GitHub
 // REST API: per repo, the latest release, the latest completed check.yml run on the default
 // branch, and the latest check.yml run of any status, which is the one in flight when one is.
 // The tokens are fine-grained and read-only, with Contents read, Actions read and Metadata

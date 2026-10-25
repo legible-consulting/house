@@ -138,7 +138,7 @@ open stubs still carry the old pipeline's shape (`scope:`, `size:`, `Notes for D
 ## The engagement as agreed
 
 - **Shape.** `kind: role`: Jamie is the company's CTO and owns part of it. The build is
-  ongoing. No handover pack, no retainer offer (`clients/CONTEXT.md`, `deliver/03-handover`).
+  ongoing. No handover pack, no retainer offer (`clients/CONTEXT.md`, handover, a ticket in `.icm/intake/`).
   The role started where the ownership started (`core/services.md`, 2026-10-22).
 - **Dates.** The relationship opened 2026-07-31 (a Teams call, recorded, in the Drive folder
   `REMI-AI`). Work started 2026-08-26 per Jamie. The shares were transferred at the EGM of

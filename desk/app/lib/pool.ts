@@ -1,4 +1,4 @@
-// The pool's rules, from sell/01-prospecting/prospect.md (the fields, the statuses, who
+// The pool's rules, from 01-prospecting/prospect.md (the fields, the statuses, who
 // writes a row) and cadence.md (next_action). Pure functions; the SQL lives in db.ts.
 
 export const STATUSES = [
@@ -184,7 +184,7 @@ export function nextActionAfterTouch(status: Status, touches: Touch[]): string |
 }
 
 // Form input to the stored fields: trimmed strings. Company and source are required at add
-// (S1); the closed lists are checked against their values.
+// (prospecting); the closed lists are checked against their values.
 export function fieldsFrom(form: FormData): ProspectFields {
   const s = (k: string) => String(form.get(k) ?? "").trim();
   const oneOf = (k: string, list: readonly string[]) => {

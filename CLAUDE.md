@@ -3,8 +3,8 @@
 Legible Consulting is Jamie Nisbet's AI consultancy in Mafra, Portugal: sites, apps and
 platforms built for clients, and ICM workshops and coaching. This repo is where the business
 runs. It follows the Interpretable Context Methodology: the folder tree is the orchestration,
-every stage folder carries a `CONTEXT.md` contract, and this file only says who we are and
-where to go. Our words (house, blueprint, library, module codes) are defined once in
+every folder carries a `CONTEXT.md` contract, and this file only says who we are and
+where to go. Our words (house, blueprint, library) are defined once in
 `core/lexicon.md`.
 
 ## Routing
@@ -13,10 +13,14 @@ where to go. Our words (house, blueprint, library, module codes) are defined onc
 |---|---|
 | change a fact about the business (identity, services, pricing, voice, terms, stack) | `core/CONTEXT.md` |
 | open, read or update a client relationship | `clients/CONTEXT.md` |
-| prospect, research a client, write a proposal, quote or agreement | `sell/CONTEXT.md` |
-| kick off, build, hand over, or check the estate | `deliver/CONTEXT.md` |
-| research a tool, write a case study, publish content, run training | `operator/CONTEXT.md` |
-| the morning glance, monthly close, estate audit, the dashboard | `desk/CONTEXT.md` |
+| prospect, work the pool, write a pitch | `01-prospecting/CONTEXT.md` |
+| write a proposal | `02-proposal/CONTEXT.md` |
+| price the work, write the quote | `03-quote/CONTEXT.md` |
+| build a client repo, ship a release | `04-build/CONTEXT.md` |
+| check the estate against the blueprint | `conformance/CONTEXT.md` |
+| judge a tool or a concept | `research/CONTEXT.md` |
+| the morning glance, monthly close, the dashboard | `desk/CONTEXT.md` |
+| work on the house itself (a module not built yet, a change to the desk) | `.icm/intake/CONTEXT.md` |
 
 Read the contract you are routed to, then only what its Inputs name. Do not read other
 stages' folders.
@@ -53,7 +57,7 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
   (why: two homes drift; a rule nobody can explain is never safely changed · 2026-10-14).
 - CI is truth: never run build, lint, typecheck, test, format or dev locally. The hook in
   `.claude/hooks/` enforces it (why: one verdict, recorded where the code was pushed · 2026-10-14).
-- One session, one repo. Kickoff (D1) is the named exception and attaches the new client
+- One session, one repo. Kickoff is the named exception and attaches the new client
   repo as well (why: a cloud session loads a repo's hooks and permissions only when one
   repo is attached · 2026-10-15).
 - A file enters this repo only where a contract holds it: the `holds:` globs in the

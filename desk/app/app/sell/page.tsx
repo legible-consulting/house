@@ -11,8 +11,8 @@ import { CopyButton } from "../_copy";
 import { Shell } from "../_shell";
 import { Prose } from "../_ui";
 
-// Sell: what S1 gives a salesman before the first touch, read-only (prospect.md, "The
-// salesman's deal"), from sell/01-prospecting/ at build time. The target profile and the
+// Sell: what prospecting gives a salesman before the first touch, read-only (prospect.md, "The
+// salesman's deal"), from 01-prospecting/ at build time. The target profile and the
 // cadence as cards, one per section of the file; the cadence's days as a strip; every pitch
 // draft by touch, in one language or all (?lang=), each with a Copy button and its
 // placeholders marked; the seller kit (kit.<language>.md) as cards, one per section, in the
@@ -101,7 +101,7 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
       <h2 className="mb-1 text-base font-medium">Sell</h2>
       <p className="mb-4 text-sm text-muted-foreground">
         Who the pool chases, how a prospect is approached, the draft for each touch, and the seller kit. Read-only: the
-        words live in <code className="font-mono text-xs">sell/01-prospecting/</code> and change there. On a pool row,
+        words live in <code className="font-mono text-xs">01-prospecting/</code> and change there. On a pool row,
         the next touch comes filled in.
       </p>
       <nav className="mb-6 flex gap-3 text-sm">

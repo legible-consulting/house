@@ -23,7 +23,7 @@ export function NextTouch({ p }: { p: Prospect }) {
           Next touch · {touch} of 3{step ? `, the ${step.angle}` : ""}
         </CardTitle>
         <CardDescription>
-          The draft for this touch in the prospect&apos;s language, from sell/01-prospecting/pitch/. Adapt it in your
+          The draft for this touch in the prospect&apos;s language, from 01-prospecting/pitch/. Adapt it in your
           own words, send it from your own account, then log the touch above.
         </CardDescription>
       </CardHeader>
@@ -32,7 +32,7 @@ export function NextTouch({ p }: { p: Prospect }) {
           <p className="text-sm text-muted-foreground">Set the language in Facts to get the draft.</p>
         ) : !draft ? (
           <p className="text-sm text-muted-foreground">
-            No draft for touch {touch} in {p.language} in sell/01-prospecting/pitch/.
+            No draft for touch {touch} in {p.language} in 01-prospecting/pitch/.
           </p>
         ) : (
           <>

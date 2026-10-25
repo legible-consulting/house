@@ -22,21 +22,31 @@ never see a client's code · 2026-10-21).
 Said aloud: "edit the core in the house", "render it from the blueprint", "that's library
 material, not house".
 
-## Modules
+## The folders of the house
 
-| Family | Codes |
+One level, every name a word. The numbered folders are the stages a deal walks, in order; the rest have no order between them (why: a number promises a sequence, and a code names nothing a reader can say aloud · 2026-10-25).
+
+| Folder | Holds |
 |---|---|
-| **C** core | C1 shared core · C2 client folder · C3 desk |
-| **S** sell | S1 prospecting · S2 client research · S3 proposal · S4 quote · S5 agreement |
-| **D** deliver | D1 onboarding and kickoff · D2 SDLC pipeline · D3 handover and support · D4 estate conformance |
-| **O** operator | O1 tool and concept research · O2 case studies and portfolio · O3 content · O4 training and coaching |
+| `core/` | the business's facts: identity, services, voice, terms, stack, this lexicon |
+| `clients/` | one folder per relationship, from the first touch to after the handover |
+| `desk/` | the dashboard and its app, the glance, the close, the estate reports |
+| `01-prospecting/` | the target profile, the pitches, the cadence, the seller kit |
+| `02-proposal/` | the client-facing offer |
+| `03-quote/` | the price, the options and the engagement's economics |
+| `04-build/` | the build from ticket to release, on the client repo |
+| `conformance/` | every live repo against the blueprint, on a schedule |
+| `research/` | the verdicts on tools and the concept library |
+| `.icm/intake/` | the house's own tickets: a module not built yet, a change to the desk |
+
+A module the business needs and the house does not have yet (client research, the agreement, kickoff, handover, the portfolio, content, training) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
 
 ## Other house words
 
 - **client folder** — `clients/<slug>/` in the house; the deal is the folder. Its `record.md`
   carries the `stage`.
 - **desk** — the morning glance, monthly close, estate audit and the dashboard.
-- **estate** — every repo in the org; D4 checks it conforms to the blueprint.
+- **estate** — every repo in the org; conformance checks it conforms to the blueprint.
 - **local lane** — `~/Desktop/legible-consulting/projects/<slug>/` clones on Jamie's machine
   for bulk estate work (from 2026-10-22; `~/Desktop/Apps/projects/` until every clone moves,
   `core/stack.md` Layout).

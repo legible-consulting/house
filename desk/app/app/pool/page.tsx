@@ -16,7 +16,7 @@ import { Shell } from "../_shell";
 import { Field, Flash, StatusBadge } from "../_ui";
 import { addProspect } from "./actions";
 
-// The pool: every row, for Jamie and every salesman (S1: one owner per row, all read it, so
+// The pool: every row, for Jamie and every salesman (prospecting: one owner per row, all read it, so
 // two salesmen never approach one company). Add a row here; the rest is on the row's page.
 // A handed-off row names its deal's stage from the client folder: a salesman follows a deal
 // they sourced up to agreement and nothing after it; Jamie sees the stage itself.

@@ -1,7 +1,7 @@
 // Reads the house at build time and writes lib/house.json, which the pages import, so the
 // deployed function never touches the repo. Runs first in `npm run build`. What it reads:
 //   clients/*/record.md            frontmatter: the clients table, the glance, the close
-//   clients/*/quote/economics.yaml  the engagement's economics (S4): the price, the estimates,
+//   clients/*/quote/economics.yaml  the engagement's economics (the quote): the price, the estimates,
 //                                   the actuals per month
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
@@ -9,10 +9,10 @@
 //   core/wave.md                    the Jamie decides list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
-//   sell/01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
+//   01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
 //                                   seller kit) and the seller's next touch
-//   operator/research/{verdicts,concepts}/*.md
-//                                   O1's verdicts and concepts: the frontmatter as fields, the
+//   research/{verdicts,concepts}/*.md
+//                                   research's verdicts and concepts: the frontmatter as fields, the
 //                                   body as prose, for /research
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -22,7 +22,7 @@ import { parse } from "yaml";
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
 const clientsDir = join(house, "clients");
-const sellDir = join(house, "sell", "01-prospecting");
+const sellDir = join(house, "01-prospecting");
 
 // A markdown file as its frontmatter fields and its body without them.
 const split = (raw) => {
@@ -50,7 +50,7 @@ const doc = (dir, file) => {
 const latest = (dir, ext, keep = () => true) => files(dir, ext).map((file) => doc(dir, file)).filter(keep).at(-1) ?? null;
 const plain = ({ file, title, date, body }) => ({ file, title, date, body });
 
-// The latest drift report (D4): one line per repo, keyed by the repo. The header names the
+// The latest drift report (conformance): one line per repo, keyed by the repo. The header names the
 // columns, so a column added to or removed from drift.sh does not move the read.
 const drift = latest(join(house, "desk", "estate"), ".md", (d) => d.fm.kind === "estate");
 const blueprintOf = new Map();
@@ -73,7 +73,7 @@ const estate = drift ? { file: drift.file, date: drift.date, blueprint: String(d
 
 // One client: the record's frontmatter, its economics, its client-facing documents and its
 // repo's line in the drift report. The template folder is skipped: its {{PLACEHOLDERS}} are
-// not a client. research/, negotiation.md and economics.yaml are internal: never a document.
+// not a client. Research/, negotiation.md and economics.yaml are internal: never a document.
 const clients = readdirSync(clientsDir, { withFileTypes: true })
   .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
   .flatMap((d) => {
@@ -114,7 +114,7 @@ const closes = files(closeDir, ".md")
   .filter((d) => d.fm.kind === "close")
   .map(plain);
 
-// S1's words for a salesman (sell/01-prospecting/prospect.md, "The salesman's deal"): the
+// prospecting's words for a salesman (01-prospecting/prospect.md, "The salesman's deal"): the
 // target profile, the cadence, every pitch draft, in file order (touch, then language), and
 // the seller kit, one file per language.
 const sellDoc = (...path) => doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
@@ -133,10 +133,10 @@ const sell = {
     }),
 };
 
-// O1's verdicts and concepts (operator/research/{verdicts,concepts}/<slug>.md): the
+// research's verdicts and concepts (research/{verdicts,concepts}/<slug>.md): the
 // frontmatter as fields, the body without its first heading (the page sets the title), sorted
 // by name. A field the file lacks is "" or [], never missing, so a page reads every file alike.
-const researchDir = join(house, "operator", "research");
+const researchDir = join(house, "research");
 const list = (v) => (Array.isArray(v) ? v.map(String) : []);
 const research = ["verdicts", "concepts"]
   .flatMap((folder) =>
@@ -149,7 +149,7 @@ const research = ["verdicts", "concepts"]
         kind: String(fm.kind ?? (folder === "concepts" ? "concept" : "")),
         verdict: String(fm.verdict ?? ""),
         tier: String(fm.tier ?? ""),
-        modules: list(fm.modules),
+        use: list(fm.use),
         tags: list(fm.tags),
         recheck: String(fm.recheck ?? ""),
         source: String(fm.source ?? ""),

@@ -26,7 +26,7 @@ export const stageRank = (s: string | undefined): number => {
   return i < 0 ? 99 : i;
 };
 
-// A salesman sees a sourced deal's stage up to agreement and nothing after it (S1, "The
+// A salesman sees a sourced deal's stage up to agreement and nothing after it (prospecting, "The
 // salesman's deal"). Past agreement the stage reads `signed`; lost stays lost.
 export function stageForSalesman(stage: string | undefined): string {
   if (!stage) return "";

@@ -11,19 +11,19 @@ import { Field, Flash, Heading } from "../_ui";
 import { VerdictBadge } from "./_verdict";
 import { addLink } from "./actions";
 
-// Jamie's research page (O1, operator/research/CONTEXT.md). Three parts: the form to paste a
+// Jamie's research page (research, research/CONTEXT.md). Three parts: the form to paste a
 // link from the computer (the phone shares to /share instead); every verdict and concept
-// from main at build time (lib/house.ts), under four filters in the query (?module=, ?kind=,
+// from main at build time (lib/house.ts), under four filters in the query (?use=, ?kind=,
 // ?verdict=, ?tier=), each opening on /research/<slug>; and the queue, the links the daily
 // intake has not judged yet, read per request from main (lib/research.ts). The filters'
-// values come from the files, so a new kind or module appears without a change here.
+// values come from the files, so a new kind or use appears without a change here.
 export const dynamic = "force-dynamic";
 
-const FILTERS = ["module", "kind", "verdict", "tier"] as const;
+const FILTERS = ["use", "kind", "verdict", "tier"] as const;
 type Filter = (typeof FILTERS)[number];
 
 const valuesOf = (v: Verdict, f: Filter): string[] =>
-  f === "module" ? v.modules : [v[f]].filter(Boolean);
+  f === "use" ? v.use : [v[f]].filter(Boolean);
 
 const choices = (f: Filter): string[] => [...new Set(research.flatMap((v) => valuesOf(v, f)))].sort();
 
@@ -96,7 +96,7 @@ export default async function Research({ searchParams }: { searchParams: Search 
               </a>
               <VerdictBadge verdict={v.verdict} />
               <span className="text-xs text-muted-foreground">
-                {[v.kind, v.tier, v.modules.join(" "), v.tags.join(", "), v.date].filter(Boolean).join(" · ")}
+                {[v.kind, v.tier, v.use.join(" "), v.tags.join(", "), v.date].filter(Boolean).join(" · ")}
               </span>
             </li>
           ))}

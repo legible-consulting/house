@@ -1,6 +1,6 @@
 > Adopted into the client folder on 2026-10-23 from `~/Desktop/Apps/workspaces/deals/berceo/berceo-platform/03-quote.md` (the internal quote of 2026-08-27, the positions, the deviations and the discount). Content unchanged below this line. The relative links point at the legacy `_system/knowledge/` files, which are not in the house: the rules they cite live in `core/services.md` and `core/terms.md` today.
 
-# Berceo — quote (sell/03_quote)
+# Berceo — quote (03-quote)
 
 *Stage artifact. Scope + shape + number, decided before any prose. The client-facing
 document is [`04-devis-berceo.md`](04-devis-berceo.md) and never renegotiates this.*

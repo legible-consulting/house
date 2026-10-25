@@ -5,7 +5,7 @@
 # Must exit 0 and finish in under ~5 minutes, or the environment is not cached.
 # Installs only what a session uses; a tool joins in the commit that builds the module
 # that calls it (why: the 2026-10-16 audit found seven tools installed that nothing called).
-# gitleaks stays for checklist item C1's cloud check (`which yq gitleaks`).
+# gitleaks stays for checklist item the core's cloud check (`which yq gitleaks`).
 set -u
 log()  { echo "[legible-setup] $*"; }
 have() { command -v "$1" >/dev/null 2>&1; }
@@ -24,7 +24,7 @@ if ! have gitleaks; then
     >/tmp/setup-apt.log 2>&1 || log "gitleaks install failed, see /tmp/setup-apt.log"
 fi
 
-# trafilatura: the research intake (O1, operator/research/intake.md) fetches a page as text
+# trafilatura: the research intake (research, research/intake.md) fetches a page as text
 # with it. A Python tool with no compile; uv is in the image. The shim lands in /usr/local/bin
 # and the tool in /opt/uv-tools, so every user sees them. Without uv, Ubuntu's html2text is
 # the fallback; intake.md names both.

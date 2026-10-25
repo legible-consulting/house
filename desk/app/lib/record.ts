@@ -6,7 +6,7 @@ import type { Prospect, Touch } from "./pool";
 const y = (s: string) => JSON.stringify(s ?? "");
 
 // clients/<slug>/record.md from clients/_template/record.md (read at build time) and the
-// row, by the handoff mapping in sell/01-prospecting/prospect.md. Every field not named
+// row, by the handoff mapping in 01-prospecting/prospect.md. Every field not named
 // there keeps the template's value. Replacements are functions: a `$` in a company name
 // must stay a `$`.
 export function renderRecord(p: Prospect, slug: string, touches: Touch[], today: string): string {

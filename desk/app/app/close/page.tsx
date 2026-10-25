@@ -244,7 +244,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
         </div>
         <div>
           <dt className="font-medium text-foreground">Commission owed</dt>
-          <dd>The record&apos;s commission.owed, settled as the client pays, outside the house (sell/01-prospecting/prospect.md).</dd>
+          <dd>The record&apos;s commission.owed, settled as the client pays, outside the house (01-prospecting/prospect.md).</dd>
         </div>
       </dl>
       {pipelineCards}

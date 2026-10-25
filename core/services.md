@@ -20,9 +20,9 @@ catalogue that is not the one home for price becomes a habit of quoting from mem
 | **Platform** | An app with several roles or several surfaces over shared services: a marketplace, a product with its admin, docs and support. |
 | **Workshop** | One day, on site or remote, that teaches ICM: folders as the architecture, markdown contracts as the interface, a human gate at every boundary. The materials stay with them, and an attendance record they can file as evidence of AI-literacy measures (EU AI Act, Article 4). |
 | **Coaching** | One-to-one hours in which each person applies ICM to their own work, and a workspace rendered for them from the blueprint. |
-| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). D3 offers it as one section of the handover pack (why: the client decides before the first month without support · 2026-10-19). |
+| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). Handover offers it as one section of the handover pack (why: the client decides before the first month without support · 2026-10-19). |
 
-Every build (site, app, platform) runs through D2: brief and tickets in the repo, a preview
+Every build (site, app, platform) runs through the build: brief and tickets in the repo, a preview
 environment the client signs off before every release, live status they can read at any
 time, and a handover pack at the end. A role (`kind: role` in a client record) is a
 position in the client's company in which Jamie owns part of the product, not a line. It is
