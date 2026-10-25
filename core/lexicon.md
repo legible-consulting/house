@@ -54,8 +54,6 @@ A module the business needs and the house does not have yet (client research, th
   **Spec approved** and **Ready to merge**, each anchored by an HTML comment
   (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A
   session reads a gate and never ticks it. Jamie ticks on GitHub or from the desk.
-- **wave** — a build phase of the system itself. What is open in it, and what Jamie decides,
-  lives in `core/wave.md`.
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
   Defined in `clients/CONTEXT.md`.
 - **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are

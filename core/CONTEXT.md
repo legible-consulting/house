@@ -3,7 +3,6 @@ status: built
 holds:
   - lexicon.md
   - stack.md
-  - wave.md
   - "setup/*.sh"
   - identity.md
   - services.md
@@ -28,8 +27,10 @@ The core produces the business's identity and bio, its services and pricing, its
 - Start cold from this folder. Read only what Inputs names.
 - Jamie answers in one sitting: a session drafts the questions, offers a default in each,
   and asks them in one batch. The answers are written as facts, each in the one file that
-  owns it. What Jamie leaves open goes to `wave.md`, under Jamie decides, never into a file as a placeholder
-  (why: a placeholder reads as a fact to a module that starts cold · 2026-10-19).
+  owns it. What Jamie leaves open goes to the ticket it blocks in `.icm/intake/`, as a numbered
+  question with a default, never into a file as a placeholder (why: a placeholder reads as a fact
+  to a module that starts cold, and a question beside its ticket is answered where the work is ·
+  2026-10-19).
 - A fact changes here first, by PR to `main`, then everywhere that cites it. Jamie merges.
 - Each file starts with frontmatter (`title`, `kind`, `owner`, `date`). A rule in a file
   carries its why and date.
@@ -40,7 +41,6 @@ Built (2026-10-16):
 
 - `lexicon.md`: the house words (repo names, module codes) every artefact uses.
 - `stack.md`: which tools Legible Consulting uses, where each runs, and how a machine gets them.
-- `wave.md`: what is open in the system's own build: this week, next, and what Jamie decides. The glance prints the last list. Rewritten when a wave ends.
 - `setup/local.sh` · `setup/cloud.sh`: install the toolbox `stack.md` lists, on this machine (Homebrew) and in the `legible` cloud environment (pasted setup script).
 
 Built (2026-10-19):

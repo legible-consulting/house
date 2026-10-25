@@ -73,8 +73,8 @@ export const clients = data.clients as unknown as ClientRow[];
 export const clientBySlug = (slug: string): ClientRow | undefined => clients.find((c) => c.slug === slug);
 export const template: string = String(data.template);
 export const clientSlugs = new Set(clients.map((c) => c.slug));
-// The "Jamie decides" list of core/wave.md, as the glance prints it.
-export const decides = data.decides as Doc;
+// The Jamie's hand list of .icm/intake/README.md, as the glance prints it.
+export const hand = data.hand as Doc;
 export const estate = data.estate as unknown as Estate | null;
 // Every desk/close/<YYYY-MM>.md (rhythms.yml).
 export const closeDocs = data.closes as unknown as Doc[];

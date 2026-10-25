@@ -72,7 +72,7 @@ function writeGlance() {
     front({ title: `Morning glance ${today}`, kind: "glance", date: today }),
     `# Morning glance ${today}`,
     "",
-    glance(house.clients, house.decides.body, today, recordOf),
+    glance(house.clients, house.hand.body, today, recordOf),
   ].join("\n");
   write("glance", `${today}.md`, text);
   keepOnly("glance", /^\d{4}-\d{2}-\d{2}$/, `${today}.md`);
