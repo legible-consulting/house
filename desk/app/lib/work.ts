@@ -1,3 +1,5 @@
+import { maybeEnv } from "./env";
+import { HOUSE_REPO } from "./github";
 import { inFlight, ownerVariable, runOf, tokenFor, type Run, type Token } from "./repos";
 
 // The work in each client repo, read per request over the GitHub REST API: the tickets in
@@ -157,6 +159,12 @@ export async function request(token: Token, method: string, path: string, body?:
 // The token for a repo, or the sentence that says which variable is missing.
 export function tokenOrReason(repo: string): { token: Token } | { reason: string } {
   if (!REPO_RE.test(repo)) return { reason: `repo: "${repo}" is not owner/name` };
+  // The house's own tickets (.icm/intake/ in this repo) read with DESK_PAT, the token that
+  // reaches the house; the estate tokens cover the client owners only.
+  if (repo === HOUSE_REPO) {
+    const value = maybeEnv("DESK_PAT");
+    return value ? { token: { name: "DESK_PAT", value } } : { reason: "DESK_PAT is not set" };
+  }
   const owner = repo.split("/")[0]!;
   const token = tokenFor(owner);
   if (!token) return { reason: `${ownerVariable(owner)} and ESTATE_PAT are not set` };
