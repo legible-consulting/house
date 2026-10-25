@@ -3,7 +3,7 @@
 Internal. English. Written 2026-10-22. The five mornings in `programme.md` follow the order
 of Jake Van Clief's Foundation course in `legible-consulting/library`, read only. One line
 per morning: the lessons read, by path under `course/jake-van-clief/01_the-foundation/`,
-and what the morning borrows. No course text is quoted. O4 reads this file when it builds
+and what the morning borrows. No course text is quoted. Training reads this file when it builds
 the workshop kit in the blueprint, so that the kit and this week say the same thing.
 
 | Morning | Lessons read | Borrowed |
@@ -15,10 +15,10 @@ the workshop kit in the blueprint, so that the kit and this week say the same th
 | Friday, construire le sien | `02_build-it-around-your-work/02_design-your-folder.md`; `06_where-to-go-next/01_where-to-go-next.md`; `05_history-and-concepts/04_the-ladder-that-explains-every-ai-failure.md`; `03_automate-it-keep-your-judgment/03_keep-it-useful-hand-it-on.md` | Pick one job, finish one result; the walk test as "le test du collègue"; the triage revisited and "will the next version of the tool give this for free"; hand over a copy or work in one shared place. |
 
 Also read: `00_start-here.md` (the three layers as a way to organise work, not a skill
-ladder; simple, complex, simple again) and `research/design-trail/01-goals.md` (O4's goal:
+ladder; simple, complex, simple again) and `research/design-trail/01-goals.md` (training's goal:
 training delivered from material, and a client that leaves with its own factory).
 
 Not used, by design: the agent layer with Claude Code or Codex (1.3, 3.2's scripts). The
 team's tool is Mammouth, which has Projects and file upload and no agent over a folder. The
 person is the runner. The coaching record for this client goes in
-`operator/training/coaching/euro-register.md` once the week starts (O4).
+the coaching record, `coaching/euro-register.md` in the training folder, once training is built (a ticket in `.icm/intake/`).

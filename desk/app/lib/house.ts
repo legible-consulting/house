@@ -15,7 +15,7 @@ export interface ClientDoc extends Doc {
   stage: "proposal" | "quote" | "agreement" | "handover";
 }
 
-// quote/economics.yaml, S4's file (sell/04-quote/CONTEXT.md). The close reads the price
+// quote/economics.yaml, the quote's file (03-quote/CONTEXT.md). The close reads the price
 // (`price.monthly` for a retainer or a role, `price.total` for a build) and the estimates
 // (`hours.per_month`, `costs_monthly`).
 export interface Economics {
@@ -26,7 +26,7 @@ export interface Economics {
   costs_monthly?: Record<string, number | string>;
 }
 
-// The repo's line in the latest drift report (desk/estate/drift-<date>.md, D4).
+// The repo's line in the latest drift report (desk/estate/drift-<date>.md, conformance).
 export interface Blueprint {
   tracks: string; // the blueprint tag the repo tracks, or "—"
   drift: string; // "current", "behind: copier update", "not adopted: …"
@@ -56,7 +56,7 @@ export interface Pitch extends Doc {
   language: string;
 }
 
-// sell/01-prospecting/kit.<language>.md: the seller kit, one per language.
+// 01-prospecting/kit.<language>.md: the seller kit, one per language.
 export interface Kit extends Doc {
   language: string;
 }
@@ -82,7 +82,7 @@ export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch:
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);
 
-// operator/research/{verdicts,concepts}/<slug>.md (O1, operator/research/CONTEXT.md): one
+// research/{verdicts,concepts}/<slug>.md (research, research/CONTEXT.md): one
 // verdict or concept, its frontmatter as fields and its body as markdown without the title.
 export interface Verdict {
   slug: string;
@@ -91,7 +91,7 @@ export interface Verdict {
   kind: string;
   verdict: string;
   tier: string;
-  modules: string[];
+  use: string[];
   tags: string[];
   recheck: string;
   source: string;

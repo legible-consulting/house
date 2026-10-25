@@ -5,7 +5,7 @@ import { Shell } from "../../_shell";
 import { Heading, Prose } from "../../_ui";
 import { VerdictBadge } from "../_verdict";
 
-// One verdict or concept (operator/research/{verdicts,concepts}/<slug>.md), from the house at
+// One verdict or concept (research/{verdicts,concepts}/<slug>.md), from the house at
 // build time (lib/house.ts): the frontmatter as the lede, the body as prose, the file on
 // GitHub and the item's source as links. Jamie only.
 export const dynamic = "force-dynamic";
@@ -23,7 +23,7 @@ export default async function VerdictPage({ params }: { params: Promise<{ slug: 
   const facts = [
     v.kind,
     v.tier,
-    v.modules.join(" "),
+    v.use.join(" "),
     v.tags.join(", "),
     v.date && `judged ${v.date}`,
     v.recheck && `recheck ${v.recheck}`,
@@ -31,7 +31,7 @@ export default async function VerdictPage({ params }: { params: Promise<{ slug: 
   ]
     .filter(Boolean)
     .join(" · ");
-  const file = `https://github.com/legible-consulting/house/blob/main/operator/research/${v.folder}/${v.slug}.md`;
+  const file = `https://github.com/legible-consulting/house/blob/main/research/${v.folder}/${v.slug}.md`;
   return (
     <Shell user={user} current="/research">
       <p className="mb-3 text-sm">

@@ -84,9 +84,9 @@ wins over its source drifts the site · 2026-10-19).
 
 | Document | Module | Shape |
 |---|---|---|
-| Proposal | S3 writes it; S4 writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section (why: a client says yes to one document they understand, without a second call · 2026-10-19). |
-| Agreement | S5 | Numbered clauses from `terms.md`. The accepted proposal attached. The signature block last. |
-| Handover pack | D3 | Defined when D3 is built. |
+| Proposal | The proposal writes it; the quote writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section (why: a client says yes to one document they understand, without a second call · 2026-10-19). |
+| Agreement | The agreement stage | Numbered clauses from `terms.md`. The accepted proposal attached. The signature block last. |
+| Handover pack | Handover | Defined when handover is built. |
 
 Every document is written as markdown in the client folder, in the client's language,
 rendered to PDF in this design, and placed in the client's Drive folder.

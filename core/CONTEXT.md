@@ -15,9 +15,9 @@ holds:
   # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
   - "../.env.example"
 ---
-# Core — C1 shared core
+# Core
 
-C1 produces the business's identity and bio, its services and pricing, its voice and document design system, and its terms, stack and house rules, each fact in exactly one place, so that every module and every client artefact speaks with one voice and a change made once lands everywhere.
+The core produces the business's identity and bio, its services and pricing, its voice and document design system, and its terms, stack and house rules, each fact in exactly one place, so that every module and every client artefact speaks with one voice and a change made once lands everywhere.
 
 ## Inputs
 

@@ -14,9 +14,9 @@ decides" list (why: a decision he owes is a next action of the house itself · 2
 not in git.
 
 Done when: the factory is done, then MotoArk has walked `research` → `proposal` → `agreement`
-in the folders, Vinecliff ships a release through D2, Jamie and one salesman (Cunha) sign in
+in the folders, Vinecliff ships a release through the build, Jamie and one salesman (Cunha) sign in
 to the desk, and every repo is where its owner wants it. The factory is done when (Jamie,
-2026-10-22): no contract on the customer path is a stub (S2, S5, D1, D3, C3), "This week"
+2026-10-22): no contract on the customer path is a stub (client research, the agreement, kickoff, handover, the desk), "This week"
 below is empty, the desk shows truth to all three roles, and the blueprint's functionality
 questionnaire is designed and reviewed.
 
@@ -29,22 +29,22 @@ until this list is empty (why: the estate is the factory; a client run through a
 factory proves nothing · 2026-10-22).
 
 - The research inbox from the phone: the desk becomes installable with a `share_target`, a
-  shared link lands in a Neon `inbox` table, `operator/research/intake.md` reads that table
+  shared link lands in a Neon `inbox` table, `research/intake.md` reads that table
   with `gh api` only. S. Check: a link shared from the phone is in the desk's inbox and the
   next 06:00 UTC run opens a PR with its draft.
-- C3's Process written from the running desk, `status: built`, `quote/quote.md` leaves the
+- The desk's Process written from the running desk, `status: built`, `quote/quote.md` leaves the
   client page. S. Check: `/clients/motoark` shows the proposal only.
-- S2's Process from the MotoArk walk, `status: built`. S.
-- S5: the Process, the agreement templates in en-GB, fr-BE and pt-PT against
+- Client research's Process from the MotoArk walk, `status: built`. S.
+- The agreement: the Process, the agreement templates in en-GB, fr-BE and pt-PT against
   `core/terms.md`, MotoArk's draft on the branch, `status: built`. S. Check: a yes on Friday
   has a document to render on Monday.
 - The render stack in `core/render/` and `render.yml`: a changed proposal, quote or agreement
   renders to a branded PDF as a run artifact. The Drive copy is placed from the desktop by
   `core/render/place.sh` over the Drive mount, the route the legacy script proved. No key, no
   secret. S. Check: the MotoArk proposal PDF is a run artifact on the PR.
-- D1's Process, the access-table, kickoff-note and client questionnaire templates,
+- Kickoff's Process, the access-table, kickoff-note and client questionnaire templates,
   `status: built`. S.
-- D3's Process and its five templates, `status: built`. S.
+- Handover's Process and its five templates, `status: built`. S.
 - Neon, project `legible-desk`: one client account linked to a folder. J. Check: the client
   lands on its page.
 - The blueprint's functionality questionnaire designed and reviewed: the question bank in
@@ -58,7 +58,7 @@ factory proves nothing · 2026-10-22).
   `gh api repos/legible-consulting/blueprint --jq .full_name` answers from that session.
 - The desk as a phone app and the design restyle, from
   `~/Desktop/legible-consulting/desk-design-prompt.md` in its § 11 order, after the inbox
-  and the C3 Process merge. S. Check: the desk installs on the phone and every route passes
+  and the desk's Process merge. S. Check: the desk installs on the phone and every route passes
   the file's § 7.
 
 ## Next week
@@ -67,14 +67,14 @@ factory proves nothing · 2026-10-22).
   the PR, Jamie merges, the row reads `handed off`, the test folder is deleted. J and S.
 - The blueprint build: every question group's files, `copier update` on the four repos with
   their answers, `tier` leaves `core/lexicon.md`, `conform.sh` and `check-client.yml`,
-  `deliver/02-sdlc/CONTEXT.md` reads flags. S.
+  `04-build/CONTEXT.md` reads flags. S.
 - MotoArk after the call: `next_action` and `deadline` set, the PDF sent, on a yes the
   agreement rendered and sent for signature, `stage: agreement`. J, then S.
 - Vinecliff kickoff: the owner answers the questionnaire, `clients/vinecliff/kickoff/`, the
   first epic in the repo, `next_action` set. J and S.
 - Berceo #68 merged as changelog and tag or closed, then the next promotion through
   `promote.sh`. Agorasim's `go-live` epic through the loop. J.
-- O1's verdicts seeded from the library's `02-tool-research.md`, then that file leaves the
+- Research's verdicts seeded from the library's `02-tool-research.md`, then that file leaves the
   library. The dormant `k0d0minio` repos enter `mani.yaml` or its header says why not. S.
 - GPardas invited as a member once 2FA is on. J. Check: listed by
   `gh api orgs/legible-consulting/members`.
@@ -86,13 +86,13 @@ factory proves nothing · 2026-10-22).
 - `clients/CONTEXT.md` and `_template/record.md` gain `public: named | anonymous | none`:
   what the client allowed for a case study, by email, outside git. `named` is the name, the
   logo and a link. `anonymous` is the trade and no link. `none` is no case. S.
-- O2's Process, `status: built`: the case is `clients/<slug>/case/case.md`, written from the
+- The portfolio's Process, `status: built`: the case is `clients/<slug>/case/case.md`, written from the
   handover pack, with `ready: true | false` in its frontmatter. The writer names the client
   as `public:` allows. `clients/CONTEXT.md` holds `*/case/*.md`; `cases/` and `index.md`
-  leave O2's Outputs. Seeded with the four case studies on `jamienisbet.com`: Agorasim,
+  leave the portfolio's Outputs. Seeded with the four case studies on `jamienisbet.com`: Agorasim,
   Vinecliff, Collabimmo and Boys To Men, the last two with a folder each at `stage: after`.
   S, J approves each case. Check: `check.yml` green and no placeholder line in
-  `operator/portfolio/CONTEXT.md`.
+  the portfolio's ticket in `.icm/intake/`.
 - The publish workflow in `.github/workflows/`: on a push to `main`, every `ready: true`
   case is committed to `content/work/<slug>.md` on the `main` of `k0d0minio/jamienisbet`,
   and Vercel deploys it. Jamie's merge of the case here is the gate. One house Actions

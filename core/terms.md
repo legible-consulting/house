@@ -6,7 +6,7 @@ date: 2026-10-19
 ---
 # Terms — what every engagement gets unless the proposal names an exception
 
-One home for the standard terms. S4 writes them into the proposal's price section, S5
+One home for the standard terms. The quote writes them into the proposal's price section, the agreement
 writes them as the agreement's clauses, and a deviation is named in the client's folder
 (why: a term restated per deal drifts, and a client who reads two of our agreements should
 find the same rules · 2026-10-19). This file is house practice, not legal advice.
@@ -51,7 +51,7 @@ after launch · 2026-10-19).
 | Client-owned | Code, content, domain and hosting in the client's name. | None. Ongoing work is a retainer or nothing. | Only while a retainer runs. |
 | Jamie-hosted | The Vercel project and the domain in Jamie's team. Code and content stay the client's. | Basic support inside the retainer: a crash fix on call when the app is down or a flow is broken. Nothing else. | Standing. |
 
-A site with no state is Jamie-hosted at no charge and has no support line. D3's hosting
+A site with no state is Jamie-hosted at no charge and has no support line. Handover's hosting
 record names who hosts what and the monthly cost, per client.
 
 ## Ending an engagement

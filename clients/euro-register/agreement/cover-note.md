@@ -1,5 +1,5 @@
 <!-- Internal: the email Jamie sends with the revised agreement, the programme and the
-questions. Deleted when the send is done (sell/03-proposal/CONTEXT.md, the note pattern).
+questions. Deleted when the send is done (02-proposal/CONTEXT.md, the note pattern).
 To: a.ruelle@aldes.com. Attach or link: the agreement (eSignature request), the programme,
 the questions (Google Doc, Drive › arnaud-ruelle). -->
 

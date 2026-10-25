@@ -1,7 +1,7 @@
 # Agorasim: kickoff note
 
 The working agreement as it stands on 2026-10-23. The build started before the house existed:
-the proposal was accepted on 2026-07-23 and the first commit is 2026-07-01. This note records
+The proposal was accepted on 2026-07-23 and the first commit is 2026-07-01. This note records
 the rhythm, not the terms. The terms are in `proposal/proposal.md` and `agreement/agreement.md`.
 The rhythm comes from the ways-of-working guide "How We'll Work Together" of 27 July 2026
 (How-We-Will-Work-Together.docx at commit 8f3b477 of `k0d0minio/agorasim`, removed from the tree

@@ -2,12 +2,12 @@ import { createHash } from "node:crypto";
 import { stringify } from "yaml";
 import { type FolderRead, listFolder, writeFile } from "./github";
 
-// The research queue (operator/research/CONTEXT.md, O1): one file per link Jamie shares to
-// the desk, written to main in operator/research/queue/. The daily intake reads the folder,
+// The research queue (research/CONTEXT.md, research): one file per link Jamie shares to
+// the desk, written to main in research/queue/. The daily intake reads the folder,
 // writes the verdicts and deletes the files. The desk judges nothing: it keeps what was
 // shared (the link, the title, the text around it) and the time.
 
-export const QUEUE = "operator/research/queue";
+export const QUEUE = "research/queue";
 
 const URL_RE = /https?:\/\/[^\s<>"')\]]+/i;
 // Query keys that name the share, not the page.
@@ -73,7 +73,7 @@ export async function queueLink(s: Shared, now = new Date()): Promise<{ note: st
   const found = linkOf(s);
   if (!found) throw new Error("No link in what was shared.");
   const path = `${QUEUE}/${queueName(found.link, now)}`;
-  const result = await writeFile(path, queueFile(found, s, now), `O1: queue ${new URL(found.link).hostname}`);
+  const result = await writeFile(path, queueFile(found, s, now), `research: queue ${new URL(found.link).hostname}`);
   return { note: result === "created" ? `Queued ${found.link}` : `Already queued today: ${found.link}` };
 }
 

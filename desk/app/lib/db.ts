@@ -41,7 +41,7 @@ const prospectSelect = `
     (select count(*)::int from touches t where t.prospect = p.id) as touches
   from prospects p join users u on u.id = p.salesman`;
 
-// Jamie and every salesman read the whole pool (S1: one owner per row, all read it).
+// Jamie and every salesman read the whole pool (prospecting: one owner per row, all read it).
 export async function allProspects(): Promise<Prospect[]> {
   return (await sql().query(`${prospectSelect} order by p.updated_at desc`)) as Prospect[];
 }

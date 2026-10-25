@@ -7,15 +7,15 @@ holds:
   - "close/*.md"
   - "app/**"
 ---
-# Desk — C3
+# Desk
 
-C3 produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the quote's estimated hours and cost; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
+The desk produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the quote's estimated hours and cost; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
 
 ## Inputs
 
 - `clients/*/record.md` frontmatter, `clients/*/quote/economics.yaml`, the client-facing
   documents in `clients/*/`, `core/wave.md` (the "Jamie decides" list), `desk/estate/`,
-  `sell/01-prospecting/`, the pool in Neon, and the house and the client repos over the
+  `01-prospecting/`, the pool in Neon, and the house and the client repos over the
   GitHub API.
 
 ## Process
@@ -38,11 +38,11 @@ The files:
   closes, because `/close?month=` reads them (why: one set of rules for the page and the
   file, so every reader gets the same words, and a push to `main` reaches the desk without
   waiting for the morning run · 2026-10-22).
-- `estate/drift-<date>.md`: D4's report, the latest only. The desk reads each repo's line
+- `estate/drift-<date>.md`: conformance's report, the latest only. The desk reads each repo's line
   into its client's row at build (why: a drifted repo is a fact about the client, not a page
   of its own · 2026-10-22).
 - `mani.yaml`: hand-written. Every client build and the proof render, with their tags
-  (`deliver/04-conformance/CONTEXT.md`).
+  (`conformance/CONTEXT.md`).
 
 The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 
@@ -79,10 +79,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   blueprint drift, latest release and `check.yml` run), `/work` (every repo's open tickets in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
   with their gates, CI and preview; what waits on Jamie first), `/close?month=`,
-  `/clients/<slug>`, `/pool`, `/sell`, `/research` (every verdict and concept of O1 from `main`,
-  under four filters, module, kind, verdict and tier, each file as prose on `/research/<slug>`;
+  `/clients/<slug>`, `/pool`, `/sell`, `/research` (every verdict and concept from `main`,
+  under four filters, use, kind, verdict and tier, each file as prose on `/research/<slug>`;
   the links shared to the desk that the intake has not judged yet; and the form to paste one;
-  `operator/research/CONTEXT.md`). `/close`
+  `research/CONTEXT.md`). `/close`
   renders the committed file when one exists
   and computes the same rules live otherwise, or with `?live=1`.
 - The sync pill (Jamie only), at the top of every page: up to date, running, deploying, out
@@ -93,9 +93,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   token, for the `jamie` role only. The house never ticks one (why: a gate ticked from the
   phone is still Jamie's own tick · 2026-10-21).
 - A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
-  and the seller kit, `sell/01-prospecting/kit.<language>.md`, in one language or all). On a
-  handed-off row, the deal's stage up to `agreement` and nothing after it (S1). On a row at `new` or `contacted`, the next touch's
-  draft from `sell/01-prospecting/pitch/` in the row's language, with the first name in, to
+  and the seller kit, `01-prospecting/kit.<language>.md`, in one language or all). On a
+  handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's
+  draft from `01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own
   account, and the desk sends nothing · 2026-10-22).
 - A client's page: `/clients/<slug>` for the folder `users.client` names: where it stands,
@@ -106,7 +106,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   CI and triage never reach it.
 - The phone: the desk installs from Chrome's menu (`app/desk.webmanifest/route.ts`; the icons are drawn
   by `app/_mark.tsx`, so no image file lives in git). Installed, it is a share target: a link
-  shared to Desk opens `/share`, which writes `operator/research/queue/<date>-<host>-<hash>.md`
+  shared to Desk opens `/share`, which writes `research/queue/<date>-<host>-<hash>.md`
   on `main` with `DESK_PAT` and shows `/research` with the result. Jamie only. The desk judges
   nothing: the file holds the link, the title, the text around it and the time (why: the share
   sheet is the one tap Jamie takes on the phone; a link that waits in a chat is a link lost ·

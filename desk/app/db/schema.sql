@@ -1,7 +1,7 @@
--- Desk (C3) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
+-- Desk (the desk) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
 -- run the whole file again after a change (Neon console, SQL editor). Neon Auth owns
 -- neon_auth.*; the app owns these three tables. The prospect row follows
--- sell/01-prospecting/prospect.md (S1). Four names differ from that schema, because the
+-- 01-prospecting/prospect.md (prospecting). Four names differ from that schema, because the
 -- first two tables were applied on 2026-10-19 and are reused, not recreated: contact_name
 -- is `contact`, created_at is `added`, updated_at is `updated`, and `sourced_by` is the
 -- salesman's users.handle (or `jamie`).
@@ -60,7 +60,7 @@ create table if not exists touches (
 
 create index if not exists touches_prospect_idx on touches (prospect);
 
--- Migration of the 2026-10-19 tables to the S1 fields (applied 2026-10-20, with no rows).
+-- Migration of the 2026-10-19 tables to the prospecting fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.
 alter table users add column if not exists handle text unique;
 alter table users add column if not exists client text;

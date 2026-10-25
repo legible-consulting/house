@@ -163,4 +163,4 @@ Whatever we decide, what I build is in your repositories and is yours.
 
 The price and the terms are the last section of this document.
 
-<!-- S4 renders clients/motoark/quote/quote.md here. The number has one home: that file. -->
+<!-- the quote renders clients/motoark/quote/quote.md here. The number has one home: that file. -->
