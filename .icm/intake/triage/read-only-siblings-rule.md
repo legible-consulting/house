@@ -1,7 +1,7 @@
 # Stub: A session may attach the sibling repos read-only, and the rule says so
 
 - lane: chore
-- found-by: `core/wave.md`, This week · 2026-10-22
+- found-by: Jamie's plan of the week · 2026-10-22
 - complexity: low
 - priority: P2
 

@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { countsByStatus } from "@/lib/db";
 import { startOf } from "@/lib/github";
 import { flash, type Search } from "@/lib/guard";
-import { clients, day, decides, estate } from "@/lib/house";
+import { clients, day, estate, hand } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { repoInFlight } from "@/lib/repos";
 import { glance, today } from "@/lib/rhythms";
@@ -53,7 +53,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
           </p>
         </CardHeader>
         <CardContent>
-          <Prose markdown={glance(clients, decides.body, now, (c) => `/clients/${c.slug}`)} />
+          <Prose markdown={glance(clients, hand.body, now, (c) => `/clients/${c.slug}`)} />
         </CardContent>
       </Card>
 

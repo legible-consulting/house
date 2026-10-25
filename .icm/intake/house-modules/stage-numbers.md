@@ -18,7 +18,7 @@ Renumber once. `02-proposal` becomes `03-proposal`, `03-quote` becomes `04-quote
 ## Acceptance criteria
 
 - [ ] `03-proposal/`, `04-quote/` and `07-build/` exist, with their contracts and files unchanged inside. `02-proposal/`, `03-quote/` and `04-build/` are gone.
-- [ ] `CLAUDE.md` Routing, the folder table in `core/lexicon.md`, `clients/CONTEXT.md`, `desk/app/lib/house.ts`, `clients/euro-register/agreement/cover-note.md`, `core/wave.md` and the three moved contracts name the new paths. `grep -rnE '0[2-4]-(proposal|quote|build)'` over the tracked files finds nothing outside `.icm/intake/`.
+- [ ] `CLAUDE.md` Routing, the folder table in `core/lexicon.md`, `clients/CONTEXT.md`, `desk/app/lib/house.ts`, `clients/euro-register/agreement/cover-note.md` and the three moved contracts name the new paths. `grep -rnE '0[2-4]-(proposal|quote|build)'` over the tracked files finds nothing outside `.icm/intake/`.
 - [ ] The lexicon's folder table lists the final order and says, in one line with its why and date, that 02, 05, 06 and 08 are stages not built yet, with a ticket each in `.icm/intake/house-modules/`.
 - [ ] `check.yml` is green: `contracts`, `placement` and `desk` pass with the moved folders.
 

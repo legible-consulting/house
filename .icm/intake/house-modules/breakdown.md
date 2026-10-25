@@ -36,4 +36,4 @@ Ordered by the deal that needs each module next, not by stage order (why: MotoAr
 
 - The desk's restyle and the phone app: `.icm/intake/desk-restyle/`.
 - The PDF renderer and the publish workflow: `.icm/intake/render-and-publish/`.
-- Jamie's hand: the Neon client account, the site-proof conform, the org members, the tokens (`core/wave.md`).
+- Jamie's hand: the Neon client account, the site-proof conform, the org members, the tokens (`.icm/intake/README.md`, Jamie's hand).

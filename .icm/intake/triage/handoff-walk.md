@@ -1,7 +1,7 @@
 # Stub: The pool handoff agrees with prospect.md, and the walk Jamie and Cunha run is written
 
 - lane: chore
-- found-by: `core/wave.md`, Next week · 2026-10-22
+- found-by: Jamie's plan of the week · 2026-10-22
 - complexity: medium
 - priority: P1
 

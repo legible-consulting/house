@@ -5,7 +5,7 @@ paths:
 
 `desk/app/` is the desk dashboard (the stack: `core/stack.md`). `scripts/read-house.mjs`
 reads the house at build time into `lib/house.json` (what it reads is listed at its top:
-records, economics, client documents, what Jamie decides (`core/wave.md`), the latest drift
+records, economics, client documents, the Jamie's hand list (`.icm/intake/README.md`), the latest drift
 report, the close files, the Sell words, the research verdicts and concepts). `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
 The pool is read per request from Neon. `app/api/pool/route.ts` is the one route without a

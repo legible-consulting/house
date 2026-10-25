@@ -9,12 +9,12 @@ holds:
 ---
 # Desk
 
-The desk produces the morning glance (every client's next action and deadline, soonest first, plus what Jamie decides), the monthly close (every engaged client's agreed price against the quote's estimated hours and cost; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
+The desk produces the morning glance (every client's next action and deadline, soonest first, plus the steps of its own build that wait on Jamie), the monthly close (every engaged client's agreed price against the quote's estimated hours and cost; commission owed; pipeline and conversion) and the quarterly estate audit, on phone, dashboard, Google and terminal, through one dashboard with three roles (Jamie, salesman, client), so that Jamie never opens a repo to know what to do today, and a deadline inside seven days, a drifted repo or a failed release reaches him unprompted.
 
 ## Inputs
 
 - `clients/*/record.md` frontmatter, `clients/*/quote/economics.yaml`, the client-facing
-  documents in `clients/*/`, `core/wave.md` (the "Jamie decides" list), `desk/estate/`,
+  documents in `clients/*/`, `.icm/intake/README.md` (the Jamie's hand list), `desk/estate/`,
   `01-prospecting/`, the pool in Neon, and the house and the client repos over the
   GitHub API.
 

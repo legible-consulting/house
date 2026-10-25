@@ -93,9 +93,9 @@ export function dueWords(days: number): string {
 }
 
 // The glance as markdown without its H1: the next actions, then the clients with none,
-// the ongoing ones, and what Jamie decides (core/wave.md). `link` gives each client's link:
+// the ongoing ones, and Jamie's hand (.icm/intake/README.md). `link` gives each client's link:
 // the record's path in the committed file, the client's page on the desk.
-export function glance(clients: ClientRow[], decides: string, day: string, link: (c: ClientRow) => string): string {
+export function glance(clients: ClientRow[], hand: string, day: string, link: (c: ClientRow) => string): string {
   const { rows, ongoing } = glanceRows(clients, day);
   const silent = clients.filter((c) => c.stage !== "lost" && !isOngoing(c) && !c.next_action && !c.deadline);
   const lines: string[] = ["## Next actions", ""];
@@ -109,7 +109,7 @@ export function glance(clients: ClientRow[], decides: string, day: string, link:
   if (ongoing.length > 0) {
     lines.push("", "## Ongoing", "", `No next action, and none needed: ${ongoing.map((c) => `${nameOf(c)} (${c.kind})`).join(", ")}.`);
   }
-  lines.push("", "## Jamie decides", "", decides.trim() || "None.");
+  lines.push("", "## Jamie's hand", "", hand.trim() || "None.");
   return `${lines.join("\n")}\n`;
 }
 

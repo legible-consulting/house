@@ -6,7 +6,7 @@
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
 //   clients/_template/record.md     the handoff PR
-//   core/wave.md                    the Jamie decides list the glance prints
+//   .icm/intake/README.md           the Jamie's hand list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
 //   01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
@@ -102,10 +102,12 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
   .sort((a, b) => a.slug.localeCompare(b.slug));
 
 const template = read(clientsDir, "_template", "record.md");
-// What Jamie decides: the bullets under "## Jamie decides" in core/wave.md, whole.
-const wave = read(house, "core", "wave.md");
-const decidesBody = (wave.split(/^## Jamie decides[^\n]*\n/m)[1] ?? "").split(/^## /m)[0].trim();
-const decides = { file: "wave.md", title: "Jamie decides", body: decidesBody };
+// Jamie's hand: the bullets under "## Jamie's hand" in .icm/intake/README.md, the steps of the
+// house's own build that wait on him. The bullets only: the section's prose stays in the README.
+const intakeReadme = read(house, ".icm", "intake", "README.md");
+const handSection = (intakeReadme.split(/^## Jamie's hand[^\n]*\n/m)[1] ?? "").split(/^## /m)[0];
+const handBody = handSection.split("\n").filter((l) => /^- /.test(l)).join("\n").trim();
+const hand = { file: ".icm/intake/README.md", title: "Jamie's hand", body: handBody };
 // The close files: the page renders the file for its month when one exists, and computes the
 // same words live otherwise.
 const closeDir = join(house, "desk", "close");
@@ -164,7 +166,7 @@ const research = ["verdicts", "concepts"]
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, decides, closes, estate, sell, research }, null, 2),
+  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +
