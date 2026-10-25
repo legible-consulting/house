@@ -16,7 +16,8 @@ The work view (`/work`, and the Work card on a client's page) reads `.icm/intake
 pull requests per request through `lib/work.ts` with the same tokens, and `lib/gates.ts`
 writes Jamie's tick on a gate.
 `DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
-(`lib/github.ts`), Actions for the sync pill's runs that start `rhythms.yml` on `main` by
+(`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`),
+Actions for the sync pill's runs that start `rhythms.yml` on `main` by
 `workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). `lib/github.ts` reads the house
 workflow's latest run and the distance from the build's commit to `main`.
 Do not run
