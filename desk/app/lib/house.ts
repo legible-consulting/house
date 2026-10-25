@@ -81,3 +81,25 @@ export const closeDocs = data.closes as unknown as Doc[];
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[]; kit: Kit[] };
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);
+
+// operator/research/{verdicts,concepts}/<slug>.md (O1, operator/research/CONTEXT.md): one
+// verdict or concept, its frontmatter as fields and its body as markdown without the title.
+export interface Verdict {
+  slug: string;
+  folder: "verdicts" | "concepts";
+  name: string;
+  kind: string;
+  verdict: string;
+  tier: string;
+  modules: string[];
+  tags: string[];
+  recheck: string;
+  source: string;
+  via: string;
+  date: string;
+  body: string;
+}
+
+// Every verdict and concept, by name.
+export const research = data.research as unknown as Verdict[];
+export const verdictBySlug = (slug: string): Verdict | undefined => research.find((v) => v.slug === slug);

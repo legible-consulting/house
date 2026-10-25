@@ -79,8 +79,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   blueprint drift, latest release and `check.yml` run), `/work` (every repo's open tickets in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
   with their gates, CI and preview; what waits on Jamie first), `/close?month=`,
-  `/clients/<slug>`, `/pool`, `/sell`, `/research` (the links shared to the desk that the research
-  intake has not judged yet, and the form to paste one; `operator/research/CONTEXT.md`). `/close`
+  `/clients/<slug>`, `/pool`, `/sell`, `/research` (every verdict and concept of O1 from `main`,
+  under four filters, module, kind, verdict and tier, each file as prose on `/research/<slug>`;
+  the links shared to the desk that the intake has not judged yet; and the form to paste one;
+  `operator/research/CONTEXT.md`). `/close`
   renders the committed file when one exists
   and computes the same rules live otherwise, or with `?live=1`.
 - The sync pill (Jamie only), at the top of every page: up to date, running, deploying, out
