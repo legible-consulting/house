@@ -11,6 +11,9 @@
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
 //   sell/01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
 //                                   seller kit) and the seller's next touch
+//   operator/research/{verdicts,concepts}/*.md
+//                                   O1's verdicts and concepts: the frontmatter as fields, the
+//                                   body as prose, for /research
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -130,13 +133,41 @@ const sell = {
     }),
 };
 
+// O1's verdicts and concepts (operator/research/{verdicts,concepts}/<slug>.md): the
+// frontmatter as fields, the body without its first heading (the page sets the title), sorted
+// by name. A field the file lacks is "" or [], never missing, so a page reads every file alike.
+const researchDir = join(house, "operator", "research");
+const list = (v) => (Array.isArray(v) ? v.map(String) : []);
+const research = ["verdicts", "concepts"]
+  .flatMap((folder) =>
+    files(join(researchDir, folder), ".md").map((file) => {
+      const { fm, body } = split(read(researchDir, folder, file));
+      return {
+        slug: file.replace(/\.md$/, ""),
+        folder,
+        name: String(fm.tool ?? fm.concept ?? file),
+        kind: String(fm.kind ?? (folder === "concepts" ? "concept" : "")),
+        verdict: String(fm.verdict ?? ""),
+        tier: String(fm.tier ?? ""),
+        modules: list(fm.modules),
+        tags: list(fm.tags),
+        recheck: String(fm.recheck ?? ""),
+        source: String(fm.source ?? ""),
+        via: String(fm.via ?? ""),
+        date: String(fm.date ?? ""),
+        body: body.replace(/^# [^\n]*\n+/, ""),
+      };
+    }),
+  )
+  .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
+
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, decides, closes, estate, sell }, null, 2),
+  JSON.stringify({ built, clients, template, decides, closes, estate, sell, research }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +
-    `${closes.length} closes, ` +
+    `${closes.length} closes, ${research.length} verdicts and concepts, ` +
     `drift ${estate?.date ?? "none"}`,
 );
