@@ -87,5 +87,3 @@ factory proves nothing · 2026-10-22).
 ## Jamie decides
 
 - Where the business site is served (O3's output; `jamienisbet.com` is personal today).
-- The workshop day price and the coaching hour price. `services.md` names neither. Distil
-  them from the first engagements.

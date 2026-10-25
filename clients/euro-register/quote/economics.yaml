@@ -8,7 +8,7 @@ currency: EUR
 
 price:
   total: 6500                   # the price the desk reads: agreed 2026-10-12, fixed, excl. VAT
-  anchor_hourly: 120            # core/services.md, internal, never a billing basis
+  anchor_hourly: 120            # core/services.md, internal; a billing basis only for the coaching hour
   first_proposed: 9500          # the offer of 2026-10-09
   discount: 3000                # relationship, Jamie's decision of 2026-10-12; sets no reference rate
   travel_inside: 400            # flight and transfers, flat, inside the 6500; the hotel is the client's
@@ -38,4 +38,4 @@ margin_ratio: 0.93
 
 precedent: "none. First training engagement. The market read of 2026-10-09 is in quote/negotiation.md."
 
-closes_open_item: "none. core/wave.md, Jamie decides, the workshop day and the coaching hour: Jamie parked it on 2026-10-22. This week is a relationship price and is not read as the rate."
+closes_open_item: "core/wave.md, Jamie decides, the workshop day and the coaching hour: closed 2026-10-25. The list (1,800 a day, 120 an hour, core/services.md) was distilled from the offer of 2026-10-09, not from the agreed price, which is a relationship discount."
