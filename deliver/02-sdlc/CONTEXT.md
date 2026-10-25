@@ -46,15 +46,20 @@ D2 produces a build from ticket to release, sized by the blueprint's answers, wi
   6. Jamie tests the preview, ticks **Ready to merge** and merges, on GitHub or from the desk.
      A session never merges and never ticks a gate (boundary).
   7. On the merge, release-please opens or updates the release pull request. Jamie merges it.
-     That merge is the release, and for `uat: yes` the promotion. `main` changes by pull request
-     only.
+     That merge is the release. For `uat: yes` it makes the tag and moves nothing: production
+     moves when Jamie dispatches `promote.yml` with that tag, after the client's sign-off is
+     recorded. Nothing deploys to production on its own (why: the one act that reaches
+     production is named as such and is nobody's but Jamie's · 2026-10-23). `main` changes by
+     pull request only.
 - Sized by the blueprint's answers: every build runs `check-client` and the preview. A build
   that answered no to `uat` signs off on the preview, and production follows `main`. A build
   that answered yes has a Vercel custom environment `uat` that tracks `main`, and production
   does not follow `main`: the client tests each batch at the UAT address, Jamie records their
-  word with `.icm/scripts/promote.sh approve --by`, and Jamie's merge of the release pull
-  request is the release and the promotion, which `promote.yml` runs (migrate production, then
-  promote the staged build of the tagged commit). That loop lives in the repo's
+  word with `.icm/scripts/promote.sh approve --by`, Jamie's merge of the release pull request
+  is the release, and Jamie's dispatch of `promote.yml` with the release tag is the promotion
+  (migrate production, then promote the staged build of the tagged commit). The UAT database
+  is a Neon branch `uat` in the build's Neon project, or the default branch of a second Neon
+  project. That loop lives in the repo's
   `.icm/uat/CONTEXT.md`; this line only routes to it (why: one home for the loop is the repo
   where the work is, and a reader of this contract must not take the preview for the yes
   case's UAT · 2026-10-23). A build with its own release workflow names it in its `CLAUDE.md`.
@@ -64,5 +69,5 @@ D2 produces a build from ticket to release, sized by the blueprint's answers, wi
 
 ## Outputs
 
-- Branch → draft pull request with the gates → `check-client` green → preview deploy (the UAT environment for `uat: no`) → Jamie ticks and merges → for `uat: yes`, the UAT deploy of `main` and the client's recorded sign-off → release-please pull request → merge is the release, and for `uat: yes` the promotion.
+- Branch → draft pull request with the gates → `check-client` green → preview deploy (the UAT environment for `uat: no`) → Jamie ticks and merges → for `uat: yes`, the UAT deploy of `main` and the client's recorded sign-off → release-please pull request → merge is the release → for `uat: yes`, Jamie's dispatch of `promote.yml` is the promotion.
 - Status reaches the desk by the app reading the repo over the GitHub API per request: the open stubs in `.icm/intake/` on `main`, and each open pull request with its gates, its checks and its preview. Never by a commit here (why: a status commit is a second home that drifts from the repo it describes · 2026-10-15).
