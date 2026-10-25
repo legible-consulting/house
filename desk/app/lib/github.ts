@@ -19,7 +19,8 @@ import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 // share the one read in flight, a failed read is kept shorter, no-store on the fetch, a
 // 5-second timeout. Each read fails only its own line, in words, and the page renders.
 
-const REPO = "legible-consulting/house";
+// The house itself. lib/work.ts reads its tickets with the same token.
+export const HOUSE_REPO = "legible-consulting/house";
 const COMMITTER = { name: "desk", email: "desk@users.noreply.github.com" };
 const TIMEOUT_MS = 5000;
 
@@ -30,7 +31,7 @@ interface GhResponse {
 }
 
 async function gh(method: string, path: string, body?: unknown, timeoutMs?: number): Promise<GhResponse> {
-  const res = await fetch(`https://api.github.com/repos/${REPO}${path}`, {
+  const res = await fetch(`https://api.github.com/repos/${HOUSE_REPO}${path}`, {
     method,
     headers: {
       Authorization: `Bearer ${env("DESK_PAT")}`,
@@ -133,7 +134,7 @@ export const WORKFLOWS: WorkflowFile[] = ["rhythms.yml"];
 export const isRunKey = (v: unknown): v is RunKey => typeof v === "string" && Object.hasOwn(RUNS, v);
 
 // The workflow's runs page on GitHub, where Jamie follows a run.
-export const runsUrl = (file: WorkflowFile) => `https://github.com/${REPO}/actions/workflows/${file}`;
+export const runsUrl = (file: WorkflowFile) => `https://github.com/${HOUSE_REPO}/actions/workflows/${file}`;
 
 // Start one run of a house workflow on main. GitHub answers 204 and queues the run: the run
 // itself commits to main when its file changed, and Vercel redeploys the desk from that
@@ -153,7 +154,7 @@ export async function dispatchWorkflow(file: WorkflowFile, inputs: Record<string
   if (r.status === 403 || r.status === 404) {
     const msg = typeof r.body.message === "string" ? r.body.message : "no message";
     throw new Error(
-      `DESK_PAT cannot start ${file} (${r.status}: ${msg}). Give it Actions read and write on ${REPO}, then redeploy the desk.`,
+      `DESK_PAT cannot start ${file} (${r.status}: ${msg}). Give it Actions read and write on ${HOUSE_REPO}, then redeploy the desk.`,
     );
   }
   fail(`start ${file}`, r);
