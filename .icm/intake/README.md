@@ -39,10 +39,8 @@ The steps of the house's own build that no session takes, because each reaches a
 - Neon, project `legible-desk`: one client account linked to a folder. Check: the client lands on its page.
 - `copier update` on the four live repos with their answers, through conformance, now that the blueprint has one root and a question bank (v0.8.0).
 - Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
-- Vinecliff after its kickoff: delete the passage with Billy's card details from the Drive
-  transcript of the demo call of 2026-10-22, 21:00 WEST (at 00:26:29). Then set
-  `stage: build`, `deadline: 2026-12-31` and `next_action` in `clients/vinecliff/record.md`.
-  Check: the transcript holds no card number, and the record says `build`.
+- Vinecliff after its kickoff: move `stage` to `build` in `clients/vinecliff/record.md` (the
+  go-live epic is merged, vinecliff#33). Check: the record says `build`.
 - `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
   `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
   Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
