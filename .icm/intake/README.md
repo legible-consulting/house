@@ -6,12 +6,13 @@ The epics, and what each holds:
 
 | Epic | Holds |
 |---|---|
-| `house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
-| `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
-| `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
 | `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo |
+| `house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
+| `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
+| `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
+| `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
 
-The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by the rule in the blueprint's `template/.icm/intake/CONTEXT.md` (The order of the epics).
+The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by Jamie.
 
 ## Order
 
@@ -42,5 +43,6 @@ The steps of the house's own build that no session takes, because each reaches a
 - Vinecliff's kickoff, once `house-modules/kickoff` merges: the owner answers the questionnaire, `clients/vinecliff/kickoff/` is written, the first epic is cut in the repo, `next_action` is set on the record.
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
-- Secret scanning and push protection on the public repos that remain: `blueprint`, `.github`, `english-with-jamie`, `garmani`.
-- `desk/app/biz-2026-10-22-backup.tar.gz`, untracked in the house: commit it, ignore it, or move it.
+- Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
+- `desk/app/biz-2026-10-22-backup.tar.gz` and `desk/app/biz-backup-2026-10-25.tar.gz`, untracked in the house: move them out of the repo, or ignore them.
+- Move the five clones still in `~/Desktop/Apps/projects/` (berceo, vinecliff, agorasim, remi-ai, site-proof) to `~/Desktop/legible-consulting/projects/`, and point their rows in `desk/mani.yaml` at the new path; then the legacy rows leave `core/stack.md` and `core/lexicon.md`. Check: `grep -rn 'Apps/' --include='*.md' --include='*.yaml'` over the house finds nothing (why: the house connects to nothing in `~/Desktop/Apps` · 2026-10-26).

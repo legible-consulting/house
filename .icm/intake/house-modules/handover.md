@@ -30,10 +30,10 @@ The module `08-handover/`: a contract with a built Process and five templates. A
 
 ## Notes
 
-Mine, read whole and change nothing there (desktop): `~/Desktop/Apps/_system/template/icm-pipeline/lanes/handover/CONTEXT.md` and `~/Desktop/Apps/_system/template/icm-pipeline/_shared/handover-walk.md`.
+Read first in the library, read-only: `research/design-trail/01-goals.md` (handover's goal).
 
 Read first in the house: `CLAUDE.md`, `clients/CONTEXT.md` (handover and after), `core/services.md` (Retainer), `core/terms.md` (Ownership, Hosting and support, Ending an engagement), `core/voice.md` (The documents), `07-build/CONTEXT.md` (what a release is), `core/CONTEXT.md` (the edits in `core/`). `core/terms.md` § Hosting and support holds the terms the record restates.
 
 ## Prompt
 
-Repo legible-consulting/house, desktop at ~/Desktop/legible-consulting/house (the legacy handover lane it mines is on this machine). Read CLAUDE.md, .icm/intake/CONTEXT.md, .icm/intake/house-modules/breakdown.md, then this ticket, .icm/intake/house-modules/handover.md, then the files its Notes name, in order. Do what it says. One branch, one pull request to main, message starts with "handover:". Move the stub to .icm/intake/house-modules/_done/ in the same pull request. Never run build, lint or dev. Never send anything. Do not merge. Your last message names the pull request and what waits on Jamie.
+Repo legible-consulting/house, cloud with the house attached and legible-consulting/library attached read-only, or desktop at ~/Desktop/legible-consulting/house. Read CLAUDE.md, .icm/intake/CONTEXT.md, .icm/intake/house-modules/breakdown.md, then this ticket, .icm/intake/house-modules/handover.md, then the files its Notes name, in order. Do what it says. One branch, one pull request to main, message starts with "handover:". Move the stub to .icm/intake/house-modules/_done/ in the same pull request. Never run build, lint or dev. Never send anything. Do not merge. Your last message names the pull request and what waits on Jamie.

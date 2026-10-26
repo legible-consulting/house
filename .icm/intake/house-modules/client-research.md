@@ -9,7 +9,7 @@
 
 ## Problem
 
-Jamie enters a first call without a written procedure for the profile of the prospect or the primer on their trade. Seven profiles exist (`clients/*/research/profile.md`), written by hand, each in a different shape. The proposal reads one file for the client's facts, and no contract says how that file is made.
+Jamie enters a first call without a written procedure for the profile of the prospect or the primer on their trade. Five profiles exist (`clients/*/research/profile.md`), written by hand, each in a different shape. The proposal reads one file for the client's facts, and no contract says how that file is made.
 
 ## Proposed change
 
@@ -25,7 +25,7 @@ The module `02-client-research/`: a contract with a built Process, written back 
 
 ## Out of scope
 
-- Rewriting the seven existing profiles to the shape. The shape is written from them.
+- Rewriting the five existing profiles to the shape. The shape is written from them.
 - Research on tools and concepts: `research/`.
 
 ## Notes

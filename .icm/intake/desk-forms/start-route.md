@@ -9,7 +9,7 @@
 
 ## Problem
 
-The portfolio's five "Get a free look" links open `https://desk.jamienisbet.com/start?lang=<en|fr|pt>` after PR 198 merges. The desk answers with its sign-in page.
+The portfolio's five "Get a free look" links open `https://desk.jamienisbet.com/start?lang=<en|fr|pt>` since pull request 198 merged on 2026-10-25. The desk answers with its sign-in page today.
 
 ## Proposed change
 

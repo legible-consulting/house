@@ -9,7 +9,7 @@
 
 ## Problem
 
-Jamie has no way to send a questionnaire to one person. The old Forms card left with icm-board.
+Jamie has no way to send a questionnaire to one person.
 
 ## Proposed change
 

@@ -13,12 +13,12 @@ The desk sends no mail. A submission must reach Jamie without him opening the ho
 
 ## Proposed change
 
-`lib/mail.ts` sends one plain-text mail through Resend's HTTP API: a subject, a body and a reply-to. `RESEND_API_KEY` joins `.env.example`, `lib/env.ts` and `desk/CONTEXT.md`, name only. The recipient is the business email in `core/identity.md`, read at build. A failed send is logged and does not fail the submission (why: the answers are in git before the mail is sent).
+`lib/mail.ts` sends one plain-text mail through Resend's HTTP API: a subject, a body and a reply-to. `RESEND_API_KEY` joins `lib/env.ts` and `desk/CONTEXT.md`, and legible-desk joins its lines in the root `.env.example`, name only. The recipient is the business email in `core/identity.md`, read at build. A failed send is logged and does not fail the submission (why: the answers are in git before the mail is sent).
 
 ## Acceptance criteria
 
 - [ ] `lib/mail.ts` sends a plain-text mail with `fetch` to Resend's API. No SDK.
-- [ ] `RESEND_API_KEY` is in `.env.example`, `lib/env.ts` and `desk/CONTEXT.md`, name only.
+- [ ] `RESEND_API_KEY` is in `lib/env.ts` and `desk/CONTEXT.md`, and the root `.env.example` names legible-desk on its `RESEND_API_KEY` lines (production and preview). Name only.
 - [ ] `read-house.mjs` reads the business email from `core/identity.md` into `house.json`. Its header lists the read.
 - [ ] An unset key or a failed send is logged with the reason, and the caller continues.
 - [ ] `check.yml` is green.

@@ -6,7 +6,7 @@
 - depends-on: none
 - complexity: medium
 - priority: P2
-- blocked: `house-modules/portfolio` is not merged, and the site repo's `one-app-at-root` stub is not merged (`content/work/` is not at its root yet). Remove this line when both are.
+- blocked: `house-modules/portfolio` is not merged. Remove this line when it is.
 
 ## Problem
 

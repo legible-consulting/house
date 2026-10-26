@@ -29,7 +29,7 @@ Renumber once. `02-proposal` becomes `03-proposal`, `03-quote` becomes `04-quote
 
 ## Notes
 
-Use `git mv` so history follows. `desk/app/scripts/read-house.mjs` reads `01-prospecting/` only, which does not move. `clients/berceo/quote/negotiation.md` names a legacy file `03-quote.md` under `~/Desktop/Apps/`; that is not a house path and stays. Read first: `CLAUDE.md`, `core/lexicon.md` (The folders of the house), the three contracts.
+Use `git mv` so history follows. `desk/app/scripts/read-house.mjs` reads `01-prospecting/` only, which does not move. Read first: `CLAUDE.md`, `core/lexicon.md` (The folders of the house), the three contracts.
 
 ## Prompt
 

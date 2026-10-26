@@ -1,7 +1,7 @@
 # Breakdown: The free look and the per-lead questionnaires move to the desk
 
 - epic-slug: desk-forms
-- source: Jamie's prompt "Cut tickets for the house" of 2026-10-25, and his answers of the same day. The portfolio drops both forms in `k0d0minio/jamienisbet` PR 198 (`portfolio-only/drop-questionnaires`). The old code is at `k0d0minio/jamienisbet` commit `9d5db8c`, under `websites/portfolio/`. The eight questions are in `k0d0minio/icm-board`, `workspaces/sell/references/forms/intake-diagnostic.md`.
+- source: Jamie's prompt "Cut tickets for the house" of 2026-10-25, and his answers of the same day. The portfolio dropped both forms in `k0d0minio/jamienisbet` pull request 198, merged 2026-10-25. The old code is at that repo's commit `9d5db8c`, under `websites/portfolio/`. The eight questions are in `forms-in-the-house` (Notes).
 
 ## What I understood
 
@@ -9,7 +9,7 @@ The desk gains two public routes. `/start?lang=en|fr|pt` is the free look: a nam
 
 The per-lead form is also the client's sign-up (Jamie, question 4). A lead fills the free look. Jamie takes the lead, and the client folder opens. Jamie sends a follow-up form from the client page. The person answers it, and the desk saves them as a user at role `client`, linked to `clients/<slug>`, not yet active. When Jamie activates them, the desk asks Neon Auth to mail them a magic link. From then on they sign in by magic link only, and read their page: where it stands, the documents, the work in words. The sent links live in a Neon table beside the users (question 6). The answers still live in git.
 
-What exists and is reused. `lib/github.ts` writes one file to `main` (`writeFile`). It also opens the handoff PR (`openHandoffPr`). `app/api/pool/route.ts` turns a public body into a pool row. `scripts/read-house.mjs` reads the house at build into `house.json`. `lib/auth.ts` wraps Neon Auth, and `ensureUser` opens a `users` row at first sign-in. `01-prospecting/` holds stage material per language (`kit.<language>.md`). The old form grammar (`forms-parse.ts`) is ported, not imported: one `##` heading per question, a `- key: value` list under it, four field types.
+What exists and is reused. `lib/github.ts` writes one file to `main` (`writeFile`). It also opens the handoff PR (`openHandoffPr`). `app/api/pool/route.ts` turns a public body into a pool row. `scripts/read-house.mjs` reads the house at build into `house.json`. `lib/auth.ts` wraps Neon Auth, and `ensureUser` in `lib/db.ts` opens a `users` row at first sign-in. `01-prospecting/` holds stage material per language (`kit.<language>.md`). The old form grammar (`forms-parse.ts`) is ported, not imported: one `##` heading per question, a `- key: value` list under it, four field types.
 
 What the house does not have. A home for a lead's documents before the handoff: the pool is Neon, and the client folder opens at the handoff. A mailer. A table for a sent link. A client sign-up, and a magic-link sign-in. The decisions below settle all of them.
 
@@ -41,11 +41,11 @@ What the house does not have. A home for a lead's documents before the handoff: 
 8. magic-link-sign-in — Jamie activates a client, and a client signs in by magic link — depends-on: client-signs-up
 9. handoff-carries-answers — the handoff PR moves a lead's folder into the client folder — depends-on: start-route
 
-Stubs 1 to 4 are P0. The portfolio's links open `/start` as soon as PR 198 merges. Until stub 4 ships, they show the sign-in page. Stubs 5 to 9 are P1. Stubs 5 and 7 touch `db/schema.sql`, so each goes before the stub that reads its column.
+Stubs 1 to 4 are P0. The portfolio's links open `/start` since pull request 198 merged on 2026-10-25. Until stub 4 ships, they show the sign-in page. Stubs 5 to 9 are P1. Stubs 5 and 7 touch `db/schema.sql`, so each goes before the stub that reads its column.
 
 ## Out of scope
 
-- The portfolio. Its side ships in `k0d0minio/jamienisbet` PR 198.
+- The portfolio. Its side shipped in `k0d0minio/jamienisbet` pull request 198.
 - The pool API. The free look shares its code, not its route. The route's behaviour does not change.
 - A restyle of the desk. The two public pages use the desk's components as they are.
 - Showing the answers on the desk's pages. Jamie reads them in the mail and in the house.

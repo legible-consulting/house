@@ -119,7 +119,7 @@ Elevation and borders: a card rests on a 1 px `--border` hairline and no shadow;
 
 The `.prose` rules (markdown from the house): `text-body`; headings on the `heading` step; `h2` opens a section with a top margin of 24 px; links underlined with a 3 px offset; `code` mono on `--muted` with `--radius-key`; `pre` wraps and never scrolls sideways; a table takes the column's width at most and its cells wrap; a list marker in `--muted-foreground`; task-list checkboxes read-only. Nothing in prose scrolls horizontally.
 
-Read first: `CLAUDE.md`, `desk/CONTEXT.md`, `.claude/rules/desk-app.md`, `core/voice.md` (Register, Document design), `.icm/intake/desk-restyle/breakdown.md`, `desk/app/package.json`, `desk/app/components.json`, `desk/app/app/globals.css`, `desk/app/app/layout.tsx`. The brand's tokens, when the folder is on the machine: `~/Desktop/legible-consulting/projects/jamienisbet/packages/ui/tokens/colors.css`, `typography.css`, `desk.css` (or `tokens/` at that repo's root). The tables above are the copy to use when it is not. When the two disagree, the tokens win and the table is fixed.
+Read first: `CLAUDE.md`, `desk/CONTEXT.md`, `.claude/rules/desk-app.md`, `core/voice.md` (Register, Document design), `.icm/intake/desk-restyle/breakdown.md`, `desk/app/package.json`, `desk/app/components.json`, `desk/app/app/globals.css`, `desk/app/app/layout.tsx`. The brand's tokens: `tokens/colors.css`, `typography.css` and `desk.css` at the root of `k0d0minio/jamienisbet`, by `gh api` or at `~/Desktop/legible-consulting/projects/jamienisbet`. The tables above are their copy. When the two disagree, the tokens win and the table is fixed.
 
 ## Prompt
 
