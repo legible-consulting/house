@@ -1,12 +1,12 @@
 ---
 slug: boys-to-men-retreat
 name: Boys To Men Retreat
-language:
+language: en-GB
 stage: after
 kind: build
 public:
 opened: 2026-10-26
-next_action: Confirm that the redesign is live, and at www.boystomenretreat.com.
+next_action:
 deadline:
 salesman:
 commission:

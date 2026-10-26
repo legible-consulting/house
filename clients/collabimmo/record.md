@@ -1,12 +1,12 @@
 ---
 slug: collabimmo
 name: Collabimmo
-language:
+language: fr-BE
 stage: after
 kind: build
 public:
 opened: 2026-10-26
-next_action: Confirm that the site is live at www.collabimmo.be.
+next_action:
 deadline:
 salesman:
 commission:
