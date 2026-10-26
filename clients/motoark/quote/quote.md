@@ -21,8 +21,8 @@ status: draft
 
 ### The retainer
 
-Two ways to engage for the three evaluation months, November 2026 to January 2027. You choose
-one.
+Two ways to engage for the three evaluation months, 9 November 2026 to 7 February 2027.
+You choose one.
 
 | | A month | The three months |
 |---|---|---|
@@ -62,7 +62,7 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Ending
 
-- The evaluation is three months. It ends on 31 January 2027 unless we both decide to
+- The evaluation is three months. It ends on 7 February 2027 unless we both decide to
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.

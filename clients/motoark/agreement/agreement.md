@@ -51,7 +51,7 @@ Month 1 starts on Monday 9 November 2026, or on the Monday after the first invoi
 and I have access to the repositories, the design files and the environments, whichever is
 later. As the proposal says, every date after the start moves by the same number of days.
 
-<!-- The start: Jamie's answer, 2026-10-26. The proposal said Monday 2 November 2026. -->
+<!-- The start: Jamie's answer, 2026-10-26. The proposal's timeline says the same. -->
 
 ## 03 The price
 
@@ -107,8 +107,7 @@ not on payment, and the portfolio starts on day 1. The quote says the same. -->
 
 ## 07 Ending
 
-<!-- terms: terms.md § Ending an engagement; the evaluation's end from quote.md § Ending,
-moved by the same seven days as the start: Jamie's answer, 2026-10-26 -->
+<!-- terms: terms.md § Ending an engagement; the evaluation's end from quote.md § Ending -->
 
 - The evaluation is three months. It ends on 7 February 2027 unless we both decide to
   continue at the month 3 checkpoint. From month 4 the retainer continues month to month, at
