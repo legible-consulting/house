@@ -27,7 +27,7 @@ A `public:` field on every record, the module `portfolio/` with a built Process,
 
 ## Out of scope
 
-- The workflow that puts a ready case on the site: `.icm/intake/render-and-publish/publish-cases.md`.
+- The workflow that puts a ready case on the site: `.github/workflows/publish.yml`.
 - Any price in a case.
 
 ## Notes

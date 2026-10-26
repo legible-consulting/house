@@ -1,0 +1,91 @@
+# publish: every case at ready: true becomes a page on jamienisbet.com. It reads
+# clients/*/case/case.md, writes each ready case as content/work/<slug>.md on the main of
+# k0d0minio/jamienisbet, and Vercel deploys the site from that main. content/work/ in the site
+# is the house's: the run empties it and writes it again, so a case set back to ready: false
+# or deleted leaves the site. Jamie's merge of the case in the house is the gate. The run sends
+# nothing to anyone and moves no stage. Not run on a PR: a PR is not merged, so it is no gate.
+name: publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "clients/*/case/case.md"
+  workflow_dispatch:
+
+# The house token only reads. SITE_PAT, a fine-grained token on k0d0minio/jamienisbet with
+# Contents read and write, does the one write (.env.example, GitHub Actions secrets).
+permissions:
+  contents: read
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  cases:
+    # The job pushes to the site's main, so it runs on main only. A manual run from another
+    # branch skips.
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: house
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: k0d0minio/jamienisbet
+          ref: main
+          token: ${{ secrets.SITE_PAT }}
+          path: site
+          # True on this checkout only, because the commit step pushes to the site with
+          # SITE_PAT. The house checkout above sets false.
+          persist-credentials: true
+      - name: Write every ready case into the site
+        run: |
+          yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
+          rm -rf site/content/work
+          mkdir -p site/content/work
+          fail=0
+          count=0
+          for f in house/clients/*/case/case.md; do
+            [ -f "$f" ] || continue
+            ready="$(yq --front-matter=extract '.ready == true' "$f")"
+            [ "$ready" = true ] || continue
+            slug="$(yq --front-matter=extract '.slug // ""' "$f")"
+            # The slug is the file name on the site: lower case, digits and hyphens only.
+            if ! [[ "$slug" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+              echo "::error file=${f#house/}::slug '${slug}' is not lower case, digits and hyphens"; fail=1; continue
+            fi
+            if [ -e "site/content/work/${slug}.md" ]; then
+              echo "::error file=${f#house/}::slug '${slug}' is used by another ready case"; fail=1; continue
+            fi
+            cp "$f" "site/content/work/${slug}.md"
+            echo "${f#house/} -> content/work/${slug}.md"
+            count=$((count + 1))
+          done
+          [ "$fail" = 0 ] || exit 1
+          echo "${count} ready case(s) written."
+      - name: Commit to the site's main when content/work changed
+        working-directory: site
+        run: |
+          git add -A -- content/work
+          if git diff --cached --quiet; then
+            echo "content/work did not change. No commit."
+            exit 0
+          fi
+          { echo '## content/work on k0d0minio/jamienisbet'; echo; echo '```'; git diff --cached --stat; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "house: cases $(date -u +%F)"
+          # Someone can push to the site's main between the checkout and this push: rebase and
+          # try again.
+          pushed=0
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then pushed=1; break; fi
+            echo "Push ${attempt} failed. Rebase on main and try again."
+            git pull --rebase --quiet origin main
+          done
+          [ "$pushed" = 1 ] || { echo "::error::push to the site's main failed three times"; exit 1; }
