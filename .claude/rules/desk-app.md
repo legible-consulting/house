@@ -13,6 +13,9 @@ form that does not parse fails the build. `lib/rhythms.ts` computes the glance a
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
 The pool is read per request from Neon. `app/api/pool/route.ts` is the one route without a
 session: the portfolio's contact form posts a lead to it with `POOL_TOKEN`.
+`lib/mail.ts` sends the desk's one mail, a plain-text notice to Jamie, through Resend's HTTP
+API with `RESEND_API_KEY`, to the business email that `read-house.mjs` reads from
+`core/identity.md`.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).
 The work view (`/work`, and the Work card on a client's page) reads `.icm/intake/` and the
