@@ -76,9 +76,10 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   | `none` | No case. |
 
   - Empty reads as `none`.
-  - Jamie sets it by a commit, from the client's email. The email stays in the mail, outside
-    git. A session never sets it (why: a case that names a client without their word costs
-    the reference · 2026-10-26).
+  - Jamie decides it from the client's word. The email stays in the mail, outside git. Jamie
+    sets it by a commit, or a session sets it on Jamie's word in the session (`CLAUDE.md`,
+    Boundaries). A session never sets it on its own reading of a mail (why: a case that names
+    a client without their word costs the reference · 2026-10-26).
   - The portfolio reads it (`portfolio/CONTEXT.md`). Handover's review request asks the
     client for it (`08-handover/CONTEXT.md`, step 10).
 - The desk's pool, before handoff, has its own statuses: `new` → `contacted` → `replied` →
