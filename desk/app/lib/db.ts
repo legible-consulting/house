@@ -1,6 +1,8 @@
 import { neon } from "@neondatabase/serverless";
 import { env } from "./env";
+import type { FormSnapshot } from "./forms";
 import { clientSlugs } from "./house";
+import type { SentLink } from "./links";
 import type { Channel, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
 import { slugOf, STATUSES } from "./pool";
 
@@ -202,4 +204,29 @@ export async function revertReady(id: string): Promise<void> {
       pr_url = null, updated_at = now()
     where id = ${id}
   `;
+}
+
+// The links sent to one slug, newest first (the Send a form card, app/_send.tsx).
+export async function linksOf(slug: string): Promise<SentLink[]> {
+  return (await sql()`
+    select id, form, snapshot ->> 'title' as title, language, name, email, sent_at::date::text as sent,
+      answered_at::date::text as answered
+    from links where slug = ${slug} order by sent_at desc
+  `) as SentLink[];
+}
+
+export async function insertLink(
+  slug: string,
+  snapshot: FormSnapshot,
+  to: { name: string; email: string },
+  signup: boolean,
+  sentBy: string,
+): Promise<string> {
+  const rows = (await sql()`
+    insert into links (slug, form, language, folder, name, email, snapshot, signup, sent_by)
+    values (${slug}, ${snapshot.slug}, ${snapshot.language}, ${snapshot.folder}, ${to.name},
+      ${to.email}, ${JSON.stringify(snapshot)}::jsonb, ${signup}, ${sentBy})
+    returning id
+  `) as { id: string }[];
+  return rows[0]!.id;
 }

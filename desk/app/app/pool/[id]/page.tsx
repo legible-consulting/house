@@ -23,6 +23,7 @@ import {
   today,
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
+import { readLinks, SendForm } from "../../_send";
 import { Shell } from "../../_shell";
 import { NextTouch } from "../../_touch";
 import { Field, Flash, StatusBadge } from "../../_ui";
@@ -30,7 +31,8 @@ import { checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } fro
 
 // One prospect: the facts, the touches, the next touch's draft (app/_touch.tsx), the move,
 // and "Ready for Jamie", which opens the handoff PR on the house and keeps its link here.
-// Read-only for every salesman but the sourcer, and for everyone once handed off.
+// Read-only for every salesman but the sourcer, and for everyone once handed off. Jamie also
+// sends a form from here (app/_send.tsx); the answer is collected only, with no user.
 export const dynamic = "force-dynamic";
 
 type Props = {
@@ -57,13 +59,21 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   if (!UUID_RE.test(id)) notFound();
   const p = await prospectById(id);
   if (!p) notFound();
-  const [touches, { error, note }] = await Promise.all([touchesOf(id), flash(searchParams)]);
+  const jamie = user.role === "jamie";
+  const [touches, { error, note }, sent] = await Promise.all([
+    touchesOf(id),
+    flash(searchParams),
+    jamie ? readLinks(p.slug) : null,
+  ]);
 
   const write = canWrite(p, user);
   const moves = nextMoves(p, user);
   const missing = missingForReady(p);
   const slug = p.slug ?? slugOf(p.company);
   const slugLocked = Boolean(p.pr_url) || p.status === "ready for Jamie" || p.status === "handed off";
+  // A sent link names the slug, so the slug stays once one is sent. Read-only, not disabled: the
+  // action still gets the slug and refuses a change (app/pool/[id]/actions.ts).
+  const slugLinked = Boolean(sent?.links.length);
   const canTouch = write && p.status !== "ready for Jamie" && p.status !== "lost";
   const grid = "grid gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
@@ -124,6 +134,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                     name="slug"
                     defaultValue={slug}
                     disabled={slugLocked}
+                    readOnly={slugLinked}
                     pattern="[a-z0-9]+(-[a-z0-9]+)*"
                     maxLength={40}
                     className="font-mono"
@@ -247,6 +258,16 @@ export default async function ProspectPage({ params, searchParams }: Props) {
         </Card>
 
         {canTouch && <NextTouch p={p} />}
+
+        {sent && (
+          <SendForm
+            target={{ prospect: p.id }}
+            read={sent}
+            language={p.language}
+            name={p.contact_name}
+            email={p.email}
+          />
+        )}
 
         {moves.length > 0 && (
           <Card>

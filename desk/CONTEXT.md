@@ -98,7 +98,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   listed at its top). The pool, the house workflow and the client repos are read per
   request. A page never reads the repo (why: a deployed function has no checkout; a push is
   the one way a fact reaches the desk · 2026-10-21).
-- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches` and `throttle` in Neon Postgres, from
+- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches`, `throttle` and `links` in Neon Postgres, from
   `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
   account starts as `client` with no folder and sees nothing until Jamie sets the role in the
   Neon console (the upserts are at the foot of `schema.sql`).
@@ -151,6 +151,19 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Gates: a tick from the desk writes the box in the pull request's body with the owner's
   token, for the `jamie` role only. The house never ticks one (why: a gate ticked from the
   phone is still Jamie's own tick · 2026-10-21).
+- The Send a form card (`app/_send.tsx`), Jamie only, on `/clients/<slug>` and `/pool/<id>`:
+  he picks a form of the house and a language (the record's or the row's by default), and a
+  name and an email (the row's contact by default; a record carries none, so they start empty
+  on a client page). "Send" inserts a sent link, a `links` row: the slug, the form, the
+  language, the folder, the name, the email, the form as `lib/forms.ts` parses it in that
+  language (`snapshot`), `signup` (true from a client page, false from a pool row), and who
+  sent it. The row's id is the token, and the link is `https://desk.jamienisbet.com/f/<id>`.
+  The card lists every link sent to the slug, newest first, with the form, the language, the
+  date sent and the date answered; one not answered yet shows its link with Copy. Jamie sends
+  it from his own mail or WhatsApp; the desk sends nothing. A pool row's slug stays once a link
+  is sent to it. Jamie withdraws a link by deleting its row in the Neon console (why: the token
+  is a credential, so it lives in Neon and never in git; the questions are frozen so the answer
+  matches what the person read · 2026-10-26).
 - A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
   and the seller kit, `01-prospecting/kit.<language>.md`, in one language or all). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's

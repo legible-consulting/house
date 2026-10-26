@@ -53,6 +53,10 @@ A module the business needs and the house does not have yet (client research, ki
 - **form** — a questionnaire as markdown, `<stage>/forms/<form>.<language>.md`, one file per
   language, for a public page of the desk. The answers land in the house as markdown. The
   grammar is in `01-prospecting/CONTEXT.md` Outputs.
+- **sent link** — a form Jamie sends to one lead or client: a row of the desk's Neon table
+  `links`, made from the Send a form card on a client page or a pool row. The row's id is the
+  token in `https://desk.jamienisbet.com/f/<id>`, and the row keeps the questions as they were
+  when it was sent (`desk/CONTEXT.md`).
 - **local lane** — `~/Desktop/legible-consulting/projects/<slug>/` clones on Jamie's machine
   for bulk estate work (from 2026-10-22; `~/Desktop/Apps/projects/` until every clone moves,
   `core/stack.md` Layout).

@@ -2,6 +2,7 @@
 
 import {
   insertTouch,
+  linksOf,
   prospectById,
   revertReady,
   setHandedOff,
@@ -64,6 +65,11 @@ export async function saveProspect(form: FormData) {
       }
       if (clientSlugs.has(slug) || (await slugTaken(slug, id))) {
         throw new Error(`${slug} is taken by another prospect or by clients/${slug}/.`);
+      }
+      // A sent link lands its answers under the slug it was sent to (answer-a-link), so the
+      // slug stays once one is sent (why: the answers and the row must keep one name · 2026-10-26).
+      if (p.slug && slug !== p.slug && (await linksOf(p.slug)).length > 0) {
+        throw new Error(`A form was sent to ${p.slug}: the slug stays.`);
       }
     }
     const next = String(form.get("next_action") ?? "").trim() || null;
