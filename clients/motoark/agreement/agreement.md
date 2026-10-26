@@ -109,9 +109,9 @@ section too; clause 02 says this agreement prevails. -->
 ## 07 Ending
 
 <!-- terms: terms.md § Ending an engagement; the evaluation's end from quote.md § Ending,
-moved by the same seven days as the start (Q4) -->
+moved by the same seven days as the start: Jamie's answer, 2026-10-26 -->
 
-- The evaluation is three months. It ends on {{Q4: 7 February 2027}} unless we both decide to
+- The evaluation is three months. It ends on 7 February 2027 unless we both decide to
   continue at the month 3 checkpoint. From month 4 the retainer continues month to month, at
   the price in the proposal's last section.
 - Within the evaluation and after it, either side may end this agreement with 30 days'

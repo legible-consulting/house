@@ -131,5 +131,6 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
   confirmed that €3,700 is the month-to-month rate from month 4 too. The quote rewritten to
   the two structures. Not sent. Jamie sends.
 - 2026-10-26. No yes from Sam yet. The agreement drafted (`agreement/agreement.md`), not
-  sent: Sam Cherry signs; the start moves to Mon 9 Nov 2026; ownership and the portfolio from
+  sent: Sam Cherry signs; the start moves to Mon 9 Nov 2026 and the evaluation's end to
+  Sun 7 Feb 2027; ownership and the portfolio from
   day 1 (Deviations above).
