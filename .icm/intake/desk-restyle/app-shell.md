@@ -23,7 +23,7 @@ An app shell in `components/desk/shell.tsx` and a page header in `page-header.ts
 - [ ] The page header (`page-header.tsx`) is sticky at the top, `--page-header` tall plus `env(safe-area-inset-top)`, on `--background` with a bottom hairline: a back link on the leading edge when the page is a detail, the title in `text-title` on one line and truncated when long, one quiet line in `text-meta` mono under it, actions on the trailing edge. The sync pill (`app/_sync.tsx`) sits on the trailing edge for Jamie at every width; its panel becomes a Drawer below `md`.
 - [ ] The 15-second `<meta http-equiv="refresh">` while a run, a deploy or what the page shows is in flight still renders, per page, with the same promises as today.
 - [ ] `loading.tsx` beside each route with a skeleton that matches that page's layout (a header line, rows); one `error.tsx` in `app/(desk)/` that names the page and offers "Try again"; `app/not-found.tsx` in the shell with one sentence.
-- [ ] The auth routes (`sign-in`, `forgot-password`, `reset-password`) live under `app/(auth)/` outside the shell, with the same paths as today. `proxy.ts`'s matcher is unchanged.
+- [ ] The auth routes (`sign-in`, `forgot-password`, `reset-password`) and the free look (`start`) live under `app/(auth)/` outside the shell, with the same paths as today. `proxy.ts`'s matcher is unchanged. `/start` shipped at `app/start/` before this stub (Jamie, 2026-10-26).
 - [ ] `MotionConfig reducedMotion="user"` wraps the app from a client component in the root layout. The one content fade (`app/_fade.tsx`) stays, keyed by the pathname.
 - [ ] On the preview: the sidebar at 1440, the tab bar and the More drawer at 390, the safe areas, the current-page marks, for the three roles. `check.yml` is green.
 
