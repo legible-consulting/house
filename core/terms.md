@@ -2,7 +2,7 @@
 title: Terms
 kind: core
 owner: jamie
-date: 2026-10-19
+date: 2026-10-26
 ---
 # Terms — what every engagement gets unless the proposal names an exception
 
@@ -62,10 +62,33 @@ record names who hosts what and the monthly cost, per client.
 - A retainer the client ends before its committed block ends: the term discount
   (`services.md` § Retainer pricing) on the months already billed is invoiced with the last
   invoice (why: the discount buys the block; without the block it was not earned · 2026-10-22).
+- A workshop has its own scale before the first day, in place of the notice period (why: a
+  date held is a week Jamie cannot sell again, and a flight is booked at signature · Euro
+  Register, 2026-10-26):
+  - The client moves the date at no cost when it tells Jamie at least 14 days before the
+    first day.
+  - The client cancels more than 30 days before: the deposit is refunded, less the flight if
+    it is booked.
+  - The client cancels between 30 and 14 days before: half of the price is due.
+  - The client cancels less than 14 days before: the whole price is due.
+  - Jamie cannot come (illness, a cancelled flight, any other cause): a new date at no cost,
+    or a refund of what the client paid, at the client's choice.
+
+## Confidentiality and liability
+
+- What Jamie sees of the client's work and business stays confidential, during the
+  engagement and after it. At the end he keeps no copy of the client's documents (why: a
+  client shows its working to someone it trusts, and the trust outlives the engagement ·
+  Euro Register, 2026-10-26).
+- Jamie's liability under an agreement is limited to the price the client has paid (why: one
+  person cannot carry a risk larger than the engagement · Euro Register, 2026-10-26).
 
 ## Law and language
 
 - Portuguese law applies. The courts of Lisbon are competent.
 - The agreement is in the client's language, and that text is the signed one.
+- The accepted proposal is part of the agreement. Where the two differ, the agreement
+  prevails (why: the agreement is the later text and the one both sides sign · Berceo, Euro
+  Register, 2026-10-26).
 - The parties are the client as named in `clients/<slug>/record.md` and Jamie Nisbet, sole
   trader, as `identity.md` gives him.

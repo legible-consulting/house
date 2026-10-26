@@ -96,6 +96,12 @@ Jamie said €3,700 month to month on the call (2026-10-23).
   months treated as one job, half of the fee up front and half at the end, for his own
   first-year position in Portugal. It is a payment term, not a second scope option
   (2026-10-23).
+- **Ownership from the start.** `core/terms.md` § Ownership passes the work on final payment.
+  The quote and the agreement make the work MotoArk's from the start. Jamie's decision,
+  2026-10-26.
+- **The portfolio from day 1.** `core/terms.md` § Ownership allows the portfolio after launch
+  with consent. The quote and the agreement give the consent at signature, from the first day
+  of month 1. Jamie's decision, 2026-10-26.
 
 ## Open, Jamie decides
 
@@ -124,3 +130,8 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
   with the other candidates on a nine-hour flight. Decision Mon 26 Oct. After the call Jamie
   confirmed that €3,700 is the month-to-month rate from month 4 too. The quote rewritten to
   the two structures. Not sent. Jamie sends.
+- 2026-10-26. No yes from Sam yet. The agreement drafted (`agreement/agreement.md`), not
+  sent: Sam Cherry signs; ownership and the portfolio from day 1 (Deviations above). The
+  start moves to Mon 9 Nov 2026 and the evaluation's end to Sun 7 Feb 2027, in the
+  agreement, the proposal's timeline and the quote. The checkpoints: Fri 4 Dec 2026, Fri 8
+  Jan 2027 (after the holidays, not on 25 Dec) and Fri 5 Feb 2027.

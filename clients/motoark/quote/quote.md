@@ -21,8 +21,8 @@ status: draft
 
 ### The retainer
 
-Two ways to engage for the three evaluation months, November 2026 to January 2027. You choose
-one.
+Two ways to engage for the three evaluation months, 9 November 2026 to 7 February 2027.
+You choose one.
 
 | | A month | The three months |
 |---|---|---|
@@ -62,7 +62,7 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Ending
 
-- The evaluation is three months. It ends on 31 January 2027 unless we both decide to
+- The evaluation is three months. It ends on 7 February 2027 unless we both decide to
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.
@@ -72,12 +72,12 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Ownership and access
 
-- The work lands in MotoArk's repositories. It is MotoArk's once the month it was built in is
-  paid.
+- The work lands in MotoArk's repositories. It is MotoArk's from the start.
 - I keep my method, my templates, my guards and my tooling, and use them again.
 - Your code, hosting and accounts stay in MotoArk's name. My access lasts while the retainer
   runs.
-- I may name MotoArk in my portfolio after version two ships, with your consent.
+- I may name MotoArk and describe the work in my portfolio from the first day of month 1. You
+  agree to this when you sign.
 
 ### Validity
 

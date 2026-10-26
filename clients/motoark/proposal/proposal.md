@@ -137,10 +137,10 @@ What you get each month:
 | Fri 23 Oct 2026 | Our follow-up call: the method, the desk and a pull request shown live, your questions. |
 | Mon 26 Oct 2026 | Your decision. |
 | On your yes | The agreement and the first invoice. I need access to the repositories, the design files and the environments. |
-| Mon 2 Nov 2026 | Start, or the Monday after the first invoice is paid and access is in. |
-| Fri 27 Nov 2026 | Checkpoint 1. The development flow runs. The month 2 scope is written. |
-| Fri 18 Dec 2026 | Checkpoint 2, before the holidays. The month 3 scope is written. |
-| Fri 29 Jan 2027 | Checkpoint 3, and the decision point. |
+| Mon 9 Nov 2026 | Start, or the Monday after the first invoice is paid and access is in. |
+| Fri 4 Dec 2026 | Checkpoint 1. The development flow runs. The month 2 scope is written. |
+| Fri 8 Jan 2027 | Checkpoint 2, after the holidays. The month 3 scope is written. |
+| Fri 5 Feb 2027 | Checkpoint 3, and the decision point. |
 
 If the start moves, every date after it moves by the same number of days.
 
