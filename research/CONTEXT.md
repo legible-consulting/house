@@ -13,7 +13,7 @@ Research produces a dated verdict per tool (adopt · watch · decline, with a re
 ## Inputs
 
 - `core/services.md`, `core/stack.md`, and the Boundaries in `CLAUDE.md`.
-- `legible-consulting/library` (attached as a second repo for this module only): the course and the paper. Its ledger `research/design-trail/02-tool-research.md` seeded `verdicts/` and `concepts/` on 2026-10-25 (70 files, `date: 2026-10-14`) and leaves the library (`library/research/README.md`).
+- `legible-consulting/library` (attached as a second repo for this module only): the course and the paper.
 - The web, captured as text: trafilatura for a page, yt-dlp for a video's description and captions, `gh api` for a repository's README, and a web search when a post names a tool without a link (`core/setup/cloud.sh` installs the tools in the cloud).
 - The queue: `queue/<date>-<host>-<hash>.md`, one file per link. The desk writes it to `main` when Jamie shares a link to the installed desk from the phone, or pastes one on `/research` (`desk/CONTEXT.md`). The file holds the link, the title, the text around it and the time, and no judgement (why: the share sheet is the one tap Jamie takes on the phone, and the desk already writes to the house; an issue to open and label was a route he did not take · 2026-10-25).
 
