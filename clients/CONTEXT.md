@@ -10,6 +10,7 @@ holds:
   - "*/quote/economics.yaml"
   - "*/agreement/*.md"
   - "*/kickoff/*.md"
+  - "*/training/*.md"
   - "*/handover/*.md"
 ---
 # Clients
@@ -75,8 +76,10 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   commission fields; from the agreement on, `agreement_drive` (the Drive link of the rendered
   agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
   (`05-agreement/CONTEXT.md`).
-- `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one
-  subfolder per module that has produced for this client.
+- `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `training/` ·
+  `handover/`: one subfolder per module that has produced for this client.
+- `<slug>/training/record.md`, the coaching record, with `plan.md` and `attendance.md` for a
+  `kind: training` engagement (`training/CONTEXT.md`).
 - `<slug>/quote/economics.yaml`, the quote's file: the price and the estimates the monthly close
   reads (the shape: `04-quote/CONTEXT.md`) (why: invoices and payments are handled
   outside the house · 2026-10-22).

@@ -20,5 +20,5 @@ training delivered from material, and a client that leaves with its own factory)
 
 Not used, by design: the agent layer with Claude Code or Codex (1.3, 3.2's scripts). The
 team's tool is Mammouth, which has Projects and file upload and no agent over a folder. The
-person is the runner. The coaching record for this client goes in
-the coaching record, `coaching/euro-register.md` in the training folder, once training is built (a ticket in `.icm/intake/`).
+person is the runner. The coaching record for this client is `training/record.md` in this
+client folder (`training/CONTEXT.md`).
