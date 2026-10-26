@@ -34,4 +34,4 @@ Conformance produces a report that every live repo matches the blueprint and car
 
 - `desk/estate/drift-<date>.md`.
 - One PR per drifted repo (`copier update` and the asset check via multi-gitter); the gate stays human.
-- Runs from the local lane (`~/Desktop/Apps/projects/`), Jamie's hand.
+- Runs from the local lane (`~/Desktop/legible-consulting/projects/<slug>/`), Jamie's hand.
