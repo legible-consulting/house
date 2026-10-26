@@ -14,10 +14,13 @@
 //   research/{verdicts,concepts}/*.md
 //                                   research's verdicts and concepts: the frontmatter as fields, the
 //                                   body as prose, for /research
+//   */forms/*.md                    every form, parsed by lib/forms.ts into a snapshot, by form
+//                                   slug and language. A form that does not parse fails the build
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
+import { checkLanguages, parseForm } from "../lib/forms.ts";
 
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
@@ -163,13 +166,46 @@ const research = ["verdicts", "concepts"]
   )
   .sort((a, b) => a.name.localeCompare(b.name, "en", { sensitivity: "base" }));
 
+// Every form of the house (*/forms/<form>.<language>.md), parsed with the grammar in
+// 01-prospecting/CONTEXT.md, grouped by form slug, then language. The language files of one form
+// are checked against each other. Every break is listed, and then the build stops (why: a form
+// that does not parse is a public page that breaks · 2026-10-26).
+const formErrors = [];
+const parsed = readdirSync(house, { withFileTypes: true })
+  .filter((d) => d.isDirectory() && !d.name.startsWith(".") && d.name !== "node_modules")
+  .flatMap((d) => files(join(house, d.name, "forms"), ".md").map((f) => `${d.name}/forms/${f}`))
+  .flatMap((file) => {
+    try {
+      return [{ file, form: parseForm(file, read(house, file)) }];
+    } catch (e) {
+      formErrors.push(e instanceof Error ? e.message : String(e));
+      return [];
+    }
+  });
+const forms = {};
+for (const { form } of parsed) (forms[form.slug] ??= {})[form.language] = form;
+for (const slug of Object.keys(forms)) {
+  const group = parsed.filter((p) => p.form.slug === slug);
+  for (const p of group) {
+    if (group.find((q) => q !== p && q.form.language === p.form.language))
+      formErrors.push(`${p.file}: another file holds the ${slug} form in ${p.form.language}.`);
+  }
+  try {
+    checkLanguages(group);
+  } catch (e) {
+    formErrors.push(e instanceof Error ? e.message : String(e));
+  }
+}
+if (formErrors.length) throw new Error(`A form does not parse:\n${formErrors.join("\n")}`);
+
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research }, null, 2),
+  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research, forms }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +
-    `${closes.length} closes, ${research.length} verdicts and concepts, ` +
+    `${closes.length} closes, ${research.length} verdicts and concepts, ${parsed.length} form files ` +
+    `(${Object.keys(forms).length} forms), ` +
     `drift ${estate?.date ?? "none"}`,
 );

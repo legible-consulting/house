@@ -1,3 +1,4 @@
+import type { FormLanguage, FormSnapshot } from "./forms";
 import data from "./house.json";
 
 // The house at build time: lib/house.json is written by scripts/read-house.mjs (the list of
@@ -103,3 +104,7 @@ export interface Verdict {
 // Every verdict and concept, by name.
 export const research = data.research as unknown as Verdict[];
 export const verdictBySlug = (slug: string): Verdict | undefined => research.find((v) => v.slug === slug);
+
+// Every form of the house (*/forms/<form>.<language>.md), parsed by lib/forms.ts: by form slug,
+// then language.
+export const forms = data.forms as unknown as Record<string, Partial<Record<FormLanguage, FormSnapshot>>>;
