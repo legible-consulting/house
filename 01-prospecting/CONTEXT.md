@@ -47,8 +47,9 @@ How a salesman works the pool, in the desk:
 
 The handoff:
 
-- `ready for Jamie` opens one PR against `main`, under the desk's bot identity. The PR
-  creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff mapping in
+- `ready for Jamie` opens one PR against `main`. The commits carry the desk's identity. The
+  account that owns `DESK_PAT` opens the PR (why: a fine-grained token acts as its owner, and
+  the desk has no bot account · 2026-10-26). The PR creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff mapping in
   `prospect.md`. One prospect, one PR. The desk opens nothing else (why: the folder is the
   record, and a PR is the one door into it · 2026-10-19).
 - The same PR moves the lead's folder, `leads/<slug>/`. Each file goes to
@@ -59,11 +60,12 @@ The handoff:
   home · 2026-10-26).
 - A slug that changed after the answers landed: the desk finds no folder under the new slug,
   and the old folder stays in `leads/`. Jamie moves it by hand.
-- Jamie reads the PR and merges it. The merge is the handoff. The desk then sets the row to
-  `handed off`, sets `record`, and makes the row read-only. From then on the client folder is
+- Jamie reads the PR and merges it. The merge is the handoff. Then "Check the PR" on the row's
+  page sets the row to `handed off`, sets `record`, and makes the row read-only. The desk does
+  not watch the PR (`prospect.md`, Statuses). From then on the client folder is
   the home, and `clients/CONTEXT.md` says what is true at each stage.
-- A PR Jamie closes without a merge returns the row to its previous status, with his reason
-  in `notes`. `main` does not change: the record and the move are on the branch only.
+- A PR Jamie closes without a merge returns the row to its previous status at "Check the PR".
+  Jamie writes his reason in `notes`. `main` does not change: the record and the move are on the branch only.
 - Never: the desk or a session merges the PR (boundary). `stage` moves as `clients/CONTEXT.md` says.
 
 Jamie's own leads: Jamie may add a row to the pool like a salesman, with `sourced_by: jamie`

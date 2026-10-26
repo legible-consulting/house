@@ -77,6 +77,7 @@ const prospectSelect = `
     p.ask, p.status, p.previous_status, p.next_action::text as next_action, p.notes,
     p.lost_reason, p.pr_url, p.record, p.created_at::date::text as added,
     p.updated_at::date::text as updated, u.email as salesman_email, u.name as salesman_name,
+    u.handle as salesman_handle,
     case when u.role = 'jamie' then 'jamie'
          else coalesce(u.handle, split_part(u.email, '@', 1)) end as sourced_by,
     (select count(*)::int from touches t where t.prospect = p.id) as touches
