@@ -53,7 +53,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   listed at its top). The pool, the house workflow and the client repos are read per
   request. A page never reads the repo (why: a deployed function has no checkout; a push is
   the one way a fact reaches the desk · 2026-10-21).
-- Sign-in by Neon Auth. Tables `users`, `prospects` and `touches` in Neon Postgres, from
+- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches` and `throttle` in Neon Postgres, from
   `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
   account starts as `client` with no folder and sees nothing until Jamie sets the role in the
   Neon console (the upserts are at the foot of `schema.sql`).
@@ -64,18 +64,31 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   requests write for the gates), `POOL_TOKEN` (the bearer the portfolio's contact form sends
   to the pool API; the Vercel project `portfolio` holds the same value as
   `DESK_POOL_TOKEN`), `RESEND_API_KEY` (the desk's own key in the Resend account that holds
-  `mail.jamienisbet.com`). A token unset, or a repo out of reach, fails only its own
+  `mail.jamienisbet.com`), `THROTTLE_SALT` (the key of the IP hash in `/start`'s rate limit). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not
   stop the desk · 2026-10-21).
-- The pool API, `app/api/pool/route.ts`, the one route without a session: `POST /api/pool`
+- The pool API, `app/api/pool/route.ts`, a route without a session: `POST /api/pool`
   with `Authorization: Bearer <POOL_TOKEN>` and a JSON body (`name`, `email`, `message`,
   `language`, `company?`, `phone?`) inserts a `prospects` row at `new` with `source:
   portfolio`, `sourced_by: jamie` and the `jamie` user as its salesman, like a row Jamie adds
   by hand. 201 with the id. 401 on a missing or wrong token. 400 on a bad body. 422 with the
   open row's id when a prospect with that email is open (not `lost`, not `handed off`), and
   nothing is inserted. No mail: the portfolio sends its own (why: the site's contact form is
-  the one door from the public into the pool, and a lead copied by hand from a mail is a
+  a door from the public into the pool, and a lead copied by hand from a mail is a
   lead lost; the token stands in for the session the form has none of · 2026-10-22).
+- The free look, `/start?lang=en|fr|pt` (`app/start/`), the other page without a session,
+  outside the shell and `noindex`. It renders `01-prospecting/forms/free-look.<language>.md`
+  (no `lang`, or an unknown one, is `en`) with the page's own words in the same language. A
+  valid submission inserts a pool row by the pool API's code (`lib/lead.ts`): at `new`,
+  `source: free look`, Jamie as salesman, or no row when one with that email is open. It
+  writes the answers to `01-prospecting/leads/<slug>/free-look-<date>.md` on `main` with
+  `DESK_PAT` (`lib/answers.ts`), mails Jamie (`Free look: <name>`, reply-to the visitor) and
+  shows the visitor a confirmation. The visitor gets no mail. A filled honeypot, or a sixth
+  submission from one IP in one hour (table `throttle`: the IP hashed with `THROTTLE_SALT`,
+  the hour, the count, kept one day), is thanked and stores nothing (why: the portfolio's
+  links open it, and a bot must not fill the pool · 2026-10-25). A failed count, row or file
+  is an error on the page, and the visitor can send again (why: nothing is thanked that is not
+  in the house · 2026-10-26).
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
   blueprint drift, latest release and `check.yml` run), `/work` (every client repo's open tickets, and the house's own from `.icm/intake/` read with `DESK_PAT`, in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests

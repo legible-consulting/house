@@ -11,6 +11,8 @@ holds:
   - "targets/*.md"
   # The questions a lead answers on the desk, one file per form and language (2026-10-26).
   - "forms/*.md"
+  # A lead's answers to a form, written by the desk, until the handoff moves them (2026-10-26).
+  - "leads/*/*.md"
 ---
 # Prospecting
 
@@ -118,3 +120,7 @@ A session in this folder produces the stage-level material, never a pool row:
     page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.
+- `leads/<slug>/`: a lead's folder, by the pool row's slug. A lead's answers to a form are
+  documents, so they live here, not in the pool: `<form>-<date>.md`, written by the desk
+  (`/start` writes `free-look-<date>.md`). The handoff moves the folder into `clients/<slug>/`
+  (why: the row changes many times a day and the answers do not · 2026-10-25).

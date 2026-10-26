@@ -1,6 +1,6 @@
 -- Desk (the desk) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
 -- run the whole file again after a change (Neon console, SQL editor). Neon Auth owns
--- neon_auth.*; the app owns these three tables. The prospect row follows
+-- neon_auth.*; the app owns these four tables. The prospect row follows
 -- 01-prospecting/prospect.md (prospecting). Four names differ from that schema, because the
 -- first two tables were applied on 2026-10-19 and are reused, not recreated: contact_name
 -- is `contact`, created_at is `added`, updated_at is `updated`, and `sourced_by` is the
@@ -59,6 +59,16 @@ create table if not exists touches (
 );
 
 create index if not exists touches_prospect_idx on touches (prospect);
+
+-- /start's rate limit (decision 5 of .icm/intake/desk-forms): one row per hashed IP and hour,
+-- with the count of the free looks sent from it. A sixth in one hour is thanked and dropped.
+-- lib/db.ts countSubmission upserts it and drops the hours older than a day.
+create table if not exists throttle (
+  ip_hash text not null,
+  hour timestamptz not null,
+  n int not null default 0,
+  primary key (ip_hash, hour)
+);
 
 -- Migration of the 2026-10-19 tables to the prospecting fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.
