@@ -41,7 +41,7 @@ The files:
 - `estate/drift-<date>.md`: conformance's report, the latest only. The desk reads each repo's line
   into its client's row at build (why: a drifted repo is a fact about the client, not a page
   of its own · 2026-10-22).
-- `mani.yaml`: hand-written. Every client build and the proof render, with their tags
+- `mani.yaml`: hand-written. Every client build, with its tags
   (`conformance/CONTEXT.md`).
 
 The app, `app/` (the code map: `.claude/rules/desk-app.md`):

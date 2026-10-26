@@ -14,8 +14,8 @@ here and a word in another file disagree, this file wins and the other file is f
 | **.github** | the org's front page and reusable CI. Name fixed by GitHub. | public |
 | **client repo** | one per build, `k0d0minio/<slug>`, under Jamie's own account, rendered from the blueprint. | private; Jamie owns it |
 
-The org `legible-consulting` holds the house, the blueprint, the library, `.github`, the proof
-repo and the projects Jamie shares with collaborators. Every client build is Jamie's own, under
+The org `legible-consulting` holds the house, the blueprint, the library, `.github` and the
+projects Jamie shares with collaborators. Every client build is Jamie's own, under
 `k0d0minio` (why: the org is the method and the shared space; a collaborator who joins it must
 never see a client's code · 2026-10-21).
 
