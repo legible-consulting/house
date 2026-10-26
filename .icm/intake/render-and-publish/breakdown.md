@@ -7,7 +7,7 @@
 
 Every client document is markdown in the client folder, in the client's language. `core/voice.md` says it is rendered to a branded PDF and placed in the client's Drive folder. Today Jamie renders and places by hand: the proposal's contract says the PDF render in CI and the Drive copy are not yet walked. The house gets its own renderer under `core/render/`, a workflow that renders every changed document on a pull request as a run artifact, and a desktop script that places the PDF in Drive over the GNOME mount when Jamie asks.
 
-A case study (`.icm/intake/house-modules/portfolio.md`) is public text that belongs to its client's folder. The site jamienisbet.com is served by Vercel from the `main` of `k0d0minio/jamienisbet` and reads `content/work/*.md`. A workflow in the house copies every `ready: true` case there on a push to `main`. Jamie's merge of the case into the house is the gate; nothing else gates the site.
+A case study (`portfolio/CONTEXT.md`) is public text that belongs to its client's folder. The site jamienisbet.com is served by Vercel from the `main` of `k0d0minio/jamienisbet` and reads `content/work/*.md`. A workflow in the house copies every `ready: true` case there on a push to `main`. Jamie's merge of the case into the house is the gate; nothing else gates the site.
 
 ## Decisions of record
 
@@ -20,7 +20,7 @@ A case study (`.icm/intake/house-modules/portfolio.md`) is public text that belo
 ## Build order
 
 1. `render-stack` — the renderer, `render.yml`, `place.sh`, the contracts that name them — depends-on: none
-2. `publish-cases` — `publish.yml`, the README row, the Boundaries line, `SITE_PAT` in `.env.example` — depends-on: none. Blocked until `house-modules/portfolio` merges.
+2. `publish-cases` — `publish.yml`, the README row, the Boundaries line, `SITE_PAT` in `.env.example` — depends-on: none
 
 ## Out of scope
 

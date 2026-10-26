@@ -4,6 +4,7 @@ name: Agorasim
 language: pt-PT
 stage: build
 kind: build
+public: named
 opened: 2026-07-01
 next_action: Cut feedback round 1 (12 Oct 2026) into tickets in the client repo, build them, and put each on UAT for Diogo and Rita to test. Go-live follows their approval of UAT.
 deadline:

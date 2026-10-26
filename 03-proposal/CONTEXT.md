@@ -14,6 +14,7 @@ The proposal produces the client-facing offer (problem, approach, scope, timelin
   profile, client research updates the profile from it first (why: the proposal reads one file for the
   client's facts; a call note is a source, not a home · 2026-10-21).
 - `core/identity.md`, `core/services.md`, `core/voice.md`; `research/concepts/` for reusable explainers.
+- `clients/*/case/case.md`: the work a proposal cites. A proposal cites a case as its `public:` allows (`portfolio/CONTEXT.md`), and never a case whose `public:` is empty or `none` (why: proposals cited work from memory, and a client named without their word costs the reference · 2026-10-26).
 - Jamie's answers to the questions in Process.
 
 ## Process
