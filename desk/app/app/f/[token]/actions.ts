@@ -1,7 +1,7 @@
 "use server";
 
 import { answersFile, checkAnswers, writeAnswers } from "@/lib/answers";
-import { linkById, markAnswered } from "@/lib/db";
+import { linkById, markAnswered, saveClientUser } from "@/lib/db";
 import { existsOnMain } from "@/lib/github";
 import { mailJamie } from "@/lib/mail";
 import { UUID_RE } from "@/lib/pool";
@@ -15,11 +15,14 @@ import { COPY, errorsOf, type LinkState } from "./copy";
 //    the one that matches no row gets the answered dead end.
 // 4. The answers to clients/<slug>/<folder>/<form>-<date>.md when clients/<slug>/record.md is
 //    on main, else to 01-prospecting/leads/<slug>/<form>-<date>.md.
-// 5. One mail to Jamie, with the answers as text, reply-to the row's email.
+// 5. A row with `signup` true saves the person as a client user of the slug, not active
+//    (lib/db.ts saveClientUser). A row with `signup` false changes no user.
+// 6. One mail to Jamie, with the answers as text, reply-to the row's email. For a sign-up it
+//    says what became of the user.
 // The desk marks the row before it writes the file (why: a second submit must see the row
 // spent. A failed write is in the Vercel log with the row id · 2026-10-25). The mail still goes,
-// with the answers and the reason, and the person sees the confirmation. A failed mark is an
-// error on the page, and the person can send again.
+// with the answers and the reason, and the person sees the confirmation. A failed user save is
+// handled the same way. A failed mark is an error on the page, and the person can send again.
 
 export async function submitLink(_prev: LinkState, data: FormData): Promise<LinkState> {
   const id = String(data.get("token") ?? "").toLowerCase();
@@ -69,9 +72,26 @@ export async function submitLink(_prev: LinkState, data: FormData): Promise<Link
     file = `not written (${e instanceof Error ? e.message : String(e)}). The answers are below and in no file; link ${id}.`;
   }
 
+  let user = "";
+  if (link.signup) {
+    try {
+      const saved = await saveClientUser(link.email, link.name, link.slug);
+      user =
+        saved === "saved"
+          ? `User: ${link.email} is saved as a client of ${link.slug} and waits for activation.`
+          : saved === "active"
+            ? `User: ${link.email} was active already, and now reads ${link.slug}.`
+            : `User: ${link.email} has another role, and the desk did not change it.`;
+    } catch (e) {
+      console.error(`[f] link ${id} is marked answered, and the user was not saved:`, e);
+      user = `User: not saved (${e instanceof Error ? e.message : String(e)}). Save ${link.email} by hand (db/schema.sql); link ${id}.`;
+    }
+  }
+
   const text = [
     `${link.name} <${link.email}> answered ${link.form} in ${link.language}, sent to ${link.slug}.`,
     `Answers file: ${file}`,
+    ...(user ? [user] : []),
     ...form.fields.map((f) => `${f.label}\n${answers[f.key] || "—"}`),
   ].join("\n\n");
   await mailJamie({ subject: `${form.title}: ${link.name}`, text, replyTo: link.email });

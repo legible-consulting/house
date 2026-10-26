@@ -32,6 +32,11 @@ variable. The Process says what a session does with them.
 - The roles. `jamie` sees every page. `salesman` sees `/pool` and `/sell`, and a handed-off
   deal up to `agreement`. `client` sees `/clients/<slug>` for the folder `users.client` names,
   and nothing else. Jamie sets a role in the Neon console (Outputs, Sign-in).
+- A client user. Jamie sends a form from `/clients/<slug>`. The person's answer saves them as
+  a user: `role: client`, `client: <slug>`, `active: false`. A user who is not active is a
+  client with no folder and sees nothing. The Users card on the client page shows Jamie each
+  user of the folder and the state. Jamie activates the user (`magic-link-sign-in` of
+  `.icm/intake/desk-forms`) (why: Jamie decides who gets in and when · 2026-10-25).
 - The glance and the close. `app/lib/rhythms.ts` computes both on every request, from the
   house as of the last push to `main`. `rhythms.yml` writes the same words to
   `glance/<date>.md` every morning and to `close/<YYYY-MM>.md` on the 1st, and commits the
@@ -101,7 +106,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Sign-in by Neon Auth. Tables `users`, `prospects`, `touches`, `throttle`, `links` and `suppressions` in Neon Postgres, from
   `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
   account starts as `client` with no folder and sees nothing until Jamie sets the role in the
-  Neon console (the upserts are at the foot of `schema.sql`).
+  Neon console (the upserts are at the foot of `schema.sql`). `users.active` is false for a
+  client that the answer to a sent link saved, and true for every other row. `currentUser()`
+  (`app/lib/user.ts`) reads a user with `active` false as a client with no folder.
 - Variables, names only, on the Vercel project (`app/.env.example`): `DATABASE_URL`,
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT` (the house only: Contents, Pull
   requests and Actions, read and write), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
@@ -176,6 +183,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   is sent to it. Jamie withdraws a link by deleting its row in the Neon console (why: the token
   is a credential, so it lives in Neon and never in git; the questions are frozen so the answer
   matches what the person read · 2026-10-26).
+- The Users card (`app/_users.tsx`), Jamie only, on `/clients/<slug>`: every user at role
+  `client` whose `client` is the slug, with the name, the email, the date saved and the state,
+  active or waits for activation. A failed read fails the card only, in words.
 - A sent link answered, `/f/<token>` (`app/f/[token]/`), another page without a session,
   outside the shell and `noindex`; `/robots.txt` disallows `/f/`. It renders the row's frozen
   title, intro and questions, never `forms/` or `house.json`, with the page's own words in the
@@ -188,8 +198,16 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   with `source: link`, and mails Jamie (`<form title>: <name>`, the answers as text, reply-to
   the row's email). The desk marks the row before it writes the file (why: a second submit must
   see the row spent · 2026-10-25). A failed write is in the Vercel log with the row id, and the
-  mail says so and carries the answers. The person gets no mail. A row with `signup` true
-  behaves like any other until `client-signs-up` ships.
+  mail says so and carries the answers. The person gets no mail.
+- A sent link with `signup` true answered (a link sent from `/clients/<slug>`): after the file,
+  the desk upserts the person's `users` row (`lib/db.ts saveClientUser`): the row's email and
+  name, `role: client`, `client: <slug>`, `active: false`. No password and no session. The
+  upsert does not change a row at role `jamie` or `salesman`, and it does not set an active
+  row back to inactive. `ensureUser` does nothing on conflict, so the row keeps its role and its
+  folder at the first sign-in. Jamie's mail says what became of the user: saved and waits for
+  activation, active already, or not changed because of another role. A failed upsert is in
+  the Vercel log with the row id, and the mail says so. A link with `signup` false changes no
+  user (why: a pool row has no folder for a user · 2026-10-25).
 - A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
   and the seller kit, `01-prospecting/kit.<language>.md`, in one language or all). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's

@@ -20,7 +20,10 @@ the public free look, and `/f/<token>` (`app/f/[token]/`), a sent link answered.
 make the pool row with `lib/lead.ts`; `/start` counts submissions per hashed IP in `throttle`.
 `/start` and `/f/<token>` share the question controls (`app/_questions.tsx`) and the checks,
 and write the answers to the house with `lib/answers.ts`; `/f/<token>` reads and marks its
-`links` row (`lib/db.ts`) and renders only the row's snapshot.
+`links` row (`lib/db.ts`) and renders only the row's snapshot. For a row with `signup` true it
+saves the person as an inactive client user (`lib/db.ts saveClientUser`); `lib/user.ts
+currentUser` reads an inactive user as a client with no folder, and the Users card
+(`app/_users.tsx`) lists a folder's users on `/clients/<slug>`.
 Jamie's Send a form card (`app/_send.tsx`, its action `app/_send-actions.ts`) on a client page
 and a pool row inserts a sent link in `links` (`lib/links.ts`, `lib/db.ts`) with the form's
 snapshot from `house.json`.

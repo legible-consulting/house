@@ -24,6 +24,7 @@ export interface OpenLink {
   name: string;
   email: string;
   snapshot: FormSnapshot;
+  signup: boolean; // true when sent from a client page: the answer saves the person as a user
   answered: boolean;
 }
 

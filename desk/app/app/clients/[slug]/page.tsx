@@ -9,6 +9,7 @@ import { workInFlight } from "@/lib/work";
 import { RepoFacts } from "../../_repo";
 import { Shell } from "../../_shell";
 import { readLinks, SendForm } from "../../_send";
+import { ClientUsers, readUsers } from "../../_users";
 import { Flash, Heading, Prose } from "../../_ui";
 import { ClientWork, WorkBody } from "../../_work";
 
@@ -22,7 +23,8 @@ import { ClientWork, WorkBody } from "../../_work";
 // client reads the one linked to their account (users.client); a salesman follows a deal
 // from the pool row instead and never lands here. Research, negotiation, economics and the
 // repo's drift are internal and never on this page for a client. Jamie also sends a form from
-// here (app/_send.tsx): the answer saves the person as a user of this folder.
+// here (app/_send.tsx): the answer saves the person as a user of this folder, and the Users card
+// (app/_users.tsx) lists the folder's users with their state.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -60,7 +62,11 @@ export default async function Client({
       : []),
   ].filter(([, v]) => v) as [string, string][];
   const live = jamie && c.repo ? [repoInFlight(c.repo), workInFlight(c.repo)] : [];
-  const [{ error, note }, sent] = await Promise.all([flash(searchParams), jamie ? readLinks(c.slug) : null]);
+  const [{ error, note }, sent, users] = await Promise.all([
+    flash(searchParams),
+    jamie ? readLinks(c.slug) : null,
+    jamie ? readUsers(c.slug) : null,
+  ]);
 
   return (
     <Shell user={user} current="/" live={live}>
@@ -125,6 +131,8 @@ export default async function Client({
           // record.md carries no contact fields, so the name and the email start empty.
           <SendForm target={{ client: c.slug }} read={sent} language={c.language} name="" email="" />
         )}
+
+        {users && <ClientUsers read={users} />}
 
         {c.documents.length === 0 ? (
           <p className="text-sm text-muted-foreground">No document yet.</p>
