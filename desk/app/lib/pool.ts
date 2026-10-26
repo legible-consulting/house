@@ -28,6 +28,11 @@ export const CADENCE = [
   { day: 21, touch: 3, angle: "last note" },
   { day: 28, touch: null, angle: "due for lost" },
 ] as const;
+// cadence.md, Channels: a no is permanent for the company, on every channel. The row's page sets
+// this reason with one gesture, which also puts the row's email and phone on the no-contact list
+// (the table suppressions).
+export const NO_CONTACT = "asked not to be contacted";
+
 export const LINES = ["local", "sme"] as const;
 export const SIZES = ["1", "2-9", "10-49", "50+"] as const;
 export const SERVICES = ["site", "app", "platform", "workshop", "coaching", "unknown"] as const;
@@ -127,6 +132,32 @@ export function addDays(day: string, n: number): string {
   d.setUTCDate(d.getUTCDate() + n);
   return d.toISOString().slice(0, 10);
 }
+
+// One contact point of a row: its email lower-cased, or its phone as `+` and the digits of the
+// country code and number (00 reads as +), so "+351 912 345 678" and "00351912345678" are one
+// number. A phone without a country code keeps its digits only (prospect.md asks for the code).
+// One number is one contact point: the phone and WhatsApp.
+export type ContactPoint = { kind: "email" | "phone"; value: string };
+
+export function phoneKey(phone: string): string {
+  const t = phone.trim().replace(/^00/, "+");
+  const digits = t.replace(/\D/g, "");
+  if (!digits) return "";
+  return t.startsWith("+") ? `+${digits}` : digits;
+}
+
+export function contactPoints(c: { email: string; phone: string }): ContactPoint[] {
+  const points: ContactPoint[] = [];
+  const email = c.email.trim().toLowerCase();
+  const phone = phoneKey(c.phone);
+  if (email) points.push({ kind: "email", value: email });
+  if (phone) points.push({ kind: "phone", value: phone });
+  return points;
+}
+
+// The refusal, in words, for the contact points the no-contact list holds.
+export const noContactError = (hits: ContactPoint[]): string =>
+  `${hits.map((c) => c.value).join(" and ")}: they asked not to be contacted. The pool takes no row for it, on any channel (cadence.md, Channels).`;
 
 // Only the sourcer and Jamie write a row; every other salesman reads it. A handed-off row
 // is read-only for all: the client folder is the record from then on.

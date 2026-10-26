@@ -1,6 +1,6 @@
 -- Desk (the desk) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
 -- run the whole file again after a change (Neon console, SQL editor). Neon Auth owns
--- neon_auth.*; the app owns these five tables. The prospect row follows
+-- neon_auth.*; the app owns these six tables. The prospect row follows
 -- 01-prospecting/prospect.md (prospecting). Four names differ from that schema, because the
 -- first two tables were applied on 2026-10-19 and are reused, not recreated: contact_name
 -- is `contact`, created_at is `added`, updated_at is `updated`, and `sourced_by` is the
@@ -93,6 +93,21 @@ create table if not exists links (
 );
 
 create index if not exists links_slug_idx on links (slug);
+
+-- The no-contact list (01-prospecting/legitimate-interest.md §4): one row per email or phone of a
+-- prospect who asked not to be contacted, written by the gesture on the row's page (lib/db.ts
+-- suppressProspect). `value` is a lower-cased address or a number with its country code, as
+-- lib/pool.ts contactPoints keys it. One phone number covers the phone and WhatsApp. The desk
+-- and the pool API refuse a row for a value here. There is no foreign key to the row, so a
+-- cleared or erased row keeps its no, and no code path deletes a row here (why: Art 21(2) GDPR
+-- makes the objection absolute, and a no that did not stick is the whole objection · 2026-10-26).
+create table if not exists suppressions (
+  kind text not null check (kind in ('email', 'phone')),
+  value text not null,
+  reason text not null default '',
+  created_at timestamptz not null default now(),
+  primary key (kind, value)
+);
 
 -- Migration of the 2026-10-19 tables to the prospecting fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.

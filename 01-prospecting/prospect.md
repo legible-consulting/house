@@ -62,6 +62,19 @@ The list is defined in `clients/CONTEXT.md` and copied here unchanged:
 | `handed off` | Jamie merged the handoff PR. The row is read-only. `record` is set. | the desk |
 | `lost` | The prospect said no, or went silent past the cadence. `lost_reason` is set. | the sourcer, from any status except `handed off` |
 
+A no is set with "They asked not to be contacted" on the row's page, by the sourcer or Jamie:
+`lost` with `lost_reason` `asked not to be contacted`, `next_action` empty, and the row's
+`email` and `phone` on the desk's no-contact list for good. A row is not added, and a row's
+`email` or `phone` is not changed, to an address or a number on that list (`cadence.md`,
+Channels).
+
+A row at `new`, `contacted` or `lost` whose last touch, or its `added` date when it has no
+touch, is older than 12 months is cleared by `desk/app/scripts/pool-purge.mjs`, which Jamie
+runs by hand: `contact`, `email`, `phone`, `website`, `ask` and `notes` are emptied, and the
+touches lose their notes. `company`, `country`, `line`, `source`, `lost_reason` and the dates
+stay (why: the data of a row nobody works is the data the row no longer needs ·
+`legitimate-interest.md` §5 · 2026-10-26).
+
 A row at `ready for Jamie` whose PR Jamie closes without a merge returns to its previous
 status. Jamie's reason goes in `notes`.
 

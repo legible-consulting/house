@@ -12,6 +12,7 @@ import {
   DEAL_SIZES,
   LANGUAGES,
   LINES,
+  NO_CONTACT,
   SERVICES,
   SIZES,
   UUID_RE,
@@ -27,10 +28,11 @@ import { readLinks, SendForm } from "../../_send";
 import { Shell } from "../../_shell";
 import { NextTouch } from "../../_touch";
 import { Field, Flash, StatusBadge } from "../../_ui";
-import { checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
+import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
 // One prospect: the facts, the touches, the next touch's draft (app/_touch.tsx), the move,
-// and "Ready for Jamie", which opens the handoff PR on the house and keeps its link here.
+// "They asked not to be contacted", and "Ready for Jamie", which opens the handoff PR on the
+// house and keeps its link here.
 // Read-only for every salesman but the sourcer, and for everyone once handed off. Jamie also
 // sends a form from here (app/_send.tsx); the answer is collected only, with no user.
 export const dynamic = "force-dynamic";
@@ -296,6 +298,27 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                 </Field>
                 <Button type="submit" variant="secondary">
                   Move
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
+
+        {write && p.lost_reason !== NO_CONTACT && (
+          <Card>
+            <CardHeader>
+              <CardTitle>No contact</CardTitle>
+              <CardDescription>
+                When they say no, on any channel. The row goes to lost with the reason {NO_CONTACT}, the next action is
+                cleared, and the row&apos;s email and phone go on the no-contact list for good: the pool takes no new row
+                for them, from any salesman or from the site.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form action={askedNotToBeContacted}>
+                <input type="hidden" name="id" value={p.id} />
+                <Button type="submit" variant="destructive">
+                  They asked not to be contacted
                 </Button>
               </form>
             </CardContent>

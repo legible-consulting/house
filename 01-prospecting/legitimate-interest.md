@@ -139,21 +139,26 @@ shows it until it is done.
 Art 21(2) makes objection to direct marketing absolute: there is no balancing left to do
 once someone says no.
 
-- **One no closes the company.** The sourcer sets the row to `lost` with the reason `asked
-  not to be contacted`. `lost` is final for the row. That company gets no new row, by any
-  salesman, on any channel (`cadence.md`, When a lead is lost). ✅
-- **The no is kept with the row.** The row keeps the company, the contact point and the
-  reason, and the desk shows the reason on the row. The desk refuses a second row with the
-  same `slug`, and the pool API refuses a row for an email that is open. ✅
-- **Before adding a row, the sourcer searches the pool** for the company, the address and
-  the number. A company with that reason on a `lost` row is not added. ⚠️ *The search is the
-  sender's. The desk does not refuse a new row for a lost company's address or number by
-  itself. With two or three senders over a pool of tens, a search before each add is a
-  control I can stand behind. It stops being one when §6 says so.*
+- **One no closes the company.** The sourcer or Jamie presses "They asked not to be
+  contacted" on the row's page. The row goes to `lost` with the reason `asked not to be
+  contacted` and loses its next action. `lost` is final for the row. That company gets no new
+  row, by any salesman, on any channel (`cadence.md`, Channels). ✅
+- **The no is kept apart from the row.** The same gesture writes the row's email and phone to
+  the desk's no-contact list (the table `suppressions`: the address lower-cased, the number
+  with its country code; one number is the phone and WhatsApp). The desk refuses a new row,
+  or an edit, that carries an address or a number on the list, and the pool API answers the
+  site's contact form with a refusal and stores nothing. No code path deletes an entry. The
+  row keeps the reason, and the desk shows it on the row. ✅
+- **Before adding a row, the sourcer searches the pool** for the company. A company with that
+  reason on a `lost` row is not added. ⚠️ *The desk refuses the address and the number by
+  itself. A new address or number at the same company is caught only by the sourcer's search.
+  With two or three senders over a pool of tens, a search before each add is a control I can
+  stand behind. It stops being one when §6 says so.*
 - **An erasure request does not erase the no.** Keeping the minimum needed to *stay* stopped
-  is what honouring the objection requires. Jamie answers the request by hand: the row keeps
-  the company, the contact point and the reason, and loses everything else. ⚠️ *This is a
-  rule, not yet a thing that happened. The first request is handled against this line.*
+  is what honouring the objection requires. Jamie answers the request by hand: the no-contact
+  list keeps the contact point and the reason, the row keeps the company and the reason, and
+  everything else goes. ⚠️ *This is a rule, not yet a thing that happened. The first request
+  is handled against this line.*
 
 ## 5. Retention
 
@@ -163,8 +168,10 @@ Prospect data earns its keep by being worked. When it is not:
   `added` date when it has no touch, is older than 12 months is cleared of the person's
   data: the contact's name, the email, the phone, the website, the ask and the notes. The
   company, the country, the line, the source and the dates stay. The touches keep their
-  dates and lose their notes. Nothing in the desk clears a row. Jamie does it by hand. The
-  pool's first row is from 2026-10-19, so the first clearance is due on 2027-10-19. ⚠️
+  dates and lose their notes. `desk/app/scripts/pool-purge.mjs` clears them. Jamie runs it by
+  hand from the laptop: it prints what it would clear, and it writes only with `--yes`. The
+  no-contact list is not cleared: it is the minimum that keeps a no (§4). The pool's first row
+  is from 2026-10-19, so the first clearance is due on 2027-10-19. ⚠️
   *Twelve months is my own line, drawn to be defensible rather than derived from a rule that
   names a number.*
 - **The website is on that list deliberately.** A row left reading *café · Ericeira ·

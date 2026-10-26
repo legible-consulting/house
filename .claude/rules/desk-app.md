@@ -11,7 +11,10 @@ report, the close files, the Sell words, the research verdicts and concepts, eve
 snapshot and checks its language files against each other; `read-house.mjs` imports it, and a
 form that does not parse fails the build. `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
-The pool is read per request from Neon. Two doors have no session: `app/api/pool/route.ts`,
+The pool is read per request from Neon. The no-contact list (`suppressions`) is written by the
+row page's "They asked not to be contacted" and read by every path that adds a row or changes
+its email or phone (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
+worked for 12 months, by hand from the laptop. Two doors have no session: `app/api/pool/route.ts`,
 where the portfolio's contact form posts a lead with `POOL_TOKEN`, and `/start` (`app/start/`),
 the public free look. Both make the pool row with `lib/lead.ts`; `/start` writes the answers
 to the house with `lib/answers.ts` and counts submissions per hashed IP in `throttle`.
