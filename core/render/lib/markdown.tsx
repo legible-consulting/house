@@ -7,7 +7,6 @@ import {
 } from "@formepdf/react";
 import { Lexer } from "marked";
 import type { Token, Tokens } from "marked";
-import { isValidElement } from "react";
 import type { ReactNode } from "react";
 
 import { Divider } from "@/components/pdf/divider/divider";
@@ -52,24 +51,14 @@ export class Markdown {
    * style of a run only for its own components, not for pdfcn's wrappers.
    */
   inline(tokens: Token[] | undefined): ReactNode[] {
-    // The space after a styled run is a no-break space: Forme drops a space at a
-    // run boundary when it weighs a line break there ("customer.You").
-    const nodes = this.runs(tokens);
-    for (let i = 1; i < nodes.length; i++) {
-      const node = nodes[i];
-      if (typeof node === "string" && /^\s/.test(node) && isValidElement(nodes[i - 1])) {
-        nodes[i] = ` ${node.trimStart()}`;
-      }
-    }
-    return nodes;
-  }
-
-  private runs(tokens: Token[] | undefined): ReactNode[] {
     return (tokens ?? []).map((t, i) => {
       switch (t.type) {
         case "strong":
+          // 700 is the semibold file again (lib/fonts.ts): Forme measures a 600
+          // run inside a paragraph with the regular face, and the word after it
+          // then starts too early ("customer.You").
           return (
-            <InlineRun key={i} style={{ fontWeight: this.d.headingWeight }}>
+            <InlineRun key={i} style={{ fontWeight: 700 }}>
               {this.inline(t.tokens)}
             </InlineRun>
           );

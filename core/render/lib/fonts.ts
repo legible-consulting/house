@@ -68,5 +68,10 @@ export const fetchFonts = async (
       `Google Fonts gave ${fonts.length} of ${faces.length} faces for ${sans}, ${mono}`
     );
   }
-  return fonts;
+  // The semibold file is also weight 700, for bold runs inside a paragraph
+  // (lib/markdown.tsx says why). The design has no 700.
+  const bold = fonts
+    .filter((f) => f.family === sans && f.fontWeight === 600)
+    .map((f) => ({ ...f, fontWeight: 700 }));
+  return [...fonts, ...bold];
 };
