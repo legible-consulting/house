@@ -1,4 +1,10 @@
-import { Cell, Row, Table } from "@formepdf/react";
+import {
+  Cell,
+  Link as InlineLink,
+  Text as InlineRun,
+  Row,
+  Table,
+} from "@formepdf/react";
 import { Lexer } from "marked";
 import type { Token, Tokens } from "marked";
 import type { ReactNode } from "react";
@@ -6,7 +12,7 @@ import type { ReactNode } from "react";
 import { Divider } from "@/components/pdf/divider/divider";
 import { Heading } from "@/components/pdf/heading/heading";
 import { Text } from "@/components/pdf/text/text";
-import { Link, Text as Run, View } from "@/lib/pdf-primitives";
+import { Text as Run, View } from "@/lib/pdf-primitives";
 import type { DocumentDesign } from "@/lib/voice";
 
 /**
@@ -25,8 +31,11 @@ const ENTITIES: Record<string, string> = {
   "&quot;": '"',
 };
 
+// A line break in the markdown source is a space; only a hard break ("br") breaks the line.
 const plain = (s: string): string =>
-  s.replace(/&(?:amp|lt|gt|quot|#39);/g, (e) => ENTITIES[e] ?? e);
+  s
+    .replace(/&(?:amp|lt|gt|quot|#39);/g, (e) => ENTITIES[e] ?? e)
+    .replace(/\s*\n\s*/g, " ");
 
 export const isEyebrow = (t: Token): boolean =>
   t.type === "paragraph" && /^[A-ZÀ-Ý0-9 ·&/-]{3,}$/.test(t.text.trim());
@@ -37,32 +46,40 @@ export const tracking = (size: number, em: number): number =>
 export class Markdown {
   constructor(private d: DocumentDesign) {}
 
+  /**
+   * Inline runs are Forme's own Text and Link: Forme's serialiser keeps the
+   * style of a run only for its own components, not for pdfcn's wrappers.
+   */
   inline(tokens: Token[] | undefined): ReactNode[] {
     return (tokens ?? []).map((t, i) => {
       switch (t.type) {
         case "strong":
           return (
-            <Run key={i} style={{ fontWeight: this.d.headingWeight }}>
+            <InlineRun key={i} style={{ fontWeight: this.d.headingWeight }}>
               {this.inline(t.tokens)}
-            </Run>
+            </InlineRun>
           );
         case "em":
           return (
-            <Run key={i} style={{ fontStyle: "italic" }}>
+            <InlineRun key={i} style={{ fontStyle: "italic" }}>
               {this.inline(t.tokens)}
-            </Run>
+            </InlineRun>
           );
         case "codespan":
           return (
-            <Run key={i} style={{ fontFamily: this.d.mono, fontSize: this.d.bodySize - 1.5 }}>
+            <InlineRun key={i} style={{ fontFamily: this.d.mono, fontSize: this.d.bodySize - 1.5 }}>
               {plain(t.text)}
-            </Run>
+            </InlineRun>
           );
         case "link":
           return (
-            <Link key={i} href={t.href} style={{ textDecoration: "underline" }}>
+            <InlineLink
+              key={i}
+              href={t.href}
+              style={{ color: this.d.ink, textDecoration: "underline" }}
+            >
               {this.inline(t.tokens)}
-            </Link>
+            </InlineLink>
           );
         case "br":
           return "\n";
