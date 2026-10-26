@@ -50,6 +50,17 @@ export async function saveClientUser(email: string, name: string, slug: string):
   return !rows[0] ? "kept" : rows[0].active ? "active" : "saved";
 }
 
+// Jamie activates a client user of this folder (magic-link-sign-in of .icm/intake/desk-forms).
+// The update matches a client row of the folder only, so it never changes another role or another
+// folder's user. False when no such row exists.
+export async function activateClientUser(email: string, slug: string): Promise<boolean> {
+  const rows = (await sql()`
+    update users set active = true where email = ${email} and client = ${slug} and role = 'client'
+    returning id
+  `) as { id: string }[];
+  return rows.length > 0;
+}
+
 // The client users of one folder, oldest first, with their state (the Users card on
 // /clients/<slug>, Jamie only).
 export async function usersOf(slug: string): Promise<ClientUser[]> {

@@ -35,8 +35,9 @@ variable. The Process says what a session does with them.
 - A client user. Jamie sends a form from `/clients/<slug>`. The person's answer saves them as
   a user: `role: client`, `client: <slug>`, `active: false`. A user who is not active is a
   client with no folder and sees nothing. The Users card on the client page shows Jamie each
-  user of the folder and the state. Jamie activates the user (`magic-link-sign-in` of
-  `.icm/intake/desk-forms`) (why: Jamie decides who gets in and when · 2026-10-25).
+  user of the folder and the state. Jamie clicks "Activate": the desk sets `active: true` and
+  asks Neon Auth to mail the person a sign-in link. From then on the person signs in by link
+  only (Outputs, How a client gets in) (why: Jamie decides who gets in and when · 2026-10-25).
 - The glance and the close. `app/lib/rhythms.ts` computes both on every request, from the
   house as of the last push to `main`. `rhythms.yml` writes the same words to
   `glance/<date>.md` every morning and to `close/<YYYY-MM>.md` on the 1st, and commits the
@@ -109,6 +110,24 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   Neon console (the upserts are at the foot of `schema.sql`). `users.active` is false for a
   client that the answer to a sent link saved, and true for every other row. `currentUser()`
   (`app/lib/user.ts`) reads a user with `active` false as a client with no folder.
+- How a client gets in. Jamie and the salesmen sign in with email and password. A client user
+  of a folder (`role: client` with a `client`) signs in by magic link only: the password form
+  reads the `users` row by email before it asks Neon Auth, and answers a client's email with
+  the note to use the link. Neon Auth mails the link (`app/lib/auth.ts mailSignInLink`), as it
+  mails the reset link: at Jamie's click on "Activate" or "Send again" in the Users card, or
+  when the person asks on `/sign-in` with "Email me a sign-in link". The desk asks for a link
+  only for an active client user of a folder, and `/sign-in` shows the same note whether or
+  not it asked. The link lands on `/link` (`app/link/route.ts`): the middleware sets the
+  session cookies, the route runs `ensureUser` and lands the client on `/clients/<slug>`. A
+  spent or expired link lands on `/sign-in`, which names Neon Auth's code and asks for a new
+  link. The desk's own mail still goes to Jamie only (why: Jamie decides who gets in, and a
+  client keeps no password · 2026-10-25).
+- Jamie's step for the links, in the Neon console, project `legible-desk`, Settings > Better
+  Auth > Magic Link: Enable Magic Link on. Allow New User Registration on, because a client
+  has no Neon Auth account before the first link; the desk asks for a link for nobody but an
+  active client user. Link Expiration long enough for the first mail, which goes out at
+  Jamie's click and is read later (1440 minutes is the maximum). The link lands on the origin
+  that asked for it, so that origin is a trusted domain of Neon Auth, as for the reset mail.
 - Variables, names only, on the Vercel project (`app/.env.example`): `DATABASE_URL`,
   `NEON_AUTH_BASE_URL`, `NEON_AUTH_COOKIE_SECRET`, `DESK_PAT` (the house only: Contents, Pull
   requests and Actions, read and write), `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (one fine-grained token per
@@ -185,7 +204,11 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   matches what the person read · 2026-10-26).
 - The Users card (`app/_users.tsx`), Jamie only, on `/clients/<slug>`: every user at role
   `client` whose `client` is the slug, with the name, the email, the date saved and the state,
-  active or waits for activation. A failed read fails the card only, in words.
+  active or waits for activation. A failed read fails the card only, in words. "Activate" sets
+  the user's `active` to true, then asks Neon Auth for a sign-in link to their email, and the
+  page says the link is on its way. "Send again" asks for a new link for an active user. A
+  link that Neon Auth does not send leaves the user active, and the page says so
+  (`app/_users-actions.ts`).
 - A sent link answered, `/f/<token>` (`app/f/[token]/`), another page without a session,
   outside the shell and `noindex`; `/robots.txt` disallows `/f/`. It renders the row's frozen
   title, intro and questions, never `forms/` or `house.json`, with the page's own words in the

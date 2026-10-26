@@ -5,7 +5,9 @@ import { auth } from "@/lib/auth";
 // password pages, /start (the public free look), /f/<token> (a sent link: the token is the
 // credential), /robots.txt and /api/pool (its own token). The SDK's middleware sends a visitor
 // without one to the sign-in page and refreshes a session that has one; the role is each
-// page's own check. Built on the first request, like the auth instance it wraps.
+// page's own check. It also completes a sign-in link on /link (app/link/route.ts), so that route
+// is matched and never sits under /sign-in, which the middleware passes untouched. Built on
+// the first request, like the auth instance it wraps.
 let guard: ReturnType<NeonAuthMiddleware> | undefined;
 type NeonAuthMiddleware = ReturnType<typeof auth>["middleware"];
 
@@ -15,5 +17,5 @@ export default function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/work", "/pool/:path*", "/sell/:path*", "/close", "/clients/:path*", "/research/:path*", "/share"],
+  matcher: ["/", "/work", "/pool/:path*", "/sell/:path*", "/close", "/clients/:path*", "/research/:path*", "/share", "/link"],
 };

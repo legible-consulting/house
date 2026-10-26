@@ -1,8 +1,7 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { auth, deskOrigin } from "@/lib/auth";
 import { attempt } from "@/lib/guard";
 
 // Asks Neon Auth to mail a reset link that lands on /reset-password. The answer is the same
@@ -11,8 +10,7 @@ import { attempt } from "@/lib/guard";
 export async function requestReset(form: FormData) {
   const email = String(form.get("email") ?? "").trim().toLowerCase();
   if (!email) redirect(`/forgot-password?error=${encodeURIComponent("Email is required.")}`);
-  const h = await headers();
-  const origin = `${h.get("x-forwarded-proto") ?? "https"}://${h.get("x-forwarded-host") ?? h.get("host")}`;
+  const origin = await deskOrigin();
   const failure = await attempt(async () => {
     const { error } = await auth().requestPasswordReset({ email, redirectTo: `${origin}/reset-password` });
     if (error) throw new Error(error.message);
