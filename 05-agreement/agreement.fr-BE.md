@@ -32,11 +32,12 @@ ci-après « vous ».
 
 ## 02 L'objet
 
-<!-- terms: voice.md § The documents (the proposal attached); terms.md § Validity and revisions -->
+<!-- terms: voice.md § The documents (the proposal attached); terms.md § Law and language (the agreement prevails); terms.md § Validity and revisions -->
 
 Ma proposition « {{titre de la proposition}} » du {{date de la proposition}}, avec sa
 dernière section, « {{titre de la dernière section}} », est jointe et fait partie du présent accord. Vous l'avez
-acceptée le {{date d'acceptation}}.
+acceptée le {{date d'acceptation}}. En cas de divergence entre le présent accord et la
+proposition, le présent accord prévaut.
 
 <!-- kind: build -->
 Je construis ce que la proposition décrit comme compris, et rien de ce qu'elle exclut. Le
@@ -130,13 +131,23 @@ j'ai besoin, jamais de la proposition.
   d'autre. Mon accès est permanent.
 <!-- end kind -->
 
-## 06 Fin de l'accord [LAWYER]
+## 06 Confidentialité et responsabilité [LAWYER]
+
+<!-- terms: terms.md § Confidentiality and liability -->
+
+- Ce que je vois de votre travail et de votre entreprise reste confidentiel, pendant la
+  mission et après. À la fin, je ne garde aucune copie de vos documents.
+- Ma responsabilité au titre du présent accord est limitée au prix que vous avez payé.
+
+## 07 Fin de l'accord [LAWYER]
 
 <!-- terms: terms.md § Ending an engagement -->
 
+<!-- kind: build, retainer -->
 - Chacun peut mettre fin au présent accord par écrit, avec un préavis de 30 jours.
 - Le travail fait jusqu'à la date du préavis est facturé. Le premier paiement, versé à la
   signature, n'est pas remboursé.
+<!-- end kind -->
 
 <!-- kind: retainer -->
 - Le forfait mensuel prend fin au terme du préavis. Le mois en cours n'est pas remboursé.
@@ -144,14 +155,25 @@ j'ai besoin, jamais de la proposition.
   dans les mots de la dernière section de la proposition.}}
 <!-- end kind -->
 
-## 07 Droit applicable [LAWYER]
+<!-- kind: training -->
+- Un report est gratuit si vous me prévenez au moins 14 jours avant le premier jour.
+- Une annulation plus de 30 jours avant le premier jour : l'acompte versé est remboursé,
+  moins le prix de mon vol s'il est déjà réservé.
+- Une annulation entre 30 et 14 jours avant : la moitié du prix reste due.
+- Une annulation à moins de 14 jours : le prix total reste dû.
+- Si c'est moi qui ne peux pas venir (maladie, vol annulé ou tout autre empêchement), nous
+  fixons une nouvelle date ensemble sans frais pour vous, ou je vous rembourse ce que vous
+  avez payé, à votre choix.
+<!-- end kind -->
+
+## 08 Droit applicable [LAWYER]
 
 <!-- terms: terms.md § Law and language -->
 
 Le présent accord est régi par le droit portugais. Les tribunaux de Lisbonne sont
 compétents. Le présent texte en français fait foi.
 
-## 08 Signatures
+## 09 Signatures
 
 Signé électroniquement via Google eSignature.
 

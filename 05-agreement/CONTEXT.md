@@ -43,7 +43,10 @@ The agreement produces the signable contract for a deal the client said yes to, 
      - `training`: the week (or the day) as the proposal describes it, the dates, the
        materials and the starter kit, and one attendance record (attestation) per person;
        the travel line and the hotel from `services.md` § Training pricing; 50 % on signature
-       as the deposit and 50 % after delivery.
+       as the deposit and 50 % after delivery; the workshop's cancellation scale in place of
+       the notice period.
+     - Every kind: the agreement prevails over the proposal where they differ;
+       confidentiality and the liability limit (`terms.md` § Confidentiality and liability).
      - `role` or an empty `kind`: stop and ask Jamie. A role is agreed per case and has no
        template (`services.md`, The lines).
   4. Fill each placeholder from its home. The parties: the client's legal entity, its
@@ -58,10 +61,10 @@ The agreement produces the signable contract for a deal the client said yes to, 
      the client chose when the quote offers two, and what the proposal left open. Offer a
      default in each question, read from the record, the proposal or the quote.
   6. A deal that needs a clause `terms.md` does not hold (a deviation the negotiation
-     record names, a confidentiality or liability clause the client asks for, a cancellation
-     rule for a training week) gets it in the client's agreement only, marked `[LAWYER]`, and
-     the PR body proposes the term for `terms.md`. A session does not edit `core/`. Jamie
-     closes the item there (why: a term written in one agreement and not in `terms.md` is a
+     record names, a clause the client asks for) gets it in the client's agreement only, marked `[LAWYER]`, and
+     the PR body proposes the term for `terms.md` as a question with a default. A session
+     writes a term into `terms.md` only on Jamie's answer, by PR (`core/CONTEXT.md`), and the
+     templates follow it (why: a term written in one agreement and not in `terms.md` is a
      term the next agreement forgets · 2026-10-26).
   7. Write `clients/<slug>/agreement/agreement.md` in the client's language. Frontmatter:
      `title`, `kind: agreement`, `client`, `language`, `date` (the day of the draft; Jamie

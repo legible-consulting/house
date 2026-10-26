@@ -32,11 +32,12 @@ em Mafra, Portugal, NIF 336899076, adiante «eu».
 
 ## 02 O objeto
 
-<!-- terms: voice.md § The documents (the proposal attached); terms.md § Validity and revisions -->
+<!-- terms: voice.md § The documents (the proposal attached); terms.md § Law and language (the agreement prevails); terms.md § Validity and revisions -->
 
 A minha proposta «{{título da proposta}}» de {{data da proposta}}, com a sua última secção,
 «{{título da última secção}}», segue em anexo e faz parte do presente acordo. O Cliente aceitou-a em
-{{data de aceitação}}.
+{{data de aceitação}}. Se o presente acordo e a proposta divergirem, prevalece o presente
+acordo.
 
 <!-- kind: build -->
 Construo o que a proposta descreve como incluído, e nada do que ela exclui. O preço inclui
@@ -129,13 +130,24 @@ acessos de que preciso, nunca a partir da proposta.
   é permanente.
 <!-- end kind -->
 
-## 06 Cessação [LAWYER]
+## 06 Confidencialidade e responsabilidade [LAWYER]
+
+<!-- terms: terms.md § Confidentiality and liability -->
+
+- O que vejo do trabalho e da empresa do Cliente fica confidencial, durante o trabalho e
+  depois dele. No fim, não fico com nenhuma cópia dos documentos do Cliente.
+- A minha responsabilidade ao abrigo do presente acordo está limitada ao preço que o Cliente
+  pagou.
+
+## 07 Cessação [LAWYER]
 
 <!-- terms: terms.md § Ending an engagement -->
 
+<!-- kind: build, retainer -->
 - Qualquer das partes pode pôr fim ao presente acordo com um pré-aviso escrito de 30 dias.
 - O trabalho feito até à data do pré-aviso é faturado. O primeiro pagamento, feito na
   assinatura, não é reembolsado.
+<!-- end kind -->
 
 <!-- kind: retainer -->
 - A avença termina no fim do pré-aviso. O mês em curso não é reembolsado.
@@ -143,14 +155,25 @@ acessos de que preciso, nunca a partir da proposta.
   antecipada, nas palavras da última secção da proposta.}}
 <!-- end kind -->
 
-## 07 Lei e língua [LAWYER]
+<!-- kind: training -->
+- O Cliente pode mudar as datas sem custo se me avisar pelo menos 14 dias antes do primeiro
+  dia.
+- Se o Cliente cancelar mais de 30 dias antes do primeiro dia, o sinal é reembolsado, menos o
+  preço do meu voo se já estiver reservado.
+- Se cancelar entre 30 e 14 dias antes, metade do preço é devida.
+- Se cancelar menos de 14 dias antes, o preço total é devido.
+- Se for eu a não poder ir (doença, voo cancelado ou outro impedimento), marcamos uma nova
+  data sem custo para o Cliente, ou reembolso o que o Cliente pagou, à escolha do Cliente.
+<!-- end kind -->
+
+## 08 Lei e língua [LAWYER]
 
 <!-- terms: terms.md § Law and language -->
 
 Aplica-se a lei portuguesa. São competentes os tribunais de Lisboa. O presente texto em
 português é o que faz fé.
 
-## 08 Assinaturas
+## 09 Assinaturas
 
 Assinado eletronicamente através do Google eSignature.
 

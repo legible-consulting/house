@@ -31,10 +31,11 @@ Portugal, NIF 336899076: "I".
 
 ## 02 What is agreed
 
-<!-- terms: voice.md § The documents (the proposal attached); terms.md § Validity and revisions -->
+<!-- terms: voice.md § The documents (the proposal attached); terms.md § Law and language (the agreement prevails); terms.md § Validity and revisions -->
 
 My proposal "{{proposal title}}" of {{proposal date}}, with its last section, "What it costs",
-is attached and is part of this agreement. You accepted it on {{date accepted}}.
+is attached and is part of this agreement. You accepted it on {{date accepted}}. Where this
+agreement and the proposal differ, this agreement prevails.
 
 <!-- kind: build -->
 I build what the proposal lists under In, and nothing it lists under Out. The price includes
@@ -123,13 +124,23 @@ from the proposal.
   a flow is broken, and nothing else. My access is standing.
 <!-- end kind -->
 
-## 06 Ending [LAWYER]
+## 06 Confidentiality and liability [LAWYER]
+
+<!-- terms: terms.md § Confidentiality and liability -->
+
+- What I see of your work and your business stays confidential, during this engagement and
+  after it. At the end I keep no copy of your documents.
+- My liability under this agreement is limited to the price you have paid.
+
+## 07 Ending [LAWYER]
 
 <!-- terms: terms.md § Ending an engagement -->
 
+<!-- kind: build, retainer -->
 - Either side may end this agreement with 30 days' written notice.
 - Work done up to the notice date is invoiced. The first payment on signature is not
   refunded.
+<!-- end kind -->
 
 <!-- kind: retainer -->
 - The retainer ends at the end of the notice period. The month in progress is not refunded.
@@ -137,14 +148,24 @@ from the proposal.
   proposal's price section words it.}}
 <!-- end kind -->
 
-## 07 Law and language [LAWYER]
+<!-- kind: training -->
+- You may move the dates at no cost when you tell me at least 14 days before the first day.
+- You cancel more than 30 days before the first day: the deposit is refunded, less my flight
+  if it is booked.
+- You cancel between 30 and 14 days before: half of the price is due.
+- You cancel less than 14 days before: the whole price is due.
+- If I cannot come (illness, a cancelled flight, any other cause), we set a new date at no
+  cost to you, or I refund what you paid, at your choice.
+<!-- end kind -->
+
+## 08 Law and language [LAWYER]
 
 <!-- terms: terms.md § Law and language -->
 
 Portuguese law applies. The courts of Lisbon are competent. This English text is the one
 that is signed.
 
-## 08 Signatures
+## 09 Signatures
 
 Signed electronically through Google eSignature.
 
