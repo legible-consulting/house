@@ -36,14 +36,15 @@ One level, every name a word. The numbered folders are the stages a deal walks, 
 | `03-proposal/` | the client-facing offer |
 | `04-quote/` | the price, the options and the engagement's economics |
 | `05-agreement/` | the signable agreement, one template per language |
+| `06-kickoff/` | the kickoff form, the templates of the access table and the kickoff note, and the procedure that renders the client repo and cuts its first epic |
 | `07-build/` | the build from ticket to release, on the client repo |
 | `conformance/` | every live repo against the blueprint, on a schedule |
 | `research/` | the verdicts on tools and the concept library |
 | `.icm/intake/` | the house's own tickets: a module not built yet, a change to the desk |
 
-The stage numbers are final, in deal order. The gaps 06 (kickoff) and 08 (handover) are stages not built yet, each with a ticket in `.icm/intake/house-modules/` (why: one renumber beats one renumber per new stage, and a gap keeps the place of a stage in the sequence a deal walks · 2026-10-26).
+The stage numbers are final, in deal order. The gap 08 (handover) is a stage not built yet, with a ticket in `.icm/intake/house-modules/` (why: one renumber beats one renumber per new stage, and a gap keeps the place of a stage in the sequence a deal walks · 2026-10-26).
 
-A module the business needs and the house does not have yet (kickoff, handover, the portfolio, content, training) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
+A module the business needs and the house does not have yet (handover, the portfolio, content, training) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
 
 ## Other house words
 
