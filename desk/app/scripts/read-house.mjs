@@ -3,8 +3,9 @@
 //   clients/*/record.md            frontmatter: the clients table, the glance, the close
 //   clients/*/quote/economics.yaml  the engagement's economics (the quote): the price, the estimates,
 //                                   the actuals per month
-//   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
-//                                   the client-facing documents, for the client's page
+//   clients/*/{proposal/proposal.md, agreement/*.md, handover/*.md}
+//                                   the client-facing documents, for the client's page. The
+//                                   quote is the proposal's last section, not a document of its own
 //   clients/_template/record.md     the handoff PR
 //   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
@@ -78,6 +79,23 @@ const estate = drift ? { file: drift.file, date: drift.date, blueprint: String(d
 // One client: the record's frontmatter, its economics, its client-facing documents and its
 // repo's line in the drift report. The template folder is skipped: its {{PLACEHOLDERS}} are
 // not a client. Research/, negotiation.md and economics.yaml are internal: never a document.
+// The client reads the proposal and the quote as one document (03-proposal/CONTEXT.md): the
+// proposal's section that holds the marker comment naming quote/quote.md is replaced by the
+// quote's body, which is that section. A proposal without the marker (one transcribed as
+// sent) holds its own price and is shown as it is. A quote without a proposal is not shown.
+// HTML comments are notes for Jamie and the renderer, never for the client: they leave every
+// client document, because the desk shows raw HTML as text (lib/markdown.ts).
+const QUOTE_MARK = /<!--(?:(?!-->)[^])*quote\/quote\.md/;
+const withQuote = (proposal, quote) => {
+  const at = proposal.search(QUOTE_MARK);
+  if (at < 0 || quote === null) return proposal;
+  const heading = proposal.lastIndexOf("\n## ", at);
+  const start = heading < 0 ? at : heading + 1;
+  const next = proposal.indexOf("\n## ", at);
+  return `${proposal.slice(0, start)}${quote}${next < 0 ? "" : `\n\n${proposal.slice(next + 1)}`}`;
+};
+const noComments = (body) => body.replace(/<!--[^]*?-->/g, "").replace(/\n{3,}/g, "\n\n").trim();
+
 const clients = readdirSync(clientsDir, { withFileTypes: true })
   .filter((d) => d.isDirectory() && !d.name.startsWith("_"))
   .flatMap((d) => {
@@ -94,12 +112,18 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
       : null;
     const documents = [
       ["proposal", "proposal.md"],
-      ["quote", "quote.md"],
       ...files(join(dir, "agreement"), ".md").map((f) => ["agreement", f]),
       ...files(join(dir, "handover"), ".md").map((f) => ["handover", f]),
     ]
       .filter(([stage, f]) => existsSync(join(dir, stage, f)))
-      .map(([stage, f]) => ({ stage, ...plain(doc(join(dir, stage), f)) }));
+      .map(([stage, f]) => {
+        const d = plain(doc(join(dir, stage), f));
+        if (stage === "proposal") {
+          const quote = existsSync(join(dir, "quote", "quote.md")) ? doc(join(dir, "quote"), "quote.md").body : null;
+          d.body = withQuote(d.body, quote);
+        }
+        return { stage, ...d, body: noComments(d.body) };
+      });
     const blueprint = fm.repo ? (blueprintOf.get(String(fm.repo)) ?? null) : null;
     return [{ ...fm, slug, economics, documents, blueprint }];
   })

@@ -1,5 +1,5 @@
 ---
-status: stub
+status: built
 holds:
   - mani.yaml
   - "estate/*.md"
@@ -20,11 +20,56 @@ The desk produces the morning glance (every client's next action and deadline, s
 
 ## Process
 
-- Not written yet. A session writes it from the first real walk.
+A session walks the desk in this order. The Outputs below name every file, route and
+variable. The Process says what a session does with them.
+
 - Start cold from this folder. Read only what Inputs names.
+- The facts. A page reads the house from `lib/house.json`, which `app/scripts/read-house.mjs`
+  writes at build. The pool, the client repos, the house's tickets and the house's runs are
+  read per request. A fact changed in the house reaches the desk only by a push to `main`. To
+  change what a page shows, change the house file and push (why: a page never reads the repo,
+  Outputs, Data · 2026-10-21).
+- The roles. `jamie` sees every page. `salesman` sees `/pool` and `/sell`, and a handed-off
+  deal up to `agreement`. `client` sees `/clients/<slug>` for the folder `users.client` names,
+  and nothing else. Jamie sets a role in the Neon console (Outputs, Sign-in).
+- The glance and the close. `app/lib/rhythms.ts` computes both on every request, from the
+  house as of the last push to `main`. `rhythms.yml` writes the same words to
+  `glance/<date>.md` every morning and to `close/<YYYY-MM>.md` on the 1st, and commits the
+  file to `main`. To change a rule, change `rhythms.ts`. The page and the file change
+  together (why: one set of rules for every reader · 2026-10-22).
 - A client with `kind: retainer` or `kind: role` stays at `build` (`clients/CONTEXT.md`). The
   glance does not flag it as stalled or overdue for handover. The monthly close reads its
   `price.monthly` (why: neither engagement ends · 2026-10-16).
+- A ticket. `/work` lists the house's own tickets (`.icm/intake/`, read with `DESK_PAT`) and
+  each client repo's tickets (read with the owner's token). A row opens on the stub and its
+  Prompt, the stub's own `## Prompt` section. Jamie copies the Prompt into a session on the
+  repo that holds the ticket. The session works on a branch, moves the stub to `_done/` and
+  opens a pull request. The pull request then shows on `/work` with its gates, its CI and
+  its preview (why: a session takes a ticket cold, `.icm/intake/CONTEXT.md` · 2026-10-25).
+- A gate. Jamie ticks a gate from `/work` or from the Work card on a client's page.
+  `app/lib/gates.ts` writes the box in the pull request's body with the owner's token. When
+  the token cannot write, the page names the variable. Jamie then ticks on GitHub (why: a gate
+  ticked from the phone is still Jamie's own tick · 2026-10-21).
+- A shared link. On the phone, Jamie shares a link to the installed desk, and `/share` writes
+  it. At the computer, Jamie pastes it in the form on `/research`. Both write
+  `research/queue/<date>-<host>-<hash>.md` to `main` with `DESK_PAT`. The desk judges nothing.
+  The daily intake writes the verdict (`research/CONTEXT.md`) (why: the share sheet is the one
+  tap Jamie takes on the phone · 2026-10-25).
+- A lead. The portfolio's contact form posts to `/api/pool` with `POOL_TOKEN`. The free look
+  posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
+  email is open. A salesman or Jamie moves the row through the pool's statuses
+  (`clients/CONTEXT.md`). At `ready for Jamie` the desk opens a pull request on the house that
+  creates `clients/<slug>/record.md`. Jamie merges it (why: a lead copied by hand from a
+  mail is a lead lost · 2026-10-22).
+- The sync pill. It says up to date, running, deploying, out of sync or unknown. Read it
+  before you trust a page: only up to date means the page shows `main`'s head. Out of sync is
+  fixed from the laptop. Its panel starts `rhythms.yml` for the glance or the close (why:
+  one word says whether the desk shows `main` · 2026-10-22).
+- A change to the app. The session pushes to a branch and opens a pull request. `check.yml`
+  builds the app on every push. Vercel deploys a preview per pull request. Read the result
+  from CI and the preview, never from a local run (`CLAUDE.md`, House rules).
+- A session never merges, never ticks a gate and never moves a stage. It sends nothing to a
+  client. The desk's one mail goes to Jamie (`CLAUDE.md`, Boundaries).
 
 ## Outputs
 
@@ -114,10 +159,15 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   account, and the desk sends nothing · 2026-10-22).
 - A client's page: `/clients/<slug>` for the folder `users.client` names: where it stands,
   the repo's latest release and `check.yml` result (no link, no reason when the read fails),
-  the documents the client reads (`proposal/proposal.md`, `quote/quote.md`,
-  `agreement/*.md`, `handover/*.md`), and the work in words: in progress with the preview
-  link, shipped in the last 14 days, queued. Research, negotiation, economics, drift, gates,
-  CI and triage never reach it.
+  the documents the client reads (`proposal/proposal.md`, `agreement/*.md`,
+  `handover/*.md`), and the work in words: in progress with the preview link, shipped in the
+  last 14 days, queued. Research, negotiation, economics, drift, gates, CI and triage never
+  reach it.
+- The price is the proposal's last section (`clients/CONTEXT.md`). `read-house.mjs` puts
+  `quote/quote.md` in place of the proposal's section that holds the marker comment naming
+  it, so the client reads one document with the price. HTML comments leave every client
+  document (why: the client says yes to one document, and the renderer that joins the two for
+  the PDF is not built yet · 2026-10-26).
 - The phone: the desk installs from Chrome's menu (`app/desk.webmanifest/route.ts`; the icons are drawn
   by `app/_mark.tsx`, so no image file lives in git). Installed, it is a share target: a link
   shared to Desk opens `/share`, which writes `research/queue/<date>-<host>-<hash>.md`
