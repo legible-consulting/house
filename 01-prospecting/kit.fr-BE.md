@@ -22,7 +22,11 @@ rien, et je ne vois jamais le message que tu as envoyé.
    quel événement, quelle liste). La ligne est à toi à partir de là. L'email sur la ligne
    garde aussi le contact à toi quand la personne m'écrit par mon site.
 2. **Envoie le premier contact et enregistre-le.** Date, canal, une ligne. La ligne passe à
-   `contacted` et le desk fixe la date suivante.
+   `contacted` et le desk fixe la date suivante. Un premier e-mail ou WhatsApp à une
+   entreprise qui n'a rien demandé va à une adresse de l'entreprise, jamais à celle d'une
+   personne, et garde les deux lignes à la fin du brouillon d'ouverture : où tu l'as trouvée,
+   et qu'une réponse suffit pour arrêter. Un non est définitif : mets `lost` avec la raison
+   `asked not to be contacted`, et n'ajoute plus jamais cette entreprise (la cadence).
 3. **Suis la cadence.** Un nouvel angle au jour 7, une dernière note au jour 21. Enregistre
    chaque contact. Une réponse met la ligne à `replied`. Un rendez-vous avec toi la met à
    `meeting`.
