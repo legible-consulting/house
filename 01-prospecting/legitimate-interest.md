@@ -82,7 +82,7 @@ amendment the controls of §3 are in place as words the sender follows. Two cont
 ships, the no is kept by hand by two or three people over a pool of tens, and the purge is
 not due before 2027-10-19. On that basis the balance holds today. It stops holding, and this
 record is redone, when §6 says so, or when the ticket is not shipped by 2027-10-19, or when a
-no is found not to have stuck.
+no is found not to have stuck. Jamie confirmed this conclusion on 2026-10-26.
 
 ---
 
