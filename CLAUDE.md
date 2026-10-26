@@ -66,7 +66,9 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
   `.claude/hooks/` enforces it (why: one verdict, recorded where the code was pushed · 2026-10-14).
 - One session, one repo. Kickoff (`06-kickoff/CONTEXT.md`) is the named exception and
   attaches the new client repo as well (why: a cloud session loads a repo's hooks and
-  permissions only when one repo is attached · 2026-10-15).
+  permissions only when one repo is attached · 2026-10-15). A session may attach the sibling
+  repos read-only, and kickoff is still the one session that writes to two (why: a cloud
+  session loads hooks from one repo only, and a read needs no hook · 2026-10-22).
 - A file enters this repo only where a contract holds it: the `holds:` globs in the
   contract's frontmatter. `check.yml` fails on any other file. What a session makes for the
   moment stays in the scratchpad or an artifact and is linked, not committed. A stored

@@ -112,6 +112,7 @@ One environment, `legible`, in claude.ai/code.
 | Environment variables | none |
 | Network secrets | none |
 | Setup script | `setup/cloud.sh`, pasted in full |
+| Repositories | house, plus the siblings read-only |
 
 The pasted copy is not linked to this repo: after editing `setup/cloud.sh`, paste it into the
 environment dialog again. That rebuilds the environment cache on the next session. Check: a
