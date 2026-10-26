@@ -99,13 +99,30 @@ export async function jamieId(): Promise<string> {
 }
 
 // The open row with this email, if one exists: not lost and not handed off. The pool API
-// answers 422 with it instead of a second row (why: one company has one row · prospect.md).
-export async function openProspectByEmail(email: string): Promise<string | null> {
+// answers 422 with it instead of a second row, and /start writes the answers under its slug
+// (why: one company has one row · prospect.md).
+export async function openProspectByEmail(
+  email: string,
+): Promise<{ id: string; slug: string | null; company: string } | null> {
   const rows = (await sql()`
-    select id from prospects where email = ${email} and status not in ('lost', 'handed off')
+    select id, slug, company from prospects where email = ${email} and status not in ('lost', 'handed off')
     order by created_at limit 1
-  `) as { id: string }[];
-  return rows[0]?.id ?? null;
+  `) as { id: string; slug: string | null; company: string }[];
+  return rows[0] ?? null;
+}
+
+// /start's rate limit: one upsert per submission counts it against the hashed IP and the
+// hour, and returns the count so far. The same statement drops the hours older than a day, so
+// the table never holds more than a day of hashes (why: a hashed IP is still about a person,
+// and an hour past is of no use to the limit · 2026-10-26).
+export async function countSubmission(ipHash: string): Promise<number> {
+  const rows = (await sql()`
+    with old as (delete from throttle where hour < now() - interval '1 day')
+    insert into throttle (ip_hash, hour, n) values (${ipHash}, date_trunc('hour', now()), 1)
+    on conflict (ip_hash, hour) do update set n = throttle.n + 1
+    returning n
+  `) as { n: number }[];
+  return rows[0]!.n;
 }
 
 export async function insertProspect(salesman: string, slug: string, f: ProspectFields): Promise<string> {

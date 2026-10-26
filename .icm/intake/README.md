@@ -44,6 +44,9 @@ The steps of the house's own build that no session takes, because each reaches a
   `mail.jamienisbet.com`, set as `RESEND_API_KEY` on the Vercel project `legible-desk` for
   production and preview. Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for
   both.
+- Neon, project `legible-desk`: run `desk/app/db/schema.sql` again in the SQL editor, for the
+  `throttle` table of `/start`'s rate limit. Until then the limit is off, and the rest of
+  `/start` works. Check: `select count(*) from throttle` answers.
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
