@@ -4,7 +4,7 @@ name: Collabimmo
 language: fr-BE
 stage: after
 kind: build
-public:
+public: named
 opened: 2026-10-26
 next_action:
 deadline:

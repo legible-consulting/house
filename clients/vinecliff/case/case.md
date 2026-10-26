@@ -15,7 +15,7 @@ stack:
 outcome: "A direct channel beside the rental sites, with the owner's yes on every stay"
 featured: true
 order: 1
-ready: false
+ready: true
 ---
 
 Vine Cliff Vineyards is a 170-year-old country estate on Lake Erie, in Brocton, New York.

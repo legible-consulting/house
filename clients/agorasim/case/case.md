@@ -16,7 +16,7 @@ stack:
 outcome: "Bookings and payments on their own site, in Portuguese and English"
 featured: true
 order: 2
-ready: false
+ready: true
 ---
 
 Agorasim run guided classic-car tours of the Saloia region, west of Lisbon, and classic cars for weddings and events.

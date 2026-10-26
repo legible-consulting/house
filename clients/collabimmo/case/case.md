@@ -15,7 +15,7 @@ outcome: "One page built for the enquiry, and a pipeline for the leads in their 
 featured: true
 order: 3
 url: https://collabimmo.be
-ready: false
+ready: true
 ---
 
 Collabimmo handle commercial property transactions in Belgium.

@@ -14,7 +14,7 @@ outcome: "Five languages, built for phones, and an application in short steps"
 featured: true
 order: 4
 url: https://boystomenretreat.com
-ready: false
+ready: true
 ---
 
 Boys To Men Retreat runs four days in Ericeira for boys aged 9 to 16: challenge, adventure, and a bit of growing up.

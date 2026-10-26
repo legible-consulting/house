@@ -4,7 +4,7 @@ name: Boys To Men Retreat
 language: en-GB
 stage: after
 kind: build
-public:
+public: named
 opened: 2026-10-26
 next_action:
 deadline:
