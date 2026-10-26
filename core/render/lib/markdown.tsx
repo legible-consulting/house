@@ -54,11 +54,8 @@ export class Markdown {
     return (tokens ?? []).map((t, i) => {
       switch (t.type) {
         case "strong":
-          // 700 is the semibold file again (lib/fonts.ts): Forme measures a 600
-          // run inside a paragraph with the regular face, and the word after it
-          // then starts too early ("customer.You").
           return (
-            <InlineRun key={i} style={{ fontWeight: 700 }}>
+            <InlineRun key={i} style={{ fontWeight: this.d.headingWeight }}>
               {this.inline(t.tokens)}
             </InlineRun>
           );
