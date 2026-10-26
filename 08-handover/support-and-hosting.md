@@ -41,7 +41,9 @@ are in the Vercel and GitHub settings, never in a document.}}
 {{SUPPORT: from core/terms.md § Hosting and support, for this pattern. Client-owned: none;
 ongoing work is a retainer or nothing. Jamie-hosted: basic support inside the retainer, a
 crash fix on call when the site is down or a flow is broken, nothing else. A site with no
-state: no support line. Then: there is no warranty period after handover (core/terms.md §
+state: no support line. Jamie-hosted with state and no retainer: the outcome the proposal or
+the agreement names, either the move to client-owned (§ What moves to you) or free hosting
+that Jamie keeps working, a crash fix when it is down, no maintenance beyond that. Then: there is no warranty period after handover (core/terms.md §
 Validity and revisions).}}
 
 ### What moves to you

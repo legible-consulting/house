@@ -33,7 +33,7 @@ Handover produces the handover pack, the walkthrough, the support and hosting re
   3. **Ask Jamie, in one batch.** Each question has a default, read from the files:
      - Who holds each account after handover. Default: what the hosting pattern in the proposal puts in whose name (`core/terms.md` § Hosting and support).
      - The monthly cost of each account, and who pays it. Default: `economics.yaml` `costs_monthly`. A cost that is in neither file is `not checked`.
-     - What Jamie is on the hook for after handover. Default: the support line of the pattern in `core/terms.md` § Hosting and support, and nothing more.
+     - What Jamie is on the hook for after handover. Default: the support line of the pattern in `core/terms.md` § Hosting and support, and nothing more. For a Jamie-hosted build with state and no retainer, the outcome that the proposal or the agreement names: the move to client-owned, or free hosting that Jamie keeps working. When neither names it, the move to client-owned (`core/terms.md` § Hosting and support).
      - The retainer: offered or not, the hours a month, and the monthly scope. Default: offered. The hours and the scope from the quote's retainer option when it has one. Otherwise the hours that basic support needs, priced by `core/services.md` § Retainer pricing.
      - The people to offboard and their seats. Default: every name in `collaborators:` and in the access table, on every system the access table lists.
      - Open defects inside the written scope. Default: none, when no stub of the proposal's epics is open in the client repo. A defect inside the scope is fixed before handover, so handover waits for it (`core/terms.md` § Validity and revisions).
