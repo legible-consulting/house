@@ -7,6 +7,7 @@ import {
 } from "@formepdf/react";
 import { Lexer } from "marked";
 import type { Token, Tokens } from "marked";
+import { cloneElement, isValidElement } from "react";
 import type { ReactNode } from "react";
 
 import { Divider } from "@/components/pdf/divider/divider";
@@ -51,6 +52,22 @@ export class Markdown {
    * style of a run only for its own components, not for pdfcn's wrappers.
    */
   inline(tokens: Token[] | undefined): ReactNode[] {
+    // The space after a styled run goes inside that run: Forme can drop a run's
+    // leading space when the line is full ("customer.You").
+    const nodes = this.runs(tokens);
+    for (let i = 1; i < nodes.length; i++) {
+      const prev = nodes[i - 1];
+      const node = nodes[i];
+      if (typeof node === "string" && /^\s/.test(node) && isValidElement(prev)) {
+        const kids = (prev.props as { children?: ReactNode }).children;
+        nodes[i - 1] = cloneElement(prev, undefined, kids, " ");
+        nodes[i] = node.trimStart();
+      }
+    }
+    return nodes;
+  }
+
+  private runs(tokens: Token[] | undefined): ReactNode[] {
     return (tokens ?? []).map((t, i) => {
       switch (t.type) {
         case "strong":
@@ -124,27 +141,41 @@ export class Markdown {
     );
   }
 
-  list(t: Tokens.List, key?: number): ReactNode {
+  /**
+   * Each item is kept whole on one page: Forme draws a row of wrapped text that
+   * it moves to the next page one line short, over the item after it. A lead
+   * (the heading before the list) stays on the page of the first item.
+   */
+  list(t: Tokens.List, key?: number, lead?: ReactNode): ReactNode {
     const start = typeof t.start === "number" ? t.start : 1;
+    const rows = t.items.map((item, i) => (
+      <View key={i} wrap={false} style={{ flexDirection: "row", marginBottom: 4 }}>
+        <View style={{ width: 16 }}>
+          <Run
+            style={{
+              color: this.d.meta,
+              fontFamily: this.d.mono,
+              fontSize: this.d.bodySize - 2,
+              lineHeight: (this.d.bodySize * this.d.bodyLineHeight) / (this.d.bodySize - 2),
+            }}
+          >
+            {t.ordered ? `${start + i}.` : "–"}
+          </Run>
+        </View>
+        <View style={{ flex: 1 }}>{this.blocks(item.tokens, true)}</View>
+      </View>
+    ));
+    if (lead && rows.length > 0) {
+      rows[0] = (
+        <View key="lead" wrap={false}>
+          {lead}
+          {rows[0]}
+        </View>
+      );
+    }
     return (
       <View key={key} style={{ marginBottom: 8 }}>
-        {t.items.map((item, i) => (
-          <View key={i} style={{ flexDirection: "row", marginBottom: 4 }}>
-            <View style={{ width: 16 }}>
-              <Run
-                style={{
-                  color: this.d.meta,
-                  fontFamily: this.d.mono,
-                  fontSize: this.d.bodySize - 2,
-                  lineHeight: (this.d.bodySize * this.d.bodyLineHeight) / (this.d.bodySize - 2),
-                }}
-              >
-                {t.ordered ? `${start + i}.` : "–"}
-              </Run>
-            </View>
-            <View style={{ flex: 1 }}>{this.blocks(item.tokens, true)}</View>
-          </View>
-        ))}
+        {rows}
       </View>
     );
   }
@@ -253,8 +284,8 @@ export class Markdown {
   }
 
   /**
-   * A heading is kept on the page of the paragraph that follows it, when that
-   * paragraph is short enough to move with it.
+   * A heading is kept on the page of what follows it: a paragraph short enough
+   * to move with it, or the first item of a list.
    */
   blocks(tokens: Token[], tight = false): ReactNode[] {
     const out: ReactNode[] = [];
@@ -273,6 +304,9 @@ export class Markdown {
             {this.block(next, 1)}
           </View>
         );
+        i++;
+      } else if (t.type === "heading" && next?.type === "list") {
+        out.push(this.list(next as Tokens.List, i, this.block(t, 0)));
         i++;
       } else {
         out.push(this.block(t, i, tight));
