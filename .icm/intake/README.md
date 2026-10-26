@@ -43,4 +43,13 @@ The steps of the house's own build that no session takes, because each reaches a
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - Secret scanning and push protection on the public repos that remain: `blueprint`, `.github`, `english-with-jamie`, `garmani`.
-- `desk/app/biz-2026-10-22-backup.tar.gz`, untracked in the house: commit it, ignore it, or move it.
+- Before the first batch of cold emails: check its role addresses against the Direção-Geral
+  do Consumidor's opt-out list (`01-prospecting/legitimate-interest.md` §3 and §0.2). Check:
+  the batch's rows carry a touch note that says so.
+- The 117 prospect rows compiled on 2026-07-23 are in three places nothing reads: Neon
+  project `jamie-nisbet` (`restless-rain-15879798`, schema `biz`) and the two archives
+  `desk/app/biz-2026-10-22-backup.tar.gz` and `desk/app/biz-backup-2026-10-25.tar.gz`,
+  untracked in the house. Import them into the pool as rows with a source, or delete the
+  project and the two files (`legitimate-interest.md` §0.3; the archives hold personal data
+  and stay out of git). Check: the rows are in the pool, or the project is gone from the Neon
+  console and the two files from `desk/app/`.

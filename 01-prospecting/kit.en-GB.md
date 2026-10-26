@@ -21,7 +21,11 @@ desk sends nothing, and I never see the message you sent.
    which list). The row is yours from then on. The email on the row also keeps the lead
    yours when they write to me through my site.
 2. **Send the first touch and log it.** Date, channel, one line. The row moves to `contacted`
-   and the desk sets the next date.
+   and the desk sets the next date. A first email or WhatsApp to a business that did not ask
+   goes to a company address, never to a person's own, and keeps the two lines at the end of
+   the opener draft: where you found them, and that one reply stops it. A no is permanent:
+   set `lost` with the reason `asked not to be contacted`, and never add that company again
+   (the cadence).
 3. **Follow the cadence.** A new angle on day 7, a last note on day 21. Log every touch. A
    reply makes the row `replied`. A meeting with you makes it `meeting`.
 4. **Hand it to me.** Write what they asked for, in their words, as the ask. With the contact,

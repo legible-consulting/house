@@ -3,18 +3,17 @@ title: Legitimate interest assessment
 kind: assessment
 owner: jamie
 date: 2026-08-30
+amended: 2026-10-26
 source: "k0d0minio/jamienisbet · .icm/docs/lia-cold-outreach.md · lead-engine epic, sequence 3"
 law: "GDPR (Reg. (UE) 2016/679) · Lei 41/2004 as amended by Lei 46/2012 · CNPD Diretriz 2022/1"
 ---
-> **Note, 2026-10-26.** This record came from the `k0d0minio/jamienisbet` repo, path
+> **Amended 2026-10-26.** This record came from the `k0d0minio/jamienisbet` repo, path
 > `.icm/docs/lia-cold-outreach.md`, written on 2026-08-30 for that repo's lead-engine. The
-> lead-engine was retired on 2026-10-25: the `biz.*` schema with its suppression list, the
-> `packages/services` code and scripts, and the tickets in `.icm/intake/lead-engine/`. The
-> desk's pool is the system now (`01-prospecting/CONTEXT.md`). Each reference to those
-> controls below is historical: it says what held the balance on 2026-08-30, not what runs
-> today. Whether the desk's pool carries the controls in §3 to §5 is not checked here; §6
-> says when the assessment is redone. To read the retired code, run
-> `git show e72db92:<path>` in that repo; for the tickets, `git show 1b10197^:<path>`.
+> lead-engine was retired on 2026-10-25. The desk's pool is the system now. §0 maps each
+> control this record relies on to the pool and says which is retired, which has an
+> equivalent, and which is still open. The sections after §0 are the record of 2026-08-30
+> and are not rewritten. To read the retired code, run `git show e72db92:<path>` in that
+> repo; for the lead-engine tickets, `git show 1b10197^:<path>`.
 
 # Legitimate Interest Assessment — cold outreach to local businesses
 
@@ -23,6 +22,7 @@ law: "GDPR (Reg. (UE) 2016/679) · Lei 41/2004 as amended by Lei 46/2012 · CNPD
 who have not asked to be contacted, to offer web and software work.
 **Written:** 30 August 2026 · **Applies from:** before the first batch goes out.
 **Amended:** 31 August 2026 — §5 adds the website address to what the purge clears.
+**Amended:** 26 October 2026 — §0 maps every control to the desk's pool, the system since 2026-10-25.
 
 > **Purpose.** This is the written record of *why* I believe I may contact a business that
 > never asked me to, *how far* that goes, and *where it stops*. GDPR Art 6(1)(f) is only
@@ -33,6 +33,56 @@ who have not asked to be contacted, to offer web and software work.
 > **This is my own assessment, not legal advice.** Lines are marked **✅ confident** or
 > **⚠️ needs confirmation**. The ⚠️s are the ones to put to a lawyer or the CNPD before
 > volume goes up. Nothing here licenses anything the app does not already enforce.
+
+---
+
+## 0. The system this covers from 2026-10-26: the desk's pool
+
+The lead-engine of 2026-08-30 (the `biz.*` tables in Neon, `packages/services`, the admin
+dashboard of the `jamienisbet` repo) was retired on 2026-10-25. The desk's pool replaces it:
+`desk/app` in the house, the `prospects` and `touches` tables in Neon project `legible-desk`,
+with the rules in `prospect.md`, `cadence.md` and `target-profile.md` beside this file. Jamie
+and the salesmen work the pool. The desk sends nothing. This section is the balancing done
+again against that system, control by control. The §0.4 conclusion is the one that applies.
+
+### 0.1 What is processed, and where it comes from (§1)
+
+| 2026-08-30 | 2026-10-26 | State |
+|---|---|---|
+| One row per business in `biz.clients`, from a list a person compiled on 2026-07-23 from public sources | One row per business in `prospects` (`prospect.md`, Fields): the company, the contact's name and role, an email or a phone, the website, the country, the language, the line, the size, the service, a deal-size hint, the source, the ask, the touches, notes. The sourcer adds it by hand. `source` is required at add: who referred, which event, which `targets/` list | Equivalent, with two changes. A named contact, where §1 held role addresses. A salesman, not only Jamie, as the sourcer |
+| A/B/C fit tier by arithmetic (`tiering.ts`) | None. `line`, `size`, `service` and `deal_size` are the sourcer's own entries and hints only | Retired |
+| Sequences 5 and 7: prospect facts and one page of their site sent to a model to draft and to grade (the ⚠️ processor question) | None. `desk/app` calls no model (checked 2026-10-26: no AI package, no gateway). The draft is `pitch/<touch>.<language>.md`, with the first name filled in by the desk | Retired. The ⚠️ closes |
+| The pool compiled by a person from shop fronts and public listings | The same, plus `targets/<list>.md`: a session researches companies that match `target-profile.md` from public sources, one dated list per search, each row with its source. Companies, not persons. No broker, no crawler | Equivalent. §6's line on a bought, scraped or enriched pool stands |
+| None | `POST /api/pool`: the portfolio's contact form inserts a row at `new`, `source: portfolio` | New, and outside this assessment: the person wrote to us (Art 6(1)(b), steps before a contract) |
+
+### 0.2 The balance (§2.3) and the channels (§3)
+
+| 2026-08-30 | 2026-10-26 | State |
+|---|---|---|
+| A person writes each message. Volume is tens | `cadence.md`: the sourcer adapts the draft in their own mailbox and sends from their own account. The desk sends nothing and cannot. Three touches over three weeks, then stop. On day 28 the row is due for `lost` | Equivalent, and stronger |
+| Email and Instagram DM for role addresses at companies. Phone and walk-in first for everyone else (Lei 41/2004, CNPD 2022/1) | `cadence.md`, Channels, from 2026-10-26: a first touch by email or WhatsApp goes to a role address at a company only. A sole trader, or a named person's own mailbox or number, is approached by phone or in person first; email and WhatsApp open after they engage | Equivalent, as a rule the sender follows. The desk does not enforce it. The app did not either: §3 marks the judgement per row ⚠️, and it is now the sourcer's |
+| Two lines in every first email: where I found you, how to stop (Art 14) | `pitch/1-opener.<language>.md`, from 2026-10-26, ends with the two lines in each language. `cadence.md` Channels carries the rule. The seller kits say it in step 2 | Equivalent |
+| Gate, Jamie's own: check the batch's role addresses against the Direção-Geral do Consumidor's opt-out list before the first send | `.icm/intake/README.md`, Jamie's hand, from 2026-10-26. The glance prints it until it is done | Equivalent. Open until Jamie does it |
+
+### 0.3 Opt-outs (§4) and retention (§5)
+
+| 2026-08-30 | 2026-10-26 | State |
+|---|---|---|
+| `biz.suppressions`: one no closes every channel for the contact point, survives the row, nothing in the app deletes it, the import and the queue refuse a suppressed contact | `lost` with `lost_reason`, final for the row (`cadence.md`). Nothing stops a new row for the same company or the same address: `/pool` adds without a check, and `POST /api/pool` refuses only an open row with that email. `biz.suppressions` held 0 rows on 2026-10-22 and on 2026-10-25: there is nothing to carry over | Gap. The ticket `.icm/intake/triage/pool-opt-outs-and-purge.md` adds a suppression list to the desk. Until it ships, `cadence.md` Channels keeps the no by hand: a no is permanent for the company on every channel, and the pool is searched before a row is added |
+| An erasure request does not erase the suppression | Part of the same ticket | Gap, same ticket |
+| `leads-purge`: a row at `prospect` or `not_won` not touched for 12 months is anonymised. The suppression stays | None. A row stays as it is. The pool's first row is from 2026-10-19, so no row reaches 12 months before 2027-10-19 | Gap, same ticket, due before 2027-10-19. The line of 12 months stands |
+| The 117 rows compiled on 2026-07-23 | They are in Neon project `jamie-nisbet` (`restless-rain-15879798`, schema `biz`; nothing reads it) and in two archives under `desk/app/` on Jamie's machine, untracked. They are not in the pool | Open. Jamie's hand (`.icm/intake/README.md`): import them into the pool as rows with a source, or delete the project and the archives |
+
+### 0.4 Conclusion, 2026-10-26
+
+The purpose and the necessity (§2.1, §2.2) do not change. The balance of §2.3 holds for the
+desk's pool on the same terms as before: because of the controls, not on its own. From this
+amendment the controls of §3 are in place as words the sender follows. Two controls of §4 and
+§5 are open: the suppression list that survives the row, and the purge. Until the ticket
+ships, the no is kept by hand by two or three people over a pool of tens, and the purge is
+not due before 2027-10-19. On that basis the balance holds today. It stops holding, and this
+record is redone, when §6 says so, or when the ticket is not shipped by 2027-10-19, or when a
+no is found not to have stuck.
 
 ---
 

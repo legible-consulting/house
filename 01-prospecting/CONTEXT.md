@@ -84,8 +84,9 @@ A session in this folder produces the stage-level material, never a pool row:
   (`.icm/docs/lia-cold-outreach.md`, commit `0defe02`). It records why a business that did not
   ask may be contacted, how far, and where it stops. It lives here because it governs the
   outreach this stage produces (why: the lawful basis sits beside the activity it covers, so
-  the limits are read where the pitch is written · 2026-10-26). Its controls describe the
-  retired lead-engine; its §6 says when it is redone.
+  the limits are read where the pitch is written · 2026-10-26). Its §0, amended 2026-10-26,
+  maps each control to the desk's pool. The two gaps are the ticket
+  `.icm/intake/triage/pool-opt-outs-and-purge.md`.
 - `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
 - `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
   on `/sell`.

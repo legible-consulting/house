@@ -15,3 +15,5 @@ Construo ferramentas para empresas como a sua. Pego numa tarefa que a equipa rep
 Uma pergunta. Se essa tarefa se fizesse sozinha, o que fazia a equipa com essas horas?
 
 Vinte minutos de conversa chegam para perceber. Se não for o momento, também é uma resposta justa.
+
+Encontrei a sua empresa através de <where found>. Se preferir não voltar a ter notícias minhas, responda "parar" e não volto a escrever.
