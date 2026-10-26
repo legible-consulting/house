@@ -24,7 +24,8 @@ import { ClientWork, WorkBody } from "../../_work";
 // from the pool row instead and never lands here. Research, negotiation, economics and the
 // repo's drift are internal and never on this page for a client. Jamie also sends a form from
 // here (app/_send.tsx): the answer saves the person as a user of this folder, and the Users card
-// (app/_users.tsx) lists the folder's users with their state.
+// (app/_users.tsx) lists the folder's users with their state, where Jamie activates one and
+// Neon Auth mails them a sign-in link.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -132,7 +133,7 @@ export default async function Client({
           <SendForm target={{ client: c.slug }} read={sent} language={c.language} name="" email="" />
         )}
 
-        {users && <ClientUsers read={users} />}
+        {users && <ClientUsers slug={c.slug} read={users} />}
 
         {c.documents.length === 0 ? (
           <p className="text-sm text-muted-foreground">No document yet.</p>

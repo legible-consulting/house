@@ -23,7 +23,11 @@ and write the answers to the house with `lib/answers.ts`; `/f/<token>` reads and
 `links` row (`lib/db.ts`) and renders only the row's snapshot. For a row with `signup` true it
 saves the person as an inactive client user (`lib/db.ts saveClientUser`); `lib/user.ts
 currentUser` reads an inactive user as a client with no folder, and the Users card
-(`app/_users.tsx`) lists a folder's users on `/clients/<slug>`.
+(`app/_users.tsx`) lists a folder's users on `/clients/<slug>`. Its action
+(`app/_users-actions.ts`) activates a user and has Neon Auth mail a sign-in link
+(`lib/auth.ts mailSignInLink`); `/sign-in` asks for the same link for an active client user and
+refuses a client's password; the link lands on `/link` (`app/link/route.ts`), which `proxy.ts`
+matches so the middleware sets the session.
 Jamie's Send a form card (`app/_send.tsx`, its action `app/_send-actions.ts`) on a client page
 and a pool row inserts a sent link in `links` (`lib/links.ts`, `lib/db.ts`) with the form's
 snapshot from `house.json`.
