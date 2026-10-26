@@ -164,6 +164,20 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   is sent to it. Jamie withdraws a link by deleting its row in the Neon console (why: the token
   is a credential, so it lives in Neon and never in git; the questions are frozen so the answer
   matches what the person read · 2026-10-26).
+- A sent link answered, `/f/<token>` (`app/f/[token]/`), another page without a session,
+  outside the shell and `noindex`; `/robots.txt` disallows `/f/`. It renders the row's frozen
+  title, intro and questions, never `forms/` or `house.json`, with the page's own words in the
+  row's language. A token that is not a uuid, or has no row, says the link is not valid and
+  names the business email. A row answered already says the answers are with Jamie. The checks
+  are `/start`'s (`lib/answers.ts`). A valid submission sets `answered_at` where it is null; the
+  update that matches no row is the answered dead end, so a double submit lands once. It then
+  writes the answers to `clients/<slug>/<folder>/<form>-<date>.md` when
+  `clients/<slug>/record.md` is on `main`, else to `01-prospecting/leads/<slug>/<form>-<date>.md`,
+  with `source: link`, and mails Jamie (`<form title>: <name>`, the answers as text, reply-to
+  the row's email). The desk marks the row before it writes the file (why: a second submit must
+  see the row spent · 2026-10-25). A failed write is in the Vercel log with the row id, and the
+  mail says so and carries the answers. The person gets no mail. A row with `signup` true
+  behaves like any other until `client-signs-up` ships.
 - A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
   and the seller kit, `01-prospecting/kit.<language>.md`, in one language or all). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's

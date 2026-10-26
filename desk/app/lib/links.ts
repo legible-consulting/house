@@ -1,4 +1,4 @@
-import { FORM_LANGUAGES, type FormLanguage } from "./forms";
+import { FORM_LANGUAGES, type FormLanguage, type FormSnapshot } from "./forms";
 
 // A sent link: one row of the Neon table `links` (db/schema.sql), a questionnaire Jamie sends
 // to one lead or client from the Send a form card (app/_send.tsx). The row's id is the token.
@@ -12,6 +12,19 @@ export interface SentLink {
   email: string;
   sent: string; // YYYY-MM-DD
   answered: string | null; // YYYY-MM-DD, null until /f/<id> takes the answers
+}
+
+// A sent link as /f/<id> reads it (app/f/): the row with its frozen form.
+export interface OpenLink {
+  id: string;
+  slug: string;
+  form: string;
+  language: FormLanguage;
+  folder: string;
+  name: string;
+  email: string;
+  snapshot: FormSnapshot;
+  answered: boolean;
 }
 
 // The production host, not the request's: Jamie pastes the link into a mail, and a preview's
