@@ -9,7 +9,8 @@ The proposal produces the client-facing offer (problem, approach, scope, timelin
 ## Inputs
 
 - `clients/<slug>/record.md` (`kind`, `language`, `next_action`, `deadline`) and
-  `clients/<slug>/research/profile.md`. When a call note in `research/` is newer than the
+  `clients/<slug>/research/profile.md`, the profile that client research writes
+  (`02-client-research/CONTEXT.md`). When a call note in `research/` is newer than the
   profile, client research updates the profile from it first (why: the proposal reads one file for the
   client's facts; a call note is a source, not a home · 2026-10-21).
 - `core/identity.md`, `core/services.md`, `core/voice.md`; `research/concepts/` for reusable explainers.
