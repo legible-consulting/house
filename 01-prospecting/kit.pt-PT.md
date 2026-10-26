@@ -21,7 +21,11 @@ pessoa. O desk não envia nada, e eu nunca vejo a mensagem que enviaste.
    tua a partir daí. O email na linha também mantém o contacto teu quando a pessoa me escreve
    pelo meu site.
 2. **Envia o primeiro toque e regista-o.** Data, canal, uma linha. A linha passa a
-   `contacted` e o desk marca a data seguinte.
+   `contacted` e o desk marca a data seguinte. Um primeiro e-mail ou WhatsApp a uma empresa
+   que não pediu nada vai para um endereço da empresa, nunca para o de uma pessoa, e leva as
+   duas linhas no fim do rascunho de abertura: onde a encontraste, e que uma resposta chega
+   para parar. Um não é definitivo: marca `lost` com a razão `asked not to be contacted` e
+   nunca voltes a adicionar essa empresa (a cadência).
 3. **Segue a cadência.** Um ângulo novo ao dia 7, uma última nota ao dia 21. Regista todos
    os toques. Uma resposta põe a linha em `replied`. Uma reunião contigo põe-na em `meeting`.
 4. **Passa-ma.** Escreve o que pediram, nas palavras deles, como o pedido. Com o contacto, um

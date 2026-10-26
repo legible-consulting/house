@@ -15,3 +15,5 @@ Je construis des outils pour des entreprises comme la vôtre. Je prends une tâc
 Une question. Si cette tâche se faisait toute seule, que ferait votre équipe de ces heures ?
 
 Vingt minutes suffisent. Si ce n'est pas le moment, c'est une réponse honnête aussi.
+
+J'ai trouvé votre entreprise via <where found>. Si vous préférez ne plus rien recevoir de ma part, répondez « stop » et je n'écrirai plus.

@@ -15,3 +15,5 @@ I build tools for businesses like yours. I take one task your team repeats, work
 One question. If that task took care of itself, what would your team do with the hours?
 
 Twenty minutes is enough to find out. If the timing is wrong, that is a fair answer too.
+
+I found your business through <where found>. If you would rather not hear from me, reply "stop" and I won't write again.
