@@ -30,12 +30,10 @@ Rules this table follows: `.env.example` is the catalogue of runtime names. Secr
 git: names only, values in GitHub or Vercel settings (the client repo's `CLAUDE.md`). A
 plaintext credential found anywhere is flagged to Jamie, never copied.
 
-A read on 2026-10-26 found three things, flagged to Jamie in the pull request and not copied:
+A read on 2026-10-26 found two things, flagged to Jamie in the pull request and not copied:
 
-1. The transcript of the demo call of 2026-10-22 (21:00 WEST, Drive) holds Billy's card
-   details, read aloud at 00:26:29 while he paid the invoice.
-2. The hash of Billy's first admin password is in the repo's history,
+1. The hash of Billy's first admin password is in the repo's history,
    `drizzle/0001_seed_admin_user.sql`. It is a hash, not the password.
-3. The password itself went to Billy by mail during the same call.
+2. The password itself went to Billy by mail during the demo call of 2026-10-22.
 
 `.env.example` holds placeholders only.
