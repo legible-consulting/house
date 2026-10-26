@@ -98,7 +98,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   listed at its top). The pool, the house workflow and the client repos are read per
   request. A page never reads the repo (why: a deployed function has no checkout; a push is
   the one way a fact reaches the desk · 2026-10-21).
-- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches`, `throttle` and `links` in Neon Postgres, from
+- Sign-in by Neon Auth. Tables `users`, `prospects`, `touches`, `throttle`, `links` and `suppressions` in Neon Postgres, from
   `app/db/schema.sql`. Three roles from `users.role`: `jamie`, `salesman`, `client`. A new
   account starts as `client` with no folder and sees nothing until Jamie sets the role in the
   Neon console (the upserts are at the foot of `schema.sql`).
@@ -118,9 +118,21 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   portfolio`, `sourced_by: jamie` and the `jamie` user as its salesman, like a row Jamie adds
   by hand. 201 with the id. 401 on a missing or wrong token. 400 on a bad body. 422 with the
   open row's id when a prospect with that email is open (not `lost`, not `handed off`), and
-  nothing is inserted. No mail: the portfolio sends its own (why: the site's contact form is
+  nothing is inserted. 422 with `{ error: "suppressed" }` when the email or the phone is on
+  the no-contact list, and nothing is inserted. No mail: the portfolio sends its own (why: the site's contact form is
   a door from the public into the pool, and a lead copied by hand from a mail is a
   lead lost; the token stands in for the session the form has none of · 2026-10-22).
+- The no-contact list, the table `suppressions`: "They asked not to be contacted" on
+  `/pool/<id>`, for the sourcer and Jamie, sets the row to `lost` with that reason, clears
+  `next_action` and writes the row's email and phone to it. Adding a row, saving a row with a
+  new email or phone, and the pool API refuse a value on the list, in words. No code path
+  deletes an entry (why: a no is for good, `01-prospecting/legitimate-interest.md` §4 ·
+  2026-10-26).
+- The purge, `app/scripts/pool-purge.mjs`: Jamie runs it by hand from the laptop with
+  `DATABASE_URL` in the environment, never on a timer. It clears the person's data from a pool
+  row nobody worked for 12 months (`01-prospecting/prospect.md`, Statuses). It prints the rows
+  and the fields it would clear, and it writes only with `--yes` (why: the retention of
+  `legitimate-interest.md` §5, and a clearance Jamie reads before it happens · 2026-10-26).
 - The free look, `/start?lang=en|fr|pt` (`app/start/`), the other page without a session,
   outside the shell and `noindex`. It renders `01-prospecting/forms/free-look.<language>.md`
   (no `lang`, or an unknown one, is `en`) with the page's own words in the same language. A

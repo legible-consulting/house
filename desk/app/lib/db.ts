@@ -3,8 +3,8 @@ import { env } from "./env";
 import type { FormSnapshot } from "./forms";
 import { clientSlugs } from "./house";
 import type { OpenLink, SentLink } from "./links";
-import type { Channel, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
-import { slugOf, STATUSES } from "./pool";
+import type { Channel, ContactPoint, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
+import { NO_CONTACT, slugOf, STATUSES } from "./pool";
 
 // A client per call: the driver speaks HTTP, there is nothing to pool, and a missing
 // DATABASE_URL then fails the page that needs it instead of every page. Dates come back as
@@ -111,6 +111,31 @@ export async function openProspectByEmail(
     order by created_at limit 1
   `) as { id: string; slug: string | null; company: string }[];
   return rows[0] ?? null;
+}
+
+// The contact points of these that are on the no-contact list. addProspect, saveProspect and the
+// pool API refuse a row for any of them (legitimate-interest.md §4).
+export async function suppressed(points: ContactPoint[]): Promise<ContactPoint[]> {
+  if (!points.length) return [];
+  return (await sql().query(
+    `select kind, value from suppressions join unnest($1::text[], $2::text[]) as c (kind, value) using (kind, value)`,
+    [points.map((c) => c.kind), points.map((c) => c.value)],
+  )) as ContactPoint[];
+}
+
+// "They asked not to be contacted", in one transaction: the row is lost with that reason and no
+// next action, and each of its contact points goes on the no-contact list. Nothing here or
+// elsewhere deletes a suppression (why: a no is for good · legitimate-interest.md §4).
+export async function suppressProspect(id: string, points: ContactPoint[]): Promise<void> {
+  const db = sql();
+  await db.transaction([
+    db`update prospects set status = 'lost', lost_reason = ${NO_CONTACT}, next_action = null, updated_at = now()
+      where id = ${id}`,
+    ...points.map(
+      (c) => db`insert into suppressions (kind, value, reason) values (${c.kind}, ${c.value}, ${NO_CONTACT})
+        on conflict (kind, value) do nothing`,
+    ),
+  ]);
 }
 
 // /start's rate limit: one upsert per submission counts it against the hashed IP and the

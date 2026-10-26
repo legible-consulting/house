@@ -1,7 +1,8 @@
 import { timingSafeEqual } from "node:crypto";
+import { suppressed } from "@/lib/db";
 import { maybeEnv } from "@/lib/env";
 import { insertLead, leadFields } from "@/lib/lead";
-import type { ProspectFields } from "@/lib/pool";
+import { contactPoints, type ProspectFields } from "@/lib/pool";
 
 // The pool API: the portfolio's contact form (k0d0minio/jamienisbet) posts each lead here
 // with `Authorization: Bearer <POOL_TOKEN>`, and the lead lands in the pool as a row Jamie
@@ -14,6 +15,8 @@ import type { ProspectFields } from "@/lib/pool";
 //   401 { error }   no bearer token, or one that is not POOL_TOKEN
 //   422 { id }      a prospect with that email is open (status not lost and not handed off):
 //                   nothing is inserted, the open row's id comes back
+//   422 { error: "suppressed" }  the email or phone is on the no-contact list (the table
+//                   suppressions): they asked not to be contacted, and nothing is inserted
 export const dynamic = "force-dynamic";
 
 const json = (status: number, body: object) => Response.json(body, { status });
@@ -44,6 +47,7 @@ export async function POST(req: Request): Promise<Response> {
     return json(400, { error: e instanceof Error ? e.message : String(e) });
   }
   try {
+    if ((await suppressed(contactPoints(fields))).length) return json(422, { error: "suppressed" });
     const lead = await insertLead(fields);
     return json(lead.open ? 422 : 201, { id: lead.id });
   } catch (e) {

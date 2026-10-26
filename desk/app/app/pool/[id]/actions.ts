@@ -10,6 +10,8 @@ import {
   setReady,
   setStatus,
   slugTaken,
+  suppressed,
+  suppressProspect,
   touchesOf,
   updateProspect,
 } from "@/lib/db";
@@ -18,16 +20,19 @@ import { attempt, back } from "@/lib/guard";
 import { clientSlugs } from "@/lib/house";
 import {
   DATE_RE,
+  NO_CONTACT,
   SLUG_RE,
   UUID_RE,
   canGoReady,
   canWrite,
+  contactPoints,
   fieldsFrom,
   isChannel,
   isStatus,
   missingForReady,
   nextActionAfterTouch,
   nextMoves,
+  noContactError,
   slugOf,
   today,
   type DeskUser,
@@ -52,11 +57,16 @@ async function owned(id: string): Promise<{ user: DeskUser; p: Prospect }> {
   return { user, p };
 }
 
+// An email or phone new to the row is refused when it is on the no-contact list. The row's own
+// contact points are not checked, so a row closed by "They asked not to be contacted" still saves.
 export async function saveProspect(form: FormData) {
   const id = idOf(form);
   const error = await attempt(async () => {
     const { p } = await owned(id);
     const f = fieldsFrom(form);
+    const had = contactPoints(p).map((c) => `${c.kind}:${c.value}`);
+    const hits = await suppressed(contactPoints(f).filter((c) => !had.includes(`${c.kind}:${c.value}`)));
+    if (hits.length) throw new Error(noContactError(hits));
     let slug = p.slug ?? slugOf(f.company);
     if (!p.pr_url && p.status !== "ready for Jamie") {
       slug = String(form.get("slug") ?? "").trim() || slugOf(f.company);
@@ -110,6 +120,24 @@ export async function moveStatus(form: FormData) {
     await setStatus(id, status, status === "lost" ? reason : p.lost_reason);
   });
   back(`/pool/${id}`, { error });
+}
+
+// "They asked not to be contacted" (cadence.md, Channels): the row goes to lost with that reason
+// and no next action, and its email and phone go on the no-contact list for good. The sourcer
+// and Jamie only, from any status but handed off.
+export async function askedNotToBeContacted(form: FormData) {
+  const id = idOf(form);
+  let note = "";
+  const error = await attempt(async () => {
+    const { p } = await owned(id);
+    if (p.lost_reason === NO_CONTACT) throw new Error("This row is closed already: they asked not to be contacted.");
+    const points = contactPoints(p);
+    await suppressProspect(id, points);
+    note = points.length
+      ? `Lost: ${NO_CONTACT}. ${points.map((c) => c.value).join(" and ")} get no new row, on any channel.`
+      : `Lost: ${NO_CONTACT}. The row has no email or phone, so search the pool for the company before each add.`;
+  });
+  back(`/pool/${id}`, { error, note });
 }
 
 // Opens the handoff PR and moves the row to `ready for Jamie`.
