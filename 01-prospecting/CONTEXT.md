@@ -9,6 +9,8 @@ holds:
   - "pitch/*.md"
   - "kit.*.md"
   - "targets/*.md"
+  # The questions a lead answers on the desk, one file per form and language (2026-10-26).
+  - "forms/*.md"
 ---
 # Prospecting
 
@@ -72,6 +74,9 @@ A session in this folder produces the stage-level material, never a pool row:
   disagrees with `core/services.md` or a term with `prospect.md`, the house wins and the kit
   is fixed. No price reaches a prospect through it (why: `core/services.md`, "Never public"
   · 2026-10-22).
+- `forms/<form>.<language>.md`: a form, in the grammar in Outputs. A new form gets three
+  files, `en-GB`, `fr-BE` and `pt-PT`. The session writes the en-GB file and translates it.
+  Jamie reviews the translations on the pull request.
 - After handoff, outreach a session drafts for Jamie goes to `clients/<slug>/outreach/`.
 
 ## Outputs
@@ -88,5 +93,28 @@ A session in this folder produces the stage-level material, never a pool row:
 - `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
   on `/sell`.
 - `targets/<list>.md`: one researched list per search.
+- `forms/free-look.<language>.md`: the free look, eight questions in `en-GB`, `fr-BE` and
+  `pt-PT` (built 2026-10-26). It is the form for `/start` on the desk (the `desk-forms`
+  epic in `.icm/intake/`). Its answers land in `research/` (`folder: research`).
+- The form grammar. The desk parses every form with it:
+  - One form per file, `<form>.<language>.md`. The name before the language tag is the form
+    slug. The slug never changes after a link was sent (why: a sent link names the slug ·
+    2026-10-25).
+  - Frontmatter: `kind: form`, `title`, `intro`, `language` (`en-GB`, `fr-BE` or `pt-PT`),
+    and `folder`. `folder` is the client subfolder where the answers land.
+  - Each `##` heading is one question, in the words the visitor reads. Under the heading is
+    one list of `- key: value` lines: `key:`, `type:`, `options:`, `optional: yes`, `hint:`.
+    The desk ignores prose outside the list.
+  - `key:` is required on every question (why: the old grammar made the key from the heading.
+    Three languages give three headings and three keys. The answers of one form must line up
+    across languages · 2026-10-25).
+  - `type:` is `text` (the default), `textarea`, `select` or `boolean`. `options:` is for
+    `select` only, separated by ` | `. There is no conditional logic and no upload. A link to
+    a recording is a `text` question.
+  - The three language files of one form have the same keys in the same order. Their options
+    are in the same order too (why: the desk maps an answer to a pool field by the option's
+    position. The words change per language. The position does not · 2026-10-25).
+  - No question and no option shows a price, a band or the floor (why: a form is a public
+    page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.
