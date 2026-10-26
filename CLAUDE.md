@@ -14,6 +14,7 @@ where to go. Our words (house, blueprint, library) are defined once in
 | change a fact about the business (identity, services, pricing, voice, terms, stack) | `core/CONTEXT.md` |
 | open, read or update a client relationship | `clients/CONTEXT.md` |
 | prospect, work the pool, write a pitch | `01-prospecting/CONTEXT.md` |
+| research a prospect before a call, write the profile or the primer, update the profile after a call | `02-client-research/CONTEXT.md` |
 | write a proposal | `03-proposal/CONTEXT.md` |
 | price the work, write the quote | `04-quote/CONTEXT.md` |
 | draft the agreement for a deal the client said yes to | `05-agreement/CONTEXT.md` |
