@@ -6,7 +6,6 @@
 - depends-on: none
 - complexity: medium
 - priority: P2
-- blocked: `house-modules/portfolio` is not merged. Remove this line when it is.
 
 ## Problem
 

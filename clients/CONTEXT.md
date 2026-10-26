@@ -12,6 +12,7 @@ holds:
   - "*/kickoff/*.md"
   - "*/training/*.md"
   - "*/handover/*.md"
+  - "*/case/*.md"
 ---
 # Clients
 
@@ -65,19 +66,36 @@ The client folder produces one folder per relationship, opened when Jamie takes 
     week, Euro Register, fits none of the other three · 2026-10-22).
   - Empty until the shape is known (why: a prospect can become any of the four ·
     2026-10-19).
+- `public` says what the client allows in public about the work. It does not change with
+  `stage`:
+
+  | Value | The client allows |
+  |---|---|
+  | `named` | The name, the logo and a link to the site. |
+  | `anonymous` | The trade only. No name, no logo, no link. |
+  | `none` | No case. |
+
+  - Empty reads as `none`.
+  - Jamie sets it by a commit, from the client's email. The email stays in the mail, outside
+    git. A session never sets it (why: a case that names a client without their word costs
+    the reference · 2026-10-26).
+  - The portfolio reads it (`portfolio/CONTEXT.md`). Handover's review request asks the
+    client for it (`08-handover/CONTEXT.md`, step 10).
 - The desk's pool, before handoff, has its own statuses: `new` → `contacted` → `replied` →
   `meeting` → `ready for Jamie` → `handed off` or `lost`. A salesman moves them. They are
   defined here once and live in the desk, never in a record.
 
 ## Outputs
 
-- `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `repo`, `owner`,
+- `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `public`, `repo`, `owner`,
   `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`,
   commission fields; from the agreement on, `agreement_drive` (the Drive link of the rendered
   agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
   (`05-agreement/CONTEXT.md`).
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `training/` ·
-  `handover/`: one subfolder per module that has produced for this client.
+  `handover/` · `case/`: one subfolder per module that has produced for this client.
+- `<slug>/case/case.md`, the case study, one per client, in English, for the site
+  (`portfolio/CONTEXT.md`).
 - `<slug>/training/record.md`, the coaching record, with `plan.md` and `attendance.md` for a
   `kind: training` engagement (`training/CONTEXT.md`).
 - `<slug>/quote/economics.yaml`, the quote's file: the price and the estimates the monthly close

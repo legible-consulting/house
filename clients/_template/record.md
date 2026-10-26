@@ -4,6 +4,7 @@ name: {{CLIENT_NAME}}
 language: {{CLIENT_LANGUAGE}}
 stage: prospect
 kind:
+public:
 opened: {{YYYY-MM-DD}}
 next_action:
 deadline:
