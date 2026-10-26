@@ -13,7 +13,7 @@ export interface Doc {
 }
 
 export interface ClientDoc extends Doc {
-  stage: "proposal" | "quote" | "agreement" | "handover";
+  stage: "proposal" | "agreement" | "handover";
 }
 
 // quote/economics.yaml, the quote's file (04-quote/CONTEXT.md). The close reads the price

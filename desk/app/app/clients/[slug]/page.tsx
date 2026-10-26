@@ -11,7 +11,7 @@ import { Heading, Prose } from "../../_ui";
 import { ClientWork, WorkBody } from "../../_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
-// reads (proposal, quote, agreement, handover). The repo's latest release and check.yml run
+// reads (proposal, agreement, handover; the price is the proposal's last section). The repo's latest release and check.yml run
 // are read per request (lib/repos.ts); the client sees those two facts and nothing else from
 // the repo's status. The work (the tickets and the pull requests, lib/work.ts) is the same
 // list as /work for Jamie, and three lists in words for the client: in progress with the

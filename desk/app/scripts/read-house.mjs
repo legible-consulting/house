@@ -3,8 +3,9 @@
 //   clients/*/record.md            frontmatter: the clients table, the glance, the close
 //   clients/*/quote/economics.yaml  the engagement's economics (the quote): the price, the estimates,
 //                                   the actuals per month
-//   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
-//                                   the client-facing documents, for the client's page
+//   clients/*/{proposal/proposal.md, agreement/*.md, handover/*.md}
+//                                   the client-facing documents, for the client's page. The
+//                                   quote is the proposal's last section, not a document of its own
 //   clients/_template/record.md     the handoff PR
 //   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
@@ -94,7 +95,6 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
       : null;
     const documents = [
       ["proposal", "proposal.md"],
-      ["quote", "quote.md"],
       ...files(join(dir, "agreement"), ".md").map((f) => ["agreement", f]),
       ...files(join(dir, "handover"), ".md").map((f) => ["handover", f]),
     ]
