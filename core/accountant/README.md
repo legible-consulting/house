@@ -3,18 +3,12 @@ title: Contabilista pack
 kind: core
 owner: jamie
 date: 2026-08-17
-source: "k0d0minio/jamienisbet · .icm/docs/contabilista/"
 ---
 # Contabilista Pack
 
-> **Note, 2026-10-26.** This pack came from the `k0d0minio/jamienisbet` repo, folder
-> `.icm/docs/contabilista/`, and is dated 2026-08-17. The entity's current status is in
-> `core/identity.md`; where the two disagree, `identity.md` is the fact and this pack is the
-> record of the questions put to the accountant. The `biz.compliance_dates` table and the
-> admin dashboard named under Provenance were retired on 2026-10-25. The confirmed dates go
-> to `core/deadlines.md`, the entity's permanent deadlines (Jamie's decision, 2026-10-26).
-
 Two documents to send to the contabilista, together, before filing *início de atividade*.
+The entity's current status is in `core/identity.md`. Where the two disagree, `identity.md`
+is the fact and this pack is the record of the questions put to the accountant.
 
 | File | What it is |
 |---|---|
@@ -23,28 +17,9 @@ Two documents to send to the contabilista, together, before filing *início de a
 
 The point of sending both is to get back: *what is wrong, what is missing, and what does not apply.*
 
-## Provenance
-
-These consolidate the legal-and-tax research carried out 15 June – 1 July 2026, which lived in
-`workspaces/legal-and-tax/` until that tree was retired with the ICM factory on 2026-08-11
-(commit `e4bd7cb`). The originals remain in git history:
-
-- `workspaces/legal-and-tax/output/contabilista-brief.md` — the first version of document 01
-- `workspaces/legal-and-tax/references/portugal-business-structure-analysis.md` — the root analysis, with the full source list
-- `workspaces/legal-and-tax/references/` — accounting regimes, social security, IVA/VIES, IRS rates, entity structures, deductibles, glossary
-- `workspaces/legal-and-tax/output/bar-management-decision.md` — the bar profit-share decision note
-
-Read any of them with `git show e4bd7cb^:<path>` in the `k0d0minio/jamienisbet` repo.
-
-The compliance calendar that stage 05 of that workspace was meant to produce **was never generated** —
-it was blocked on exactly this conversation. Document 02 §5 is that calendar, pending her review.
-
-Once she confirms it, the dates are entered into `biz.compliance_dates` through the admin
-dashboard, and the **Needs you** feed surfaces each one as it comes due. That is Jamie's data
-entry, not a ticket: `biz.*` is business state, operated through the dashboard and never mirrored
-into git. (`JN-027 · Seed the compliance calendar` used to stand in for it; it was an owner task
-parked in the backlog, and it went with the numbered series on 2026-08-28. Read it with
-`git show b11cc6b^:.icm/intake/JN-027-seed-compliance-calendar.md` in the same repo.)
+Both consolidate the legal-and-tax research of 15 June to 1 July 2026. Document 02 §5 is the
+compliance calendar, pending her review. When she confirms a date, it is written into §5 in
+place and its mark becomes ✅. The confirmed calendar lives in this folder and nowhere else.
 
 ## Standing caveat
 

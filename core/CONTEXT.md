@@ -12,9 +12,6 @@ holds:
   # The pack for the accountant: the entity's tax status, its obligations and its compliance
   # calendar, beside the status identity.md names (why: one home per fact · 2026-10-26).
   - "accountant/*.md"
-  # The entity's permanent deadlines, written once the contabilista confirms the calendar in
-  # accountant/ document 02 §5 (why: Jamie's decision · 2026-10-26).
-  - deadlines.md
   # The repo root's .env.example: every environment variable of the estate, by name and place. The
   # stack owns where a value lives, so the core holds the list (why: one audit file instead of a
   # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
@@ -63,22 +60,15 @@ Built (2026-10-23):
   and variables; the local shell; the cloud session). Names only, never a value. Re-read the
   sources and rewrite it when a name is added, renamed or removed.
 
-Recovered (2026-10-26):
+Built (2026-10-26):
 
 - `accountant/`: the pack for the accountant, written 2026-08-17. `README.md` is the cover
   note, `01-contabilista-brief.md` the questions, `02-trabalhador-independente-obligations.md`
-  the status, the obligations and the due dates. It came from the `k0d0minio/jamienisbet`
-  repo (`.icm/docs/contabilista/`, commit `0defe02`) when that folder was deleted. The core
-  holds it because the entity's tax status, its obligations and its compliance calendar are
-  facts about the entity, and `identity.md` names the status (why: one home per fact; a
-  record of the entity kept in a client repo is one a stranger cannot find from the contracts
-  · 2026-10-26).
+  the status, the obligations and the due dates. Its §5 is the compliance calendar. A date the
+  contabilista confirms is written into §5 in place. The core holds the pack because the
+  entity's tax status, its obligations and its calendar are facts about the entity, and
+  `identity.md` names the status (why: one home per fact · 2026-10-26).
 
 Not yet written:
 
 - `onboarding-collaborator.md`: the one-page note sent with a collaborator invite. Written the first time one is sent.
-- `deadlines.md`: the entity's permanent deadlines, one row per obligation with its cadence
-  and due date, written from `accountant/02-trabalhador-independente-obligations.md` §5 once
-  the contabilista confirms it. Nothing is written before that (why: a confirmed date is a
-  fact about the entity, and an unconfirmed one in the core reads as a fact to a module that
-  starts cold · Jamie's decision 2026-10-26).
