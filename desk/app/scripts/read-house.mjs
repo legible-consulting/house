@@ -6,6 +6,7 @@
 //   clients/*/{proposal/proposal.md, quote/quote.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page
 //   clients/_template/record.md     the handoff PR
+//   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
@@ -198,10 +199,17 @@ for (const slug of Object.keys(forms)) {
 }
 if (formErrors.length) throw new Error(`A form does not parse:\n${formErrors.join("\n")}`);
 
+// The business email, from the identity table of core/identity.md. The desk's mail goes to it,
+// so a table without the row fails the build (why: a notice with no recipient is a lead lost
+// in silence · 2026-10-26).
+const businessEmail = read(house, "core", "identity.md").match(/^\|\s*Business email\s*\|\s*([^|\s]+)\s*\|/m)?.[1];
+if (!businessEmail) throw new Error("core/identity.md: the identity table has no Business email row.");
+const identity = { email: businessEmail };
+
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(
   join(app, "lib", "house.json"),
-  JSON.stringify({ built, clients, template, hand, closes, estate, sell, research, forms }, null, 2),
+  JSON.stringify({ built, identity, clients, template, hand, closes, estate, sell, research, forms }, null, 2),
 );
 console.log(
   `lib/house.json: ${clients.length} clients, ${sell.pitch.length} pitch drafts, ${sell.kit.length} kits, ` +

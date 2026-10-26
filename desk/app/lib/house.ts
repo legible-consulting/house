@@ -70,6 +70,8 @@ export interface Estate {
 }
 
 export const built: string = String(data.built);
+// The business email of core/identity.md: the desk's mail goes to it (lib/mail.ts).
+export const businessEmail: string = String(data.identity.email);
 export const clients = data.clients as unknown as ClientRow[];
 export const clientBySlug = (slug: string): ClientRow | undefined => clients.find((c) => c.slug === slug);
 export const template: string = String(data.template);
