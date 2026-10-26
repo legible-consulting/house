@@ -43,9 +43,6 @@ The steps of the house's own build that no session takes, because each reaches a
 - `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
   `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
   Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
-- Neon, project `legible-desk`: run `desk/app/db/schema.sql` again in the SQL editor, for the
-  `links` table of the Send a form card. Until then the card says the sent links do not read,
-  and "Send" fails with the error. Check: `select count(*) from links` answers.
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
