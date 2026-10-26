@@ -1,8 +1,7 @@
-# Hand-written (desk/CONTEXT.md). Every client build, the proof render, and Jamie's own repos
-# the blueprint governs (jamienisbet, adopted 2026-10-22). tags: live (a build the blueprint
-# governs, checked against the blueprint tag), dormant (archived, nothing changes in it),
-# proof (the blueprint's own test render, checked as a live repo). Jamie's other projects on
-# k0d0minio, which the blueprint does not govern, are not estate and are not listed
+# Hand-written (desk/CONTEXT.md). Every client build, and Jamie's own repos the blueprint
+# governs (jamienisbet, adopted 2026-10-22). tags: live (a build the blueprint governs, checked
+# against the blueprint tag), dormant (archived, nothing changes in it). Jamie's other projects
+# on k0d0minio, which the blueprint does not govern, are not estate and are not listed
 # (2026-10-21).
 projects:
   berceo:
@@ -29,8 +28,3 @@ projects:
     path: ~/Desktop/legible-consulting/projects/jamienisbet
     url: https://github.com/k0d0minio/jamienisbet.git
     tags: [live]
-
-  site-proof:
-    path: ~/Desktop/Apps/projects/site-proof
-    url: https://github.com/legible-consulting/site-proof.git
-    tags: [proof]

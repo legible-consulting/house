@@ -62,7 +62,7 @@ drifted: ${drifted}
 ---
 # Estate drift — ${date}
 
-Every repo in \`desk/mani.yaml\`. A live or proof repo's default branch is read against
+Every repo in \`desk/mani.yaml\`. A live repo's default branch is read against
 blueprint \`${tag}\`; a dormant repo is read for its archived flag. A drifted repo gets one PR
 from \`conform.sh\` through multi-gitter; the merge is Jamie's.
 Claude and agent assets are listed for the human check that each one is still used.

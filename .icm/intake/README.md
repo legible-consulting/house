@@ -37,7 +37,6 @@ Set by Jamie on 2026-10-22. A line leaves when it is true.
 The steps of the house's own build that no session takes, because each reaches an account, the estate or money. The glance prints the bullets of this section (why: a step Jamie owes is a next action of the house itself · 2026-10-22). A client's own next step lives on its record, not here. A line leaves when it is done.
 
 - Neon, project `legible-desk`: one client account linked to a folder. Check: the client lands on its page.
-- Pull `site-proof`, run `conformance/drift.sh`, conform `site-proof` to the latest blueprint tag, run it again. Check: every live and proof row says current against that tag.
 - `copier update` on the four live repos with their answers, through conformance, now that the blueprint has one root and a question bank (v0.8.0).
 - Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
 - Vinecliff's kickoff, once `house-modules/kickoff` merges: the owner answers the questionnaire, `clients/vinecliff/kickoff/` is written, the first epic is cut in the repo, `next_action` is set on the record.
