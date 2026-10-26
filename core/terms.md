@@ -51,8 +51,10 @@ after launch · 2026-10-19).
 | Client-owned | Code, content, domain and hosting in the client's name. | None. Ongoing work is a retainer or nothing. | Only while a retainer runs. |
 | Jamie-hosted | The Vercel project and the domain in Jamie's team. Code and content stay the client's. | Basic support inside the retainer: a crash fix on call when the app is down or a flow is broken. Nothing else. | Standing. |
 
-A site with no state is Jamie-hosted at no charge and has no support line. Handover's hosting
-record names who hosts what and the monthly cost, per client.
+A site with no state is Jamie-hosted at no charge and has no support line. Per client, the
+support and hosting record names who hosts what, the monthly cost and what Jamie is on the
+hook for: `clients/<slug>/handover/support-and-hosting.md`, written by handover
+(`08-handover/CONTEXT.md`).
 
 ## Ending an engagement
 

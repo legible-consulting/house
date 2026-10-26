@@ -38,14 +38,15 @@ One level, every name a word. The numbered folders are the stages a deal walks, 
 | `05-agreement/` | the signable agreement, one template per language |
 | `06-kickoff/` | the kickoff form, the templates of the access table and the kickoff note, and the procedure that renders the client repo and cuts its first epic |
 | `07-build/` | the build from ticket to release, on the client repo |
+| `08-handover/` | the handover pack, the walkthrough, the support and hosting record, the retainer offer and the review request, at the end of a build |
 | `conformance/` | every live repo against the blueprint, on a schedule |
 | `training/` | the workshop and coaching procedure, the template of the coaching record. The kit is in the blueprint |
 | `research/` | the verdicts on tools and the concept library |
 | `.icm/intake/` | the house's own tickets: a module not built yet, a change to the desk |
 
-The stage numbers are final, in deal order. The gap 08 (handover) is a stage not built yet, with a ticket in `.icm/intake/house-modules/` (why: one renumber beats one renumber per new stage, and a gap keeps the place of a stage in the sequence a deal walks · 2026-10-26).
+The stage numbers are final, in deal order, `01` to `08` (why: one renumber beats one renumber per new stage, and the numbers keep the sequence a deal walks · 2026-10-26).
 
-A module the business needs and the house does not have yet (handover, the portfolio, content) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
+A module the business needs and the house does not have yet (the portfolio, content) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
 
 ## Other house words
 
