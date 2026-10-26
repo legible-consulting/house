@@ -79,14 +79,11 @@ A session in this folder produces the stage-level material, never a pool row:
 - `clients/<slug>/record.md` opened at `stage: prospect` by the handoff PR, with `salesman`
   and `commission.sourced_by` set. `commission.owed` is set at the agreement (`prospect.md`).
 - `target-profile.md` · `cadence.md` · `prospect.md`: the model (built 2026-10-19).
-- `legitimate-interest.md`: the GDPR legitimate-interest assessment for cold outreach, written
-  2026-08-30 and recovered on 2026-10-26 from the `k0d0minio/jamienisbet` repo
-  (`.icm/docs/lia-cold-outreach.md`, commit `0defe02`). It records why a business that did not
-  ask may be contacted, how far, and where it stops. It lives here because it governs the
-  outreach this stage produces (why: the lawful basis sits beside the activity it covers, so
-  the limits are read where the pitch is written · 2026-10-26). Its §0, amended 2026-10-26,
-  maps each control to the desk's pool. The two gaps are the ticket
-  `.icm/intake/triage/pool-opt-outs-and-purge.md`.
+- `legitimate-interest.md`: the GDPR legitimate-interest assessment for cold outreach from the
+  pool: why a business that did not ask may be contacted, how far, and where it stops. It
+  lives here because it governs the outreach this stage produces (why: the lawful basis sits
+  beside the activity it covers, so the limits are read where the pitch is written ·
+  2026-10-26).
 - `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
 - `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
   on `/sell`.

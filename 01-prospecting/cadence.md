@@ -38,8 +38,7 @@ move it. A reply stops the cadence. From `replied` on, the salesman sets `next_a
 Email, phone, WhatsApp, and in person (the Mafra network, events, a visit). Each touch is
 logged with its channel. LinkedIn is not a channel (why: Jamie's answer · 2026-10-19).
 
-Three rules for a business that did not ask to hear from us, from `legitimate-interest.md`
-(the balancing of 2026-08-30, amended 2026-10-26):
+Three rules for a business that did not ask to hear from us, from `legitimate-interest.md`:
 
 - A first touch by email or WhatsApp goes to a role address at a company: `geral@`, `info@`,
   the switchboard, the shop's own WhatsApp. A sole trader, or a named person's own mailbox or
@@ -52,8 +51,7 @@ Three rules for a business that did not ask to hear from us, from `legitimate-in
   the right to object are said in the first message · 2026-10-26).
 - A no is permanent for the company, on every channel. Set `lost` with the reason `asked not
   to be contacted`. Before adding a row, search the pool for the company, the address and the
-  number: a company with that reason on a `lost` row is not added again, by any salesman. The
-  desk does not check this yet (the ticket `.icm/intake/triage/pool-opt-outs-and-purge.md`)
+  number: a company with that reason on a `lost` row is not added again, by any salesman
   (why: Art 21(2) GDPR makes an objection to direct marketing absolute; a no that did not
   stick is the whole objection · 2026-10-26).
 
