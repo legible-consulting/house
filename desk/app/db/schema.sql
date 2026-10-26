@@ -13,6 +13,7 @@ create table if not exists users (
   role text not null default 'client' check (role in ('jamie', 'salesman', 'client')),
   handle text unique,
   client text,
+  active boolean not null default true,
   created_at timestamptz not null default now()
 );
 
@@ -113,6 +114,10 @@ create table if not exists suppressions (
 -- Each statement does nothing where the column already has this shape.
 alter table users add column if not exists handle text unique;
 alter table users add column if not exists client text;
+-- A client saved by the answer to a sent link starts inactive (client-signs-up of
+-- .icm/intake/desk-forms). The default is true so that the rows of Jamie and the salesmen keep
+-- working after this statement.
+alter table users add column if not exists active boolean not null default true;
 alter table prospects
   add column if not exists slug text unique,
   add column if not exists role text not null default '',
@@ -149,3 +154,9 @@ end $$;
 --     on conflict (email) do update set role = 'salesman', handle = 'ana';
 --   insert into users (email, role, client) values ('client@example.com', 'client', 'motoark')
 --     on conflict (email) do update set role = 'client', client = 'motoark';
+-- The desk also saves a client user. The answer to a link sent from /clients/<slug> (`signup`
+-- true) upserts the row with role client, client <slug> and active false (lib/db.ts saveClientUser,
+-- called by app/f/[token]/actions.ts). It never changes a row at role jamie or salesman, and it
+-- never sets an active row back to inactive. A user with active false is a client with no
+-- folder, who sees nothing (lib/user.ts currentUser). Jamie activates the user later
+-- (magic-link-sign-in) (why: Jamie decides who gets in and when · 2026-10-25).

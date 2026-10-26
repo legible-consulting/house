@@ -47,6 +47,15 @@ export interface DeskUser {
   role: Role;
   handle: string;
   client: string | null; // the clients/<slug> a client-role user reads; null for the rest
+  active: boolean; // false for a client saved by a sent link and not activated yet
+}
+
+// A client user of one folder, as the Users card on /clients/<slug> lists them.
+export interface ClientUser {
+  email: string;
+  name: string;
+  active: boolean;
+  saved: string; // YYYY-MM-DD, the row's creation
 }
 
 export interface Touch {

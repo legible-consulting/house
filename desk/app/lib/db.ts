@@ -3,7 +3,7 @@ import { env } from "./env";
 import type { FormSnapshot } from "./forms";
 import { clientSlugs } from "./house";
 import type { OpenLink, SentLink } from "./links";
-import type { Channel, ContactPoint, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
+import type { Channel, ClientUser, ContactPoint, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
 import { NO_CONTACT, slugOf, STATUSES } from "./pool";
 
 // A client per call: the driver speaks HTTP, there is nothing to pool, and a missing
@@ -11,11 +11,13 @@ import { NO_CONTACT, slugOf, STATUSES } from "./pool";
 // text (YYYY-MM-DD) so no time zone moves a day.
 const sql = () => neon(env("DATABASE_URL"));
 
-// `client` is read through to_jsonb so the query works before and after db/schema.sql adds
-// the column: a deploy never waits on the console, and a missing column reads as null.
+// `client` and `active` are read through to_jsonb so the query works before and after
+// db/schema.sql adds the column: a deploy never waits on the console. A missing `client` reads
+// as null, and a missing `active` reads as true, the column's default.
+const userActive = `coalesce((to_jsonb(users.*) ->> 'active')::boolean, true)`;
 const userSelect = `
   select id, email, name, role, coalesce(handle, split_part(email, '@', 1)) as handle,
-    to_jsonb(users.*) ->> 'client' as client
+    to_jsonb(users.*) ->> 'client' as client, ${userActive} as active
   from users`;
 
 export async function userByEmail(email: string): Promise<DeskUser | null> {
@@ -30,6 +32,32 @@ export async function ensureUser(email: string, name: string): Promise<void> {
     insert into users (email, name) values (${email}, ${name})
     on conflict (email) do nothing
   `;
+}
+
+// The answer to a link sent from a client page saves the person as a user of that folder, not
+// active (client-signs-up of .icm/intake/desk-forms). The update matches a client row only, so a
+// row at role jamie or salesman is never changed, and it leaves `active` as it is, so an active
+// row stays active. ensureUser does nothing on conflict, so the row keeps its role and its folder
+// at the person's first sign-in. The result: "saved" for a row that waits for activation,
+// "active" for a client row that was active already, "kept" for a row at another role.
+export async function saveClientUser(email: string, name: string, slug: string): Promise<"saved" | "active" | "kept"> {
+  const rows = (await sql()`
+    insert into users (email, name, role, client, active) values (${email}, ${name}, 'client', ${slug}, false)
+    on conflict (email) do update set name = excluded.name, client = excluded.client
+      where users.role = 'client'
+    returning active
+  `) as { active: boolean }[];
+  return !rows[0] ? "kept" : rows[0].active ? "active" : "saved";
+}
+
+// The client users of one folder, oldest first, with their state (the Users card on
+// /clients/<slug>, Jamie only).
+export async function usersOf(slug: string): Promise<ClientUser[]> {
+  return (await sql().query(
+    `select email, name, ${userActive} as active, created_at::date::text as saved
+     from users where client = $1 and role = 'client' order by created_at`,
+    [slug],
+  )) as ClientUser[];
 }
 
 const prospectSelect = `
@@ -259,7 +287,7 @@ export async function insertLink(
 // One sent link by its token, for /f/<id>. Null when no row has that id.
 export async function linkById(id: string): Promise<OpenLink | null> {
   const rows = (await sql()`
-    select id, slug, form, language, folder, name, email, snapshot, answered_at is not null as answered
+    select id, slug, form, language, folder, name, email, snapshot, signup, answered_at is not null as answered
     from links where id = ${id}
   `) as OpenLink[];
   return rows[0] ?? null;
