@@ -65,7 +65,8 @@ variable. The Process says what a session does with them.
   posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
   email is open. A salesman or Jamie moves the row through the pool's statuses
   (`clients/CONTEXT.md`). At `ready for Jamie` the desk opens a pull request on the house that
-  creates `clients/<slug>/record.md`. Jamie merges it (why: a lead copied by hand from a
+  creates `clients/<slug>/record.md` and moves the lead's answers into the folder
+  (`01-prospecting/CONTEXT.md`, The handoff). Jamie merges it (why: a lead copied by hand from a
   mail is a lead lost · 2026-10-22).
 - The sync pill. It says up to date, running, deploying, out of sync or unknown. Read it
   before you trust a page: only up to date means the page shows `main`'s head. Out of sync is

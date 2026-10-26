@@ -51,11 +51,19 @@ The handoff:
   creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff mapping in
   `prospect.md`. One prospect, one PR. The desk opens nothing else (why: the folder is the
   record, and a PR is the one door into it · 2026-10-19).
+- The same PR moves the lead's folder, `leads/<slug>/`. Each file goes to
+  `clients/<slug>/<folder>/`, where `<folder>` is the file's `folder:` frontmatter. On the
+  branch, the lead's folder is gone. A lead without a folder gets the same PR, with no move. A
+  file that names no folder stops the handoff before the branch exists, and the desk names the
+  file (why: the answers are documents of the relationship, and the client folder is its one
+  home · 2026-10-26).
+- A slug that changed after the answers landed: the desk finds no folder under the new slug,
+  and the old folder stays in `leads/`. Jamie moves it by hand.
 - Jamie reads the PR and merges it. The merge is the handoff. The desk then sets the row to
   `handed off`, sets `record`, and makes the row read-only. From then on the client folder is
   the home, and `clients/CONTEXT.md` says what is true at each stage.
 - A PR Jamie closes without a merge returns the row to its previous status, with his reason
-  in `notes`.
+  in `notes`. `main` does not change: the record and the move are on the branch only.
 - Never: the desk or a session merges the PR (boundary). `stage` moves as `clients/CONTEXT.md` says.
 
 Jamie's own leads: Jamie may add a row to the pool like a salesman, with `sourced_by: jamie`
@@ -123,4 +131,4 @@ A session in this folder produces the stage-level material, never a pool row:
 - `leads/<slug>/`: a lead's folder, by the pool row's slug. A lead's answers to a form are
   documents, so they live here, not in the pool: `<form>-<date>.md`, written by the desk
   (`/start` writes `free-look-<date>.md`). The handoff moves the folder into `clients/<slug>/`
-  (why: the row changes many times a day and the answers do not · 2026-10-25).
+  (The handoff, above) (why: the row changes many times a day and the answers do not · 2026-10-25).

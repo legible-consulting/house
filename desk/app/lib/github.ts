@@ -1,3 +1,4 @@
+import { parse } from "yaml";
 import { env, maybeEnv } from "./env";
 import type { Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
@@ -5,9 +6,10 @@ import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 // The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
 // only: Contents, Pull requests and Actions, read and write). Five uses:
 // - "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
-//   at stage prospect. The commit carries the desk's identity; the PR is opened by the account
-//   that owns DESK_PAT. The folder is the record from the merge on; "Check the PR" moves the
-//   row to handed off.
+//   at stage prospect, and moves the lead's answers from 01-prospecting/leads/<slug>/ into
+//   clients/<slug>/<folder>/. The commits carry the desk's identity; the PR is opened by the
+//   account that owns DESK_PAT. The folder is the record from the merge on; "Check the PR"
+//   moves the row to handed off.
 // - The research queue: one file per link Jamie shares to the desk, written to main
 //   (writeFile), and the folder as it stands for /research (listFolder). lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
@@ -56,6 +58,46 @@ function fail(step: string, r: GhResponse): never {
 
 const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\n+/g, " ");
 
+const LEADS = "01-prospecting/leads";
+// A client subfolder: the `folder:` of an answers file names one (01-prospecting/CONTEXT.md).
+const FOLDER = /^[a-z0-9][a-z0-9-]*$/;
+
+interface Move {
+  from: string;
+  to: string;
+  sha: string; // the file's blob on main: the DELETE names it
+  content: string; // base64, as the Contents API gives it and takes it
+}
+
+// The lead's answers on main, each with the path the handoff moves it to:
+// clients/<slug>/<folder>/<name>, where <folder> is the file's frontmatter. A lead without a
+// folder has none. Read before the branch exists, so a file that names no folder stops the
+// handoff with nothing made.
+async function leadMoves(slug: string): Promise<Move[]> {
+  const dir = `${LEADS}/${slug}`;
+  const list = await listFolder(dir);
+  if (!list.ok) throw new Error(`Cannot read ${dir}/: ${list.reason}.`);
+  const moves: Move[] = [];
+  for (const { name } of list.files) {
+    const from = `${dir}/${name}`;
+    const r = await gh("GET", `/contents/${from}?ref=main`);
+    if (r.status !== 200) fail(`read ${from}`, r);
+    const content = String(r.body.content ?? "").replace(/\n/g, "");
+    const head = /^---\r?\n([\s\S]*?)\r?\n---/.exec(Buffer.from(content, "base64").toString("utf8"))?.[1];
+    let folder: unknown;
+    try {
+      folder = head ? (parse(head) as Record<string, unknown> | null)?.folder : undefined;
+    } catch {
+      folder = undefined;
+    }
+    if (typeof folder !== "string" || !FOLDER.test(folder)) {
+      throw new Error(`${from} names no folder in its frontmatter. Move it by hand, then hand off again.`);
+    }
+    moves.push({ from, to: `clients/${slug}/${folder}/${name}`, sha: String(r.body.sha), content });
+  }
+  return moves;
+}
+
 export async function openHandoffPr(p: Prospect, slug: string, record: string, touches: number): Promise<string> {
   const path = `clients/${slug}/record.md`;
   const branch = `pool/${slug}`;
@@ -66,6 +108,8 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
 
   const existing = await gh("GET", `/contents/${path}?ref=main`);
   if (existing.status === 200) throw new Error(`clients/${slug}/ already exists on main.`);
+
+  const moves = await leadMoves(slug);
 
   const ref = await gh("POST", "/git/refs", { ref: `refs/heads/${branch}`, sha });
   if (ref.status === 422) throw new Error(`Branch ${branch} already exists: an earlier handoff is open, or its branch was kept.`);
@@ -79,6 +123,27 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
     author: COMMITTER,
   });
   if (put.status !== 201) fail("write record.md", put);
+
+  // Each answer moves on the branch: written at its new path, then deleted at the old one.
+  // Main keeps the lead's folder until Jamie merges.
+  for (const m of moves) {
+    const add = await gh("PUT", `/contents/${m.to}`, {
+      message: `Pool: move ${m.from} to ${m.to}`,
+      content: m.content,
+      branch,
+      committer: COMMITTER,
+      author: COMMITTER,
+    });
+    if (add.status !== 201) fail(`write ${m.to}`, add);
+    const del = await gh("DELETE", `/contents/${m.from}`, {
+      message: `Pool: remove ${m.from}, moved to ${m.to}`,
+      sha: m.sha,
+      branch,
+      committer: COMMITTER,
+      author: COMMITTER,
+    });
+    if (del.status !== 200) fail(`delete ${m.from}`, del);
+  }
 
   const rows: [string, string][] = [
     ["Company", p.company],
@@ -104,6 +169,7 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
     "|---|---|",
     ...rows.map(([k, v]) => `| ${k} | ${cell(v)} |`),
     "",
+    moves.length ? `The lead's answers move into the folder:\n\n${moves.map((m) => `- \`${m.from}\` → \`${m.to}\``).join("\n")}\n` : "",
     p.ask ? `Ask:\n\n${p.ask}` : "",
     p.notes ? `\nNotes:\n\n${p.notes}` : "",
   ].join("\n");
