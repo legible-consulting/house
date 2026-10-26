@@ -9,7 +9,7 @@
 
 ## Problem
 
-The portfolio's five "Get a free look" links open `https://desk.jamienisbet.com/start?lang=<en|fr|pt>` after PR 198 merges. The desk answers with its sign-in page.
+The portfolio's five "Get a free look" links open `https://desk.jamienisbet.com/start?lang=<en|fr|pt>` since pull request 198 merged on 2026-10-25. The desk answers with its sign-in page today.
 
 ## Proposed change
 
@@ -52,6 +52,6 @@ The rate limit: `throttle (ip_hash text, hour timestamptz, n int, primary key (i
 
 The file name is `free-look-<YYYY-MM-DD>.md`. A second file on the same day gets `-2`, then `-3`.
 
-The page renders outside `_shell.tsx`: no navigation, no session. The old shape: `app/[locale]/start/page.tsx`, `components/intake-form.tsx`, `app/actions/intake.ts` and `lib/intake-schema.ts` at `9d5db8c`.
+The page renders outside the app shell, beside the auth routes in `app/(auth)/`: no navigation, no session. The old shape: `app/[locale]/start/page.tsx`, `components/intake-form.tsx`, `app/actions/intake.ts` and `lib/intake-schema.ts` at `9d5db8c`.
 
 `01-prospecting/CONTEXT.md` keeps "The pool rows live in the desk, never here". It adds one line: a lead's answers to a form are documents. They live in `leads/<slug>/` until the handoff moves them (why: the row changes many times a day and the answers do not · 2026-10-25).

@@ -7,16 +7,16 @@
 
 ## Problem
 
-The local lane moved to `~/Desktop/legible-consulting/projects/<slug>/` on 2026-10-22 (`core/stack.md`, Layout). `conformance/CONTEXT.md` Outputs still says conformance runs from `~/Desktop/Apps/projects/`. Other sentences may say the same.
+The local lane moved to `~/Desktop/legible-consulting/projects/<slug>/` on 2026-10-22 (`core/stack.md`, Layout). `conformance/CONTEXT.md` Outputs still says conformance runs from `~/Desktop/Apps/projects/`. No other sentence does (audit of 2026-10-26).
 
 ## Proposed change
 
-Point each sentence at the new path. The legacy path stays only where `core/stack.md` names it as legacy, and in a ticket that mines a legacy source.
+Point the sentence at the new path. The legacy path stays only where `core/stack.md` and `core/lexicon.md` name it as the lane's old home.
 
 ## Acceptance criteria
 
 - [ ] `conformance/CONTEXT.md` Outputs names `~/Desktop/legible-consulting/projects/<slug>/` as where conformance runs.
-- [ ] `grep -rn 'Apps/projects' --include='*.md'` over the house finds the path only in `core/stack.md` (the legacy row) and in `.icm/intake/` (the legacy sources a stub mines).
+- [ ] `grep -rn 'Apps/projects' --include='*.md'` over the house finds the path only in `core/stack.md` (the legacy row and the settings row), `core/lexicon.md` (the local lane) and this ticket.
 - [ ] `check.yml` is green.
 
 ## Notes

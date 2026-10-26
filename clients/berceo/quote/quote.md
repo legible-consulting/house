@@ -1,4 +1,4 @@
-> Adopté dans le dossier client le 2026-10-23 depuis `~/Desktop/Apps/workspaces/deals/berceo/berceo-platform/04-devis-berceo.md` (devis du 27 août 2026, accepté le jour même). Contenu inchangé sous cette ligne. Le PDF rendu est `04-devis-berceo.pdf` dans le même dossier.
+> Adopté dans le dossier client le 2026-10-23 depuis le dossier de l'affaire antérieur à la house (devis du 27 août 2026, accepté le jour même). Contenu inchangé sous cette ligne. Le PDF rendu est `04-devis-berceo.pdf` dans le même dossier.
 
 # Berceo — devis V1
 

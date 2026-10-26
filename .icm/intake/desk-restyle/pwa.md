@@ -35,7 +35,7 @@ The manifest gains the brand's values and three drawn icons; `_mark.tsx` draws t
 
 ## Notes
 
-Read first: the breakdown, `desk/CONTEXT.md` (The phone), `desk/app/app/desk.webmanifest/route.ts`, `desk/app/app/_mark.tsx`, `desk/app/app/icon-192/route.tsx`, `desk/app/app/icon-512/route.tsx`, `desk/app/app/share/route.ts`, `desk/app/app/layout.tsx`, `desk/app/next.config.ts`, `desk/app/proxy.ts`, `desk/app/components/desk/logo.tsx` (the path constants). The brand's reference icon, for the crop: `~/Desktop/legible-consulting/projects/jamienisbet/packages/ui/assets/logo/reference/icon-dark.png` (the ink tile with paper letters), when the folder is on the machine. `desk/CONTEXT.md` keeps its sentence that no image file lives in git.
+Read first: the breakdown, `desk/CONTEXT.md` (The phone), `desk/app/app/desk.webmanifest/route.ts`, `desk/app/app/_mark.tsx`, `desk/app/app/icon-192/route.tsx`, `desk/app/app/icon-512/route.tsx`, `desk/app/app/share/route.ts`, `desk/app/app/layout.tsx`, `desk/app/next.config.ts`, `desk/app/proxy.ts`, `desk/app/components/desk/logo.tsx` (the path constants). The brand's reference icon, for the crop: `assets/logo/reference/icon-dark.png` at the root of `k0d0minio/jamienisbet` (the ink tile with paper letters). `desk/CONTEXT.md` keeps its sentence that no image file lives in git.
 
 ## Prompt
 

@@ -7,7 +7,7 @@
 
 The goal interview named sixteen modules. Nine exist with a contract: the core, the client folder, prospecting, the proposal, the quote, the build, conformance, research, and the desk, whose contract exists with its Process unwritten. Seven do not exist: client research, the agreement, kickoff, handover, the portfolio, content and training. Each is one stub here until a real deal or a real workshop walks it and a session writes its folder and contract from that walk. The desk's Process is one more stub, and the stage renumber that makes room for the four missing stages is the first.
 
-Each stub carries what the session reads first, what it mines from the legacy `Apps` folder on Jamie's machine, the Process the contract must say, the templates it writes, the gate, and the commit prefix. A stub whose sources are on the desktop says "desktop" in its Prompt (why: a cloud session attaches one repo and reaches no local folder · 2026-10-25).
+Each stub carries what the session reads first, the Process the contract must say, the templates it writes, the gate, and the commit prefix. Every source is in the house, in a sibling repo or in an estate repo. A stub whose check needs Jamie's phone, or whose write goes to a sibling repo, says "desktop" in its Prompt (why: a cloud session attaches one repo and reaches no phone · 2026-10-25).
 
 ## Decisions of record
 
@@ -15,7 +15,7 @@ Each stub carries what the session reads first, what it mines from the legacy `A
 - **A Process is written from a walk, never from the goal alone.** The stub names the walk: MotoArk for the agreement and client research, Vinecliff for kickoff, Euro Register for training, the first release for handover, the running desk for the desk (why: a contract written before its first run describes work nobody did · 2026-10-25).
 - **One stub, one folder, one pull request.** The commit message starts with the module's word: `agreement:`, `desk:`, `client-research:`, `kickoff:`, `training:`, `handover:`, `portfolio:`, `content:`, and `house:` for the renumber. The pull request body lists the questions for Jamie, numbered, each with a default (why: the house speaks in words; the module codes left on 2026-10-25).
 - **A session drafts and never acts.** It never sends to a client, signs, places a file in Drive without asking, moves `stage` or ticks a gate (`CLAUDE.md`, Boundaries).
-- **The legacy `Apps` folder is read, never run and never changed.** `~/Desktop/Apps/` holds the pre-house workspaces (`core/stack.md`, Layout). A stub names the exact files to mine.
+- **Nothing is read from `~/Desktop/Apps/` or from its repo, `k0d0minio/icm-board`.** The house holds what a module's shape is written from: the hand-written agreements, kickoffs and profiles in `clients/`, the facts in `core/`, the goals in the library (`core/stack.md`, Layout, the legacy row).
 - **A rule carries its why and date. One home per fact.** A contract points at `clients/CONTEXT.md` for the stages and never restates them (`CLAUDE.md`, House rules).
 
 ## Build order
