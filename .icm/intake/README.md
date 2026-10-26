@@ -43,6 +43,8 @@ The steps of the house's own build that no session takes, because each reaches a
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - Secret scanning and push protection on the public repos that remain: `blueprint`, `.github`, `english-with-jamie`, `garmani`.
+- The contabilista confirms the calendar in `core/accountant/02-trabalhador-independente-obligations.md`
+  §5. Then `core/deadlines.md` is written from it. Check: the file exists.
 - Before the first batch of cold emails: check its role addresses against the Direção-Geral
   do Consumidor's opt-out list (`01-prospecting/legitimate-interest.md` §3 and §0.2). Check:
   the batch's rows carry a touch note that says so.

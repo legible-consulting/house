@@ -11,8 +11,8 @@ source: "k0d0minio/jamienisbet · .icm/docs/contabilista/"
 > `.icm/docs/contabilista/`, and is dated 2026-08-17. The entity's current status is in
 > `core/identity.md`; where the two disagree, `identity.md` is the fact and this pack is the
 > record of the questions put to the accountant. The `biz.compliance_dates` table and the
-> admin dashboard named under Provenance were retired on 2026-10-25; where the confirmed
-> dates go is open.
+> admin dashboard named under Provenance were retired on 2026-10-25. The confirmed dates go
+> to `core/deadlines.md`, the entity's permanent deadlines (Jamie's decision, 2026-10-26).
 
 Two documents to send to the contabilista, together, before filing *início de atividade*.
 
