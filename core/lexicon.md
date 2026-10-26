@@ -47,6 +47,9 @@ A module the business needs and the house does not have yet (client research, th
   carries the `stage`.
 - **desk** — the morning glance, monthly close, estate audit and the dashboard.
 - **estate** — every repo in the org; conformance checks it conforms to the blueprint.
+- **form** — a questionnaire as markdown, `<stage>/forms/<form>.<language>.md`, one file per
+  language, for a public page of the desk. The answers land in the house as markdown. The
+  grammar is in `01-prospecting/CONTEXT.md` Outputs.
 - **local lane** — `~/Desktop/legible-consulting/projects/<slug>/` clones on Jamie's machine
   for bulk estate work (from 2026-10-22; `~/Desktop/Apps/projects/` until every clone moves,
   `core/stack.md` Layout).
