@@ -1,8 +1,8 @@
 # Remi AI: client profile
 
 Prepared 2026-10-23, three months into the role, from the house record
-(`clients/remi-ai/record.md`), the legacy deal workspace
-(`~/Desktop/Apps/workspaces/deals/remi-ai/`, 2026-09-22 to 2026-10-07), the client repo
+(`clients/remi-ai/record.md`), the pre-house deal workspace
+(outside the house, 2026-09-22 to 2026-10-07), the client repo
 `k0d0minio/remi-ai` on `main` at 5d60225 (`.icm/intake/README.md`, `.icm/docs/README.md`,
 `.icm/docs/RETENTION.md`, `apps/docs/app/business/*`), Morgane's feedback document of
 2026-09-10 (`docs/Feedback Jamie.docx` in the repo), the Drive folder `remi-ai` (the minutes

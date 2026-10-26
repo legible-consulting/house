@@ -1,7 +1,7 @@
 # Euro Register: client profile
 
-Prepared 2026-10-22, after the deal was agreed, from the legacy deal workspace
-(`~/Desktop/Apps/workspaces/deals/arnaud-ruelle/`, 9 to 12 October), the sent proposal and
+Prepared 2026-10-22, after the deal was agreed, from the pre-house deal workspace
+(outside the house, under the old slug `arnaud-ruelle`, 9 to 12 October), the sent proposal and
 agreement (Drive, `arnaud-ruelle`), the Belgian company register as shown by Pappers (read
 2026-10-22), Kompass, a 2000 Agence Europe bulletin, and Arnaud's LinkedIn profile. The
 company website was down on 2026-10-22 ("ouverture prochaine"), so the product facts come
@@ -105,8 +105,8 @@ These are the questions in `kickoff/questions.md`:
 
 ## Sources
 
-- Legacy deal workspace: `~/Desktop/Apps/workspaces/deals/arnaud-ruelle/` (DEAL.md,
-  ai-training-week/03-offer.md, 04-agreement.md, quote.yaml, private/pricing.md). Not in git.
+- The pre-house deal workspace, outside the house, under the old slug `arnaud-ruelle`: the deal
+  log, the offer and agreement sources, the quote and the pricing notes of 9 to 12 October.
 - Sent documents: Drive, folder `arnaud-ruelle`, the proposal and the agreement PDFs of
   12 October 2026; the email "Offre et Contrat : Consultation/Formation IA" of the same day.
 - https://www.pappers.be/fr/company/euro-register-0452.580.521 (read 2026-10-22)

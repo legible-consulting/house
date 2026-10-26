@@ -1,7 +1,7 @@
 # Berceo: client profile
 
 Prepared 2026-10-23, seven weeks into the build, from the house record (`clients/berceo/record.md`),
-the legacy deal workspace (`~/Desktop/Apps/workspaces/deals/berceo/`: `DEAL.md`, the internal
+the pre-house deal workspace (outside the house: the deal log, the internal
 quote of 2026-08-27, the devis, the agreement draft of 2026-09-23), the client repo
 `k0d0minio/berceo` on `main` at 920f735 (`CLAUDE.md`, `README.md`, `.icm/docs/REPORT.md`,
 `.icm/docs/QUESTIONS.md`, `.icm/intake/`), the Drive folders `berceo` and `Berceo` and Surya's two

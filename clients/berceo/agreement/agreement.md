@@ -1,4 +1,4 @@
-> Adopté dans le dossier client le 2026-10-23 depuis `~/Desktop/Apps/workspaces/deals/berceo/berceo-platform/05-agreement.md` (rédigé le 23 septembre 2026, rendu dans Drive le même jour). Contenu inchangé sous cette ligne. Non envoyé, non signé au 2026-10-23 : l'état de signature est tenu dans `record.md`.
+> Adopté dans le dossier client le 2026-10-23 depuis le dossier de l'affaire antérieur à la house (rédigé le 23 septembre 2026, rendu dans Drive le même jour). Contenu inchangé sous cette ligne. Non envoyé, non signé au 2026-10-23 : l'état de signature est tenu dans `record.md`.
 
 # Accord — Berceo, plateforme V1
 

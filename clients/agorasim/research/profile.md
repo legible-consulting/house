@@ -1,7 +1,7 @@
 # Agorasim: client profile
 
-Prepared 2026-10-23, three months into the build, from the house record, the legacy deal log
-(`~/Desktop/Apps/workspaces/deals/agorasim/DEAL.md`, 2026-07-23 to 2026-10-07), the client repo
+Prepared 2026-10-23, three months into the build, from the house record, the pre-house deal log
+(2026-07-23 to 2026-10-07, outside the house), the client repo
 `k0d0minio/agorasim` on `main` at bf9ba77 (`.icm/project.md`, the register of 2026-09-18,
 `.icm/docs/launch-runbook.md`, `.icm/docs/data-protection.md`, `.icm/intake/`), three documents
 recovered from that repo's git history (the proposal of 2026-07-23, the Commission & Payments
