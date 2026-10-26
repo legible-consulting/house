@@ -9,6 +9,9 @@ holds:
   - voice.md
   - terms.md
   - onboarding-collaborator.md
+  # The pack for the accountant: the entity's tax status, its obligations and its compliance
+  # calendar, beside the status identity.md names (why: one home per fact · 2026-10-26).
+  - "accountant/*.md"
   # The repo root's .env.example: every environment variable of the estate, by name and place. The
   # stack owns where a value lives, so the core holds the list (why: one audit file instead of a
   # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
@@ -56,6 +59,17 @@ Built (2026-10-23):
   section per place a value lives (Vercel production, preview, uat, development; Actions secrets
   and variables; the local shell; the cloud session). Names only, never a value. Re-read the
   sources and rewrite it when a name is added, renamed or removed.
+
+Recovered (2026-10-26):
+
+- `accountant/`: the pack for the accountant, written 2026-08-17. `README.md` is the cover
+  note, `01-contabilista-brief.md` the questions, `02-trabalhador-independente-obligations.md`
+  the status, the obligations and the due dates. It came from the `k0d0minio/jamienisbet`
+  repo (`.icm/docs/contabilista/`, commit `0defe02`) when that folder was deleted. The core
+  holds it because the entity's tax status, its obligations and its compliance calendar are
+  facts about the entity, and `identity.md` names the status (why: one home per fact; a
+  record of the entity kept in a client repo is one a stranger cannot find from the contracts
+  · 2026-10-26).
 
 Not yet written:
 
