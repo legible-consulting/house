@@ -2,7 +2,7 @@ import { neon } from "@neondatabase/serverless";
 import { env } from "./env";
 import type { FormSnapshot } from "./forms";
 import { clientSlugs } from "./house";
-import type { SentLink } from "./links";
+import type { OpenLink, SentLink } from "./links";
 import type { Channel, ContactPoint, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
 import { NO_CONTACT, slugOf, STATUSES } from "./pool";
 
@@ -254,4 +254,22 @@ export async function insertLink(
     returning id
   `) as { id: string }[];
   return rows[0]!.id;
+}
+
+// One sent link by its token, for /f/<id>. Null when no row has that id.
+export async function linkById(id: string): Promise<OpenLink | null> {
+  const rows = (await sql()`
+    select id, slug, form, language, folder, name, email, snapshot, answered_at is not null as answered
+    from links where id = ${id}
+  `) as OpenLink[];
+  return rows[0] ?? null;
+}
+
+// Marks a sent link answered. The guard is in the update itself, so a double submit lands once:
+// false is a row answered already, or no row (answer-a-link of .icm/intake/desk-forms).
+export async function markAnswered(id: string): Promise<boolean> {
+  const rows = await sql()`
+    update links set answered_at = now() where id = ${id} and answered_at is null returning id
+  `;
+  return rows.length === 1;
 }
