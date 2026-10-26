@@ -160,13 +160,14 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - A client's page: `/clients/<slug>` for the folder `users.client` names: where it stands,
   the repo's latest release and `check.yml` result (no link, no reason when the read fails),
   the documents the client reads (`proposal/proposal.md`, `agreement/*.md`,
-  `handover/*.md`). The price is the proposal's last section (`clients/CONTEXT.md`):
-  `read-house.mjs` puts `quote/quote.md` in place of the proposal's section that holds the
-  marker comment naming it, so the client reads one document with the price. HTML comments
-  leave every client document (why: the client says yes to one document, and the renderer
-  that joins the two for the PDF is not built yet · 2026-10-26), and the work in words: in progress with the preview
-  link, shipped in the last 14 days, queued. Research, negotiation, economics, drift, gates,
-  CI and triage never reach it.
+  `handover/*.md`), and the work in words: in progress with the preview link, shipped in the
+  last 14 days, queued. Research, negotiation, economics, drift, gates, CI and triage never
+  reach it.
+- The price is the proposal's last section (`clients/CONTEXT.md`). `read-house.mjs` puts
+  `quote/quote.md` in place of the proposal's section that holds the marker comment naming
+  it, so the client reads one document with the price. HTML comments leave every client
+  document (why: the client says yes to one document, and the renderer that joins the two for
+  the PDF is not built yet · 2026-10-26).
 - The phone: the desk installs from Chrome's menu (`app/desk.webmanifest/route.ts`; the icons are drawn
   by `app/_mark.tsx`, so no image file lives in git). Installed, it is a share target: a link
   shared to Desk opens `/share`, which writes `research/queue/<date>-<host>-<hash>.md`
