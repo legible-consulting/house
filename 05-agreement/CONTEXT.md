@@ -87,7 +87,8 @@ The agreement produces the signable contract for a deal the client said yes to, 
   body may propose the number. A session never writes it.
 - The gate: Jamie reads the draft, answers the questions, sends and signs. A session drafts
   into the folder. It never sends, never signs, never places a file in Drive without asking,
-  never moves `stage`, never ticks a gate (boundary).
+  never ticks a gate (boundary). `stage` moves as `clients/CONTEXT.md` says: to `kickoff`
+  when `agreement_signed` is `true`.
 
 ## Outputs
 

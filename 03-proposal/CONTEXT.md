@@ -44,8 +44,8 @@ The proposal produces the client-facing offer (problem, approach, scope, timelin
   month's end, and a decision point at the block's end. Progress is measured by scope
   completion, never by hours worked (`services.md` § Retainer pricing).
 - The gate: Jamie reads the proposal, sets the date, renders it and sends it. A session drafts
-  into the folder. It never sends to the client, never moves `stage`, never ticks a gate
-  (boundary).
+  into the folder. It never sends to the client and never ticks a gate (boundary). `stage`
+  moves as `clients/CONTEXT.md` says.
 - Not yet walked: the PDF render in CI, the Google Doc in the client's Drive folder, and the
   dashboard page. Until they exist, Jamie renders and sends by hand.
 

@@ -56,7 +56,7 @@ The handoff:
   the home, and `clients/CONTEXT.md` says what is true at each stage.
 - A PR Jamie closes without a merge returns the row to its previous status, with his reason
   in `notes`.
-- Never: the desk or a session merges the PR, or moves `stage` (boundary).
+- Never: the desk or a session merges the PR (boundary). `stage` moves as `clients/CONTEXT.md` says.
 
 Jamie's own leads: Jamie may add a row to the pool like a salesman, with `sourced_by: jamie`
 and no commission, or open the client folder directly as `clients/CONTEXT.md` allows. Either

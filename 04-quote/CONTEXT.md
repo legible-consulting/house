@@ -50,8 +50,8 @@ The quote produces the price, options and payment terms; the engagement's own ec
      touches. A session does not edit `core/`. Jamie closes the item there.
 - A price below the band, or below the standard rate, is written in `negotiation.md` with its
   reason. The next quote reads it as precedent (`services.md`).
-- The gate: Jamie sends the price with the proposal. A session never sends, never moves
-  `stage`, never ticks a gate (boundary).
+- The gate: Jamie sends the price with the proposal. A session never sends and never ticks a
+  gate (boundary).
 
 ## Outputs
 

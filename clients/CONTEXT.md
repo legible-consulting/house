@@ -28,9 +28,17 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   salesman's handoff from the desk's pool that Jamie merged. Before that, a lead lives in the
   desk's pool, not here (why: the pool changes many times a day and the folder is the record
   · 2026-10-19).
-- `stage` says what is true about the relationship today. A session may draft the artefact
-  that ends a stage. Only Jamie moves `stage`, by a commit to `record.md` (boundary: never
-  advance a stage).
+- `stage` says what is true about the relationship today. A session moves `stage` when the
+  artefact that ends the current stage exists (the right column of the table below):
+  - The session that writes the artefact moves `stage` in the same pull request, so that the
+    merge makes both true. A session that finds the artefact on `main`, or in the mail for
+    the client's yes, moves `stage` by a commit to `main`.
+  - The commit message names the artefact, for example `vinecliff: stage build, the go-live
+    epic merged (vinecliff#33)`.
+  - One row at a time. A session never skips a row and never moves `stage` back.
+  - `lost` is Jamie's call. A session never moves a folder to `lost`.
+  (why: the folder already proves the stage, and a stage that waits for Jamie's hand goes
+  stale · Jamie, 2026-10-26).
 
 | Stage | True at this stage | The artefact that ends it |
 |---|---|---|

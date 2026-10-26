@@ -73,8 +73,8 @@ variable. The Process says what a session does with them.
 - A change to the app. The session pushes to a branch and opens a pull request. `check.yml`
   builds the app on every push. Vercel deploys a preview per pull request. Read the result
   from CI and the preview, never from a local run (`CLAUDE.md`, House rules).
-- A session never merges, never ticks a gate and never moves a stage. It sends nothing to a
-  client. The desk's one mail goes to Jamie (`CLAUDE.md`, Boundaries).
+- A session never merges and never ticks a gate. It moves a stage only as `clients/CONTEXT.md`
+  says. It sends nothing to a client. The desk's one mail goes to Jamie (`CLAUDE.md`, Boundaries).
 
 ## Outputs
 

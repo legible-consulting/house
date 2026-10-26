@@ -35,9 +35,12 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - Without asking: read email, calendar and Drive; draft into the folder; commit words to
   `main`; create calendar events; place files in Drive (why: all of it stays inside the
   business and is undone by a revert or a delete).
-- Never, even if asked in the moment: send anything to a client; merge or release; advance
-  a stage or tick a gate; spend money or sign (why: each one reaches a client, the estate or
-  money and cannot be taken back; the human is the gate).
+- Without asking: move a client's `stage` when the artefact that ends it exists, as
+  `clients/CONTEXT.md` says (why: the folder already proves the stage, a stage that waits for
+  Jamie's hand goes stale, and a revert undoes the commit · Jamie, 2026-10-26).
+- Never, even if asked in the moment: send anything to a client; merge or release; tick a
+  gate; spend money or sign (why: each one reaches a client, the estate or money and cannot
+  be taken back; the human is the gate).
 - Unattended runs only: the runs that write the glance and the monthly close, and the
   research intake, which only opens a PR (why: the first two are deterministic reads with
   nothing to send; the intake reads what Jamie shared, writes a draft and opens a PR, and
