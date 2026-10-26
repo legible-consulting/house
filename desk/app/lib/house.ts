@@ -15,7 +15,7 @@ export interface ClientDoc extends Doc {
   stage: "proposal" | "quote" | "agreement" | "handover";
 }
 
-// quote/economics.yaml, the quote's file (03-quote/CONTEXT.md). The close reads the price
+// quote/economics.yaml, the quote's file (04-quote/CONTEXT.md). The close reads the price
 // (`price.monthly` for a retainer or a role, `price.total` for a build) and the estimates
 // (`hours.per_month`, `costs_monthly`).
 export interface Economics {

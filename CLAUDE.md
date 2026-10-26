@@ -14,9 +14,9 @@ where to go. Our words (house, blueprint, library) are defined once in
 | change a fact about the business (identity, services, pricing, voice, terms, stack) | `core/CONTEXT.md` |
 | open, read or update a client relationship | `clients/CONTEXT.md` |
 | prospect, work the pool, write a pitch | `01-prospecting/CONTEXT.md` |
-| write a proposal | `02-proposal/CONTEXT.md` |
-| price the work, write the quote | `03-quote/CONTEXT.md` |
-| build a client repo, ship a release | `04-build/CONTEXT.md` |
+| write a proposal | `03-proposal/CONTEXT.md` |
+| price the work, write the quote | `04-quote/CONTEXT.md` |
+| build a client repo, ship a release | `07-build/CONTEXT.md` |
 | check the estate against the blueprint | `conformance/CONTEXT.md` |
 | judge a tool or a concept | `research/CONTEXT.md` |
 | the morning glance, monthly close, the dashboard | `desk/CONTEXT.md` |
