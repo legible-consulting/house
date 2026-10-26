@@ -1,6 +1,6 @@
-> Adopted into the client folder on 2026-10-23 from the pre-house deal workspace (the internal quote of 2026-08-27, the positions, the deviations and the discount). Content unchanged below this line. Its relative links point at files that are not in the house: the rules they cite live in `core/services.md` and `core/terms.md` today.
+> Adopted into the client folder on 2026-10-23 from the pre-house deal workspace (the internal quote of 2026-08-27, the positions, the deviations and the discount). Its relative links point at files that are not in the house: the rules they cite live in `core/services.md` and `core/terms.md` today.
 
-# Berceo — quote (03-quote)
+# Berceo — quote
 
 *Stage artifact. Scope + shape + number, decided before any prose. The client-facing
 document is [`04-devis-berceo.md`](04-devis-berceo.md) and never renegotiates this.*

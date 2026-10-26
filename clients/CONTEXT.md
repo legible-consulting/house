@@ -68,7 +68,7 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one
   subfolder per module that has produced for this client.
 - `<slug>/quote/economics.yaml`, the quote's file: the price and the estimates the monthly close
-  reads (the shape: `03-quote/CONTEXT.md`) (why: invoices and payments are handled
+  reads (the shape: `04-quote/CONTEXT.md`) (why: invoices and payments are handled
   outside the house · 2026-10-22).
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is
   submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).
