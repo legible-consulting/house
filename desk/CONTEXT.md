@@ -31,8 +31,7 @@ variable. The Process says what a session does with them.
   Outputs, Data · 2026-10-21).
 - The roles. `jamie` sees every page. `salesman` sees `/pool` and `/sell`, and a handed-off
   deal up to `agreement`. `client` sees `/clients/<slug>` for the folder `users.client` names,
-  and nothing else. Jamie sets a role in the Neon console (Outputs, Sign-in). A session
-  never sets one.
+  and nothing else. Jamie sets a role in the Neon console (Outputs, Sign-in).
 - The glance and the close. `app/lib/rhythms.ts` computes both on every request, from the
   house as of the last push to `main`. `rhythms.yml` writes the same words to
   `glance/<date>.md` every morning and to `close/<YYYY-MM>.md` on the 1st, and commits the
