@@ -21,6 +21,7 @@ where to go. Our words (house, blueprint, library) are defined once in
 | start a signed build: the kickoff form, the access, the client repo, the first tickets | `06-kickoff/CONTEXT.md` |
 | build a client repo, ship a release | `07-build/CONTEXT.md` |
 | check the estate against the blueprint | `conformance/CONTEXT.md` |
+| plan a workshop or a coaching block, keep the coaching record, draft the attendance record | `training/CONTEXT.md` |
 | judge a tool or a concept | `research/CONTEXT.md` |
 | the morning glance, monthly close, the dashboard | `desk/CONTEXT.md` |
 | work on the house itself (a module not built yet, a change to the desk) | `.icm/intake/CONTEXT.md` |
