@@ -15,6 +15,9 @@ The pool is read per request from Neon. Two doors have no session: `app/api/pool
 where the portfolio's contact form posts a lead with `POOL_TOKEN`, and `/start` (`app/start/`),
 the public free look. Both make the pool row with `lib/lead.ts`; `/start` writes the answers
 to the house with `lib/answers.ts` and counts submissions per hashed IP in `throttle`.
+Jamie's Send a form card (`app/_send.tsx`, its action `app/_send-actions.ts`) on a client page
+and a pool row inserts a sent link in `links` (`lib/links.ts`, `lib/db.ts`) with the form's
+snapshot from `house.json`.
 `lib/mail.ts` sends the desk's one mail, a plain-text notice to Jamie, through Resend's HTTP
 API with `RESEND_API_KEY`, to the business email that `read-house.mjs` reads from
 `core/identity.md`.

@@ -24,6 +24,7 @@ Restyle `/pool/<id>` with the patterns against the criteria below. The server ac
 - [ ] "Next touch": the draft in a document-like block in the reading width, the Copy button first, then "Open in mail" and "Open in WhatsApp" as outline buttons; one column at 390.
 - [ ] Move, Ready for Jamie and Handoff: each a Card with its one button; the "Fill first" list is a flash inside the card.
 - [ ] A read-only state reads as one sentence under the header, not as a disabled form alone.
+- [ ] The Send a form card (Jamie only, `app/_send.tsx`, shared with the client page) as a Card: the picker as one field group, four columns at 1440 and one stacked group at 390, Send at the end; the sent links as a data table (title = form, meta = language and dates, an unanswered row's link in mono with Copy).
 - [ ] `check.yml` is green.
 
 ## Out of scope

@@ -1,6 +1,6 @@
 -- Desk (the desk) schema. Neon project legible-desk, default branch, database neondb. Idempotent:
 -- run the whole file again after a change (Neon console, SQL editor). Neon Auth owns
--- neon_auth.*; the app owns these four tables. The prospect row follows
+-- neon_auth.*; the app owns these five tables. The prospect row follows
 -- 01-prospecting/prospect.md (prospecting). Four names differ from that schema, because the
 -- first two tables were applied on 2026-10-19 and are reused, not recreated: contact_name
 -- is `contact`, created_at is `added`, updated_at is `updated`, and `sourced_by` is the
@@ -69,6 +69,30 @@ create table if not exists throttle (
   n int not null default 0,
   primary key (ip_hash, hour)
 );
+
+-- The links Jamie sends (decision 6 of .icm/intake/desk-forms): one row per questionnaire sent
+-- to one lead or client from the Send a form card (app/_send.tsx). The id is the token, and the
+-- link is https://desk.jamienisbet.com/f/<id>: gen_random_uuid() gives 122 random bits. The row
+-- lives here and not in git, so the credential never enters the house. `snapshot` is the form
+-- as lib/forms.ts parses it at the moment of sending, so the page that answers it reads the
+-- same questions whatever the house says later. `signup` is true when sent from a client page
+-- (decision 11). Jamie withdraws a link by deleting its row here.
+create table if not exists links (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null,
+  form text not null,
+  language text not null check (language in ('en-GB', 'fr-BE', 'pt-PT')),
+  folder text not null,
+  name text not null default '',
+  email text not null default '',
+  snapshot jsonb not null,
+  signup boolean not null default false,
+  sent_at timestamptz not null default now(),
+  answered_at timestamptz,
+  sent_by uuid not null references users (id)
+);
+
+create index if not exists links_slug_idx on links (slug);
 
 -- Migration of the 2026-10-19 tables to the prospecting fields (applied 2026-10-20, with no rows).
 -- Each statement does nothing where the column already has this shape.

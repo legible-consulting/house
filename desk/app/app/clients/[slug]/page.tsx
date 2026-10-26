@@ -1,13 +1,15 @@
 import { notFound, redirect } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { flash, type Search } from "@/lib/guard";
 import { clientBySlug, day } from "@/lib/house";
 import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
 import { RepoFacts } from "../../_repo";
 import { Shell } from "../../_shell";
-import { Heading, Prose } from "../../_ui";
+import { readLinks, SendForm } from "../../_send";
+import { Flash, Heading, Prose } from "../../_ui";
 import { ClientWork, WorkBody } from "../../_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
@@ -19,12 +21,19 @@ import { ClientWork, WorkBody } from "../../_work";
 // pull request's run or a deploy is in flight (app/_shell.tsx). Jamie reads every folder; a
 // client reads the one linked to their account (users.client); a salesman follows a deal
 // from the pool row instead and never lands here. Research, negotiation, economics and the
-// repo's drift are internal and never on this page for a client.
+// repo's drift are internal and never on this page for a client. Jamie also sends a form from
+// here (app/_send.tsx): the answer saves the person as a user of this folder.
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
-export default async function Client({ params }: { params: Promise<{ slug: string }> }) {
+export default async function Client({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Search;
+}) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
   if (user.role === "salesman") redirect("/pool");
@@ -51,6 +60,7 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
       : []),
   ].filter(([, v]) => v) as [string, string][];
   const live = jamie && c.repo ? [repoInFlight(c.repo), workInFlight(c.repo)] : [];
+  const [{ error, note }, sent] = await Promise.all([flash(searchParams), jamie ? readLinks(c.slug) : null]);
 
   return (
     <Shell user={user} current="/" live={live}>
@@ -65,6 +75,7 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
         title={c.name ?? c.slug}
         lede={jamie ? `clients/${c.slug}/record.md is the record; this page reads it at build time.` : undefined}
       />
+      <Flash error={error} note={note} />
       <div className="grid gap-6">
         <Card>
           <CardHeader>
@@ -108,6 +119,11 @@ export default async function Client({ params }: { params: Promise<{ slug: strin
             </CardHeader>
             <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
           </Card>
+        )}
+
+        {sent && (
+          // record.md carries no contact fields, so the name and the email start empty.
+          <SendForm target={{ client: c.slug }} read={sent} language={c.language} name="" email="" />
         )}
 
         {c.documents.length === 0 ? (
