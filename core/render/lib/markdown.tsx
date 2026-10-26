@@ -7,7 +7,7 @@ import {
 } from "@formepdf/react";
 import { Lexer } from "marked";
 import type { Token, Tokens } from "marked";
-import { cloneElement, isValidElement } from "react";
+import { isValidElement } from "react";
 import type { ReactNode } from "react";
 
 import { Divider } from "@/components/pdf/divider/divider";
@@ -52,16 +52,13 @@ export class Markdown {
    * style of a run only for its own components, not for pdfcn's wrappers.
    */
   inline(tokens: Token[] | undefined): ReactNode[] {
-    // The space after a styled run goes inside that run: Forme can drop a run's
-    // leading space when the line is full ("customer.You").
+    // The space after a styled run is a no-break space: Forme drops a space at a
+    // run boundary when it weighs a line break there ("customer.You").
     const nodes = this.runs(tokens);
     for (let i = 1; i < nodes.length; i++) {
-      const prev = nodes[i - 1];
       const node = nodes[i];
-      if (typeof node === "string" && /^\s/.test(node) && isValidElement(prev)) {
-        const kids = (prev.props as { children?: ReactNode }).children;
-        nodes[i - 1] = cloneElement(prev, undefined, kids, " ");
-        nodes[i] = node.trimStart();
+      if (typeof node === "string" && /^\s/.test(node) && isValidElement(nodes[i - 1])) {
+        nodes[i] = ` ${node.trimStart()}`;
       }
     }
     return nodes;
