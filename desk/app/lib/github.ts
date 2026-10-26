@@ -352,6 +352,15 @@ export async function writeFile(path: string, content: string, message: string):
   fail(`write ${path}`, r);
 }
 
+// Whether a file is on main: /f/<id> asks for clients/<slug>/record.md. Throws with the words of
+// read() when GitHub does not answer.
+export async function existsOnMain(path: string): Promise<boolean> {
+  const r = await read(`/contents/${path}?ref=main`);
+  if (r.status === 200) return true;
+  if (r.status === 404) return false;
+  fail(`read ${path}`, r);
+}
+
 export type FolderRead = { ok: true; files: { name: string; url: string }[] } | { ok: false; reason: string };
 
 // The files of a folder on main, by name, each with its link on GitHub. A folder that does
