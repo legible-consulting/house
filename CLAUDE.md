@@ -18,6 +18,7 @@ where to go. Our words (house, blueprint, library) are defined once in
 | write a proposal | `03-proposal/CONTEXT.md` |
 | price the work, write the quote | `04-quote/CONTEXT.md` |
 | draft the agreement for a deal the client said yes to | `05-agreement/CONTEXT.md` |
+| start a signed build: the kickoff form, the access, the client repo, the first tickets | `06-kickoff/CONTEXT.md` |
 | build a client repo, ship a release | `07-build/CONTEXT.md` |
 | check the estate against the blueprint | `conformance/CONTEXT.md` |
 | judge a tool or a concept | `research/CONTEXT.md` |
@@ -59,9 +60,9 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
   (why: two homes drift; a rule nobody can explain is never safely changed · 2026-10-14).
 - CI is truth: never run build, lint, typecheck, test, format or dev locally. The hook in
   `.claude/hooks/` enforces it (why: one verdict, recorded where the code was pushed · 2026-10-14).
-- One session, one repo. Kickoff is the named exception and attaches the new client
-  repo as well (why: a cloud session loads a repo's hooks and permissions only when one
-  repo is attached · 2026-10-15).
+- One session, one repo. Kickoff (`06-kickoff/CONTEXT.md`) is the named exception and
+  attaches the new client repo as well (why: a cloud session loads a repo's hooks and
+  permissions only when one repo is attached · 2026-10-15).
 - A file enters this repo only where a contract holds it: the `holds:` globs in the
   contract's frontmatter. `check.yml` fails on any other file. What a session makes for the
   moment stays in the scratchpad or an artifact and is linked, not committed. A stored

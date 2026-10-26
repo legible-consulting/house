@@ -8,7 +8,7 @@ This stage produces a build from ticket to release, sized by the blueprint's ans
 
 ## Inputs
 
-- The client repo only: its `CLAUDE.md`, `.icm/intake/` (the tickets and the contract `CONTEXT.md`, rendered by the blueprint), `.github/pull_request_template.md` and `ci.yml`. This folder is read once to learn the shape. A build session never attaches the house.
+- The client repo only: its `CLAUDE.md`, `.icm/intake/` (the tickets, the first epic cut by kickoff from the proposal's scope (`06-kickoff/CONTEXT.md`), and the contract `CONTEXT.md`, rendered by the blueprint), `.github/pull_request_template.md` and `ci.yml`. This folder is read once to learn the shape. A build session never attaches the house.
 - The reusable workflows in `legible-consulting/.github`: `check-client.yml` and `release.yml`. `ci.yml` calls them. Nothing is copied in.
 
 ## Process
