@@ -23,7 +23,6 @@ Restyle `/pool/<id>` with the patterns against the criteria below. The server ac
 - [ ] Touches: a table (title = date, meta = channel, show = note) above the log form; the log form is one row at 1440 and a stacked group at 390.
 - [ ] "Next touch": the draft in a document-like block in the reading width, the Copy button first, then "Open in mail" and "Open in WhatsApp" as outline buttons; one column at 390.
 - [ ] Move, Ready for Jamie and Handoff: each a Card with its one button; the "Fill first" list is a flash inside the card.
-- [ ] The Send a form card (`desk-forms/send-a-link`) is one more Card in that row: the form and the language as two selects in one field group, Send as its button, and the sent links as a data table (title = form; meta = language, sent, answered; the Copy button on an open link as the trailing action).
 - [ ] A read-only state reads as one sentence under the header, not as a disabled form alone.
 - [ ] `check.yml` is green.
 

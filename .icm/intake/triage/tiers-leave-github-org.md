@@ -11,19 +11,19 @@ The blueprint has one template root and a question bank since v0.8.0, and `tier`
 
 ## Proposed change
 
-Two steps. First, in the `.github` repo: `check-client.yml` gains a boolean input `workspace` (default false) that drives the three branches, and keeps `tier` declared and read nowhere, so every caller keeps working; its header comment and the workflows README say so; the profile's blueprint row says one template rendered from its answers. Second, through conformance (`conformance/CONTEXT.md`), the six callers drop `with: tier`; when none passes it, `tier` leaves `check-client.yml` in one more pull request.
+`tier` leaves entirely, in one wave, callers first. Through conformance (`conformance/CONTEXT.md`), the six callers drop `with: tier` from their `ci.yml`, one pull request per repo; a build passes nothing, which the workflow accepts today. Then, in the `.github` repo, `check-client.yml` takes a boolean input `workspace` (default false) in place of `tier`, with the same three branches; its header comment and the workflows README say so; the profile's blueprint row says one template rendered from its answers. No input is kept for compatibility (Jamie, 2026-10-26).
 
 ## Acceptance criteria
 
-- [ ] `.github/workflows/check-client.yml` has the input `workspace`. A caller passes `with: { workspace: true }` for a client's ICM workspace, and nothing for a build. The three `if:` lines read `inputs.workspace`. `tier` stays declared and read nowhere, with a comment that says it leaves when no caller passes it.
-- [ ] The pull request body lists the six callers that pass `tier` (read each with `gh api repos/<owner>/<repo>/contents/.github/workflows/ci.yml`) and names conformance as the step that drops it from each. No caller changes in this pull request.
+- [ ] The six callers' `ci.yml` pass no `tier` (read each with `gh api repos/<owner>/<repo>/contents/.github/workflows/ci.yml`), by one conformance pull request per repo, merged before the `.github` pull request.
+- [ ] `.github/workflows/check-client.yml` has no `tier` input. A caller passes `with: { workspace: true }` for a client's ICM workspace, and nothing for a build. The three `if:` lines read `inputs.workspace`. The `.github` pull request body lists the six caller pull requests.
 - [ ] `.github/workflows/README.md` and `profile/README.md` name no tier.
 - [ ] The repo's checks are green.
 
 ## Notes
 
-One repo, `legible-consulting/.github`, public. Read first: its `README.md`, `.github/workflows/README.md`, `.github/workflows/check-client.yml`, `profile/README.md`; in the house, `desk/mani.yaml` (the live repos). The training module's workspace render (`house-modules/training`) is the first caller of `workspace: true`. Conventional Commits. The stub moves to `_done/` in the next house pull request.
+Seven repos: the six callers through conformance, then `legible-consulting/.github`, public. Read first: `conformance/CONTEXT.md`; its `README.md`, `.github/workflows/README.md`, `.github/workflows/check-client.yml`, `profile/README.md`; in the house, `desk/mani.yaml` (the live repos). The training module's workspace render (`house-modules/training`) is the first caller of `workspace: true`. Conventional Commits. The stub moves to `_done/` in the next house pull request.
 
 ## Prompt
 
-Repo legible-consulting/.github, cloud with that repo attached or desktop at ~/Desktop/legible-consulting/.github. The ticket is .icm/intake/triage/tiers-leave-github-org.md in legible-consulting/house: read it first. Do what it says. One branch, one pull request to main, Conventional Commits. Do not merge. Your last message names the pull request.
+Desktop. The ticket is .icm/intake/triage/tiers-leave-github-org.md in legible-consulting/house at ~/Desktop/legible-consulting/house: read it first, then conformance/CONTEXT.md. First the six callers, through conformance: one pull request per repo that drops `with: tier`, Conventional Commits. Then legible-consulting/.github at ~/Desktop/legible-consulting/.github: one branch, one pull request to main, Conventional Commits. Do not merge. Your last message names every pull request and the order they merge in.

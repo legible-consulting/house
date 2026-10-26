@@ -11,7 +11,7 @@ The local lane moved to `~/Desktop/legible-consulting/projects/<slug>/` on 2026-
 
 ## Proposed change
 
-Point the sentence at the new path. The legacy path stays only where `core/stack.md` and `core/lexicon.md` name it as the lane's old home, until every clone moves.
+Point the sentence at the new path. The legacy path stays only where `core/stack.md` and `core/lexicon.md` name it as the lane's old home.
 
 ## Acceptance criteria
 

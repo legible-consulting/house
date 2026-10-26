@@ -11,6 +11,8 @@ The per-lead form is also the client's sign-up (Jamie, question 4). A lead fills
 
 What exists and is reused. `lib/github.ts` writes one file to `main` (`writeFile`). It also opens the handoff PR (`openHandoffPr`). `app/api/pool/route.ts` turns a public body into a pool row. `scripts/read-house.mjs` reads the house at build into `house.json`. `lib/auth.ts` wraps Neon Auth, and `ensureUser` in `lib/db.ts` opens a `users` row at first sign-in. `01-prospecting/` holds stage material per language (`kit.<language>.md`). The old form grammar (`forms-parse.ts`) is ported, not imported: one `##` heading per question, a `- key: value` list under it, four field types.
 
+This epic runs after `desk-restyle` (`.icm/intake/README.md`, Order). Every page and card it adds is built from the patterns in `components/desk/` and the shell of `app-shell`: the two public pages sit beside the auth routes in `app/(auth)/`, outside the shell, in the auth card's layout; the Send a form card and the users list are Cards with field groups and data tables; the second sign-in form sits under the password form in the same card.
+
 What the house does not have. A home for a lead's documents before the handoff: the pool is Neon, and the client folder opens at the handoff. A mailer. A table for a sent link. A client sign-up, and a magic-link sign-in. The decisions below settle all of them.
 
 ### Decisions (Jamie, 2026-10-25)
@@ -47,7 +49,7 @@ Stubs 1 to 4 are P0. The portfolio's links open `/start` since pull request 198 
 
 - The portfolio. Its side shipped in `k0d0minio/jamienisbet` pull request 198.
 - The pool API. The free look shares its code, not its route. The route's behaviour does not change.
-- A restyle of the desk. The two public pages use the desk's components as they are.
+- A restyle of the desk: it precedes this epic. The pages here use the restyled components and patterns as they are.
 - Showing the answers on the desk's pages. Jamie reads them in the mail and in the house.
 - New content on the client page: walkthroughs, demos. A later epic (decision 12).
 - Kickoff's forms (onboarding, content and brand). They arrive with the `kickoff` stub in `house-modules`, in this grammar.

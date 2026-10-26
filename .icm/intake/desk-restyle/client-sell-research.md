@@ -25,7 +25,6 @@ Client page, `/clients/<slug>` (Jamie, client):
 - [ ] "Where it stands" as a definition list: two columns at 390, three at 1440; labels in mono micro uppercase; values in `text-ui`, mono where the value is a date, a repo or a slug. The blueprint fact (Jamie only) takes the `--destructive` text when drifted.
 - [ ] The Work card is the ticket rows of the Work page for one repo (Jamie), or the three lists in words (client).
 - [ ] Each document as a document pattern in the reading column, with the stage as a mono tag in the masthead.
-- [ ] The Send a form card and the users list (`desk-forms/send-a-link`, `client-signs-up`, `magic-link-sign-in`), Jamie only, as two Cards under the documents: the card as on the pool row; the users as a data table (title = email; meta = name and the state as a status tag, active a check, saved a hollow ring; Activate or Send again as the trailing action).
 
 Sell, `/sell`:
 

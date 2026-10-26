@@ -6,23 +6,23 @@ The epics, and what each holds:
 
 | Epic | Holds |
 |---|---|
-| `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo |
+| `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo, the pool's no and purge |
 | `house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
 | `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
-| `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
 | `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
+| `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
 
 The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by Jamie.
 
 ## Order
 
-Set by Jamie on 2026-10-25.
+Set by Jamie on 2026-10-25; the last two swapped by Jamie on 2026-10-26.
 
 1. triage
 2. house-modules
 3. render-and-publish
-4. desk-forms
-5. desk-restyle
+4. desk-restyle
+5. desk-forms
 
 ## Milestones
 

@@ -63,7 +63,7 @@ Layout:
 |---|---|
 | `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo (client repos are not here; they are `k0d0minio/<slug>`) |
 | `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, multi-gitter, copier). `jamienisbet` is here. |
-| `~/Desktop/Apps/projects/<slug>/` | legacy: the local lane's old home. The client clones still there move one by one; a clone's row in `desk/mani.yaml` says where it is today. The row leaves this table when every clone has moved. Nothing in the house reads from `~/Desktop/Apps/` or from its repo, `k0d0minio/icm-board`: a session reads the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
+| `~/Desktop/Apps/projects/<slug>/` | legacy: the local lane's old home. The client clones still there move one by one; a clone's row in `desk/mani.yaml` says where it is today. The row leaves this table when every clone has moved. Beyond those clones, nothing in the house reads from `~/Desktop/Apps/`, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 
 Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A repo that

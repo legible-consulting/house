@@ -11,8 +11,6 @@ The brief predates four changes of 2026-10-25, and these stubs carry it reconcil
 
 The brand's home is the root of `k0d0minio/jamienisbet` since 2026-10-26: `BRAND.md`, `tokens/colors.css`, `typography.css`, `desk.css`, `assets/logo/`, `components/brand/logo-artwork.ts` (`core/voice.md`, Document design). A stub reads it by `gh api` or at `~/Desktop/legible-consulting/projects/jamienisbet` and never imports from that repo. The one thing copied is the traced JN path constants, for the in-app mark and the icons.
 
-The desk-forms epic runs before this one (`.icm/intake/README.md`, Order) and adds two public pages, `/start` and `/f/<token>`, a Send a form card on the client page and on the pool row, a users list with Activate on the client page, and a second form on `/sign-in`. They are restyled with their pages: the pool row's card in `pool-row`, the client page's card and users list in `client-sell-research`, the two public pages and the sign-in form in `auth-and-close-out`.
-
 ## Decisions of record
 
 Fixed for the whole epic:
@@ -98,4 +96,4 @@ The first stub is blocked until `house-modules/desk-process` merges (why: the cl
 
 - The data flow, the server actions, the roles, the schema, the pool API.
 - The portfolio's restyle: the brand's home is that repo.
-- New pages or new facts on a page.
+- New pages or new facts on a page. The pages and cards of `desk-forms` come after this epic (`.icm/intake/README.md`, Order) and are built from the patterns and the shell.
