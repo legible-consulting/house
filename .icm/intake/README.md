@@ -40,13 +40,9 @@ The steps of the house's own build that no session takes, because each reaches a
 - `copier update` on the four live repos with their answers, through conformance, now that the blueprint has one root and a question bank (v0.8.0).
 - Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
 - Vinecliff's kickoff, once `house-modules/kickoff` merges: the owner answers the questionnaire, `clients/vinecliff/kickoff/` is written, the first epic is cut in the repo, `next_action` is set on the record.
-- Resend: an API key for the desk, with Sending access, in the Resend account that holds the domain
-  `mail.jamienisbet.com`, set as `RESEND_API_KEY` on the Vercel project `legible-desk` for
-  production and preview. Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for
-  both.
-- Neon, project `legible-desk`: run `desk/app/db/schema.sql` again in the SQL editor, for the
-  `throttle` table of `/start`'s rate limit. Until then the limit is off, and the rest of
-  `/start` works. Check: `select count(*) from throttle` answers.
+- `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
+  `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
+  Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
 - GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.

@@ -64,7 +64,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   requests write for the gates), `POOL_TOKEN` (the bearer the portfolio's contact form sends
   to the pool API; the Vercel project `portfolio` holds the same value as
   `DESK_POOL_TOKEN`), `RESEND_API_KEY` (the desk's own key in the Resend account that holds
-  `mail.jamienisbet.com`). A token unset, or a repo out of reach, fails only its own
+  `mail.jamienisbet.com`), `THROTTLE_SALT` (the key of the IP hash in `/start`'s rate limit). A token unset, or a repo out of reach, fails only its own
   cell, in words (why: a fine-grained token cannot span owners, and a missing token must not
   stop the desk · 2026-10-21).
 - The pool API, `app/api/pool/route.ts`, a route without a session: `POST /api/pool`
@@ -84,9 +84,11 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   writes the answers to `01-prospecting/leads/<slug>/free-look-<date>.md` on `main` with
   `DESK_PAT` (`lib/answers.ts`), mails Jamie (`Free look: <name>`, reply-to the visitor) and
   shows the visitor a confirmation. The visitor gets no mail. A filled honeypot, or a sixth
-  submission from one IP in one hour (table `throttle`: a hashed IP, the hour, the count,
-  kept one day), is thanked and stores nothing (why: the portfolio's links open it, and a
-  bot must not fill the pool · 2026-10-25).
+  submission from one IP in one hour (table `throttle`: the IP hashed with `THROTTLE_SALT`,
+  the hour, the count, kept one day), is thanked and stores nothing (why: the portfolio's
+  links open it, and a bot must not fill the pool · 2026-10-25). A failed count, row or file
+  is an error on the page, and the visitor can send again (why: nothing is thanked that is not
+  in the house · 2026-10-26).
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
   blueprint drift, latest release and `check.yml` run), `/work` (every client repo's open tickets, and the house's own from `.icm/intake/` read with `DESK_PAT`, in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests

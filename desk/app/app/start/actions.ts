@@ -1,9 +1,10 @@
 "use server";
 
-import { createHash } from "node:crypto";
+import { createHmac } from "node:crypto";
 import { headers } from "next/headers";
 import { answersFile, checkAnswers, writeAnswers } from "@/lib/answers";
 import { countSubmission } from "@/lib/db";
+import { env } from "@/lib/env";
 import type { FormSnapshot } from "@/lib/forms";
 import { forms } from "@/lib/house";
 import { EMAIL_RE, insertLead, leadFields, MAX } from "@/lib/lead";
@@ -19,9 +20,9 @@ import { COPY, languageOf, type StartState } from "./copy";
 //    when there is one, and then nothing is inserted.
 // 5. The answers to 01-prospecting/leads/<slug>/free-look-<date>.md on main.
 // 6. One mail to Jamie, reply-to the visitor. The visitor gets no mail.
-// A failed row is an error on the page, and the visitor can send again. A failed file goes
-// into the mail with the reason, and the visitor sees the confirmation (why: the row is in, and
-// the mail then holds the answers · 2026-10-26).
+// A failed count, row or file is an error on the page, and the visitor can send again. A second
+// try finds the row of the first and inserts no other (why: nothing is thanked that is not in
+// the house · 2026-10-26). A failed mail is logged, and the visitor sees the confirmation.
 
 const FORM = "free-look";
 const PER_HOUR = 5;
@@ -35,11 +36,13 @@ const LANGUAGE = ["en-GB", "fr-BE", "pt-PT"]; // language, the 8th
 const optionAt = (form: FormSnapshot, key: string, answer: string): number =>
   form.fields.find((f) => f.key === key)?.options?.indexOf(answer) ?? -1;
 
-// The visitor's IP, hashed: Vercel sets x-forwarded-for, and the first address is the client.
+// The visitor's IP, hashed with THROTTLE_SALT: Vercel sets x-forwarded-for, and the first
+// address is the client. An unset salt fails the count (why: a hash with no secret is undone by
+// hashing every IPv4 address · 2026-10-26).
 async function ipHash(): Promise<string> {
   const h = await headers();
   const ip = h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
-  return createHash("sha256").update(ip).digest("hex");
+  return createHmac("sha256", env("THROTTLE_SALT")).update(ip).digest("hex");
 }
 
 export async function submitStart(_prev: StartState, data: FormData): Promise<StartState> {
@@ -66,16 +69,11 @@ export async function submitStart(_prev: StartState, data: FormData): Promise<St
     form.fields.map((f) => [f.key, f.type === "boolean" ? (values[f.key] ? copy.yes : copy.no) : values[f.key]]),
   );
 
-  // A count that fails lets the submission through (why: the limit guards the pool, and a
-  // missing `throttle` table must not close the door · 2026-10-26).
-  const count = await countSubmission(await ipHash()).catch((e) => {
-    console.error("[start] the throttle count failed:", e);
-    return 0;
-  });
-  if (count > PER_HOUR) return { status: "done" };
-
+  const at = new Date();
   let lead: Awaited<ReturnType<typeof insertLead>>;
+  let file: string;
   try {
+    if ((await countSubmission(await ipHash())) > PER_HOUR) return { status: "done" };
     const ask = [answers.eats_the_week, answers.business ? `(${answers.business})` : ""].filter(Boolean).join(" ");
     const spoken = LANGUAGE[optionAt(form, "language", answers.language)];
     lead = await insertLead({
@@ -84,14 +82,6 @@ export async function submitStart(_prev: StartState, data: FormData): Promise<St
       service: SERVICE[optionAt(form, "done_looks_like", answers.done_looks_like)] ?? "",
       deal_size: DEAL_SIZE[optionAt(form, "budget", answers.budget)] ?? "",
     });
-  } catch (e) {
-    console.error("[start] the pool row failed:", e);
-    return { status: "error", message: copy.errors.failed };
-  }
-
-  const at = new Date();
-  let file: string;
-  try {
     file = await writeAnswers(
       `01-prospecting/leads/${lead.slug}`,
       FORM,
@@ -100,8 +90,8 @@ export async function submitStart(_prev: StartState, data: FormData): Promise<St
       `lead: free look from ${lead.slug}`,
     );
   } catch (e) {
-    console.error("[start] the answers file failed:", e);
-    file = `not written (${e instanceof Error ? e.message : String(e)}). The answers are only in this mail.`;
+    console.error("[start] the submission failed:", e);
+    return { status: "error", message: copy.errors.failed };
   }
 
   const text = [
