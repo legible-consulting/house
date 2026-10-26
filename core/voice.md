@@ -2,7 +2,7 @@
 title: Voice and document design
 kind: core
 owner: jamie
-date: 2026-10-19
+date: 2026-10-26
 ---
 # Voice — how we sound, and how a document looks
 
@@ -86,7 +86,7 @@ wins over its source drifts the site · 2026-10-19).
 |---|---|---|
 | Proposal | The proposal writes it; the quote writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section (why: a client says yes to one document they understand, without a second call · 2026-10-19). |
 | Agreement | The agreement stage | Numbered clauses from `terms.md`. The accepted proposal attached. The signature block last. |
-| Handover pack | Handover | Defined when handover is built. |
+| Handover pack | Handover (`08-handover/CONTEXT.md`) | Cover. Then what the client has, what is theirs, what happens next (`pack.md`); how to use it, a numbered walkthrough on the production URL (`walkthrough.md`); who hosts what, what it costs, the support and the access that ends (`support-and-hosting.md`); the retainer offer, when one is offered (`retainer-offer.md`). One document: the render joins the four files in that order. 3 to 6 pages (why: the client reads one document on the day the build ends, and each part keeps one home · 2026-10-26). The review and case-study request is a mail 30 days later, not part of the pack. |
 
 Every document is written as markdown in the client folder, in the client's language,
 rendered to PDF in this design, and placed in the client's Drive folder.

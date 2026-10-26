@@ -20,6 +20,7 @@ where to go. Our words (house, blueprint, library) are defined once in
 | draft the agreement for a deal the client said yes to | `05-agreement/CONTEXT.md` |
 | start a signed build: the kickoff form, the access, the client repo, the first tickets | `06-kickoff/CONTEXT.md` |
 | build a client repo, ship a release | `07-build/CONTEXT.md` |
+| hand over a finished build: the pack, the walkthrough, the support and hosting record, the retainer offer, the review request | `08-handover/CONTEXT.md` |
 | check the estate against the blueprint | `conformance/CONTEXT.md` |
 | plan a workshop or a coaching block, keep the coaching record, draft the attendance record | `training/CONTEXT.md` |
 | judge a tool or a concept | `research/CONTEXT.md` |
