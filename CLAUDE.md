@@ -16,6 +16,7 @@ where to go. Our words (house, blueprint, library) are defined once in
 | prospect, work the pool, write a pitch | `01-prospecting/CONTEXT.md` |
 | write a proposal | `03-proposal/CONTEXT.md` |
 | price the work, write the quote | `04-quote/CONTEXT.md` |
+| draft the agreement for a deal the client said yes to | `05-agreement/CONTEXT.md` |
 | build a client repo, ship a release | `07-build/CONTEXT.md` |
 | check the estate against the blueprint | `conformance/CONTEXT.md` |
 | judge a tool or a concept | `research/CONTEXT.md` |

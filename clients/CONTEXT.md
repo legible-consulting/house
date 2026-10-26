@@ -64,7 +64,9 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 
 - `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `repo`, `owner`,
   `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`,
-  commission fields.
+  commission fields; from the agreement on, `agreement_drive` (the Drive link of the rendered
+  agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
+  (`05-agreement/CONTEXT.md`).
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `handover/`: one
   subfolder per module that has produced for this client.
 - `<slug>/quote/economics.yaml`, the quote's file: the price and the estimates the monthly close
