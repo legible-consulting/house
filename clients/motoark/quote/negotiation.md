@@ -96,12 +96,12 @@ Jamie said €3,700 month to month on the call (2026-10-23).
   months treated as one job, half of the fee up front and half at the end, for his own
   first-year position in Portugal. It is a payment term, not a second scope option
   (2026-10-23).
-- **Ownership from the start.** `core/terms.md` § Ownership passes the work on final payment,
-  and the quote said "once the month it was built in is paid". The agreement makes the work
-  MotoArk's from the start. Jamie's decision, 2026-10-26.
+- **Ownership from the start.** `core/terms.md` § Ownership passes the work on final payment.
+  The quote and the agreement make the work MotoArk's from the start. Jamie's decision,
+  2026-10-26.
 - **The portfolio from day 1.** `core/terms.md` § Ownership allows the portfolio after launch
-  with consent, and the quote said after version two ships. The agreement gives the consent at
-  signature, from the first day of month 1. Jamie's decision, 2026-10-26.
+  with consent. The quote and the agreement give the consent at signature, from the first day
+  of month 1. Jamie's decision, 2026-10-26.
 
 ## Open, Jamie decides
 

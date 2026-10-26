@@ -86,8 +86,7 @@ from the proposal.
 
 <!-- terms: terms.md § Ownership; terms.md § Hosting and support. Two deviations, Jamie's
 decision of 2026-10-26, named in quote/negotiation.md: the work is MotoArk's from the start,
-not on payment, and the portfolio starts on day 1. Both differ from the proposal's price
-section too; clause 02 says this agreement prevails. -->
+not on payment, and the portfolio starts on day 1. The quote says the same. -->
 
 - The work lands in your repositories and is yours from the start.
 - I keep my method, my templates, my guards, my generic tooling and my know-how, and use them

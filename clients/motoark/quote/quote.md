@@ -72,12 +72,12 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Ownership and access
 
-- The work lands in MotoArk's repositories. It is MotoArk's once the month it was built in is
-  paid.
+- The work lands in MotoArk's repositories. It is MotoArk's from the start.
 - I keep my method, my templates, my guards and my tooling, and use them again.
 - Your code, hosting and accounts stay in MotoArk's name. My access lasts while the retainer
   runs.
-- I may name MotoArk in my portfolio after version two ships, with your consent.
+- I may name MotoArk and describe the work in my portfolio from the first day of month 1. You
+  agree to this when you sign.
 
 ### Validity
 
