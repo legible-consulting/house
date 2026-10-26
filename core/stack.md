@@ -43,6 +43,19 @@ ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's c
 2026-10-16). Homebrew installs the current stable formula, so local versions are read, not
 pinned; `setup/cloud.sh` pins its own.
 
+## The renderer
+
+A client document becomes a PDF with pdfcn's components on Forme, under `core/render/`: React
+components for PDF from the pdfcn registry (`components.json`), rendered by Forme's layout
+engine, which runs as WASM in Node with no browser. Forme was chosen over pdfcn's other base,
+Takumi, because it lays out pages: A4 pages that break where the text breaks, a footer on every
+page with its page number, and table rows that break across pages (why: a proposal is 4 to 8
+pages of running text, and a client reads it as a document, not a picture · 2026-10-26). The
+packages are pinned in `core/render/package-lock.json`. `render.yml` installs them in CI. The
+fonts come from Google Fonts at render and the logo from `core/render/assets/`. `place.sh` uses
+`/usr/bin/gio`, which Ubuntu ships, and `yq` and `jq` from `setup/local.sh` (why: the Drive copy
+is Jamie's hand over the GNOME mount, so no Drive key exists anywhere · 2026-10-22).
+
 ## Local machine
 
 Ubuntu 24.04 with Homebrew. A fresh machine, in order:

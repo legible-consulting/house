@@ -1,0 +1,114 @@
+# render: every changed client document to a PDF in the house's design, kept as a run artifact
+# for 14 days (core/CONTEXT.md § Outputs, render/). No Drive step and no secret: Jamie places a PDF
+# in Drive with core/render/place.sh (why: a workflow that writes to Drive holds a key that
+# outlives every rotation, and the desktop already has the mount · 2026-10-22).
+name: render
+
+on:
+  pull_request:
+    paths:
+      - "clients/*/proposal/*.md"
+      - "clients/*/quote/quote.md"
+      - "clients/*/agreement/*.md"
+      - "core/render/**"
+      - "core/voice.md"
+      - ".github/workflows/render.yml"
+  push:
+    branches: [main]
+    paths:
+      - "clients/*/proposal/*.md"
+      - "clients/*/quote/quote.md"
+      - "clients/*/agreement/*.md"
+      - "core/render/**"
+      - "core/voice.md"
+      - ".github/workflows/render.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Install
+        run: |
+          if [ -f core/render/package-lock.json ]; then
+            npm ci --prefix core/render --no-audit --no-fund
+          else
+            npm install --prefix core/render --no-audit --no-fund
+          fi
+      - name: Keep the lock file
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: package-lock
+          path: core/render/package-lock.json
+          retention-days: 1
+      - name: Which documents to render
+        env:
+          EVENT: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BEFORE: ${{ github.event.before }}
+        run: |
+          # A change to a client document renders that document. A quote renders inside its
+          # proposal, or alone when the client has no proposal. A change to the renderer, the
+          # design or this workflow renders every proposal and agreement with frontmatter.
+          if [ "$EVENT" = pull_request ]; then base="$PR_BASE"; else base="$PUSH_BEFORE"; fi
+          if [ -z "$base" ] || ! git cat-file -e "${base}^{commit}" 2>/dev/null; then base="$(git rev-parse HEAD~1)"; fi
+          changed="$(git diff --name-only "$base" HEAD)"
+          list="$RUNNER_TEMP/documents.txt"
+          : > "$list"
+          if grep -qE '^(core/render/|core/voice\.md$|\.github/workflows/render\.yml$)' <<< "$changed"; then
+            for f in clients/*/proposal/proposal.md clients/*/agreement/agreement.md; do
+              [ -f "$f" ] || continue
+              if [ "$(head -n1 "$f")" != "---" ] || ! yq --front-matter=extract -e '.title != null and .date != null and .language != null' "$f" >/dev/null 2>&1; then
+                echo "::notice file=${f}::not rendered: no title, date and language in its frontmatter"
+                continue
+              fi
+              c="${f#clients/}"; echo "${c%%/*} $(basename "$(dirname "$f")")" >> "$list"
+            done
+          fi
+          while IFS= read -r f; do
+            [ -f "$f" ] || continue
+            c="${f#clients/}"; c="${c%%/*}"
+            case "$f" in
+              clients/*/proposal/*.md) echo "$c proposal" >> "$list" ;;
+              clients/*/agreement/*.md) echo "$c agreement" >> "$list" ;;
+              clients/*/quote/quote.md)
+                if [ -f "clients/$c/proposal/proposal.md" ]; then echo "$c proposal" >> "$list"; else echo "$c quote" >> "$list"; fi ;;
+            esac
+          done < <(grep -E '^clients/[^/]+/(proposal/[^/]+\.md|quote/quote\.md|agreement/[^/]+\.md)$' <<< "$changed" || true)
+          sort -u -o "$list" "$list"
+          cat "$list"
+      - name: Render
+        run: |
+          fail=0
+          { echo '## Rendered'; echo; } >> "$GITHUB_STEP_SUMMARY"
+          while read -r client kind; do
+            if out="$(core/render/render.sh "$client" "$kind" --out "$RUNNER_TEMP/pdf")"; then
+              echo "$out"
+              echo "- \`${out#RESULT: RENDERED "$RUNNER_TEMP"/pdf/}\`" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::render.sh $client $kind failed"
+              fail=1
+            fi
+          done < "$RUNNER_TEMP/documents.txt"
+          exit "$fail"
+      - name: Keep the PDFs
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pdf
+          path: ${{ runner.temp }}/pdf
+          retention-days: 14
+          if-no-files-found: ignore

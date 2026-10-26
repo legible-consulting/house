@@ -12,6 +12,10 @@ holds:
   # The pack for the accountant: the entity's tax status, its obligations and its compliance
   # calendar, beside the status identity.md names (why: one home per fact · 2026-10-26).
   - "accountant/*.md"
+  # The renderer: a Node package that turns a client document into the PDF in the design of
+  # voice.md, and the script that places a PDF in Drive (why: voice.md is the design's one
+  # home, so its reader lives beside it · 2026-10-26).
+  - "render/**"
   # The repo root's .env.example: every environment variable of the estate, by name and place. The
   # stack owns where a value lives, so the core holds the list (why: one audit file instead of a
   # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
@@ -68,6 +72,35 @@ Built (2026-10-26):
   contabilista confirms is written into §5 in place. The core holds the pack because the
   entity's tax status, its obligations and its calendar are facts about the entity, and
   `identity.md` names the status (why: one home per fact · 2026-10-26).
+- `render/`: the renderer. `render.sh <client> <proposal|quote|agreement> [--out <dir>]`
+  reads `clients/<client>/<kind>/<kind>.md` and writes one PDF in the design of `voice.md`
+  § Document design. It prints `RESULT: RENDERED <path>`. `place.sh <client> <pdf>` copies
+  a PDF into the client's Drive folder and prints `RESULT: PLACED <name>`. The workflow
+  `.github/workflows/render.yml` runs `render.sh` on a pull request and on `main` and keeps
+  the PDFs as the run's artifact `pdf` for 14 days. `stack.md` § The renderer says why.
+  The rules the renderer follows:
+  - The design is read from the table in `voice.md` § Document design on every run. A value
+    the table does not give stops the render (why: one home for the design; the renderer is
+    its reader, not a second home · 2026-10-22).
+  - The fonts are fetched from Google Fonts at render and embedded as subsets. The logo is
+    `render/assets/logo-full.svg` and `logo-mark.svg`, copied byte for byte from
+    `assets/logo/` in `k0d0minio/jamienisbet`, never redrawn. When the brand changes the
+    logo, copy the two files again.
+  - The frontmatter and every HTML comment are dropped. A proposal takes the body of
+    `quote/quote.md` in place of its own last `## ` section (why: the price has one home, and
+    the client says yes to one document · 2026-10-19).
+  - The text before the first rule (`---`) is the cover when it holds the `#` title. A
+    paragraph in capitals only is an eyebrow.
+  - The name of a PDF is `<Kind> - <title> - Jamie Nisbet - <date>.pdf`: the kind in the
+    client's language from `render/kinds.json`, then `title` and `date` from the
+    frontmatter. The characters `/ \ : * ? " < > |` are dropped from the title. A signed
+    copy is named by Jamie and starts with the signed kind (`Signed`, `Signé`, `Assinado`);
+    `place.sh` never writes or replaces a file whose name starts with it (why: the signed
+    copy is the record of the deal; a render must never overwrite it · 2026-10-22).
+  - `place.sh` writes with `/usr/bin/gio` into `Clients/<name>/`, `name` from the client's
+    `record.md`, on the one Google Drive mount that holds that folder. A file of the same
+    name is replaced in place, so its Drive link stays. Jamie runs it, or a desktop session
+    after it asked Jamie. CI never places (why: no secret in the render path · 2026-10-22).
 
 Not yet written:
 

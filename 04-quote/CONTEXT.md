@@ -33,7 +33,9 @@ The quote produces the price, options and payment terms; the engagement's own ec
   4. Write `quote/quote.md` in the client's language: the price table, what the rate covers
      and what it does not, payment, ending, ownership and access, validity, the parties, law
      and language, from `terms.md`. A deviation from a term is named in the text. The file is
-     the proposal's last section when rendered.
+     the proposal's last section when rendered: `render.yml` renders the proposal with it on
+     the pull request, and the PDF is the run's artifact `pdf`, kept 14 days
+     (`core/CONTEXT.md` § Outputs, `render/`). A client with no proposal gets the quote alone.
   5. Write `quote/economics.yaml` (internal): the anchor, the price, the hours, the effective
      hourly rate, the costs (model, hosting, other), the margin, the precedent read, and the
      open item the quote closes if any. An estimate is marked as an estimate. The desk reads
@@ -50,7 +52,8 @@ The quote produces the price, options and payment terms; the engagement's own ec
      touches. A session does not edit `core/`. Jamie closes the item there.
 - A price below the band, or below the standard rate, is written in `negotiation.md` with its
   reason. The next quote reads it as precedent (`services.md`).
-- The gate: Jamie sends the price with the proposal. A session never sends and never ticks a
+- The gate: Jamie sends the price with the proposal: Jamie places the PDF in the client's
+  Drive folder with `core/render/place.sh`, then sends it. A session never sends and never ticks a
   gate (boundary).
 
 ## Outputs

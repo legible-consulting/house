@@ -59,10 +59,8 @@ The same offer, said three ways. The floor, the anchor and the method do not cha
 ## Document design
 
 The brand is Jamie Nisbet's. Its one home is the `jamienisbet` repo, cloned at
-`~/Desktop/legible-consulting/projects/jamienisbet/`. Today (2026-10-22) the tokens are in
-`packages/ui/tokens/` (colours, typography, fonts) and the logo in `packages/ui/assets/logo/`.
-After that repo's `one-app-at-root` stub merges they are `tokens/` and `assets/logo/` at its
-root, and this sentence is fixed. The table below is the copy a session uses when that repo is
+`~/Desktop/legible-consulting/projects/jamienisbet/`. The tokens are in `tokens/` (colours,
+typography, fonts) and the logo in `assets/logo/`, at its root. The table below is the copy a session uses when that repo is
 not attached. When the two disagree, the tokens win and this table is fixed (why: a copy that
 wins over its source drifts the site · 2026-10-19).
 
@@ -89,4 +87,5 @@ wins over its source drifts the site · 2026-10-19).
 | Handover pack | Handover (`08-handover/CONTEXT.md`) | Cover. Then what the client has, what is theirs, what happens next (`pack.md`); how to use it, a numbered walkthrough on the production URL (`walkthrough.md`); who hosts what, what it costs, the support and the access that ends (`support-and-hosting.md`); the retainer offer, when one is offered (`retainer-offer.md`). One document: the render joins the four files in that order. 3 to 6 pages (why: the client reads one document on the day the build ends, and each part keeps one home · 2026-10-26). The review and case-study request is a mail 30 days later, not part of the pack. |
 
 Every document is written as markdown in the client folder, in the client's language,
-rendered to PDF in this design, and placed in the client's Drive folder.
+rendered to PDF in this design by `core/render/`, which reads the table above, and placed in
+the client's Drive folder.
