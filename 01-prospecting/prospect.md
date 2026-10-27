@@ -32,14 +32,14 @@ before the salesman may set `ready for Jamie`, `lost` when the status is set to 
 | `service` | `site`, `app`, `platform`, `workshop`, `coaching`, `unknown` | no | the sourcer |
 | `deal_size` | `<2k`, `2k-10k`, `10k-30k`, `>30k` (EUR, a hint only, Jamie quotes) | no | the sourcer |
 | `source` | text, how the prospect was found: who referred, which event, which `targets/` list | add | the sourcer |
-| `sourced_by` | `jamie` or a salesman's handle | add | the desk, from the signed-in user |
+| `sourced_by` | `jamie` or a salesman's handle (`users.handle`) | add | the desk, from the signed-in user. A salesman without a handle cannot set `ready for Jamie` (why: the record names the salesman by handle, and the monthly close reads it · 2026-10-26). |
 | `ask` | text, one paragraph in the sourcer's words: what they asked for | ready | the sourcer |
 | `status` | one of the statuses below | add, as `new` | the sourcer. The desk sets `handed off`. |
 | `touches` | list of `{date, channel, note}`. `channel` is `email`, `phone`, `whatsapp`, `in person` | ready, at least one | the sourcer |
 | `next_action` | date | no | the desk, from `cadence.md`. The sourcer may edit it. |
 | `notes` | text | no | the sourcer |
 | `lost_reason` | text | lost | the sourcer |
-| `record` | path, `clients/<slug>/record.md` | no | the desk, when the handoff PR is merged |
+| `record` | path, `clients/<slug>/record.md` | no | the desk, at "Check the PR" on the row's page after Jamie merges the handoff PR |
 | `added` | date | add | the desk |
 | `updated` | date | no | the desk, on every write |
 
@@ -59,7 +59,7 @@ The list is defined in `clients/CONTEXT.md` and copied here unchanged:
 | `replied` | The prospect answered. | the sourcer |
 | `meeting` | A meeting with the sourcer is booked or held. | the sourcer |
 | `ready for Jamie` | Every `ready` field is filled. The handoff PR is open. | the sourcer, from `replied` or `meeting` only |
-| `handed off` | Jamie merged the handoff PR. The row is read-only. `record` is set. | the desk |
+| `handed off` | Jamie merged the handoff PR. The row is read-only. `record` is set. | the desk, at "Check the PR" on the row's page. The sourcer, Jamie or another salesman clicks it. The desk does not watch the PR (why: one read at a click, and no webhook to keep · 2026-10-26). |
 | `lost` | The prospect said no, or went silent past the cadence. `lost_reason` is set. | the sourcer, from any status except `handed off` |
 
 A no is set with "They asked not to be contacted" on the row's page, by the sourcer or Jamie:
@@ -76,7 +76,8 @@ stay (why: the data of a row nobody works is the data the row no longer needs ·
 `legitimate-interest.md` §5 · 2026-10-26).
 
 A row at `ready for Jamie` whose PR Jamie closes without a merge returns to its previous
-status. Jamie's reason goes in `notes`.
+status at "Check the PR". Jamie writes his reason in `notes` by hand: the desk does not copy it
+from the PR.
 
 ## Handoff mapping
 
@@ -98,6 +99,10 @@ here keeps the template's value.
 | body, heading | `company` |
 | body, paragraph 1 | `ask` |
 | body, paragraph 2 | one line: `Sourced by <sourced_by> via <source>. <n> touches, last on <date>. Contact: <contact>, <role>, <email or phone>, <country>.` |
+
+In paragraph 2, one touch reads `1 touch`. `<date>` is the date of the latest touch. `<email or
+phone>` is the email, or the phone when the row has no email. An empty part of `Contact:` is left
+out with its comma (why: `role` is optional, and the record must not read `, ,` · 2026-10-26).
 
 ## The salesman's deal
 

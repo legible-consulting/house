@@ -85,6 +85,7 @@ export interface Prospect {
   sourced_by: string;
   salesman_email: string;
   salesman_name: string;
+  salesman_handle: string | null; // users.handle of the sourcer; null for Jamie or a salesman without one
   ask: string;
   status: Status;
   previous_status: Status | null;
@@ -175,13 +176,15 @@ export function canWrite(p: Prospect, u: DeskUser): boolean {
   return u.role === "jamie" || (u.role === "salesman" && p.salesman === u.id);
 }
 
-// The statuses the user may move the row to from where it is. Jamie may set any. The sourcer
-// follows the arrows: new → contacted (after one logged touch) → replied → meeting, and lost
-// from any status but handed off. `ready for Jamie` and `handed off` are not moves: the
-// handoff sets them.
+// The statuses the user may move the row to from where it is. Jamie may set any other. The
+// sourcer follows the arrows: new → contacted (after one logged touch) → replied → meeting, and
+// lost from any status but handed off. `ready for Jamie` and `handed off` are not moves, for
+// Jamie too: the handoff sets them, with its PR and its record (prospect.md, Statuses).
+const HANDOFF: readonly Status[] = ["ready for Jamie", "handed off"];
+
 export function nextMoves(p: Prospect, u: DeskUser): Status[] {
   if (!canWrite(p, u)) return [];
-  if (u.role === "jamie") return STATUSES.filter((s) => s !== p.status);
+  if (u.role === "jamie") return STATUSES.filter((s) => s !== p.status && !HANDOFF.includes(s));
   switch (p.status) {
     case "new":
       return p.touches > 0 ? ["contacted", "lost"] : ["lost"];

@@ -148,6 +148,11 @@ export async function readyForJamie(form: FormData) {
     if (!canGoReady(p)) throw new Error("Ready for Jamie goes from replied or meeting, once.");
     const missing = missingForReady(p);
     if (missing.length) throw new Error(`Fill first: ${missing.join(", ")}.`);
+    // sourced_by in record.md is `jamie` or the salesman's handle (prospect.md, Fields). The
+    // pool shows the email's first part for a salesman without one; the record must not.
+    if (p.sourced_by !== "jamie" && !p.salesman_handle) {
+      throw new Error(`${p.salesman_email} has no handle. Jamie sets it in the Neon console (db/schema.sql), then hand off again.`);
+    }
     const slug = p.slug ?? slugOf(p.company);
     if (clientSlugs.has(slug)) throw new Error(`clients/${slug}/ already exists.`);
     const touches = await touchesOf(id);
