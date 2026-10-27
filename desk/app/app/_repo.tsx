@@ -1,6 +1,5 @@
 import { Suspense, type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
-import { TableCell } from "@/components/ui/table";
 import { inFlight, repoStatus, type RepoStatus, type Run } from "@/lib/repos";
 
 // A client repo's status in words (lib/repos.ts): the latest release and the latest
@@ -93,46 +92,36 @@ function Check({ s, jamie }: { s: Ok; jamie: boolean }) {
 const unavailable = (s: Extract<RepoStatus, { ok: false }>, jamie: boolean) =>
   jamie ? s.reason : "The repository status is not available now.";
 
-async function Cells({ repo, jamie }: { repo: string; jamie: boolean }) {
+async function ReleaseWords({ repo, jamie }: { repo: string; jamie: boolean }) {
   const s = await repoStatus(repo);
-  if (!s.ok) {
-    return (
-      <TableCell colSpan={2} className="text-xs text-muted-foreground">
-        {unavailable(s, jamie)}
-      </TableCell>
-    );
-  }
+  if (!s.ok) return <span className="text-muted-foreground">{unavailable(s, jamie)}</span>;
+  return <Release s={s} jamie={jamie} />;
+}
+
+async function CheckWords({ repo, jamie }: { repo: string; jamie: boolean }) {
+  const s = await repoStatus(repo);
+  if (!s.ok) return null;
+  return <Check s={s} jamie={jamie} />;
+}
+
+// The release, for a table cell: the words, "no repo", or the reason the read failed. The
+// read is shared with CheckCell (lib/repos.ts keeps one read per repo in flight).
+export function ReleaseCell({ repo, jamie }: { repo: string | null | undefined; jamie: boolean }) {
+  if (!repo) return <span className="text-muted-foreground">no repo</span>;
   return (
-    <>
-      <TableCell>
-        <Release s={s} jamie={jamie} />
-      </TableCell>
-      <TableCell>
-        <Check s={s} jamie={jamie} />
-      </TableCell>
-    </>
+    <Suspense fallback={<span className="text-muted-foreground">reading GitHub…</span>}>
+      <ReleaseWords repo={repo} jamie={jamie} />
+    </Suspense>
   );
 }
 
-// Two table cells: the release, then check.yml. One cell across both when there is no repo
-// or the read failed.
-export function RepoCells({ repo, jamie }: { repo: string | null | undefined; jamie: boolean }) {
-  if (!repo) {
-    return (
-      <TableCell colSpan={2} className="text-muted-foreground">
-        no repo
-      </TableCell>
-    );
-  }
+// check.yml, for a table cell: the words, or nothing when there is no repo or the read
+// failed (ReleaseCell carries the reason).
+export function CheckCell({ repo, jamie }: { repo: string | null | undefined; jamie: boolean }) {
+  if (!repo) return null;
   return (
-    <Suspense
-      fallback={
-        <TableCell colSpan={2} className="text-xs text-muted-foreground">
-          reading GitHub…
-        </TableCell>
-      }
-    >
-      <Cells repo={repo} jamie={jamie} />
+    <Suspense fallback={null}>
+      <CheckWords repo={repo} jamie={jamie} />
     </Suspense>
   );
 }

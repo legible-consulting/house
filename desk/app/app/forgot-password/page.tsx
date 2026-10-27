@@ -1,9 +1,10 @@
+import { Field } from "@/components/desk/field-group";
+import { Flash } from "@/components/desk/flash";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { flash, type Search } from "@/lib/guard";
 import { Shell } from "../_shell";
-import { Field, Flash } from "../_ui";
 import { requestReset } from "./actions";
 
 // Open to visitors without a session (proxy.ts does not match it).

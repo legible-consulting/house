@@ -1,9 +1,10 @@
 import { notFound, redirect } from "next/navigation";
+import { Heading } from "@/components/desk/document";
+import { Prose } from "@/components/desk/prose";
+import { VerdictTag } from "@/components/desk/status-tag";
 import { verdictBySlug } from "@/lib/house";
 import { currentUser } from "@/lib/user";
 import { Shell } from "../../_shell";
-import { Heading, Prose } from "../../_ui";
-import { VerdictBadge } from "../_verdict";
 
 // One verdict or concept (research/{verdicts,concepts}/<slug>.md), from the house at
 // build time (lib/house.ts): the frontmatter as the lede, the body as prose, the file on
@@ -43,7 +44,7 @@ export default async function VerdictPage({ params }: { params: Promise<{ slug: 
         title={v.name}
         lede={
           <>
-            <VerdictBadge verdict={v.verdict} /> <span className="ml-1">{facts}</span>
+            <VerdictTag verdict={v.verdict} /> <span className="ml-1">{facts}</span>
           </>
         }
       />
