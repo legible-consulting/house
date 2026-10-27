@@ -90,7 +90,9 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 
 - `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `public`, `repo`, `owner`,
   `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`,
-  commission fields; from the agreement on, `agreement_drive` (the Drive link of the rendered
+  commission fields; `drive_folder`, the client's folder under `Clients/` in Google Drive, set
+  only when it is not the slug (MotoArk's is `moto-ark`; why: the Drive folders were named
+  before the house and Jamie keeps them · 2026-10-27); from the agreement on, `agreement_drive` (the Drive link of the rendered
   agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
   (`05-agreement/CONTEXT.md`).
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `training/` ·

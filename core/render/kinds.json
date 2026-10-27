@@ -1,0 +1,5 @@
+{
+  "en": { "proposal": "Proposal", "quote": "Quote", "agreement": "Agreement", "signed": "Signed" },
+  "fr": { "proposal": "Proposition", "quote": "Devis", "agreement": "Contrat", "signed": "Signé" },
+  "pt": { "proposal": "Proposta", "quote": "Orçamento", "agreement": "Contrato", "signed": "Assinado" }
+}

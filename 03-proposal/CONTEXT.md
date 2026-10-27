@@ -4,7 +4,7 @@ holds: []
 ---
 # Proposal
 
-The proposal produces the client-facing offer (problem, approach, scope, timeline) in the client's language, as branded PDF, Google Doc in their Drive folder, and a page in the dashboard, so that a client can say yes to a document they understand without a second call.
+The proposal produces the client-facing offer (problem, approach, scope, timeline) in the client's language, as a branded PDF in their Drive folder and a page in the dashboard, so that a client can say yes to a document they understand without a second call.
 
 ## Inputs
 
@@ -44,14 +44,18 @@ The proposal produces the client-facing offer (problem, approach, scope, timelin
   scope per month: what month 1 builds, what the months after it build, a checkpoint at each
   month's end, and a decision point at the block's end. Progress is measured by scope
   completion, never by hours worked (`services.md` § Retainer pricing).
-- The gate: Jamie reads the proposal, sets the date, renders it and sends it. A session drafts
-  into the folder. It never sends to the client and never ticks a gate (boundary). `stage`
-  moves as `clients/CONTEXT.md` says.
-- Not yet walked: the PDF render in CI, the Google Doc in the client's Drive folder, and the
-  dashboard page. Until they exist, Jamie renders and sends by hand.
+- The render: the workflow `render.yml` renders the proposal, with `quote/quote.md` as its
+  last section, on the pull request and again on `main`. The PDF is the run's artifact `pdf`,
+  kept 14 days (`core/CONTEXT.md` § Outputs, `render/`). Jamie copies it into the client's Drive
+  folder with `core/render/place.sh <slug> <pdf>`, or a desktop session does after it asked
+  Jamie. The PDF is the document; there is no Google Doc copy.
+- The gate: Jamie reads the proposal and its PDF, sets the date, places the PDF and sends it.
+  A session drafts into the folder. It never sends to the client and never ticks a gate
+  (boundary). `stage` moves as `clients/CONTEXT.md` says.
+- Not yet walked: the dashboard page.
 
 ## Outputs
 
-- `clients/<slug>/proposal/proposal.md` (source) → PDF rendered in CI, Doc placed in Drive from the session, page read by the dashboard.
+- `clients/<slug>/proposal/proposal.md` (source) → the PDF, rendered by `render.yml` as the run's artifact `pdf` and placed in Drive by `core/render/place.sh`; the page the dashboard reads.
 - `clients/<slug>/proposal/<note>.md`: an internal English note the send needs (a cover note). Only when the send needs one, deleted after it.
 - The proposal's scope section is the ticket list. Kickoff cuts it into the client repo's `.icm/intake/<epic-slug>/` (why: tickets have one home, the client repo's intake; a second list in the house drifts · 2026-10-21).
