@@ -74,7 +74,7 @@ variable. The Process says what a session does with them.
   fixed from the laptop. Its panel starts `rhythms.yml` for the glance or the close (why:
   one word says whether the desk shows `main` · 2026-10-22).
 - A change to the app. The session pushes to a branch and opens a pull request. `check.yml`
-  builds the app on every push. Vercel deploys a preview per pull request. Read the result
+  builds the app on every pull request. Vercel deploys a preview per pull request. Read the result
   from CI and the preview, never from a local run (`CLAUDE.md`, House rules).
 - A session never merges and never ticks a gate. It moves a stage only as `clients/CONTEXT.md`
   says. It sends nothing to a client. The desk's one mail goes to Jamie (`CLAUDE.md`, Boundaries).
@@ -101,7 +101,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 
 - Next.js on Vercel (`core/stack.md`), project `legible-desk`, `https://desk.jamienisbet.com`,
   deployed from `main` by the project's Git link (root directory `desk/app`), a preview per
-  PR. `check.yml` builds it on every push.
+  PR. `check.yml` builds it on every pull request and every push to `main`.
 - Design: `app/DESIGN.md` holds the information rules (what a page shows first, the ticket
   card, the track, the fold); `app/app/globals.css` holds the visual rules and the tokens.
 - Data: the house is read once, at build, by `app/scripts/read-house.mjs` (what it reads is

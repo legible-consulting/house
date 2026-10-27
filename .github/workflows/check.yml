@@ -2,9 +2,15 @@
 # never run locally).
 name: check
 
+# A pull request and a push to main, not every push (why: a push to a branch with a pull
+# request started a second run with the same eight jobs and the same verdict, and the pull
+# request waited on both. The jobs end in under two minutes, but GitHub sometimes marks a run
+# complete 5 to 32 minutes after its last job, so each extra run is one more chance to wait.
+# Runs 40518985467, 39621794974 · 2026-10-27).
 on:
-  push:
   pull_request:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
