@@ -1,21 +1,17 @@
 import { redirect } from "next/navigation";
+import { FilterGroup } from "@/app/_filters";
 import { DataTable, type Column } from "@/components/desk/data-table";
-import { Field, FieldActions, FieldGroup } from "@/components/desk/field-group";
 import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
 import { Due, StatusTag } from "@/components/desk/status-tag";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
-import { Textarea } from "@/components/ui/textarea";
 import { allProspects } from "@/lib/db";
 import { flash, type Search } from "@/lib/guard";
 import { clientBySlug } from "@/lib/house";
-import { LANGUAGES, today, type DeskUser, type Prospect } from "@/lib/pool";
+import { today, type DeskUser, type Prospect } from "@/lib/pool";
 import { stageForSalesman } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
-import { addProspect } from "./actions";
+import { AddProspect, AddProspectButton, AddProspectPanel } from "./_add";
+import { AddProspectForm } from "./_form";
 
 // The pool: every row, for Jamie and every salesman (prospecting: one owner per row, all read it, so
 // two salesmen never approach one company). Add a row here; the rest is on the row's page.
@@ -24,6 +20,33 @@ import { addProspect } from "./actions";
 export const dynamic = "force-dynamic";
 
 const open = (s: string) => s !== "handed off" && s !== "lost";
+
+// The filter, kept in the URL as ?status= and applied on the server. Mine is the rows the
+// user sourced, the rows they write.
+const FILTERS = [
+  ["all", "All"],
+  ["open", "Open"],
+  ["mine", "Mine"],
+  ["handed-off", "Handed off"],
+  ["lost", "Lost"],
+] as const;
+type Filter = (typeof FILTERS)[number][0];
+const isFilter = (v: unknown): v is Filter => FILTERS.some(([k]) => k === v);
+
+function shows(filter: Filter, p: Prospect, user: DeskUser): boolean {
+  switch (filter) {
+    case "open":
+      return open(p.status);
+    case "mine":
+      return p.salesman === user.id;
+    case "handed-off":
+      return p.status === "handed off";
+    case "lost":
+      return p.status === "lost";
+    default:
+      return true;
+  }
+}
 
 // The rows. On the phone a prospect is one card: the company, then the status, the deal and
 // who sourced it, then the next action and the touches; the contact and the date are for the
@@ -40,7 +63,10 @@ const columns = (user: DeskUser, now: string): Column<Prospect>[] => [
       const deal = user.role === "jamie" ? (stage ?? "") : stageForSalesman(stage);
       if (!deal) return null;
       return deal && user.role === "jamie" && p.slug ? (
-        <a href={`/clients/${p.slug}`} className="relative font-mono text-meta hover:underline">
+        <a
+          href={`/clients/${p.slug}`}
+          className="relative font-mono text-meta hover:underline max-md:inline-flex max-md:min-h-row max-md:items-center"
+        >
           {deal}
         </a>
       ) : (
@@ -79,88 +105,63 @@ export default async function Pool({ searchParams }: { searchParams: Search }) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
   if (user.role === "client") redirect("/");
-  const [rows, { error, note }] = await Promise.all([allProspects(), flash(searchParams)]);
+  const [rows, q, { error, note }] = await Promise.all([allProspects(), searchParams, flash(searchParams)]);
+  const filter = isFilter(q.status) ? q.status : "all";
+  const shown = rows.filter((p) => shows(filter, p, user));
   const now = today();
-  // The rows due now: a next action today or past, on an open row the user works (Jamie: all).
+  // The rows due now: a next action today or past, on an open row the user works (Jamie: all),
+  // whatever the filter.
   const mine = (p: Prospect) => user.role === "jamie" || p.salesman === user.id;
   const due = rows.filter((p) => p.next_action && p.next_action <= now && open(p.status) && mine(p));
   return (
-    <>
-      <PageHeader user={user} title="Pool" meta={`${rows.length} prospects`} />
+    <AddProspect>
+      <PageHeader
+        user={user}
+        title="Pool"
+        meta={filter === "all" ? `${rows.length} prospects` : `${shown.length} of ${rows.length} prospects`}
+        actions={<AddProspectButton />}
+      />
       <Flash error={error} note={note} />
+      <div className="mb-4">
+        <FilterGroup
+          label="Status"
+          value={filter}
+          items={FILTERS.map(([k, label]) => ({ value: k, label, href: k === "all" ? "/pool" : `/pool?status=${k}` }))}
+        />
+      </div>
       {due.length > 0 && (
-        <p className="mb-4 text-body">
-          <span className="font-semibold">Due now:</span>{" "}
-          {due.map((p, i) => (
-            <span key={p.id}>
-              {i > 0 && ", "}
-              <a href={`/pool/${p.id}`} className="underline">
-                {p.company}
-              </a>{" "}
-              <span className="font-mono text-meta font-semibold text-warning-text">{p.next_action}</span>
-            </span>
+        <p className="mb-4 flex flex-wrap items-center gap-x-3 text-ui text-warning-text">
+          <span className="font-semibold">Due now</span>
+          {due.map((p) => (
+            <a
+              key={p.id}
+              href={`/pool/${p.id}`}
+              className="inline-flex min-h-row items-center gap-1.5 underline underline-offset-3"
+            >
+              {p.company}
+              <span className="font-mono text-meta font-semibold tabular-nums">{p.next_action}</span>
+            </a>
           ))}
-          .
         </p>
       )}
       <DataTable
         columns={columns(user, now)}
-        rows={rows}
+        rows={shown}
         rowKey={(p) => p.id}
         href={(p) => `/pool/${p.id}`}
-        empty="No prospect in the pool yet. Add one below; the site's contact form and the free look add theirs."
+        empty={
+          rows.length === 0
+            ? "No prospect in the pool yet. Add one with Add a prospect; the site's contact form and the free look add theirs."
+            : "No prospect matches this filter."
+        }
       />
       <p className="mt-2 text-ui font-normal text-muted-foreground">
-        {rows.length} prospects. An amber next action is due inside seven days; a red one is overdue. You write the
-        rows you sourced; the others are read-only.
+        An amber next action is due inside seven days; a red one is overdue. You write the rows you sourced; the others
+        are read-only.
       </p>
-
-      <Card className="mt-8">
-        <CardHeader>
-          <CardTitle>Add a prospect</CardTitle>
-          <CardDescription>Company and source now; the rest on the row&apos;s page.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form action={addProspect}>
-            <FieldGroup>
-              <Field label="Company">
-                <Input name="company" required autoComplete="organization" enterKeyHint="next" />
-              </Field>
-              <Field label="Source">
-                <Input name="source" required placeholder="who referred, which event, which list" enterKeyHint="next" />
-              </Field>
-              <Field label="Contact">
-                <Input name="contact_name" autoComplete="name" enterKeyHint="next" />
-              </Field>
-              <Field label="Email">
-                <Input type="email" name="email" autoComplete="email" inputMode="email" enterKeyHint="next" />
-              </Field>
-              <Field label="Phone">
-                <Input name="phone" placeholder="+351 …" autoComplete="tel" inputMode="tel" enterKeyHint="next" />
-              </Field>
-              <Field label="Country">
-                <Input name="country" placeholder="PT, BE, GB" maxLength={2} autoComplete="country" enterKeyHint="next" />
-              </Field>
-              <Field label="Language">
-                <NativeSelect name="language" defaultValue="">
-                  <NativeSelectOption value="">—</NativeSelectOption>
-                  {LANGUAGES.map((l) => (
-                    <NativeSelectOption key={l} value={l}>
-                      {l}
-                    </NativeSelectOption>
-                  ))}
-                </NativeSelect>
-              </Field>
-              <Field label="Notes" full>
-                <Textarea name="notes" rows={2} />
-              </Field>
-              <FieldActions>
-                <Button type="submit">Add</Button>
-              </FieldActions>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </>
+      <AddProspectPanel>
+        <AddProspectForm />
+      </AddProspectPanel>
+    </AddProspect>
   );
 }
