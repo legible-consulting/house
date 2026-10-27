@@ -106,8 +106,10 @@ Built (2026-10-26):
     copy is named by Jamie and starts with the signed kind (`Signed`, `Signé`, `Assinado`);
     `place.sh` never writes or replaces a file whose name starts with it (why: the signed
     copy is the record of the deal; a render must never overwrite it · 2026-10-22).
-  - `place.sh` writes with `/usr/bin/gio` into `Clients/<name>/`, `name` from the client's
-    `record.md`, on the one Google Drive mount that holds that folder. A file of the same
+  - `place.sh` writes with `/usr/bin/gio` into `Clients/<folder>/`: the `drive_folder` in the
+    client's `record.md`, or the slug when that field is empty, on the one Google Drive mount
+    that holds that folder. The Drive mounts when Jamie opens the Google account in Files;
+    `gio` cannot mount it from a script. A file of the same
     name is replaced in place, so its Drive link stays. Jamie runs it, or a desktop session
     after it asked Jamie. CI never places (why: no secret in the render path · 2026-10-22).
 

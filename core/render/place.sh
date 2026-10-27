@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-# place.sh: copies a rendered PDF into the client's Google Drive folder, Clients/<client name>/,
+# place.sh: copies a rendered PDF into the client's Google Drive folder, Clients/<folder>/,
 # over the GNOME Drive mount with /usr/bin/gio. The rules are in core/CONTEXT.md § Outputs,
 # render/.
 #
 # Usage: core/render/place.sh <client> <pdf>
-#   <client name> is the `name` in clients/<client>/record.md. The PDF keeps the name
+#   <folder> is the `drive_folder` in clients/<client>/record.md, or <client> when that field
+#   is empty. The Drive mounts when you open the Google account in Files. The PDF keeps the name
 #   render.sh gave it, which starts with the kind in the client's language (kinds.json).
 #   A file of the same name in the folder is replaced in place: its Drive link stays.
 #   A file whose name starts with the signed kind is never written or replaced.
@@ -35,9 +36,9 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 root="$(cd "$here/../.." && pwd)"
 record="$root/clients/$client/record.md"
 [ -f "$record" ] || die "$record does not exist"
-name="$(yq --front-matter=extract '.name // ""' "$record")"
+folder="$(yq --front-matter=extract '.drive_folder // ""' "$record")"
 lang="$(yq --front-matter=extract '.language // ""' "$record")"
-[ -n "$name" ] || die "$record has no 'name'"
+[ -n "$folder" ] || folder="$client"
 [ -n "$lang" ] || die "$record has no 'language'"
 
 base="$(basename "$pdf")"
@@ -69,17 +70,17 @@ child() {
 folders=()
 while IFS= read -r drive; do
   drive="${drive%/}"
-  if clients="$(child "$drive" "Clients")" && folder="$(child "$clients" "$name")"; then
-    folders+=("$folder")
+  if clients="$(child "$drive" "Clients")" && found="$(child "$clients" "$folder")"; then
+    folders+=("$found")
   fi
 done < <("$gio" mount -l | grep -oE 'google-drive://[^ ]+' | sort -u)
-[ "${#folders[@]}" -gt 0 ] || die "no Google Drive mount holds 'Clients/$name': open Files, select the Google account, then run again"
-[ "${#folders[@]}" -eq 1 ] || die "more than one Google Drive mount holds 'Clients/$name': unmount the others"
-folder="${folders[0]}"
+[ "${#folders[@]}" -gt 0 ] || die "no Google Drive mount holds 'Clients/$folder': open Files, select the Google account, then run again"
+[ "${#folders[@]}" -eq 1 ] || die "more than one Google Drive mount holds 'Clients/$folder': unmount the others"
+target="${folders[0]}"
 
-if existing="$(child "$folder" "$base")"; then
+if existing="$(child "$target" "$base")"; then
   "$gio" copy -T "$pdf" "$existing"
 else
-  "$gio" copy "$pdf" "$folder/"
+  "$gio" copy "$pdf" "$target/"
 fi
 echo "RESULT: PLACED $base"
