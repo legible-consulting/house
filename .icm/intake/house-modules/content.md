@@ -18,14 +18,14 @@ The module `content/` with a built Process: a page or a post is drawn from a cas
 ## Acceptance criteria
 
 - [ ] `content/CONTEXT.md` exists with Inputs, Process and Outputs, `status: built`, no placeholder line. Its `holds:` names `site/*.md` and `posts/*.md`.
-- [ ] The Process says: what a page or a post is drawn from (a case at `clients/*/case/case.md`, a verdict or a concept in `research/`); the shape of `site/<page>.md` and `posts/<date>-<slug>.md`; the review by Jamie; how a file reaches the site, naming the repo (`k0d0minio/jamienisbet`) and the path, or Jamie's hand until the publish workflow carries pages (`.icm/intake/render-and-publish/publish-cases.md`, question 1).
+- [ ] The Process says: what a page or a post is drawn from (a case at `clients/*/case/case.md`, a verdict or a concept in `research/`); the shape of `site/<page>.md` and `posts/<date>-<slug>.md`; the review by Jamie; how a file reaches the site, naming the repo (`k0d0minio/jamienisbet`) and the path, or Jamie's hand until the publish script carries pages (`portfolio/publish.sh`; question 1 of `.icm/intake/render-and-publish/_done/publish-cases.md`).
 - [ ] `content/site/home.md` and `content/site/services.md` exist, written from `core/identity.md` and `core/services.md` in the register of `core/voice.md`, first person. No number from the pricing table (`core/services.md`: never public).
 - [ ] `CLAUDE.md` Routing gains the row. `core/lexicon.md`'s folder table shows `content/`.
 - [ ] `check.yml` is green.
 
 ## Out of scope
 
-- Publishing: the workflow is `render-and-publish/publish-cases`.
+- Publishing: the script is `portfolio/publish.sh`.
 - Any post about a client without a `ready: true` case.
 
 ## Notes
