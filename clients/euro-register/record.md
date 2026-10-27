@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Send the revised agreement for eSignature with the deposit invoice (945.75 € HT), and the programme and the questions with it. Book the flight on signature.
-deadline: 2026-10-23
+next_action: Check `kickoff/questions.md`. Then send Arnaud the agreement for eSignature, the programme and the questions.
+deadline: 2026-10-28
 salesman:
 commission:
   sourced_by:
@@ -32,3 +32,9 @@ payment terms changed (15 % deposit with a 3 % escompte, balance at the end of t
 `agreement/`; the programme and the questions for Arnaud are in `kickoff/`. The Drive folder
 is still named `arnaud-ruelle`. Arnaud is also a shareholder of Remi AI, where Jamie is CTO.
 This folder stands on its own: nothing here cites that one, and nothing there cites this one.
+
+On 2026-10-27 the agreement is not sent and not signed, and the deposit invoice is not sent.
+Jamie booked the flight (Jamie, 2026-10-27). Arnaud's answers to `kickoff/questions.md` are not
+in, and Jamie has not checked that document yet. After the signature come the deposit invoice,
+once the accountant confirms the VAT treatment, and the A1 certificate (`quote/negotiation.md`,
+Open before the first invoice). The week starts on Monday 2 November 2026.
