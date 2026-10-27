@@ -1,130 +1,435 @@
+/* ============================================================
+   THE DESK'S DESIGN SYSTEM — 2026-10-27
+
+   This file is the design system's one home. Every colour, type step, size and radius
+   of the desk is a token here. A component or a page uses the tokens through the
+   utilities that `@theme inline` makes (`bg-success-soft`, `text-title`, `h-row`,
+   `rounded-control`) and never writes a value of its own.
+
+   Three rules:
+   1. Paper and ink are the tints. Ink is the interaction colour in light; paper is in
+      dark. There is no second hue.
+   2. Mono is metadata. Every figure, date, slug, email, repo name, key, amount, eyebrow
+      and table header is IBM Plex Mono (`font-mono`). Every word is Hanken Grotesk.
+   3. Colour is for state only. Green, amber and red show a state, always beside its
+      name as text, never as a colour field alone.
+
+   The values are a copy of the brand's tokens (`tokens/colors.css`, `typography.css`,
+   `desk.css` at the root of k0d0minio/jamienisbet). When the two disagree, the brand's
+   tokens win and this file is fixed. Each colour carries its brand hex. Each text colour
+   carries its contrast ratio against the canvas and the fills it sits on.
+
+   Contrast follows WCAG 2.2 AA: 4.5:1 for text, 3:1 for a control's edge, a focus
+   outline and a state mark. Where a brand value fails, this file takes the nearest step
+   of the brand's paper-to-ink ramp that passes, and never a new colour. A pair that no
+   step of the palette can pass is forbidden in the comment beside the colour.
+   ============================================================ */
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
 @theme inline {
-    --font-heading: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  /* The faces: next/font sets both variables on <html> (app/layout.tsx). */
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-foreground-2: var(--foreground-2);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-text: var(--warning-text);
+  --color-warning-soft: var(--warning-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* The type steps: `text-<step>` sets the size, the line height, the weight and the
+     tracking. The face is set apart: `font-mono` on meta, micro and figure. */
+  --text-title: var(--text-title);
+  --text-title--line-height: var(--text-title--line-height);
+  --text-title--font-weight: var(--text-title--font-weight);
+  --text-title--letter-spacing: var(--text-title--letter-spacing);
+  --text-heading: var(--text-heading);
+  --text-heading--line-height: var(--text-heading--line-height);
+  --text-heading--font-weight: var(--text-heading--font-weight);
+  --text-heading--letter-spacing: var(--text-heading--letter-spacing);
+  --text-body: var(--text-body);
+  --text-body--line-height: var(--text-body--line-height);
+  --text-body--font-weight: var(--text-body--font-weight);
+  --text-body--letter-spacing: var(--text-body--letter-spacing);
+  --text-ui: var(--text-ui);
+  --text-ui--line-height: var(--text-ui--line-height);
+  --text-ui--font-weight: var(--text-ui--font-weight);
+  --text-ui--letter-spacing: var(--text-ui--letter-spacing);
+  --text-meta: var(--text-meta);
+  --text-meta--line-height: var(--text-meta--line-height);
+  --text-meta--font-weight: var(--text-meta--font-weight);
+  --text-meta--letter-spacing: var(--text-meta--letter-spacing);
+  --text-micro: var(--text-micro);
+  --text-micro--line-height: var(--text-micro--line-height);
+  --text-micro--font-weight: var(--text-micro--font-weight);
+  --text-micro--letter-spacing: var(--text-micro--letter-spacing);
+  --text-figure: var(--text-figure);
+  --text-figure--line-height: var(--text-figure--line-height);
+  --text-figure--font-weight: var(--text-figure--font-weight);
+  --text-figure--letter-spacing: var(--text-figure--letter-spacing);
+  /* An eyebrow and a table header: `text-micro uppercase tracking-eyebrow`. */
+  --tracking-eyebrow: var(--tracking-eyebrow);
+
+  /* The sizes: `h-row`, `h-control`, `w-sidebar`, `px-gutter`, `max-w-content`. */
+  --spacing-row: var(--row);
+  --spacing-control: var(--control);
+  --spacing-control-sm: var(--control-sm);
+  --spacing-grid-row: var(--grid-row);
+  --spacing-grid-header: var(--grid-header);
+  --spacing-sidebar: var(--sidebar-width);
+  --spacing-tab-bar: var(--tab-bar);
+  --spacing-page-header: var(--page-header);
+  --spacing-gutter: var(--gutter);
+  --container-content: var(--content-max);
+  --container-reading: var(--reading-max);
+
+  /* The radii: `rounded-key`, `rounded-control`, `rounded-pane`. shadcn's scale sits on
+     them, so `rounded-md` is 6 px and `rounded-lg` is 8 px in the vendored components. */
+  --radius-key: var(--radius-key);
+  --radius-control: var(--radius-control);
+  --radius-pane: var(--radius-pane);
+  --radius-sm: var(--radius-key);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-pane);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* The one shadow, for what floats: a drawer, a popover, a menu. */
+  --shadow-float: var(--shadow-float);
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  /* ---- Colour, light: paper is the canvas, ink is the text and the tint ---- */
+  --background: oklch(0.997 0.005 95); /* paper #FFFEFA */
+  --foreground: oklch(0.235 0 0); /* ink #1E1E1E; 16.52:1 on paper, 16.67:1 on card */
+  --foreground-2: oklch(0.424 0.005 92); /* #4F4E4B, secondary text; 8.25:1 on paper, 7.23:1 on muted */
+  --card: oklch(1 0 0); /* #FFFFFF, one step off the paper */
+  --card-foreground: oklch(0.235 0 0); /* ink; 16.67:1 on card */
+  --popover: oklch(1 0 0); /* #FFFFFF */
+  --popover-foreground: oklch(0.235 0 0); /* ink; 16.67:1 on popover */
+  --primary: oklch(0.235 0 0); /* ink is the tint */
+  --primary-foreground: oklch(0.997 0.005 95); /* paper; 16.52:1 on ink */
+  --secondary: oklch(0.976 0.005 95); /* #F8F7F3, the lifted sheet */
+  --secondary-foreground: oklch(0.235 0 0); /* ink; 15.55:1 on the lifted sheet */
+  --accent: oklch(0.976 0.005 95); /* #F8F7F3, the hover wash */
+  --accent-foreground: oklch(0.235 0 0); /* ink; 15.55:1 on the hover wash */
+  --muted: oklch(0.952 0.007 97); /* #F0EFEA, the sunken fill and the skeleton */
+  /* #6F6E6A, meta; 5.06:1 on paper, 5.10:1 on card, 4.76:1 on the lifted sheet.
+     4.43:1 on muted: meta text never sits on the sunken fill. */
+  --muted-foreground: oklch(0.538 0.006 95);
+  --border: oklch(0.915 0.008 99); /* #E4E3DD, the hairline; it separates, it marks no control */
+  /* #6F6E6A, the edge of an input, a select, a textarea and an outline button; 5.06:1 on
+     paper, 5.10:1 on card. The brand's #CECDC7 is 1.58:1, below the 3:1 a control's edge
+     needs. */
+  --input: oklch(0.538 0.006 95);
+  /* Ink, the focus outline; 16.52:1 on paper. At 50%, the halo of a vendored component
+     is 3.25:1. */
+  --ring: oklch(0.235 0 0);
+  /* State. Each one only beside its name as text. On a soft fill the words are ink and
+     the state colour draws the mark only (3.30:1 or more on its soft fill). State words
+     never sit on the sunken fill: each state colour is below 4.5:1 there. */
+  --success: oklch(0.531 0.095 162); /* #2E7D5B; 4.95:1 on paper, 5.00:1 on card, 4.66:1 on the lifted sheet */
+  --success-soft: oklch(0.962 0.012 162); /* #ECF5F0 */
+  --warning: oklch(0.626 0.125 70); /* #B7791F; 3.61:1, a mark only, never text */
+  --warning-text: oklch(0.519 0.106 70); /* #8F5C12, amber words; 5.61:1 on paper, 5.14:1 on warning-soft */
+  --warning-soft: oklch(0.966 0.022 83); /* #FBF3E4 */
+  --destructive: oklch(0.559 0.16 28); /* #C0453B; 5.01:1 on paper, 5.05:1 on card, 4.71:1 on the lifted sheet */
+  --destructive-soft: oklch(0.954 0.017 27); /* #FBECEA */
+  --sidebar: oklch(0.976 0.005 95); /* #F8F7F3, the lifted sheet */
+  --sidebar-foreground: oklch(0.235 0 0); /* ink; 15.55:1 on the sidebar */
+  --sidebar-primary: oklch(0.235 0 0); /* ink */
+  --sidebar-primary-foreground: oklch(0.997 0.005 95); /* paper */
+  --sidebar-accent: oklch(0.952 0.007 97); /* #F0EFEA, the current link */
+  --sidebar-accent-foreground: oklch(0.235 0 0); /* ink; 14.48:1 on the current link */
+  --sidebar-border: oklch(0.915 0.008 99); /* #E4E3DD */
+  --sidebar-ring: oklch(0.235 0 0);
+
+  /* The one shadow. Nothing at rest takes it. */
+  --shadow-float: 0 8px 16px oklch(0.235 0 0 / 8%), 0 24px 56px oklch(0.235 0 0 / 14%);
+
+  /* ---- Type, the desk step (a fine pointer) ---- */
+  --text-title: 1.375rem; /* 22 / 28, the page title */
+  --text-title--line-height: 1.75rem;
+  --text-title--font-weight: 700;
+  --text-title--letter-spacing: -0.02em;
+  --text-heading: 0.9375rem; /* 15 / 20, a section inside a page */
+  --text-heading--line-height: 1.25rem;
+  --text-heading--font-weight: 600;
+  --text-heading--letter-spacing: -0.01em;
+  --text-body: 0.875rem; /* 14 / 22, reading text and prose; the page's size */
+  --text-body--line-height: 1.375rem;
+  --text-body--font-weight: 400;
+  --text-body--letter-spacing: 0em;
+  --text-ui: 0.8125rem; /* 13 / 18, rows, labels, controls */
+  --text-ui--line-height: 1.125rem;
+  --text-ui--font-weight: 500;
+  --text-ui--letter-spacing: 0em;
+  --text-meta: 0.75rem; /* 12 / 16, mono: dates, slugs, values in a row */
+  --text-meta--line-height: 1rem;
+  --text-meta--font-weight: 400;
+  --text-meta--letter-spacing: 0em;
+  --text-micro: 0.6875rem; /* 11 / 14, mono: eyebrows, table headers, tags; no text is smaller */
+  --text-micro--line-height: 0.875rem;
+  --text-micro--font-weight: 500;
+  --text-micro--letter-spacing: 0em;
+  --text-figure: 1.25rem; /* 20 / 26, mono: a count or an amount that leads a view */
+  --text-figure--line-height: 1.625rem;
+  --text-figure--font-weight: 500;
+  --text-figure--letter-spacing: 0em;
+  --tracking-eyebrow: 0.06em; /* uppercase mono opens up */
+
+  /* ---- Sizes, the desk step ---- */
+  --row: 2rem; /* 32, a list row */
+  --control: 1.875rem; /* 30, a button, an input, a select */
+  --control-sm: 1.625rem; /* 26, a small button */
+  --grid-row: 2.5rem; /* 40, a data-table body row */
+  --grid-header: 2rem; /* 32, a data-table header row */
+  --sidebar-width: 13rem; /* 208 */
+  --tab-bar: 3.5rem; /* 56, the phone's tab bar before the safe-area inset */
+  --page-header: 3.5rem; /* 56 */
+  --gutter: 1rem; /* 16 below md */
+  --content-max: 70rem; /* 1120 */
+  --reading-max: 45rem; /* 720, a document: the glance, a report, a client document */
+
+  /* ---- Radii: tight corners read as precision ---- */
+  --radius-key: 4px; /* a key, a tag */
+  --radius-control: 6px; /* a control, a row */
+  --radius-pane: 8px; /* a card, a floating panel */
+  --radius: var(--radius-pane); /* shadcn's base */
 }
 
+@media (width >= 48rem) {
+  :root {
+    --gutter: 1.5rem; /* 24 from md */
+  }
+}
+
+@media (width >= 64rem) {
+  :root {
+    --gutter: 2rem; /* 32 from lg */
+  }
+}
+
+/* The touch step, the one pointer query: a phone, or a tablet without a trackpad. Each
+   type step goes up one notch and each row and control reaches the 44 px floor. The body
+   step at 16 px also stops a phone from zooming a focused field. No component carries a
+   pointer query of its own. */
+@media (pointer: coarse) {
+  :root {
+    --text-title: 1.75rem; /* 28 / 34 */
+    --text-title--line-height: 2.125rem;
+    --text-heading: 1.0625rem; /* 17 / 22 */
+    --text-heading--line-height: 1.375rem;
+    --text-body: 1rem; /* 16 / 24 */
+    --text-body--line-height: 1.5rem;
+    --text-ui: 0.9375rem; /* 15 / 20 */
+    --text-ui--line-height: 1.25rem;
+    --text-meta: 0.8125rem; /* 13 / 18 */
+    --text-meta--line-height: 1.125rem;
+    --text-micro: 0.75rem; /* 12 / 16 */
+    --text-micro--line-height: 1rem;
+    --text-figure: 1.375rem; /* 22 / 28 */
+    --text-figure--line-height: 1.75rem;
+
+    --row: 2.75rem; /* 44 */
+    --control: 2.75rem; /* 44 */
+    --control-sm: 2.75rem; /* 44 */
+    --grid-row: 3rem; /* 48 */
+    --grid-header: 2.75rem; /* 44 */
+  }
+}
+
+/* Dark follows the system. Ink is the canvas, paper is the text and the tint. No toggle. */
 @media (prefers-color-scheme: dark) {
   :root {
-        --background: oklch(0.145 0 0);
-        --foreground: oklch(0.985 0 0);
-        --card: oklch(0.205 0 0);
-        --card-foreground: oklch(0.985 0 0);
-        --popover: oklch(0.205 0 0);
-        --popover-foreground: oklch(0.985 0 0);
-        --primary: oklch(0.922 0 0);
-        --primary-foreground: oklch(0.205 0 0);
-        --secondary: oklch(0.269 0 0);
-        --secondary-foreground: oklch(0.985 0 0);
-        --muted: oklch(0.269 0 0);
-        --muted-foreground: oklch(0.708 0 0);
-        --accent: oklch(0.269 0 0);
-        --accent-foreground: oklch(0.985 0 0);
-        --destructive: oklch(0.704 0.191 22.216);
-        --border: oklch(1 0 0 / 10%);
-        --input: oklch(1 0 0 / 15%);
-        --ring: oklch(0.556 0 0);
-        --chart-1: oklch(0.87 0 0);
-        --chart-2: oklch(0.556 0 0);
-        --chart-3: oklch(0.439 0 0);
-        --chart-4: oklch(0.371 0 0);
-        --chart-5: oklch(0.269 0 0);
-        --sidebar: oklch(0.205 0 0);
-        --sidebar-foreground: oklch(0.985 0 0);
-        --sidebar-primary: oklch(0.488 0.243 264.376);
-        --sidebar-primary-foreground: oklch(0.985 0 0);
-        --sidebar-accent: oklch(0.269 0 0);
-        --sidebar-accent-foreground: oklch(0.985 0 0);
-        --sidebar-border: oklch(1 0 0 / 10%);
-        --sidebar-ring: oklch(0.556 0 0);
+    --background: oklch(0.235 0 0); /* ink #1E1E1E */
+    --foreground: oklch(0.997 0.005 95); /* paper #FFFEFA; 16.52:1 on ink, 15.01:1 on card */
+    --foreground-2: oklch(0.782 0.008 99); /* #B9B8B2; 8.38:1 on ink, 7.62:1 on card */
+    --card: oklch(0.268 0.002 107); /* #262625 */
+    --card-foreground: oklch(0.997 0.005 95); /* paper; 15.01:1 on card */
+    --popover: oklch(0.268 0.002 107); /* #262625 */
+    --popover-foreground: oklch(0.997 0.005 95); /* paper; 15.01:1 on popover */
+    --primary: oklch(0.997 0.005 95); /* paper is the tint */
+    --primary-foreground: oklch(0.235 0 0); /* ink; 16.52:1 on paper */
+    --secondary: oklch(0.293 0.002 107); /* #2C2C2B */
+    --secondary-foreground: oklch(0.997 0.005 95); /* paper; 13.85:1 on secondary */
+    --accent: oklch(0.293 0.002 107); /* #2C2C2B, the hover wash */
+    --accent-foreground: oklch(0.997 0.005 95); /* paper; 13.85:1 on the hover wash */
+    --muted: oklch(0.205 0 0); /* #171717, the sunken fill */
+    /* #9D9C97 (the ramp's 400), meta; 6.06:1 on ink, 5.51:1 on card, 5.08:1 on
+       secondary, 6.52:1 on muted. The brand's #8A8984 is 4.32:1 on card. */
+    --muted-foreground: oklch(0.692 0.007 97);
+    --border: oklch(0.325 0.002 106); /* #343433, the hairline */
+    /* #8A8984, the edge of a control; 4.76:1 on ink, 4.32:1 on card. The brand's #454543
+       is 1.73:1. */
+    --input: oklch(0.629 0.007 97);
+    /* Paper, the focus outline; 16.52:1 on ink. At 50%, a component's halo is 5.08:1. */
+    --ring: oklch(0.997 0.005 95);
+    --success: oklch(0.692 0.115 162); /* #4FB286; 6.39:1 on ink, 5.80:1 on card */
+    --success-soft: color-mix(in oklch, var(--success) 16%, transparent);
+    --warning: oklch(0.732 0.129 74); /* #D89B3E; 6.89:1 on ink, 6.26:1 on card */
+    --warning-text: oklch(0.732 0.129 74); /* the same amber carries words on ink */
+    --warning-soft: color-mix(in oklch, var(--warning) 16%, transparent);
+    /* #E0685E; 5.01:1 on ink, 4.55:1 on card. 4.20:1 on secondary: red words sit on the
+       canvas, a card or a popover only. */
+    --destructive: oklch(0.66 0.152 27);
+    --destructive-soft: color-mix(in oklch, var(--destructive) 16%, transparent);
+    --sidebar: oklch(0.268 0.002 107); /* #262625 */
+    --sidebar-foreground: oklch(0.997 0.005 95); /* paper; 15.01:1 on the sidebar */
+    --sidebar-primary: oklch(0.997 0.005 95);
+    --sidebar-primary-foreground: oklch(0.235 0 0);
+    --sidebar-accent: oklch(0.293 0.002 107); /* #2C2C2B, the current link */
+    --sidebar-accent-foreground: oklch(0.997 0.005 95); /* paper; 13.85:1 */
+    --sidebar-border: oklch(0.325 0.002 106); /* #343433 */
+    --sidebar-ring: oklch(0.997 0.005 95);
+
+    --shadow-float: 0 8px 16px oklch(0 0 0 / 50%), 0 24px 56px oklch(0 0 0 / 60%);
   }
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+    @apply border-border;
+  }
   html {
     @apply font-sans;
     color-scheme: light dark;
+  }
+  body {
+    @apply bg-background text-body text-foreground;
+  }
+  /* The focus outline is drawn inside the element, so a scrolling container never
+     clips it. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: -2px;
+  }
+}
+
+@layer components {
+  /* Markdown from the house. Nothing in prose scrolls sideways. */
+  .prose {
+    @apply text-body;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+  .prose :where(p, ul, ol, pre, table, blockquote, hr) {
+    margin-block: 0.75rem;
+  }
+  .prose :where(h1, h2, h3, h4, h5, h6) {
+    @apply text-heading;
+    margin-block: 1rem 0.5rem;
+  }
+  .prose h2 {
+    margin-top: 1.5rem;
+  }
+  .prose > :first-child {
+    margin-top: 0;
+  }
+  .prose a {
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+  /* An inline link keeps its outline outside the text. */
+  .prose a:focus-visible {
+    outline-offset: 2px;
+  }
+  .prose code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background-color: var(--muted);
+    border-radius: var(--radius-key);
+    padding-inline: 0.25rem;
+  }
+  .prose pre {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    background-color: var(--muted);
+    border-radius: var(--radius-control);
+    padding: 0.75rem;
+  }
+  .prose pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  .prose ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+  }
+  .prose ol {
+    list-style-type: decimal;
+    padding-left: 1.25rem;
+  }
+  .prose li::marker {
+    color: var(--muted-foreground);
+  }
+  .prose li:has(> input[type="checkbox"]) {
+    list-style-type: none;
+  }
+  /* A task-list box shows the state and takes no input. */
+  .prose input[type="checkbox"] {
+    pointer-events: none;
+    accent-color: var(--primary);
+    margin-right: 0.375rem;
+  }
+  .prose table {
+    max-width: 100%;
+    border-collapse: collapse;
+  }
+  .prose :where(th, td) {
+    border-bottom: 1px solid var(--border);
+    padding: 0.375rem 0.5rem;
+    text-align: left;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+  .prose th {
+    font-weight: 600;
+  }
+  .prose blockquote {
+    border-left: 2px solid var(--border);
+    padding-left: 0.75rem;
+    color: var(--foreground-2);
+  }
+  .prose hr {
+    border-top: 1px solid var(--border);
+  }
+  .prose img {
+    max-width: 100%;
+    height: auto;
   }
 }

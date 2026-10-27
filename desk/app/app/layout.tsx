@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+// The brand's two faces (core/voice.md): Hanken Grotesk for every word, IBM Plex Mono for
+// every figure, date, slug and key. globals.css reads both variables.
+const sans = Hanken_Grotesk({ subsets: ["latin", "latin-ext"], variable: "--font-sans" });
+const mono = IBM_Plex_Mono({
+  weight: ["400", "500", "600"],
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
   title: "Desk",
@@ -20,7 +27,7 @@ export const viewport: Viewport = { themeColor: "#0a0a0a" };
 // with it, so nothing here needs a variable at build time.
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={cn("font-sans", geist.variable)}>
+    <html lang="en" className={cn("font-sans", sans.variable, mono.variable)}>
       <body className="min-h-screen bg-background text-foreground antialiased">{children}</body>
     </html>
   );
