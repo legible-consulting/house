@@ -1,0 +1,220 @@
+"use client";
+
+import { Ellipsis, FlaskConical, Handshake, House, ListChecks, LogOut, Receipt, Users, type LucideIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
+import { signOut } from "@/app/(auth)/sign-in/actions";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import type { Role } from "@/lib/pool";
+import { cn } from "@/lib/utils";
+import { Logo } from "./logo";
+
+// The app shell: the chrome around every page with a session. From md, a fixed sidebar on the
+// lifted sheet with the JN mark, one row per destination the role has, and the user at the
+// foot. Below md, a fixed tab bar of at most five tabs; the fifth, More, opens a drawer with
+// the rest of the links, the user and sign out. A client has no tab bar: the page header
+// carries sign out (page-header.tsx). The current destination carries aria-current="page", a
+// tap on the tab of the page already shown re-reads it, and every in-app link is next/link.
+// app/(desk)/layout.tsx renders the shell with the session's user; each page renders its own
+// header and content inside it.
+
+export interface ShellUser {
+  name: string;
+  email: string;
+  role: Role;
+}
+
+interface Destination {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+const DESK: Destination = { href: "/", label: "Desk", icon: House };
+const WORK: Destination = { href: "/work", label: "Work", icon: ListChecks };
+const POOL: Destination = { href: "/pool", label: "Pool", icon: Users };
+const CLOSE: Destination = { href: "/close", label: "Close", icon: Receipt };
+const SELL: Destination = { href: "/sell", label: "Sell", icon: Handshake };
+const RESEARCH: Destination = { href: "/research", label: "Research", icon: FlaskConical };
+
+// One order for the sidebar and the tabs. The tab bar shows the first four and puts the rest
+// behind More, which also holds sign out, so it is there for a role with fewer links too.
+const DESTINATIONS: Record<Role, Destination[]> = {
+  jamie: [DESK, WORK, POOL, CLOSE, SELL, RESEARCH],
+  salesman: [POOL, SELL],
+  client: [DESK],
+};
+const TABS = 4;
+
+// The destination a path belongs to: a client's page is the desk's, a pool row is the pool's,
+// a verdict is research's.
+function currentOf(pathname: string, links: Destination[]): string | undefined {
+  if (pathname === "/" || pathname.startsWith("/clients/")) return links.find((l) => l.href === "/")?.href;
+  return links.find((l) => l.href !== "/" && (pathname === l.href || pathname.startsWith(`${l.href}/`)))?.href;
+}
+
+const ROW =
+  "flex h-row items-center gap-2.5 rounded-md px-2 text-ui text-foreground-2 transition-colors duration-100 hover:bg-sidebar-accent hover:text-sidebar-foreground aria-[current=page]:bg-sidebar-accent aria-[current=page]:font-semibold aria-[current=page]:text-sidebar-accent-foreground";
+const TAB =
+  "flex h-full min-w-0 flex-1 flex-col items-center justify-center gap-0.5 font-sans text-micro text-muted-foreground transition-colors duration-100 aria-[current=page]:font-semibold aria-[current=page]:text-foreground aria-expanded:text-foreground";
+
+// A link to a destination. The one for the page already shown re-reads the page in place of
+// a navigation to itself.
+function NavLink({
+  d,
+  current,
+  className,
+  icon = "size-4",
+  onNavigate,
+}: {
+  d: Destination;
+  current: string | undefined;
+  className: string;
+  icon?: string; // the icon's size class
+  onNavigate?: () => void;
+}) {
+  const pathname = usePathname();
+  const router = useRouter();
+  const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    onNavigate?.();
+    if (pathname !== d.href) return;
+    e.preventDefault();
+    router.refresh();
+  };
+  return (
+    <Link href={d.href} aria-current={current === d.href ? "page" : undefined} className={className} onClick={onClick}>
+      <d.icon className={cn("shrink-0", icon)} aria-hidden="true" />
+      <span className="truncate">{d.label}</span>
+    </Link>
+  );
+}
+
+function Mark() {
+  return (
+    <span className="grid size-8 shrink-0 place-items-center rounded-sm bg-primary text-primary-foreground">
+      <Logo className="size-6" />
+    </span>
+  );
+}
+
+function Who({ user, className }: { user: ShellUser; className?: string }) {
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <div className="flex min-w-0 items-center gap-2">
+        <span className="min-w-0 flex-1 truncate text-ui">{user.name || user.email}</span>
+        <Badge variant="outline">{user.role}</Badge>
+      </div>
+      <form action={signOut}>
+        <Button type="submit" variant="ghost" size="sm" className="w-full justify-start">
+          <LogOut aria-hidden="true" />
+          Sign out
+        </Button>
+      </form>
+    </div>
+  );
+}
+
+function Sidebar({ links, user }: { links: Destination[]; user: ShellUser | null }) {
+  const pathname = usePathname();
+  const current = currentOf(pathname, links);
+  return (
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[calc(var(--sidebar-width)+var(--safe-left))] flex-col border-r bg-sidebar pl-safe-left text-sidebar-foreground md:flex">
+      <div className="flex h-page-header shrink-0 items-center gap-2.5 border-b px-4">
+        <Mark />
+        <span className="text-heading">Desk</span>
+      </div>
+      <nav aria-label="Desk" className="min-h-0 flex-1 overflow-y-auto p-2">
+        <ul className="grid gap-0.5">
+          {links.map((d) => (
+            <li key={d.href}>
+              <NavLink d={d} current={current} className={ROW} />
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {user && <Who user={user} className="border-t p-3" />}
+    </aside>
+  );
+}
+
+// The fifth tab: a drawer with the links the bar has no room for, the user and sign out. It
+// closes on a navigation.
+function More({ links, user }: { links: Destination[]; user: ShellUser }) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const current = currentOf(pathname, links);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+  return (
+    <Drawer open={open} onOpenChange={setOpen} showSwipeHandle>
+      <DrawerTrigger className={TAB}>
+        <Ellipsis className="size-5 shrink-0" aria-hidden="true" />
+        <span>More</span>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>More</DrawerTitle>
+        </DrawerHeader>
+        {links.length > 0 && (
+          <nav aria-label="More" className="p-2">
+            <ul className="grid gap-0.5">
+              {links.map((d) => (
+                <li key={d.href}>
+                  <NavLink d={d} current={current} className={cn(ROW, "px-3")} onNavigate={() => setOpen(false)} />
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+        <Who user={user} className="border-t p-4 pb-[calc(1rem+var(--safe-bottom))]" />
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+function TabBar({ links, user }: { links: Destination[]; user: ShellUser }) {
+  const pathname = usePathname();
+  const current = currentOf(pathname, links);
+  return (
+    <nav
+      aria-label="Desk"
+      className="fixed inset-x-0 bottom-0 z-30 flex h-[calc(var(--tab-bar)+var(--safe-bottom))] border-t bg-sidebar pr-safe-right pb-safe-bottom pl-safe-left md:hidden"
+    >
+      {links.slice(0, TABS).map((d) => (
+        <NavLink key={d.href} d={d} current={current} className={TAB} icon="size-5" />
+      ))}
+      <More links={links.slice(TABS)} user={user} />
+    </nav>
+  );
+}
+
+export function Shell({ user, children }: { user: ShellUser | null; children: ReactNode }) {
+  const links = user ? DESTINATIONS[user.role] : [];
+  const tabs = user !== null && user.role !== "client";
+  return (
+    <>
+      <a
+        href="#content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-ui"
+      >
+        Skip to content
+      </a>
+      <Sidebar links={links} user={user} />
+      <div
+        className={cn(
+          "pr-safe-right pl-safe-left md:pl-[calc(var(--sidebar-width)+var(--safe-left))]",
+          tabs && "pb-[calc(var(--tab-bar)+var(--safe-bottom))] md:pb-0",
+        )}
+      >
+        <main id="content" className="mx-auto w-full max-w-content px-gutter pb-8">
+          {children}
+        </main>
+      </div>
+      {tabs && user && <TabBar links={links} user={user} />}
+    </>
+  );
+}

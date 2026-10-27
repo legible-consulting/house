@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "./globals.css";
 import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Motion } from "./_motion";
 import { ServiceWorker } from "./_sw";
 
 // The brand's two faces (core/voice.md): Hanken Grotesk for every word, IBM Plex Mono for
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
 
 // The theme colour follows the system: paper in light, ink in dark (globals.css). The
 // viewport reaches under the notch and the home indicator; the safe-area tokens in
-// globals.css keep the content out of them.
+// globals.css keep the shell's pieces out of them (components/desk/shell.tsx, page-header.tsx).
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#FFFEFA" },
@@ -39,14 +40,16 @@ export const viewport: Viewport = {
   interactiveWidget: "resizes-content",
 };
 
-// The root layout stays static: each page fetches the session itself and renders the shell
-// with it, so nothing here needs a variable at build time. The one client island registers
-// the service worker (public/sw.js) after load.
+// The root layout stays static: it loads the faces and the motion config and reads nothing.
+// app/(desk)/layout.tsx reads the session and draws the shell; app/(auth)/layout.tsx is the
+// frame of the pages without one. Motion follows the user's reduced-motion setting from here
+// (app/_motion.tsx). The one client island registers the service worker (public/sw.js) after
+// load.
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={cn("font-sans", sans.variable, mono.variable)}>
-      <body className="min-h-screen bg-background text-foreground antialiased">
-        {children}
+      <body className="min-h-dvh bg-background text-foreground antialiased">
+        <Motion>{children}</Motion>
         <ServiceWorker />
       </body>
     </html>

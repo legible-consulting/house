@@ -1,9 +1,9 @@
 import type { FormLanguage } from "@/lib/forms";
-import { COPY as START } from "../../start/copy";
+import { COPY as START } from "@/app/(auth)/start/copy";
 
 // /f/<token>'s own words, in the three languages of /start: the button, the confirmation and the
 // two dead ends. The checks' words, the select's prompt and the optional mark are /start's
-// (app/start/copy.ts), so both pages say the same thing for the same fault. The questions are
+// (app/(auth)/start/copy.ts), so both pages say the same thing for the same fault. The questions are
 // the link's frozen snapshot.
 
 export interface LinkState {

@@ -22,7 +22,7 @@ import { inFlight, ownerVariable, runOf, tokenFor, type Run, type Token } from "
 // read returns `error` in words and empty lists, and the page still renders. Each read says
 // when it was made (`readAt`), so a list can say how old it is. A pull request whose CI is
 // pending because a run is queued or running is in flight, like a run (workInFlight); the
-// page re-reads itself while one is (app/_shell.tsx).
+// page re-reads itself while one is (components/desk/page-header.tsx).
 
 export type StubState = "next" | "queued" | "blocked" | "running";
 

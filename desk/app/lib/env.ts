@@ -3,7 +3,7 @@
 // ESTATE_PAT_<OWNER> is one read-only token per client repo owner (lib/repos.ts).
 // POOL_TOKEN is the bearer the portfolio's contact form sends to /api/pool.
 // RESEND_API_KEY sends the desk's mail to Jamie (lib/mail.ts).
-// THROTTLE_SALT keys the hash of a visitor's IP in /start's rate limit (app/start/actions.ts).
+// THROTTLE_SALT keys the hash of a visitor's IP in /start's rate limit (app/(auth)/start/actions.ts).
 export type EnvName =
   | "DATABASE_URL"
   | "NEON_AUTH_BASE_URL"
