@@ -8,11 +8,13 @@ import { Empty } from "./empty";
 // is wider than its container. Below md each row is a card with a hairline under it: the
 // header is read by a screen reader only, the `title` cell spans the card, the `meta` cells
 // sit on one line under it in mono, and every other cell shows its column's label above its
-// value. A `hide` cell is for the desk only. When a row has a link, the whole card is its
-// target on the phone; from md the title is. No rows renders the empty pattern, never an
+// value. A `hide` cell is for the desk only. An `action` cell is the row's trailing control
+// at every width: the last cell from md, the foot of the card on the phone, on the trailing
+// edge and above the card's link. When a row has a link, the whole card is its target on the
+// phone; from md the title is. No rows renders the empty pattern, never an
 // empty row.
 
-type Phone = "title" | "show" | "meta" | "hide";
+type Phone = "title" | "show" | "meta" | "hide" | "action";
 
 export interface Column<Row> {
   key: string;
@@ -28,6 +30,7 @@ const PHONE: Record<Phone, string> = {
   meta: "max-md:-order-1 max-md:block max-md:font-mono max-md:text-meta max-md:text-muted-foreground",
   show: "max-md:block max-md:basis-full max-md:before:block max-md:before:font-mono max-md:before:text-micro max-md:before:uppercase max-md:before:tracking-eyebrow max-md:before:text-muted-foreground max-md:before:content-[attr(data-label)]",
   hide: "max-md:hidden",
+  action: "max-md:relative max-md:z-10 max-md:order-last max-md:ml-auto max-md:block md:w-px md:text-right",
 };
 
 export function DataTable<Row>({
