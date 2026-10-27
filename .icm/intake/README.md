@@ -12,14 +12,15 @@ The epics, and what each holds:
 | `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
 | `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
 | `blueprint-pipeline/` | the legacy ticket pipeline brought into the blueprint: the router, the lanes, the two skills and the writing reference, the board, the gated merge, the Neon database rule, the client CI shape, then `v1.0.0`, in thirteen pull requests |
+| `desk-ux/` | the desk read at a glance: the information rules in `DESIGN.md`, one ticket card and one track, a ticket page at its intake path, a project board in full screen, the Work page around its question, and the home and the other pages quieter, in six pull requests |
 
 The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by Jamie.
 
 ## Order
 
-Set by Jamie on 2026-10-27. The three epics that hold no open stub (`house-modules`, `render-and-publish`, `desk-forms`) wait for their close-out and carry no line.
+Set by Jamie on 2026-10-27. The four epics that hold no open stub (`house-modules`, `render-and-publish`, `desk-forms`, `desk-restyle`) wait for their close-out and carry no line.
 
-1. desk-restyle
+1. desk-ux
 2. triage
 3. blueprint-pipeline
 
