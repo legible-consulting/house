@@ -1,5 +1,6 @@
 import { parse } from "yaml";
 import { env, maybeEnv } from "./env";
+import { limitReason } from "./limits";
 import type { Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 
@@ -30,7 +31,7 @@ const TIMEOUT_MS = 5000;
 interface GhResponse {
   status: number;
   body: Record<string, unknown>;
-  limited: boolean; // GitHub's rate limit is reached
+  limited: string | null; // the sentence when GitHub's rate limit is reached (lib/limits.ts)
 }
 
 async function gh(method: string, path: string, body?: unknown, timeoutMs?: number): Promise<GhResponse> {
@@ -48,8 +49,7 @@ async function gh(method: string, path: string, body?: unknown, timeoutMs?: numb
     signal: timeoutMs ? AbortSignal.timeout(timeoutMs) : undefined,
   });
   const json = (await res.json().catch(() => ({}))) as Record<string, unknown>;
-  const limited = res.status === 429 || (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0");
-  return { status: res.status, body: json, limited };
+  return { status: res.status, body: json, limited: limitReason(res) };
 }
 
 function fail(step: string, r: GhResponse): never {
@@ -244,7 +244,8 @@ export async function handoffPrState(prUrl: string): Promise<"open" | "merged" |
 class Unreachable extends Error {}
 
 // One read of the house for a line on the page, with the words of lib/repos.ts when the
-// token is unset, GitHub does not answer in 5 seconds, refuses the token or is rate-limited.
+// token is unset, GitHub does not answer in 5 seconds, refuses the token or is rate-limited
+// (with the time the limit resets).
 async function read(path: string): Promise<GhResponse> {
   if (!maybeEnv("DESK_PAT")) throw new Unreachable("DESK_PAT is not set");
   let r: GhResponse;
@@ -254,7 +255,7 @@ async function read(path: string): Promise<GhResponse> {
     throw new Unreachable("GitHub did not answer");
   }
   if (r.status === 401) throw new Unreachable("GitHub refuses DESK_PAT (401)");
-  if (r.limited) throw new Unreachable("GitHub rate limit reached");
+  if (r.limited) throw new Unreachable(r.limited);
   return r;
 }
 

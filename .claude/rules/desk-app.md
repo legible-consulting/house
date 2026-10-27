@@ -45,7 +45,9 @@ and its steps as `components/desk/track.tsx` (`DESIGN.md`).
 (`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
 Actions for the sync pill's runs that start `rhythms.yml` on `main` by
 `workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). `lib/github.ts` reads the house
-workflow's latest run and the distance from the build's commit to `main`.
+workflow's latest run and the distance from the build's commit to `main`. `lib/limits.ts`
+reads each token's GitHub rate limit for the sync pill's panel, and gives the three GitHub
+clients the sentence, with the reset time, for a read that the limit refused.
 Do not run
 `npm run build`, `dev` or `test` here: `check.yml` builds it on every push, and Vercel deploys
 it from `main` through the project's Git link (root directory `desk/app`).

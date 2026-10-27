@@ -14,6 +14,7 @@ import {
   type Start,
 } from "@/lib/github";
 import { built } from "@/lib/house";
+import { budgets, clock } from "@/lib/limits";
 import { refresh } from "@/lib/refresh";
 import { inFlight } from "@/lib/repos";
 import { RunState } from "./_repo";
@@ -26,7 +27,8 @@ import { Pill, SyncPanel } from "./_sync-panel";
 // sync: main is ahead for longer, a failed or missing deploy, which Jamie fixes from the
 // laptop. Unknown: the distance could not be read; the panel says why. The pill opens a panel
 // (app/_sync-panel.tsx: a details element from md, a drawer below it): the build's commit,
-// the distance, the runs with their Run buttons. While anything is in flight the page
+// the distance, the runs with their Run buttons, and each GitHub token's rate limit with the
+// time it resets (lib/limits.ts). While anything is in flight the page
 // re-reads itself (components/desk/page-header.tsx).
 
 type Word = "Up to date" | "Running" | "Deploying" | "Out of sync" | "Unknown";
@@ -44,9 +46,10 @@ const SHOWN = 5;
 
 async function Panel({ start }: { start: Start | null }) {
   const own = (file: string) => (start?.file === file ? start : null);
-  const [d, runs] = await Promise.all([
+  const [d, runs, limits] = await Promise.all([
     distance(),
     Promise.all(WORKFLOWS.map(async (file) => ({ file, read: await houseRun(file, own(file)) }))),
+    budgets(),
   ]);
   const running = runs.some(({ file, read }) => read.ok && (inFlight(read.run) || !since(read.run, own(file))));
   const ahead = d.ok ? d.ahead : 0;
@@ -100,6 +103,23 @@ async function Panel({ start }: { start: Start | null }) {
                   {!since(read.run, own(file)) && (
                     <span className="text-muted-foreground"> · the run you started is not listed yet</span>
                   )}
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <dl className="grid gap-1">
+        {limits.map((b) => (
+          <div key={b.name} className="flex flex-wrap items-center gap-2">
+            <dt className="font-mono text-meta text-muted-foreground">{b.name}</dt>
+            <dd>
+              {!b.ok ? (
+                <span className="text-muted-foreground">{b.reason}</span>
+              ) : (
+                <>
+                  {b.remaining === 0 ? "rate limit reached" : `${b.remaining} of ${b.limit} requests left`}, resets at{" "}
+                  {clock(b.reset)}
                 </>
               )}
             </dd>
