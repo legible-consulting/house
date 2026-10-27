@@ -20,6 +20,8 @@ import { StepTrack } from "./track";
 // `current` marks the card of the page it sits on: an ink edge, "this ticket" in mono, and
 // `aria-current` on the title. `back` is the page a tick returns to (lib/gates.ts), /work when absent.
 // `action` is the card's own act above the strip, such as Copy prompt on a next ticket (rule 10).
+// `project` names the project first in the meta line, on a page that shows every repo (/work);
+// a compact card with a project keeps the project only.
 // A pull request matched to no ticket is NoTicketCard: "no ticket" in the place of the title,
 // then the same strip.
 
@@ -98,10 +100,22 @@ function PrStrip({ repo, pr, back, className }: { repo: string; pr: Pr; back?: s
 }
 
 // A pull request that ships no open ticket: "no ticket" in mono, then the strip.
-export function NoTicketCard({ repo, pr, back, className }: { repo: string; pr: Pr; back?: string; className?: string }) {
+export function NoTicketCard({
+  repo,
+  pr,
+  project,
+  back,
+  className,
+}: {
+  repo: string;
+  pr: Pr;
+  project?: string;
+  back?: string;
+  className?: string;
+}) {
   return (
     <article className={cn("grid gap-0.5 rounded-pane border bg-card px-3 py-1.5", className)}>
-      <p className="py-1 font-mono text-meta text-muted-foreground">no ticket</p>
+      <p className="py-1 font-mono text-meta text-muted-foreground">{project ? `${project} · no ticket` : "no ticket"}</p>
       <PrStrip repo={repo} pr={pr} back={back} className="border-t pt-1" />
     </article>
   );
@@ -112,6 +126,7 @@ export function TicketCard({
   repo,
   stub,
   pr,
+  project,
   compact = false,
   current = false,
   back,
@@ -122,12 +137,14 @@ export function TicketCard({
   repo: string;
   stub: Stub;
   pr?: Pr | null; // the open pull request matched to the stub
+  project?: string; // the project's name, first in the meta line
   compact?: boolean;
   current?: boolean; // the card of the ticket whose page this is
   back?: string; // the page a tick returns to
   action?: ReactNode; // the card's own act, above the strip
   className?: string;
 }) {
+  const meta = project ? (compact ? project : `${project} · ${metaOf(stub)}`) : compact ? null : metaOf(stub);
   return (
     <article
       className={cn(
@@ -152,7 +169,7 @@ export function TicketCard({
         </Link>
         {current && <span className="shrink-0 font-mono text-meta text-muted-foreground">this ticket</span>}
       </div>
-      {!compact && <p className="truncate pl-4 font-mono text-meta text-muted-foreground">{metaOf(stub)}</p>}
+      {meta && <p className="truncate pl-4 font-mono text-meta text-muted-foreground">{meta}</p>}
       {stub.state === "blocked" && stub.blocked && (
         <p className="pl-4 text-ui text-destructive">Blocked: {stub.blocked}</p>
       )}
