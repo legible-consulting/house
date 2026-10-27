@@ -1,4 +1,7 @@
 import { notFound, redirect } from "next/navigation";
+import { Field, FieldGroup } from "@/components/desk/field-group";
+import { Flash } from "@/components/desk/flash";
+import { StatusTag } from "@/components/desk/status-tag";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,7 +30,6 @@ import { currentUser } from "@/lib/user";
 import { readLinks, SendForm } from "../../_send";
 import { Shell } from "../../_shell";
 import { NextTouch } from "../../_touch";
-import { Field, Flash, StatusBadge } from "../../_ui";
 import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
 // One prospect: the facts, the touches, the next touch's draft (app/_touch.tsx), the move,
@@ -77,7 +79,6 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   // action still gets the slug and refuses a change (app/pool/[id]/actions.ts).
   const slugLinked = Boolean(sent?.links.length);
   const canTouch = write && p.status !== "ready for Jamie" && p.status !== "lost";
-  const grid = "grid gap-4 sm:grid-cols-2 lg:grid-cols-3";
 
   return (
     <Shell user={user} current="/pool">
@@ -88,7 +89,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
       </p>
       <div className="mb-1 flex flex-wrap items-center gap-3">
         <h2 className="text-xl font-semibold tracking-tight">{p.company}</h2>
-        <StatusBadge status={p.status} />
+        <StatusTag status={p.status} />
       </div>
       <p className="mb-4 text-sm text-muted-foreground">
         sourced by {p.sourced_by} · added {p.added} · updated {p.updated}
@@ -127,7 +128,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           <CardContent>
             <form action={saveProspect}>
               <input type="hidden" name="id" value={p.id} />
-              <fieldset className={grid} disabled={!write}>
+              <FieldGroup disabled={!write}>
                 <Field label="Company">
                   <Input name="company" defaultValue={p.company} required />
                 </Field>
@@ -191,16 +192,16 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                 <Field label="Next action">
                   <Input type="date" name="next_action" defaultValue={p.next_action ?? ""} />
                 </Field>
-                <Field label="Ask" className="sm:col-span-2 lg:col-span-3">
+                <Field label="Ask" full>
                   <Textarea name="ask" rows={3} defaultValue={p.ask} placeholder="what they asked for, in your words" />
                 </Field>
-                <Field label="Notes" className="sm:col-span-2 lg:col-span-3">
+                <Field label="Notes" full>
                   <Textarea name="notes" rows={3} defaultValue={p.notes} />
                 </Field>
                 <div>
                   <Button type="submit">Save</Button>
                 </div>
-              </fieldset>
+              </FieldGroup>
             </form>
           </CardContent>
         </Card>

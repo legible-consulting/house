@@ -1,4 +1,5 @@
 import { Suspense, type ReactNode } from "react";
+import { Prose } from "@/components/desk/prose";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -21,7 +22,6 @@ import {
 } from "@/lib/work";
 import { CopyButton } from "./_copy";
 import { ReadAgo, stateWord } from "./_repo";
-import { Prose } from "./_ui";
 
 // The work in the client repos (lib/work.ts) as tickets. Every open stub in .icm/intake/ is
 // one row: its state, its title and its meta on one line; opened, the stub's text and the

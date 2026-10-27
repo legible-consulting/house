@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Prose } from "@/components/desk/prose";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Search } from "@/lib/guard";
@@ -9,7 +10,6 @@ import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { CopyButton } from "../_copy";
 import { Shell } from "../_shell";
-import { Prose } from "../_ui";
 
 // Sell: what prospecting gives a salesman before the first touch, read-only (prospect.md, "The
 // salesman's deal"), from 01-prospecting/ at build time. The target profile and the

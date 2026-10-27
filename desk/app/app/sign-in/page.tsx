@@ -1,11 +1,12 @@
 import { redirect } from "next/navigation";
+import { Field } from "@/components/desk/field-group";
+import { Flash } from "@/components/desk/flash";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { flash, type Search } from "@/lib/guard";
 import { sessionUser } from "@/lib/user";
 import { Shell } from "../_shell";
-import { Field, Flash } from "../_ui";
 import { requestLink, signIn } from "./actions";
 
 export const dynamic = "force-dynamic";

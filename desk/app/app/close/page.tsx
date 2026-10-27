@@ -1,4 +1,6 @@
 import { redirect } from "next/navigation";
+import { Heading } from "@/components/desk/document";
+import { Prose } from "@/components/desk/prose";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
@@ -9,7 +11,6 @@ import { STAGES, close, closeTotals, money, pipeline, today, type CloseRow } fro
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
-import { Heading, Prose } from "../_ui";
 
 // The monthly close (desk/CONTEXT.md): every engaged client against its quote/economics.yaml,
 // the agreed price, the quote's estimate of the hours and the cost per month, and what is

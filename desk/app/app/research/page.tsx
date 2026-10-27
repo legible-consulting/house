@@ -1,4 +1,8 @@
 import { redirect } from "next/navigation";
+import { Heading } from "@/components/desk/document";
+import { Field } from "@/components/desk/field-group";
+import { Flash } from "@/components/desk/flash";
+import { VerdictTag } from "@/components/desk/status-tag";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { flash, type Search } from "@/lib/guard";
@@ -7,8 +11,6 @@ import { queue } from "@/lib/research";
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
-import { Field, Flash, Heading } from "../_ui";
-import { VerdictBadge } from "./_verdict";
 import { addLink } from "./actions";
 
 // Jamie's research page (research, research/CONTEXT.md). Three parts: the form to paste a
@@ -94,7 +96,7 @@ export default async function Research({ searchParams }: { searchParams: Search 
               <a href={`/research/${v.slug}`} className="font-medium underline">
                 {v.name}
               </a>
-              <VerdictBadge verdict={v.verdict} />
+              <VerdictTag verdict={v.verdict} />
               <span className="text-xs text-muted-foreground">
                 {[v.kind, v.tier, v.use.join(" "), v.tags.join(", "), v.date].filter(Boolean).join(" · ")}
               </span>

@@ -1,10 +1,11 @@
 import { redirect } from "next/navigation";
+import { Heading } from "@/components/desk/document";
+import { Flash } from "@/components/desk/flash";
 import { flash, type Search } from "@/lib/guard";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
 import { cn } from "@/lib/utils";
 import { Shell } from "../_shell";
-import { Flash, Heading } from "../_ui";
 import { isStateFilter, NextUp, RepoTickets, STATE_FILTERS, WaitingOnYou, withRepo } from "../_work";
 
 // Jamie's work view: every client repo's tickets (.icm/intake/ on the default branch) and

@@ -1,17 +1,22 @@
 import { redirect } from "next/navigation";
+import { DataTable, type Column } from "@/components/desk/data-table";
+import { Empty } from "@/components/desk/empty";
+import { Flash } from "@/components/desk/flash";
+import { Prose } from "@/components/desk/prose";
+import { StageTrack } from "@/components/desk/stage-track";
+import { Stat, StatGrid } from "@/components/desk/stat";
+import { Due, Ongoing } from "@/components/desk/status-tag";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
 import { startOf } from "@/lib/github";
 import { flash, type Search } from "@/lib/guard";
-import { clients, day, estate, hand } from "@/lib/house";
+import { clients, day, estate, hand, type ClientRow } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { repoInFlight } from "@/lib/repos";
-import { glance, today } from "@/lib/rhythms";
+import { glance, isOngoing, today } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
-import { RepoCells } from "./_repo";
+import { CheckCell, ReleaseCell } from "./_repo";
 import { Shell } from "./_shell";
-import { Flash, Heading, Prose } from "./_ui";
 
 // Jamie's page: the glance, computed now from the house as of the last push to main
 // (lib/rhythms.ts; rhythms.yml commits the same words to desk/glance/ every morning), the
@@ -22,6 +27,39 @@ import { Flash, Heading, Prose } from "./_ui";
 // page.
 export const dynamic = "force-dynamic";
 
+// The clients table. On the phone a client is one card: the name, then the stage and the
+// kind, then the next action and the deadline; the repo's facts are for the desk.
+const columns = (now: string): Column<ClientRow>[] => [
+  { key: "client", label: "Client", phone: "title", cell: (c) => c.name ?? c.slug },
+  { key: "stage", label: "Stage", phone: "meta", cell: (c) => <StageTrack stage={c.stage} /> },
+  { key: "kind", label: "Kind", phone: "meta", cell: (c) => c.kind ?? "" },
+  { key: "next", label: "Next action", className: "whitespace-normal", cell: (c) => c.next_action ?? "" },
+  {
+    key: "deadline",
+    label: "Deadline",
+    align: "end",
+    cell: (c) => (isOngoing(c) ? <Ongoing /> : <Due date={day(c.deadline)} today={now} />),
+  },
+  {
+    key: "repo",
+    label: "Repo",
+    phone: "hide",
+    cell: (c) => <span className="font-mono text-meta text-muted-foreground">{c.repo ?? ""}</span>,
+  },
+  {
+    key: "blueprint",
+    label: "Blueprint",
+    phone: "hide",
+    cell: (c) => (
+      <span className={c.blueprint && c.blueprint.drift !== "current" ? "text-destructive" : undefined}>
+        {c.blueprint ? c.blueprint.drift : c.repo ? "not in the report" : ""}
+      </span>
+    ),
+  },
+  { key: "release", label: "Release", phone: "hide", cell: (c) => <ReleaseCell repo={c.repo} jamie /> },
+  { key: "check", label: "check.yml", phone: "hide", cell: (c) => <CheckCell repo={c.repo} jamie /> },
+];
+
 export default async function Home({ searchParams }: { searchParams: Search }) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
@@ -30,10 +68,10 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
     if (user.client) redirect(`/clients/${user.client}`);
     return (
       <Shell user={user} current="/">
-        <Heading
-          title="No client folder is linked to this account yet"
-          lede="A new account starts with the client role and no folder. Jamie links it to one (db/schema.sql); until then there is nothing to show."
-        />
+        <Empty>
+          No client folder is linked to this account yet. A new account starts with the client role and no folder;
+          Jamie links it to one.
+        </Empty>
       </Shell>
     );
   }
@@ -48,7 +86,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Glance · {now}</CardTitle>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-ui font-normal text-muted-foreground">
             From the house as of the last push to main, computed now. A bold due date is inside seven days or past.
           </p>
         </CardHeader>
@@ -57,58 +95,23 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
         </CardContent>
       </Card>
 
-      <h2 className="mb-3 text-base font-medium">Pool</h2>
-      <ul className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+      <h2 className="mb-3 text-heading">Pool</h2>
+      <StatGrid className="mb-8">
         {STATUSES.map((s) => (
-          <li key={s}>
-            <Card className="py-3">
-              <CardContent className="px-4">
-                <div className="text-2xl font-semibold tabular-nums">{counts[s]}</div>
-                <div className="text-xs text-muted-foreground">{s}</div>
-              </CardContent>
-            </Card>
-          </li>
+          <Stat key={s} value={counts[s]} label={s} />
         ))}
-      </ul>
+      </StatGrid>
 
-      <h2 className="mb-3 text-base font-medium">Clients</h2>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Client</TableHead>
-            <TableHead>Stage</TableHead>
-            <TableHead>Kind</TableHead>
-            <TableHead>Next action</TableHead>
-            <TableHead>Deadline</TableHead>
-            <TableHead>Repo</TableHead>
-            <TableHead>Blueprint</TableHead>
-            <TableHead>Release</TableHead>
-            <TableHead>check.yml</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {clients.map((c) => (
-            <TableRow key={c.slug}>
-              <TableCell className="font-medium">
-                <a href={`/clients/${c.slug}`} className="hover:underline">
-                  {c.name ?? c.slug}
-                </a>
-              </TableCell>
-              <TableCell>{c.stage ?? ""}</TableCell>
-              <TableCell>{c.kind ?? ""}</TableCell>
-              <TableCell className="whitespace-normal">{c.next_action ?? ""}</TableCell>
-              <TableCell className="tabular-nums">{day(c.deadline)}</TableCell>
-              <TableCell className="text-muted-foreground">{c.repo ?? ""}</TableCell>
-              <TableCell className={c.blueprint && c.blueprint.drift !== "current" ? "text-destructive" : ""}>
-                {c.blueprint ? c.blueprint.drift : c.repo ? "not in the report" : ""}
-              </TableCell>
-              <RepoCells repo={c.repo} jamie />
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <p className="mt-2 text-xs text-muted-foreground">
-        {clients.length} clients.
+      <h2 className="mb-3 text-heading">Clients</h2>
+      <DataTable
+        columns={columns(now)}
+        rows={clients}
+        rowKey={(c) => c.slug}
+        href={(c) => `/clients/${c.slug}`}
+        empty="No client folder yet. The pool's handoff writes the first one."
+      />
+      <p className="mt-2 text-ui font-normal text-muted-foreground">
+        {clients.length} clients. An amber deadline is inside seven days; a red one is past.
         {estate
           ? ` Blueprint from desk/estate/${estate.file}, read against ${estate.blueprint} on ${estate.date}; drift.sh writes a new one.`
           : " No drift report in desk/estate/ yet: drift.sh writes one."}

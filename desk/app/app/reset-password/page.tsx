@@ -1,9 +1,10 @@
+import { Field } from "@/components/desk/field-group";
+import { Flash } from "@/components/desk/flash";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { flash, type Search } from "@/lib/guard";
 import { Shell } from "../_shell";
-import { Field, Flash } from "../_ui";
 import { resetPassword } from "./actions";
 
 // The emailed link lands here with ?token=, or with ?error=INVALID_TOKEN when Neon Auth
