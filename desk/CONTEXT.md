@@ -181,8 +181,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   overdue, this week, later, no deadline; each card with Copy prompt, the words that start a
   session on the house to do the action, with the record, the folder's files and the stage's
   contract, `lib/actions.ts`; tiles that count the urgent actions and the open leads; then
-  one card per step of Jamie's hand (`.icm/intake/README.md`), each with Copy prompt, the
-  words that start a session on the house to prepare the step, `lib/hand.ts`; no ticket),
+  one row per step of Jamie's hand (`.icm/intake/README.md`): the step's bold title, with
+  Copy prompt on the row; the row opens on the step and its check; the prompt is the words that start a session on the house to prepare the step, `lib/hand.ts`; no ticket),
   `/clients` (the clients table: each client's stage, its repo's blueprint drift, latest
   release and `check.yml` run, one row linked to the client's page), `/work` (three sections across every client repo and the house: On your desk, the ticket
   cards whose next act is Jamie's, each with the act; Running, the other cards in flight,

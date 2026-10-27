@@ -20,11 +20,11 @@ import { HandGroup } from "@/app/_hand";
 // Each card carries Copy prompt, the words that start a session on the house to do the action
 // (lib/actions.ts). The actions are the glance's rows (lib/rhythms.ts glanceRows), from the
 // house as of the last push to main, computed now; rhythms.yml commits the glance file every
-// morning. Under the cards, Jamie's hand: one card per step of the house's own build that no
-// session takes alone (.icm/intake/README.md, read at build; app/_hand.tsx), each with Copy
-// prompt, the words that start a session to prepare the step (lib/hand.ts). The clients table
-// is /clients. The page re-reads itself
-// while a house run or a deploy is in flight (components/desk/page-header.tsx). A salesman
+// morning. Under the cards, Jamie's hand: one row per step of the house's own build that no
+// session takes alone (.icm/intake/README.md, read at build; app/_hand.tsx), its title with
+// Copy prompt, and the step under it when the row opens. The prompt is the words that start a
+// session to prepare the step (lib/hand.ts). The clients table is /clients. The page re-reads
+// itself while a house run or a deploy is in flight (components/desk/page-header.tsx). A salesman
 // goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
 
