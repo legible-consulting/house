@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 // A stat tile: the figure in mono, the label under it. It is a link when it filters a list.
+// A figure of 0 is muted (desk/app/DESIGN.md, rule 8).
 export function Stat({
   value,
   label,
@@ -17,7 +18,7 @@ export function Stat({
   const tile = (
     <Card size="sm" className={cn("h-full", href && "transition-colors hover:bg-accent", className)}>
       <CardContent>
-        <div className="font-mono text-figure tabular-nums">{value}</div>
+        <div className={cn("font-mono text-figure tabular-nums", value === 0 && "text-muted-foreground")}>{value}</div>
         <div className="text-ui text-muted-foreground">{label}</div>
       </CardContent>
     </Card>
