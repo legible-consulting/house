@@ -12,6 +12,7 @@ import { signOut } from "./sign-in/actions";
 // (app/_sync.tsx), the user and sign-out. Plain HTML forms post to server actions. A page
 // passes what it shows that may be in flight (`live`), and the page re-reads itself every
 // 15 seconds while anything is: a house run, a deploy, or what the page passed.
+// The outer frame pads the phone's safe areas (globals.css); the gutter sits inside it.
 const LINKS: Record<DeskUser["role"], [string, string][]> = {
   jamie: [
     ["/", "Desk"],
@@ -57,45 +58,47 @@ export function Shell({
   const checks =
     jamie && BUILD_IS_COMMIT ? [...live, deployInFlight(), ...WORKFLOWS.map((f) => houseInFlight(f, start))] : live;
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6">
-      {checks.length > 0 && (
-        <Suspense fallback={null}>
-          <Reload checks={checks} />
-        </Suspense>
-      )}
-      <header className="mb-6 flex flex-wrap items-center gap-4">
-        <h1 className="text-lg font-semibold tracking-tight">Desk</h1>
-        <nav className="flex flex-wrap gap-3 text-sm">
-          {links.map(([href, label]) => (
-            <a
-              key={href}
-              href={href}
-              aria-current={current === href ? "page" : undefined}
-              className={cn(
-                "text-muted-foreground hover:text-foreground",
-                current === href && "font-medium text-foreground",
-              )}
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
-        {user && (
-          <div className="ml-auto flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-            {jamie && <Sync start={start} />}
-            <span>{user.name || user.email}</span>
-            <Badge variant="outline">{user.role}</Badge>
-            <form action={signOut}>
-              <Button type="submit" variant="ghost" size="sm">
-                Sign out
-              </Button>
-            </form>
-          </div>
+    <div className="pt-safe-top pb-safe-bottom pl-safe-left pr-safe-right">
+      <div className="mx-auto max-w-5xl px-4 py-6">
+        {checks.length > 0 && (
+          <Suspense fallback={null}>
+            <Reload checks={checks} />
+          </Suspense>
         )}
-      </header>
-      <main>
-        <Fade>{children}</Fade>
-      </main>
+        <header className="mb-6 flex flex-wrap items-center gap-4">
+          <h1 className="text-lg font-semibold tracking-tight">Desk</h1>
+          <nav className="flex flex-wrap gap-3 text-sm">
+            {links.map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                aria-current={current === href ? "page" : undefined}
+                className={cn(
+                  "text-muted-foreground hover:text-foreground",
+                  current === href && "font-medium text-foreground",
+                )}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+          {user && (
+            <div className="ml-auto flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              {jamie && <Sync start={start} />}
+              <span>{user.name || user.email}</span>
+              <Badge variant="outline">{user.role}</Badge>
+              <form action={signOut}>
+                <Button type="submit" variant="ghost" size="sm">
+                  Sign out
+                </Button>
+              </form>
+            </div>
+          )}
+        </header>
+        <main>
+          <Fade>{children}</Fade>
+        </main>
+      </div>
     </div>
   );
 }

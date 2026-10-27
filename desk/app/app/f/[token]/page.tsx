@@ -29,7 +29,8 @@ type Params = Promise<{ token: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const link = await load((await params).token).catch(() => null);
-  return { title: link?.snapshot.title ?? "Desk", robots: { index: false, follow: false } };
+  // No title when the row is not found: the layout's default, "Desk", stands alone.
+  return { title: link?.snapshot.title, robots: { index: false, follow: false } };
 }
 
 export default async function SentLinkPage({ params }: { params: Params }) {
