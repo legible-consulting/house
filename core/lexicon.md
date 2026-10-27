@@ -64,8 +64,7 @@ A module the business needs and the house does not have yet is a ticket in `.icm
   token in `https://desk.jamienisbet.com/f/<id>`, and the row keeps the questions as they were
   when it was sent (`desk/CONTEXT.md`).
 - **local lane** — `~/Desktop/legible-consulting/projects/<slug>/` clones on Jamie's machine
-  for bulk estate work (from 2026-10-22; `~/Desktop/Apps/projects/` until every clone moves,
-  `core/stack.md` Layout).
+  for bulk estate work (from 2026-10-22; `core/stack.md` Layout).
 - **gate** — a human checkbox. In a client repo, the two at the top of a pull request body,
   **Spec approved** and **Ready to merge**, each anchored by an HTML comment
   (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A

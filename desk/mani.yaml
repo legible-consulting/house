@@ -5,22 +5,22 @@
 # (2026-10-21).
 projects:
   berceo:
-    path: ~/Desktop/Apps/projects/berceo
+    path: ~/Desktop/legible-consulting/projects/berceo
     url: https://github.com/k0d0minio/berceo.git
     tags: [live]
 
   vinecliff:
-    path: ~/Desktop/Apps/projects/vinecliff
+    path: ~/Desktop/legible-consulting/projects/vinecliff
     url: https://github.com/k0d0minio/vinecliff.git
     tags: [live]
 
   agorasim:
-    path: ~/Desktop/Apps/projects/agorasim
+    path: ~/Desktop/legible-consulting/projects/agorasim
     url: https://github.com/k0d0minio/agorasim.git
     tags: [live]
 
   remi-ai:
-    path: ~/Desktop/Apps/projects/remi-ai
+    path: ~/Desktop/legible-consulting/projects/remi-ai
     url: https://github.com/k0d0minio/remi-ai.git
     tags: [live]
 
