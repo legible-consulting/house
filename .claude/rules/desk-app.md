@@ -8,7 +8,7 @@ reads the house at build time into `lib/house.json` (what it reads is listed at 
 records, economics, client documents, the Jamie's hand list (`.icm/intake/README.md`), the latest drift
 report, the close files, the Sell words, the research verdicts and concepts, every form).
 The home's action cards (`app/_action.tsx`) and their copied prompt (`lib/actions.ts`) read
-the glance's rows and each record's body and file list; under them the hand cards
+the glance's rows and each record's body and file list; under them the hand rows
 (`app/_hand.tsx`) and their prompt (`lib/hand.ts`) read the Jamie's hand list, one step per
 bullet. `/clients` (`app/(desk)/clients/page.tsx`) is the clients table.
 `lib/forms.ts` parses a form (`*/forms/*.md`, the grammar in `01-prospecting/CONTEXT.md`) into a

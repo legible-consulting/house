@@ -32,23 +32,23 @@ Set by Jamie on 2026-10-22. A line leaves when it is true.
 
 ## Jamie's hand
 
-The steps of the house's own build that no session takes, because each reaches an account, the estate or money. The glance prints the bullets of this section (why: a step Jamie owes is a next action of the house itself · 2026-10-22). A client's own next step lives on its record, not here. A line leaves when it is done.
+The steps of the house's own build that no session takes, because each reaches an account, the estate or money. The glance prints the bullets of this section (why: a step Jamie owes is a next action of the house itself · 2026-10-22). Each bullet opens with a short title in bold, the act in a few words: the desk shows the title as the row and keeps the rest until the row opens (why: a step's full line is detail · Jamie, 2026-10-27). A client's own next step lives on its record, not here. A line leaves when it is done.
 
-- Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
-- `copier update` to the blueprint `v1.0.0` on the live repos of `desk/mani.yaml`, through conformance. Give each answer by hand with `--data`. Never use `--defaults`: a repo on `v0.6.0` (vinecliff, remi-ai, jamienisbet) has no answer yet for `workspace`, `monorepo`, `release`, `uat`, `database` or `migrations_path`, and a default renders the wrong build. The answers per repo are in `triage/conformance-v1-0-0.md`. Check: each repo's `.copier-answers.yml` on `main` says `_commit: v1.0.0`.
-- Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
-- `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
+- **Activate a client user.** Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
+- **Update the live repos to blueprint v1.0.0.** `copier update` to the blueprint `v1.0.0` on the live repos of `desk/mani.yaml`, through conformance. Give each answer by hand with `--data`. Never use `--defaults`: a repo on `v0.6.0` (vinecliff, remi-ai, jamienisbet) has no answer yet for `workspace`, `monorepo`, `release`, `uat`, `database` or `migrations_path`, and a default renders the wrong build. The answers per repo are in `triage/conformance-v1-0-0.md`. Check: each repo's `.copier-answers.yml` on `main` says `_commit: v1.0.0`.
+- **Close Berceo #68, promote, and walk Agorasim's go-live.** Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
+- **Set THROTTLE_SALT on legible-desk.** `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
   `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
   Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
-- GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
-- The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
-- Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
-- The contabilista confirms the calendar in `core/accountant/02-trabalhador-independente-obligations.md`
+- **Invite GPardas to the org.** GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
+- **Split the gh logins.** The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
+- **Turn on secret scanning on blueprint and .github.** Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
+- **Confirm the tax calendar with the contabilista.** The contabilista confirms the calendar in `core/accountant/02-trabalhador-independente-obligations.md`
   §5. Each confirmed date is written into §5 in place. Check: no ⚠️ remains in §5.
-- Before the first batch of cold emails: check its role addresses against the Direção-Geral
+- **Check the first cold batch against the opt-out list.** Before the first batch of cold emails: check its role addresses against the Direção-Geral
   do Consumidor's opt-out list (`01-prospecting/legitimate-interest.md` §3). Check:
   the batch's rows carry a touch note that says so.
-- The 117 prospect rows compiled on 2026-07-23 are in three places nothing reads: Neon
+- **Import or delete the 117 old prospect rows.** The 117 prospect rows compiled on 2026-07-23 are in three places nothing reads: Neon
   project `jamie-nisbet` (`restless-rain-15879798`, schema `biz`) and the two archives
   `desk/app/biz-2026-10-22-backup.tar.gz` and `desk/app/biz-backup-2026-10-25.tar.gz`,
   untracked in the house. Import them into the pool as rows with a source, or delete the
