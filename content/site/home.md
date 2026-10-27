@@ -6,7 +6,7 @@ sources:
   - core/identity.md
   - core/services.md
   - core/voice.md
-date: 2026-10-26
+date: 2026-10-27
 ready: false
 ---
 ## hero
@@ -17,10 +17,11 @@ I'm Jamie, an engineer in Mafra, Portugal. I take the first call, I scope the wo
 
 ## whatIDo
 
-### Two things: I build, and I teach.
+### Three things: I build, I teach, and I advise.
 
 - **I build.** A site, an app or a larger system for your business, at a fixed price. You see every change on a preview and say yes before it goes live. You can read where the work stands at any time. At the end you get a handover pack.
 - **I teach.** A one-day workshop in the Interpretable Context Methodology, the way I organise my own work: folders and short written contracts, so that a new colleague or an assistant can take the work from the files alone. Then coaching hours that leave you with a working setup of your own.
+- **I advise.** A straight second opinion on where these tools fit in your business, or someone technical to keep a build on track.
 
 What each one includes is on /services.
 

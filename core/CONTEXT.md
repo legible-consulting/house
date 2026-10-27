@@ -49,7 +49,7 @@ Built (2026-10-16):
 Built (2026-10-19):
 
 - `identity.md`: the bio, the entity, the languages, what we do and do not do.
-- `services.md`: the six lines, what each includes, what is never in a build's price, and the pricing table with the anchor and the floor.
+- `services.md`: the lines, what each includes, what is never in a build's price, and the pricing table with the anchor and the floor.
 - `voice.md`: the register, the words never used, the three registers, the document design system and the shape of each document.
 - `terms.md`: payment, validity and revisions, ownership, hosting and support, ending an engagement (with the workshop's cancellation scale), confidentiality and liability, law and language.
 

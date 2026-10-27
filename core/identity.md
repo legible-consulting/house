@@ -2,7 +2,7 @@
 title: Identity
 kind: core
 owner: jamie
-date: 2026-10-19
+date: 2026-10-27
 ---
 # Identity — who Legible Consulting is
 
@@ -43,19 +43,23 @@ internal language. A client folder's `language:` field says which one that clien
 
 ## What we do
 
-Two lines. The org front page restates them in public.
+Three lines. The org front page restates the first two in public.
 
 - **Build.** A client site, app or platform at a fixed price, through one pipeline: brief
   and tickets in the repo, a preview environment the client signs off before every release,
   live status they can read at any time, and a handover pack at the end.
 - **Teach.** ICM in a one-day workshop, and coaching that leaves a client with their own
   working workspace.
+- **Advise.** A second opinion on where the tools fit in a client's business, and delivery
+  run on a build (why: AI consultancy and project management are lines of `services.md` ·
+  Jamie, 2026-10-27).
 
 The lines, what each includes and what each costs are in `services.md`.
 
 ## What we do not do
 
-- Work with no build and no teaching in it: copywriting, branding or design as the
-  deliverable itself. We point at someone who does it well.
+- Work with no build, no teaching and no advice in it: copywriting, branding or design as
+  the deliverable itself. We point at someone who does it well. The copy of a fully serviced
+  landing page is part of that page, not the deliverable.
 - Time and materials. Every engagement is a fixed price or a written monthly scope
   (`services.md`).

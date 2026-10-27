@@ -2,7 +2,7 @@
 title: Services
 kind: core
 owner: jamie
-date: 2026-10-26
+date: 2026-10-27
 ---
 # Services — what we sell, what each line includes, what it costs
 
@@ -13,6 +13,11 @@ catalogue that is not the one home for price becomes a habit of quoting from mem
 
 ## The lines
 
+The six lines from Site to Retainer were written on 2026-10-19. The eight from GEO optimisation
+to Lead-gen channel development were the site's services, and Jamie kept them all on
+2026-10-27 (why: the site sold them, and the cases on it are tagged with them · Jamie,
+2026-10-27). A line name is the label a case, a page and a proposal use, as this table writes it.
+
 | Line | The client gets |
 |---|---|
 | **Site** | Their business findable and presentable: pages, a contact, booking or menu flow, their own domain, live and handed over. |
@@ -20,6 +25,14 @@ catalogue that is not the one home for price becomes a habit of quoting from mem
 | **Platform** | An app with several roles or several surfaces over shared services: a marketplace, a product with its admin, docs and support. |
 | **Workshop** | One day, on site or remote, that teaches ICM: folders as the architecture, markdown contracts as the interface, a human gate at every boundary. The materials stay with them, and an attendance record they can file as evidence of AI-literacy measures (EU AI Act, Article 4). |
 | **Coaching** | One-to-one hours in which each person applies ICM to their own work, and a workspace rendered for them from the blueprint. |
+| **GEO optimisation** | Their business cited in the answers of ChatGPT, Gemini and Perplexity, not only in search results: their content and data structured for it. |
+| **Landing pages, fully serviced** | One page, designed, written, hosted and kept current by Jamie. The copy is inside this line. |
+| **AI & non-AI automation** | The repeated steps of their week done by software: their tools connected, a model where it earns its place, plain code where it does not. |
+| **AI business infrastructure** | The base that makes an assistant useful across their business: a knowledge base, retrieval over their own documents, the parts that keep answers grounded in their data. |
+| **AI consultancy** | A second opinion on where the tools fit and where they do not: the few uses worth doing, and the rest named and skipped. |
+| **Project management** | Someone technical who keeps a build on track: scope, timeline and the people on it, with honest status they can act on. |
+| **Software engineering** | Web apps and systems built to last: fast, accessible, documented and easy to change. |
+| **Lead-gen channel development** | The channels that bring work in: referrals, outreach and the tooling behind them. |
 | **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). Handover offers it as the last section of the handover pack (`08-handover/retainer-offer.md`) (why: the client decides before the first month without support · 2026-10-19). |
 
 Every build (site, app, platform) runs through the build: brief and tickets in the repo, a preview
@@ -41,7 +54,8 @@ retainer; the role starts where the ownership starts (why: Remi AI · 2026-10-22
 ## Not in a build's price
 
 - **Content writing**: page copy, product text, translations. The client brings it, or it
-  is its own line in the proposal (why: Jamie's answer · 2026-10-19).
+  is its own line in the proposal (why: Jamie's answer · 2026-10-19). The one exception is
+  Landing pages, fully serviced, whose copy is inside the line (2026-10-27).
 
 Brand and graphic design, photography and imagery, and SEO beyond clean structure, metadata
 and speed are not excluded by rule. Each is in a build only when the proposal names it.
@@ -59,6 +73,14 @@ regretted deals were the ones where the price moved and the scope did not · 202
 | Platform | not banded | per build | As app. |
 | Workshop | €1,800 | per day | One day of Jamie, on site or remote, materials and attendance record inside. Travel is a flat cost line outside it (§ Training pricing). |
 | Coaching | €120 | per hour | The anchor. Sold as a fixed block of hours, never open-ended (§ Training pricing). |
+| GEO optimisation | not banded | per engagement | As app. |
+| Landing pages, fully serviced | not banded | per build, then per month | The build as site; the hosting and upkeep as retainer. |
+| AI & non-AI automation | not banded | per build | As app. |
+| AI business infrastructure | not banded | per build | As app. |
+| AI consultancy | not banded | per engagement | As app: a fixed price for a named scope. |
+| Project management | not banded | per month | As retainer. |
+| Software engineering | not banded | per build | As app. |
+| Lead-gen channel development | not banded | per build | As app. |
 | Retainer | not banded | per month | Jamie's hours of attention a month × the anchor, less the term discount (§ Retainer pricing). |
 
 - **Anchor: €120 per hour.** Internal. It turns hours into a fixed price or a monthly
