@@ -47,10 +47,9 @@ This stage produces a build from ticket to release, sized by the blueprint's ans
      the UAT environment and the client signs off on it there. For `uat: yes`, the preview is
      Jamie's, and the client signs off at the UAT address after the merge (the bullet below).
   6. Jamie tests the preview and ticks **Ready to merge**, on GitHub or from the desk. The
-     session merges with `.icm/scripts/merge.sh`. The script refuses without the tick. A repo
-     with no `merge.sh` (rendered before the blueprint's `v1.0.0`) waits for conformance, and
-     Jamie merges there. A session never ticks a gate (why: Jamie ticks from the phone, and
-     the session does the mechanics · Jamie, 2026-10-27).
+     session merges with `.icm/scripts/merge.sh`. The script refuses without the tick. A
+     session never ticks a gate (why: Jamie ticks from the phone, and the session does the
+     mechanics · Jamie, 2026-10-27).
   7. On the merge, release-please opens or updates the release pull request. `release` is
      Jamie's word in the session: the session runs `.icm/scripts/release.sh`, which merges
      the release pull request, and that merge is the release. For `uat: yes` that merge makes
