@@ -453,12 +453,12 @@ export function WorkBody({ repo }: { repo: string }) {
 function List({ title, children, empty }: { title: string; children: ReactNode[]; empty: string }) {
   return (
     <div>
-      <dt className="text-xs text-muted-foreground">{title}</dt>
+      <dt className="mb-1 font-mono text-micro uppercase tracking-eyebrow text-muted-foreground">{title}</dt>
       <dd>
         {children.length === 0 ? (
-          <span className="text-sm text-muted-foreground">{empty}</span>
+          <span className="text-ui text-muted-foreground">{empty}</span>
         ) : (
-          <ul className="list-disc space-y-1 pl-5 text-sm">{children}</ul>
+          <ul className="list-disc space-y-1 pl-5 text-ui">{children}</ul>
         )}
       </dd>
     </div>
@@ -467,7 +467,7 @@ function List({ title, children, empty }: { title: string; children: ReactNode[]
 
 async function ClientLists({ repo }: { repo: string }) {
   const w = await repoWork(repo);
-  if (w.error) return <p className="text-sm text-muted-foreground">The work list is not available now.</p>;
+  if (w.error) return <p className="text-ui text-muted-foreground">The work list is not available now.</p>;
   const inProgress = w.prs.filter((p) => !p.draft);
   const queued = w.epics.filter((e) => e.open.length > 0);
   return (
@@ -483,7 +483,7 @@ async function ClientLists({ repo }: { repo: string }) {
       <List title="Shipped in the last 14 days" empty="Nothing shipped in the last 14 days.">
         {w.merged.map((m) => (
           <li key={m.number}>
-            <span className="tabular-nums text-muted-foreground">{m.mergedAt}</span> {m.title}
+            <span className="font-mono text-meta tabular-nums text-muted-foreground">{m.mergedAt}</span> {m.title}
           </li>
         ))}
       </List>
@@ -506,7 +506,7 @@ async function ClientLists({ repo }: { repo: string }) {
 // Three lists in words for a client: no link but the preview, no gate, no CI, no reason.
 export function ClientWork({ repo }: { repo: string }) {
   return (
-    <Suspense fallback={<p className="text-sm text-muted-foreground">Reading GitHub…</p>}>
+    <Suspense fallback={<p className="text-ui text-muted-foreground">Reading GitHub…</p>}>
       <ClientLists repo={repo} />
     </Suspense>
   );
