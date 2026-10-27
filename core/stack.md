@@ -79,8 +79,9 @@ Layout:
 | `~/Desktop/Apps/projects/<slug>/` | legacy: the local lane's old home. The client clones still there move one by one; a clone's row in `desk/mani.yaml` says where it is today. The row leaves this table when every clone has moved. Beyond those clones, nothing in the house reads from `~/Desktop/Apps/`, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 
-Global hooks in `~/.claude/hooks/`, registered in `~/.claude/settings.json`. A repo that
-commits its own copy of a hook overrides the global one, and cloud sessions see only the
+The three guards are global hooks in `~/.claude/hooks/`, registered in
+`~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
+one, and cloud sessions see only the
 repo's copy. Each guard defers only when the repo copy is a different file, so a verbatim
 copy still runs (why: a copy that deferred to itself left the house unguarded · 2026-10-19).
 The house and the blueprint's `template/` carry the same three files. `check.yml`'s `guards`
@@ -92,6 +93,13 @@ hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
 | `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | yes |
 | `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit, Bash) | refuses plaintext secrets in files outside an ignored `.env`; on Bash it reads the whole command, heredoc included | yes |
+| `route-request.sh` | UserPromptSubmit | the router: names the contract or the lane for each prompt. Build-only, with its test `route-request.test.sh` | no |
+| `session-start.sh` | SessionStart | the board: prints the open tickets at session start, read-only. Build-only | no |
+
+The house carries the three guards only. The blueprint renders the router and the board into
+a build, never into a workspace, and registers them in the build's `.claude/settings.json`
+(why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
+2026-10-27). The router and the board are repo copies only, never global hooks.
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
 writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
