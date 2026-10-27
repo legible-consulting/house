@@ -25,7 +25,9 @@ export function ClientUsers({ slug, read }: { slug: string; read: { users: Clien
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Users</CardTitle>
+        <CardTitle>
+          <h2>Users</h2>
+        </CardTitle>
         <CardDescription>
           The people who read this folder. A person who answers a form sent from this page is saved here, not active.
           Activate them to mail a sign-in link: a client signs in by link only.

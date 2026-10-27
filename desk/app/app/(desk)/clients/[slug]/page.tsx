@@ -1,12 +1,16 @@
 import { notFound, redirect } from "next/navigation";
+import { Document } from "@/components/desk/document";
+import { Empty } from "@/components/desk/empty";
+import { type Fact, Facts } from "@/components/desk/facts";
 import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
-import { Prose } from "@/components/desk/prose";
 import { StageTrack } from "@/components/desk/stage-track";
+import { Due } from "@/components/desk/status-tag";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { flash, type Search } from "@/lib/guard";
 import { clientBySlug, day } from "@/lib/house";
+import { today } from "@/lib/pool";
 import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
@@ -48,22 +52,43 @@ export default async function Client({
   const c = clientBySlug(slug);
   if (!c) notFound();
   const jamie = user.role === "jamie";
-  const facts: [string, string][] = [
-    ["Stage", c.stage ?? ""],
-    ["Kind", c.kind ?? ""],
-    ["Language", c.language ?? ""],
-    ["Opened", day(c.opened)],
-    ["Next action", c.next_action ?? ""],
-    ["Deadline", day(c.deadline)],
-    ["Repo", c.repo ?? ""],
-    ["Vercel", (c.vercel_project ?? []).join(", ")],
-    ...(jamie
-      ? ([
-          ["Blueprint", c.blueprint ? `${c.blueprint.drift} (tracks ${c.blueprint.tracks})` : c.repo ? "not in the drift report" : ""],
-          ["Salesman", c.salesman ?? ""],
-        ] as [string, string][])
-      : []),
-  ].filter(([, v]) => v) as [string, string][];
+  // Where it stands: a date, a repo or a slug in mono; the next action is a sentence and
+  // spans the row; a drifted repo's blueprint takes the destructive text.
+  const drifted = Boolean(c.blueprint && c.blueprint.drift !== "current");
+  const facts: Fact[] = (
+    [
+      { label: "Stage", value: c.stage, mono: true },
+      { label: "Kind", value: c.kind },
+      { label: "Language", value: c.language, mono: true },
+      { label: "Opened", value: day(c.opened), mono: true },
+      { label: "Deadline", value: day(c.deadline) && <Due date={day(c.deadline)} today={today()} /> },
+      {
+        label: "Repo",
+        value: c.repo && (
+          <a href={`https://github.com/${c.repo}`} className="inline-flex min-h-row items-center underline underline-offset-3">
+            {c.repo}
+          </a>
+        ),
+        mono: true,
+      },
+      { label: "Vercel", value: (c.vercel_project ?? []).join(", "), mono: true },
+      ...(jamie
+        ? [
+            {
+              label: "Blueprint",
+              value: c.blueprint
+                ? `${c.blueprint.drift} (tracks ${c.blueprint.tracks})`
+                : c.repo
+                  ? "not in the drift report"
+                  : "",
+              className: drifted ? "text-destructive" : undefined,
+            },
+            { label: "Salesman", value: c.salesman },
+          ]
+        : []),
+      { label: "Next action", value: c.next_action, wide: true },
+    ] as Fact[]
+  ).filter((f) => f.value);
   const live = jamie && c.repo ? [repoInFlight(c.repo), workInFlight(c.repo)] : [];
   const [{ error, note }, sent, users] = await Promise.all([
     flash(searchParams),
@@ -89,32 +114,21 @@ export default async function Client({
       <div className="grid gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Where it stands</CardTitle>
+            <CardTitle>
+              <h2>Where it stands</h2>
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-              {facts.map(([k, v]) => (
-                <div key={k}>
-                  <dt className="text-xs text-muted-foreground">{k}</dt>
-                  <dd className="tabular-nums">
-                    {k === "Repo" ? (
-                      <a href={`https://github.com/${v}`} className="underline">
-                        {v}
-                      </a>
-                    ) : (
-                      v
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <Facts facts={facts} />
           </CardContent>
         </Card>
 
         {c.repo && (
           <Card>
             <CardHeader>
-              <CardTitle>Release and checks</CardTitle>
+              <CardTitle>
+                <h2>Release and checks</h2>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <RepoFacts repo={c.repo} jamie={jamie} />
@@ -125,7 +139,9 @@ export default async function Client({
         {c.repo && (
           <Card>
             <CardHeader>
-              <CardTitle>Work</CardTitle>
+              <CardTitle>
+                <h2>Work</h2>
+              </CardTitle>
             </CardHeader>
             <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
           </Card>
@@ -139,21 +155,18 @@ export default async function Client({
         {users && <ClientUsers slug={c.slug} read={users} />}
 
         {c.documents.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No document yet.</p>
+          <Empty>No document yet. The proposal, the agreement and the handover land here as each stage writes them.</Empty>
         ) : (
           c.documents.map((d) => (
-            <Card key={`${d.stage}/${d.file}`} id={d.stage}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3">
-                  {d.title}
-                  <Badge variant="outline">{d.stage}</Badge>
-                  {d.date && <span className="text-xs font-normal text-muted-foreground">{d.date}</span>}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Prose markdown={d.body} />
-              </CardContent>
-            </Card>
+            <Document
+              key={`${d.stage}/${d.file}`}
+              id={d.stage}
+              className="border-t pt-6"
+              date={d.date}
+              tag={<Badge variant="outline">{d.stage}</Badge>}
+              title={d.title}
+              markdown={d.body}
+            />
           ))
         )}
       </div>
