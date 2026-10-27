@@ -20,6 +20,7 @@ import {
   CELL_SIZE,
   isSignRow,
   LABEL_SIZE,
+  SIGN_ROOM,
   layoutTable,
 } from "@/lib/table";
 import type { DocumentDesign } from "@/lib/voice";
@@ -229,7 +230,7 @@ export class Markdown {
           return (
             <Row key={r}>
               {row.map((value, c) => (
-                <Cell key={c} style={cell(sign ? { minHeight: 40 } : {})}>
+                <Cell key={c} style={cell(sign ? { paddingBottom: SIGN_ROOM } : {})}>
                   <Run style={body(c)}>{this.inline(value.tokens)}</Run>
                 </Cell>
               ))}

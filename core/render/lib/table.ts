@@ -21,11 +21,17 @@ const LABEL_CHAR = LABEL_SIZE * 0.6 + LABEL_SIZE * 0.12;
 export const cellText = (cell: Tokens.TableCell): string =>
   cell.text.replace(/[*_`]/g, "").trim();
 
+// A date: "Mon 9 Nov 2026", "lun. 9 nov. 2026", "9 November 2026", "2026-11-09".
+const DATE = /^(?:\p{L}{2,9}\.?,?\s+)?\d{1,2}\s+\p{L}{3,10}\.?\s+\d{4}$|^\d{4}-\d{2}-\d{2}$/u;
+
 /**
- * A figure: a price, a count, a rate or a date. Short, with a digit, and no
- * more letters than other characters ("€40 (8.5%)", "20 h × 120 €", "Fri 23 Oct 2026").
+ * A figure: a price, a count, a rate or a date. A date, or a short text with a
+ * digit and no more letters than other characters ("€40 (8.5%)", "20 h × 120 €").
  */
 export const isFigure = (s: string): boolean => {
+  if (DATE.test(s.trim())) {
+    return true;
+  }
   const chars = s.replace(/\s/g, "");
   if (chars.length === 0 || chars.length > 26 || !/\d/.test(chars)) {
     return false;
@@ -53,7 +59,7 @@ export const layoutTable = (t: Tokens.Table, textWidth: number): TableLayout => 
   const body = (c: number) => t.rows.map((row) => (row[c] ? cellText(row[c]) : ""));
   const figures = Array.from({ length: columns }, (_, c) => {
     const cells = body(c).filter((s) => s !== "");
-    return cells.length > 0 && cells.filter(isFigure).length / cells.length >= 0.5;
+    return cells.length > 0 && cells.filter(isFigure).length / cells.length > 0.5;
   });
   const header = t.header.some((cell) => cellText(cell) !== "");
 
@@ -104,5 +110,6 @@ export const layoutTable = (t: Tokens.Table, textWidth: number): TableLayout => 
 };
 
 /** A row to sign in: a label, then empty cells. It gets room for a signature. */
+export const SIGN_ROOM = 30;
 export const isSignRow = (row: Tokens.TableCell[]): boolean =>
   row.length > 1 && cellText(row[0]) !== "" && row.slice(1).every((cell) => cellText(cell) === "");
