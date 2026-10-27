@@ -16,9 +16,9 @@ import { currentUser } from "@/lib/user";
 import { addLink } from "./actions";
 
 // Jamie's research page (research, research/CONTEXT.md). Three parts: the queue, the links
-// the daily intake has not judged yet, read per request from main (lib/research.ts), with the
-// form to paste a link from the computer under it (the phone shares to /share instead); then
-// every verdict and concept from main at build time (lib/house.ts) as a data table, under four
+// the daily intake has not judged yet, read per request from main with each link's title and
+// time (lib/research.ts), with the form to paste a link from the computer under it (the
+// phone shares to /share instead); then every verdict and concept from main at build time (lib/house.ts) as a data table, under four
 // filters in the query (?use=, ?kind=, ?verdict=, ?tier=), each row opening on
 // /research/<slug>. The filters' values come from the files, so a new kind or use appears
 // without a change here.
@@ -34,14 +34,6 @@ const choices = (f: Filter): string[] => [...new Set(research.flatMap((v) => val
 
 const verdicts = research.filter((v) => v.folder === "verdicts").length;
 const concepts = research.length - verdicts;
-
-// A queued file's name is <date>-<host>-<hash>.md (lib/research.ts queueName): the host and
-// the day are read from it, so the list costs one read of the folder.
-const QUEUED = /^(\d{4}-\d{2}-\d{2})-(.+)-[0-9a-f]{6}\.md$/;
-const queued = (name: string) => {
-  const m = QUEUED.exec(name);
-  return m ? { day: m[1]!, host: m[2]! } : { day: "", host: name };
-};
 
 // The rows. On the phone a file is one card: the name, then the kind, the verdict and the
 // tier, then the use; the recheck and the date are for the desk.
@@ -87,7 +79,7 @@ export default async function Research({ searchParams }: { searchParams: Search 
   const meta = [
     `${verdicts} verdicts`,
     `${concepts} concepts`,
-    waiting.ok ? `${waiting.files.length} queued` : "queue not read",
+    waiting.ok ? `${waiting.links.length} queued` : "queue not read",
   ].join(" · ");
   return (
     <>
@@ -107,24 +99,20 @@ export default async function Research({ searchParams }: { searchParams: Search 
         </div>
         {!waiting.ok ? (
           <p className="text-ui text-muted-foreground">{waiting.reason}</p>
-        ) : waiting.files.length === 0 ? (
+        ) : waiting.links.length === 0 ? (
           <Empty className="py-4">Nothing waits. A link shared to Desk or pasted below lands here.</Empty>
         ) : (
           <ul className="divide-y border-y">
-            {waiting.files.map((f) => {
-              const { day, host } = queued(f.name);
-              return (
-                <li key={f.name}>
-                  <a
-                    href={f.url}
-                    className="flex min-h-row flex-wrap items-baseline gap-x-3 py-1.5 text-ui hover:underline"
-                  >
-                    <span className="font-mono text-meta">{host}</span>
-                    {day && <span className="font-mono text-meta tabular-nums text-muted-foreground">{day}</span>}
-                  </a>
-                </li>
-              );
-            })}
+            {waiting.links.map((l) => (
+              <li key={l.name}>
+                <a href={l.url} className="group flex min-h-row flex-col justify-center gap-0.5 py-2 text-ui">
+                  <span className="font-semibold group-hover:underline">{l.title || l.host}</span>
+                  <span className="font-mono text-meta tabular-nums text-muted-foreground">
+                    {[l.host, l.captured].filter(Boolean).join(" · ")}
+                  </span>
+                </a>
+              </li>
+            ))}
           </ul>
         )}
         <Card>

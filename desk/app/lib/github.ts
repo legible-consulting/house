@@ -11,7 +11,8 @@ import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 //   account that owns DESK_PAT. The folder is the record from the merge on; "Check the PR"
 //   moves the row to handed off.
 // - The research queue: one file per link Jamie shares to the desk, written to main
-//   (writeFile), and the folder as it stands for /research (listFolder). lib/research.ts.
+//   (writeFile), and the folder as it stands for /research (listFolder, then readOnMain for
+//   each file). lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 // - The latest run of each house workflow, any status (houseRun): the sync pill says
 //   queued, running or done.
@@ -425,6 +426,15 @@ export async function existsOnMain(path: string): Promise<boolean> {
   if (r.status === 200) return true;
   if (r.status === 404) return false;
   fail(`read ${path}`, r);
+}
+
+// The text of a file on main. Throws with the words of read() when GitHub does not answer,
+// and on any answer but 200.
+export async function readOnMain(path: string): Promise<string> {
+  const r = await read(`/contents/${path}?ref=main`);
+  if (r.status !== 200) fail(`read ${path}`, r);
+  const content = typeof r.body.content === "string" ? r.body.content : "";
+  return Buffer.from(content, "base64").toString("utf8");
 }
 
 export type FolderRead = { ok: true; files: { name: string; url: string }[] } | { ok: false; reason: string };
