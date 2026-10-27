@@ -177,9 +177,13 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   links open it, and a bot must not fill the pool · 2026-10-25). A failed count, row or file
   is an error on the page, and the visitor can send again (why: nothing is thanked that is not
   in the house · 2026-10-26).
-- Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
-  blueprint drift, latest release and `check.yml` run), `/work` (three sections across every client repo and the house: On your desk, the ticket
-  cards whose next act is Jamie's, each with the act; Running, the other cards in flight,
+- Jamie's pages: `/` (one card per next client action, the glance's rows, grouped by urgency:
+  overdue, this week, later, no deadline; each card with Copy prompt, the words that start a
+  session on the house to do the action, with the record, the folder's files and the stage's
+  contract, `lib/actions.ts`; tiles that count the urgent actions and the open leads; the
+  clients table with each repo's blueprint drift, latest release and `check.yml` run; no
+  ticket and no step of Jamie's hand), `/work` (three sections across every client repo and the house: On your desk, the ticket
+  cards whose next act is Jamie's, each with the act, then Jamie's hand folded behind its count; Running, the other cards in flight,
   newest first; Projects, one row per repo, the house last, with its counts, its next ticket
   with the prompt to copy, and its board as the row's link; `?repo=<client>` redirects to the
   board), a project's board at

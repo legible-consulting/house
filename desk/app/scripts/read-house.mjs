@@ -1,6 +1,7 @@
 // Reads the house at build time and writes lib/house.json, which the pages import, so the
 // deployed function never touches the repo. Runs first in `npm run build`. What it reads:
-//   clients/*/record.md            frontmatter: the clients table, the glance, the close
+//   clients/*/record.md            frontmatter: the clients table, the glance, the close; the
+//                                   body and the folder's file list: the home's copied prompt
 //   clients/*/quote/economics.yaml  the engagement's economics (the quote): the price, the estimates,
 //                                   the actuals per month
 //   clients/*/{proposal/proposal.md, agreement/*.md, handover/*.md}
@@ -34,10 +35,14 @@ const split = (raw) => {
   const m = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
   return m ? { fm: parse(m[1]) ?? {}, body: m[2].trim() } : { fm: {}, body: raw.trim() };
 };
-const frontmatter = (raw) => split(raw).fm;
 const read = (...path) => readFileSync(join(...path), "utf8");
 const files = (dir, ext) =>
   existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(ext)).sort() : [];
+// Every file under a folder, as paths relative to it, sorted.
+const tree = (dir, at = "") =>
+  readdirSync(join(dir, at), { withFileTypes: true })
+    .flatMap((e) => (e.isDirectory() ? tree(dir, join(at, e.name)) : [join(at, e.name)]))
+    .sort();
 
 // A markdown file as { file, title, date, body, fm }: the body without the frontmatter, the
 // title from it. Links to a client record (../../clients/<slug>/record.md, as the files
@@ -101,8 +106,9 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
   .flatMap((d) => {
     const dir = join(clientsDir, d.name);
     let fm;
+    let notes;
     try {
-      fm = frontmatter(read(dir, "record.md"));
+      ({ fm, body: notes } = split(read(dir, "record.md")));
     } catch {
       return [];
     }
@@ -125,7 +131,9 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
         return { stage, ...d, body: noComments(d.body) };
       });
     const blueprint = fm.repo ? (blueprintOf.get(String(fm.repo)) ?? null) : null;
-    return [{ ...fm, slug, economics, documents, blueprint }];
+    // The record's body and the folder's files are for Jamie's copied prompt on / (lib/actions.ts),
+    // never for a client's page.
+    return [{ ...fm, slug, economics, documents, blueprint, notes, files: tree(dir) }];
   })
   .sort((a, b) => a.slug.localeCompare(b.slug));
 
