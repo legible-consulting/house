@@ -102,7 +102,7 @@
   /* An eyebrow and a table header: `text-micro uppercase tracking-eyebrow`. */
   --tracking-eyebrow: var(--tracking-eyebrow);
 
-  /* The sizes: `h-row`, `h-control`, `w-sidebar`, `px-gutter`, `max-w-content`. */
+  /* The sizes: `h-row`, `h-control`, `w-sidebar`, `px-gutter`, `max-w-content`, `max-w-auth`. */
   --spacing-row: var(--row);
   --spacing-control: var(--control);
   --spacing-control-sm: var(--control-sm);
@@ -118,6 +118,7 @@
   --spacing-safe-right: var(--safe-right);
   --container-content: var(--content-max);
   --container-reading: var(--reading-max);
+  --container-auth: var(--auth-max);
 
   /* The radii: `rounded-key`, `rounded-control`, `rounded-pane`. shadcn's scale sits on
      them, so `rounded-md` is 6 px and `rounded-lg` is 8 px in the vendored components. */
@@ -228,6 +229,7 @@
   --gutter: 1rem; /* 16 below md */
   --content-max: 70rem; /* 1120 */
   --reading-max: 45rem; /* 720, a document: the glance, a report, a client document */
+  --auth-max: 22.5rem; /* 360, the card of sign-in and the two password pages */
 
   /* ---- The phone's safe areas: the notch, the home indicator, a curved edge. The viewport
      reaches under them (viewport-fit=cover, app/layout.tsx); a shell piece pads the edge it
