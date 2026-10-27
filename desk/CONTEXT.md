@@ -269,5 +269,6 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   sheet is the one tap Jamie takes on the phone; a link that waits in a chat is a link lost ·
   2026-10-25).
 - Freshness: the sync pill. Each run and pull request shows its state with a link. A page
-  re-reads itself every 15 seconds while anything it shows is in flight.
+  re-reads itself in place every minute while anything it shows is in flight, and only
+  while its tab is shown: the scroll and an open ticket stay as they are.
 - Alerts: GitHub's failed-run mail, and the pill.

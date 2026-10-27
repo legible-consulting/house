@@ -314,10 +314,10 @@ export function startOf(q: Record<string, string | string[] | undefined>): Start
 export const since = (run: Run | null, start: Start | null): boolean =>
   start === null || (run !== null && Date.parse(run.created) >= start.at - CLOCK_MS);
 
-// The latest run of a house workflow, any status, from the cache when it is fresh: 15
-// seconds while the run is queued or running, 5 minutes when it is done, 1 minute after a
-// failed read. While a start Jamie made on this workflow is followed (`start`), the read is
-// at most 15 seconds old as well, so the new run shows as soon as GitHub lists it.
+// The latest run of a house workflow, any status, from the cache when it is fresh: 1 minute
+// while the run is queued or running, 5 minutes when it is done, 1 minute after a failed
+// read. While a start Jamie made on this workflow is followed (`start`), the read is at most
+// 1 minute old as well, so the new run shows on the next re-read after GitHub lists it.
 export function houseRun(file: WorkflowFile, start: Start | null = null): Promise<RunRead> {
   const now = Date.now();
   const maxAge = start?.file === file ? FLIGHT_MS : Infinity;

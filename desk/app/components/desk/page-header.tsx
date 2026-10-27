@@ -6,7 +6,9 @@ import { Sync } from "@/app/_sync";
 import { Button } from "@/components/ui/button";
 import { BUILD_IS_COMMIT, deployInFlight, houseInFlight, WORKFLOWS, type Start } from "@/lib/github";
 import type { DeskUser } from "@/lib/pool";
+import { FLIGHT_MS } from "@/lib/repos";
 import { cn } from "@/lib/utils";
+import { Refresher } from "./refresher";
 
 // The page header: the first child of every page in the shell, sticky at the top of the
 // content. A back link on the leading edge when the page is a detail, the title on one line
@@ -14,17 +16,18 @@ import { cn } from "@/lib/utils";
 // actions on the trailing edge, then the sync pill for Jamie (app/_sync.tsx) and, below md,
 // sign out for a client, whose shell has no tab bar. The page renders it, so the promises the
 // page makes stay with the page: `live` says what it shows that may be in flight, `start` a
-// run Jamie started from the pill, and the header renders the refresh tag from them.
+// run Jamie started from the pill, and the header renders the re-read from them.
 
-// The page re-reads itself every 15 seconds while anything it shows is in flight: a run
-// queued or running, a pull request with a run on its head, a push to main not deployed
-// yet. Nothing is rendered when nothing is. React hoists the tag into <head>, and a browser
-// acts on it wherever it lands, so a slow read streams it in later. No script: it works on
-// the phone and in a tab left open.
+// The page re-reads itself every minute (FLIGHT_MS, lib/repos.ts) while anything it shows is
+// in flight: a run queued or running, a pull request with a run on its head, a push to main
+// not deployed yet. Nothing is rendered when nothing is, and the re-read stops. The re-read
+// is in place (refresher.tsx), and only while the tab is shown (why: a full reload put Jamie
+// back at the top of the page and closed the open ticket, and open tabs spent the GitHub
+// rate limit · 2026-10-27).
 async function Reload({ checks }: { checks: Promise<boolean>[] }) {
   const flags = await Promise.all(checks.map((c) => c.catch(() => false)));
   if (!flags.some(Boolean)) return null;
-  return <meta httpEquiv="refresh" content="15" />;
+  return <Refresher seconds={FLIGHT_MS / 1000} />;
 }
 
 export function PageHeader({
