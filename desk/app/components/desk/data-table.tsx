@@ -12,7 +12,9 @@ import { Empty } from "./empty";
 // at every width: the last cell from md, the foot of the card on the phone, on the trailing
 // edge and above the card's link. When a row has a link, the whole card is its target on the
 // phone; from md the title is. A `foot` is a total row for the desk only: the phone reads the
-// totals elsewhere on the page. No rows renders the empty pattern, never an empty row.
+// totals elsewhere on the page. A `line` is the cell's second line: a sentence in body text
+// under the value, clamped to two lines (desk/app/DESIGN.md, rule 7). No rows renders the
+// empty pattern, never an empty row.
 
 type Phone = "title" | "show" | "meta" | "hide" | "action";
 
@@ -23,6 +25,7 @@ export interface Column<Row> {
   phone?: Phone; // the cell's place in the card; show by default
   className?: string; // on the cell
   cell: (row: Row) => ReactNode;
+  line?: (row: Row) => ReactNode; // the second line, under the value
 }
 
 const PHONE: Record<Phone, string> = {
@@ -78,6 +81,7 @@ export function DataTable<Row>({
                 {columns.map((c, i) => {
                   const phone = c.phone ?? "show";
                   const value = c.cell(row);
+                  const line = c.line?.(row);
                   return (
                     <TableCell
                       key={c.key}
@@ -98,6 +102,9 @@ export function DataTable<Row>({
                         <span className="max-md:font-semibold">{value}</span>
                       ) : (
                         value
+                      )}
+                      {line && (
+                        <span className="line-clamp-2 whitespace-normal text-body text-muted-foreground">{line}</span>
                       )}
                     </TableCell>
                   );
