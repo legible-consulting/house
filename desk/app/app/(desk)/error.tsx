@@ -15,7 +15,7 @@ export default function DeskError({ error, reset }: { error: Error & { digest?: 
   }, [error, pathname]);
   return (
     <>
-      <header className="sticky top-0 z-20 -mx-gutter mb-6 flex min-h-page-header items-center border-b bg-background px-gutter pt-[env(safe-area-inset-top)]">
+      <header className="sticky top-0 z-20 -mx-gutter mb-6 flex min-h-page-header items-center border-b bg-background px-gutter pt-safe-top">
         <div className="min-w-0 py-1.5">
           <h1 className="truncate text-title">The page did not render</h1>
           <p className="truncate font-mono text-meta text-muted-foreground">

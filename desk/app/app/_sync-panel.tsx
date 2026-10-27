@@ -58,7 +58,7 @@ export function SyncPanel({ word, dot, children }: { word: string; dot: string; 
         <DrawerHeader>
           <DrawerTitle>Sync</DrawerTitle>
         </DrawerHeader>
-        <div className="grid gap-3 overflow-y-auto p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] text-body">{children}</div>
+        <div className="grid gap-3 overflow-y-auto p-4 pb-[calc(1rem+var(--safe-bottom))] text-body">{children}</div>
       </DrawerContent>
     </Drawer>
   );

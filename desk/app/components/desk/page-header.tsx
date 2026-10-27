@@ -58,7 +58,7 @@ export function PageHeader({
       )}
       <header
         className={cn(
-          "sticky top-0 z-20 -mx-gutter mb-6 flex min-h-page-header items-center gap-2 border-b bg-background px-gutter pt-[env(safe-area-inset-top)]",
+          "sticky top-0 z-20 -mx-gutter mb-6 flex min-h-page-header items-center gap-2 border-b bg-background px-gutter pt-safe-top",
           className,
         )}
       >

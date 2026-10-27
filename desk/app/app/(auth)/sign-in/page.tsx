@@ -53,10 +53,12 @@ export default async function SignIn({ searchParams }: { searchParams: Search })
             </Button>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex-col items-start gap-2">
           <a href="/forgot-password" className="text-sm text-muted-foreground hover:text-foreground">
             Forgot your password?
           </a>
+          {/* The desk installs from the browser's menu; it never asks (desk/CONTEXT.md, The phone). */}
+          <p className="text-sm text-muted-foreground">On a phone, add this page to the Home Screen.</p>
         </CardFooter>
       </Card>
     </>

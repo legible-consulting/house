@@ -121,7 +121,7 @@ function Sidebar({ links, user }: { links: Destination[]; user: ShellUser | null
   const pathname = usePathname();
   const current = currentOf(pathname, links);
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 hidden w-sidebar flex-col border-r bg-sidebar text-sidebar-foreground md:flex">
+    <aside className="fixed inset-y-0 left-0 z-30 hidden w-[calc(var(--sidebar-width)+var(--safe-left))] flex-col border-r bg-sidebar pl-safe-left text-sidebar-foreground md:flex">
       <div className="flex h-page-header shrink-0 items-center gap-2.5 border-b px-4">
         <Mark />
         <span className="text-heading">Desk</span>
@@ -170,7 +170,7 @@ function More({ links, user }: { links: Destination[]; user: ShellUser }) {
             </ul>
           </nav>
         )}
-        <Who user={user} className="border-t p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]" />
+        <Who user={user} className="border-t p-4 pb-[calc(1rem+var(--safe-bottom))]" />
       </DrawerContent>
     </Drawer>
   );
@@ -182,7 +182,7 @@ function TabBar({ links, user }: { links: Destination[]; user: ShellUser }) {
   return (
     <nav
       aria-label="Desk"
-      className="fixed inset-x-0 bottom-0 z-30 flex h-[calc(var(--tab-bar)+env(safe-area-inset-bottom))] border-t bg-sidebar pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 flex h-[calc(var(--tab-bar)+var(--safe-bottom))] border-t bg-sidebar pr-safe-right pb-safe-bottom pl-safe-left md:hidden"
     >
       {links.slice(0, TABS).map((d) => (
         <NavLink key={d.href} d={d} current={current} className={TAB} icon="size-5" />
@@ -204,7 +204,12 @@ export function Shell({ user, children }: { user: ShellUser | null; children: Re
         Skip to content
       </a>
       <Sidebar links={links} user={user} />
-      <div className={cn("md:pl-sidebar", tabs && "pb-[calc(var(--tab-bar)+env(safe-area-inset-bottom))] md:pb-0")}>
+      <div
+        className={cn(
+          "pr-safe-right pl-safe-left md:pl-[calc(var(--sidebar-width)+var(--safe-left))]",
+          tabs && "pb-[calc(var(--tab-bar)+var(--safe-bottom))] md:pb-0",
+        )}
+      >
         <main id="content" className="mx-auto w-full max-w-content px-gutter pb-8">
           {children}
         </main>
