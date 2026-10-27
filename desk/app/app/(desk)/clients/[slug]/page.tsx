@@ -114,8 +114,8 @@ export default async function Client({
       <div className="grid gap-6">
         <Card>
           <CardHeader>
-            <CardTitle role="heading" aria-level={2}>
-              Where it stands
+            <CardTitle>
+              <h2>Where it stands</h2>
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -126,8 +126,8 @@ export default async function Client({
         {c.repo && (
           <Card>
             <CardHeader>
-              <CardTitle role="heading" aria-level={2}>
-                Release and checks
+              <CardTitle>
+                <h2>Release and checks</h2>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -139,8 +139,8 @@ export default async function Client({
         {c.repo && (
           <Card>
             <CardHeader>
-              <CardTitle role="heading" aria-level={2}>
-                Work
+              <CardTitle>
+                <h2>Work</h2>
               </CardTitle>
             </CardHeader>
             <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>

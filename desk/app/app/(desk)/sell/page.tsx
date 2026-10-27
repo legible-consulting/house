@@ -60,15 +60,16 @@ const angle = (p: Pitch) => p.title.split(" · ")[0];
 
 // The card grid: one card per section of a file, the intro across the row. One column on the
 // phone, two from sm. `level` is the cards' heading level under the section's.
-function Sections({ list, level = 3 }: { list: { title: string; html: string }[]; level?: number }) {
+function Sections({ list, level = 3 }: { list: { title: string; html: string }[]; level?: 3 | 4 }) {
+  const Heading = level === 4 ? "h4" : "h3";
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {list.map((s, i) => (
         <Card key={i} className={cn(!s.title && "sm:col-span-2")}>
           {s.title && (
             <CardHeader>
-              <CardTitle role="heading" aria-level={level}>
-                {s.title}
+              <CardTitle>
+                <Heading>{s.title}</Heading>
               </CardTitle>
             </CardHeader>
           )}
@@ -168,8 +169,10 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
             return (
               <Card key={t}>
                 <CardHeader>
-                  <CardTitle role="heading" aria-level={3}>
-                    <span className="font-mono tabular-nums">{t}</span> · {angle(drafts[0]!)}
+                  <CardTitle>
+                    <h3>
+                      <span className="font-mono tabular-nums">{t}</span> · {angle(drafts[0]!)}
+                    </h3>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className={cn("grid gap-6", !lang && "lg:grid-cols-3")}>

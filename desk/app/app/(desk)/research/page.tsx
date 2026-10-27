@@ -129,8 +129,8 @@ export default async function Research({ searchParams }: { searchParams: Search 
         )}
         <Card>
           <CardHeader>
-            <CardTitle role="heading" aria-level={3}>
-              Queue a link
+            <CardTitle>
+              <h3>Queue a link</h3>
             </CardTitle>
             <CardDescription>The file goes to research/queue/ on main. The desk judges nothing.</CardDescription>
           </CardHeader>
