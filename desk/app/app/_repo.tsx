@@ -81,7 +81,7 @@ function Check({ s, jamie }: { s: Ok; jamie: boolean }) {
     <span className="inline-flex flex-wrap items-center gap-2">
       <RunState run={s.latest} jamie={jamie} />
       {inFlight(s.latest) && s.check && (
-        <span className="text-xs text-muted-foreground">
+        <span className="text-meta text-muted-foreground">
           last <RunState run={s.check} jamie={jamie} />
         </span>
       )}
@@ -159,5 +159,5 @@ export function RepoFacts({ repo, jamie }: { repo: string; jamie: boolean }) {
 // "read N seconds ago" for a list read at `at` (epoch ms).
 export function ReadAgo({ at }: { at: number }): ReactNode {
   const seconds = Math.max(0, Math.round((Date.now() - at) / 1000));
-  return <span className="text-xs text-muted-foreground">read {seconds} seconds ago</span>;
+  return <span className="font-mono text-meta text-muted-foreground">read {seconds} seconds ago</span>;
 }

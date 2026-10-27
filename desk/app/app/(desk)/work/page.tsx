@@ -1,18 +1,28 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
 import { flash, type Search } from "@/lib/guard";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
-import { cn } from "@/lib/utils";
-import { isStateFilter, NextUp, RepoTickets, STATE_FILTERS, WaitingOnYou, withRepo } from "@/app/_work";
+import { FilterGroup } from "@/app/_filters";
+import {
+  isStateFilter,
+  NextUp,
+  RepoTickets,
+  STATE_FILTERS,
+  TicketCount,
+  WaitingOnYou,
+  withRepo,
+} from "@/app/_work";
 
 // Jamie's work view: every client repo's tickets (.icm/intake/ on the default branch) and
 // pull requests, read per request (lib/work.ts). First what waits on Jamie across the repos,
 // with the gate to tick (lib/gates.ts). Then the next ticket per repo with its prompt to
 // copy. Then every ticket, one row each, by repo, under a state filter (?state=) and a repo
-// filter (?repo=); a row opens on the stub's text and its prompt. Each repo streams in on its
-// own. The page re-reads itself while a pull request's run or a deploy is in flight
+// filter (?repo=), each a toggle group; a row opens on the stub's text and its prompt. Each
+// repo streams in on its own. The header's quiet line counts the repos read and their open
+// tickets. The page re-reads itself while a pull request's run or a deploy is in flight
 // (components/desk/page-header.tsx).
 export const dynamic = "force-dynamic";
 
@@ -32,60 +42,52 @@ export default async function Work({ searchParams }: { searchParams: Search }) {
     const s = params.toString();
     return `/work${s ? `?${s}` : ""}`;
   };
-  const chip = (active: boolean) =>
-    cn(
-      "rounded-full border px-3 py-1 text-xs",
-      active ? "border-foreground bg-foreground text-background" : "text-muted-foreground hover:text-foreground",
-    );
   return (
     <>
       <PageHeader
         user={user}
         title="Work"
-        meta={`${withRepo.length} repos`}
+        meta={
+          <Suspense fallback={`${withRepo.length} repos`}>
+            <TicketCount />
+          </Suspense>
+        }
         live={withRepo.map((c) => workInFlight(c.repo))}
       />
-      <p className="mb-4 text-body text-muted-foreground">
+      <Flash error={error} note={note} />
+      <p className="mb-6 max-w-reading text-body text-muted-foreground">
         The tickets in each repo&apos;s .icm/intake/ on its default branch and the open pull requests, read from GitHub
         now. A ticket starts in a session with its prompt; a tick writes the pull request&apos;s body.
       </p>
-      <Flash error={error} note={note} />
-      <h2 className="mb-3 text-base font-medium">Waiting on you</h2>
+      <h2 className="mb-3 text-heading">Waiting on you</h2>
       <div className="mb-8">
         <WaitingOnYou />
       </div>
-      <h2 className="mb-3 text-base font-medium">Next up</h2>
+      <h2 className="mb-3 text-heading">Next up</h2>
       <div className="mb-8">
         <NextUp />
       </div>
-      <h2 className="mb-3 text-base font-medium">Tickets</h2>
-      <nav className="mb-4 flex flex-wrap gap-2" aria-label="Ticket filters">
-        {STATE_FILTERS.map(([k, label]) => (
-          <a key={k} href={href(k, repo)} aria-current={filter === k ? "true" : undefined} className={chip(filter === k)}>
-            {label}
-          </a>
-        ))}
-        <span className="mx-1 text-muted-foreground">·</span>
-        <a href={href(filter, "")} aria-current={repo === "" ? "true" : undefined} className={chip(repo === "")}>
-          Every repo
-        </a>
-        {withRepo.map((c) => (
-          <a
-            key={c.slug}
-            href={href(filter, c.slug)}
-            aria-current={repo === c.slug ? "true" : undefined}
-            className={chip(repo === c.slug)}
-          >
-            {c.name ?? c.slug}
-          </a>
-        ))}
-      </nav>
+      <h2 className="mb-3 text-heading">Tickets</h2>
+      <div className="mb-6 grid gap-2">
+        <FilterGroup
+          label="Ticket state"
+          value={filter}
+          items={STATE_FILTERS.map(([k, label]) => ({ value: k, label, href: href(k, repo) }))}
+        />
+        <FilterGroup
+          label="Repo"
+          value={repo || "every"}
+          items={[
+            { value: "every", label: "Every repo", href: href(filter, "") },
+            ...withRepo.map((c) => ({ value: c.slug, label: c.name ?? c.slug, href: href(filter, c.slug) })),
+          ]}
+        />
+      </div>
       <div className="grid gap-8">
         {shown.map((c) => (
           <RepoTickets key={c.slug} client={c} filter={filter} />
         ))}
       </div>
-      <p className="mt-4 text-xs text-muted-foreground">{withRepo.length} repos.</p>
     </>
   );
 }

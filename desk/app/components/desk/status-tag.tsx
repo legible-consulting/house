@@ -2,12 +2,14 @@ import { Check } from "lucide-react";
 import type { ReactNode } from "react";
 import type { Status } from "@/lib/pool";
 import { daysBetween } from "@/lib/rhythms";
+import type { StubState } from "@/lib/work";
 import { cn } from "@/lib/utils";
 
 // A state is a mark plus its name: an 8 px dot, a hollow ring or a 12 px check, and the
 // state's name in mono meta, sentence case. The mark is hidden from a reader; the name is the
 // text. Colour draws the mark and, where the table says so, the name. The same tag carries
-// the pool's statuses (lib/pool.ts) and the research verdicts (research/CONTEXT.md).
+// the pool's statuses (lib/pool.ts), the research verdicts (research/CONTEXT.md) and a
+// ticket's state on /work (lib/work.ts).
 
 interface Look {
   mark: "dot" | "ring" | "check";
@@ -29,6 +31,12 @@ const VERDICT: Record<string, Look> = {
   adopt: { mark: "check", colour: "text-success" },
   watch: { mark: "dot", colour: "bg-warning", text: "text-warning-text" },
   decline: { mark: "dot", colour: "bg-border", text: "text-muted-foreground" },
+};
+const TICKET: Record<StubState, Look> = {
+  next: { mark: "dot", colour: "bg-foreground", text: "font-semibold" },
+  running: { mark: "ring", colour: "border-foreground" },
+  blocked: { mark: "dot", colour: "bg-destructive", text: "text-destructive" },
+  queued: { mark: "ring", colour: "border-muted-foreground", text: "text-muted-foreground" },
 };
 const UNKNOWN: Look = { mark: "ring", colour: "border-muted-foreground", text: "text-muted-foreground" };
 
@@ -63,6 +71,16 @@ export function VerdictTag({ verdict, className }: { verdict: string; className?
   return (
     <Tag look={VERDICT[verdict] ?? UNKNOWN} className={className}>
       {verdict || "none"}
+    </Tag>
+  );
+}
+
+// A ticket's state. `children` replaces the name when the state has more to say ("running
+// in #12").
+export function TicketTag({ state, className, children }: { state: StubState; className?: string; children?: ReactNode }) {
+  return (
+    <Tag look={TICKET[state]} className={className}>
+      {children ?? state}
     </Tag>
   );
 }
