@@ -11,16 +11,11 @@ The result is thirteen units. Twelve change the blueprint or `legible-consulting
 
 ### Questions for Jamie
 
-1. Is `database` asked only when `uat` is yes? Default: yes. A preview without a UAT database would read production or a copy of it. A `uat: no` build with a database keeps its own migration workflow, as vinecliff does.
-2. Does the Neon branch for a preview carry UAT's data, not the schema only? Default: yes. UAT holds test data only.
-3. On a `uat: no` build, does the session merge the release pull request on Jamie's word `release`? Default: yes. The merge makes the tag and the changelog and moves nothing.
-4. Are `merge.sh` and `release.sh` the sanctioned merge path, with `confirm-git-writes.sh` unchanged? Default: yes. The `gate` check is the guard GitHub enforces.
-5. The epic's place in `README.md § Order`? Default: after `triage`, before `desk-restyle`. The classification:
+Answered on 2026-10-27, and written into the decisions below: the order (`desk-restyle`, `triage`, `blueprint-pipeline`, in `README.md § Order`), a preview's Neon branch carries UAT's data, the session merges the release pull request on Jamie's word `release` on a `uat: no` build, and `merge.sh` and `release.sh` are the merge path with `confirm-git-writes.sh` unchanged.
 
-   | Epic | Open | P0 | Serves | Links | Files |
-   |---|---|---|---|---|---|
-   | `blueprint-pipeline` | 13 | 2 | the test week on the blueprint, then `copier update` on the four live repos (Jamie's hand) | none | `blueprint/template/**`, `blueprint/.github/workflows/check.yml`, `.github/.github/workflows/check-client.yml`, the house's `07-build`, `core`, `06-kickoff` |
-   | `desk-restyle` | 9 | 0 | the desk on the phone | none | `desk/app/**` |
+One question is open:
+
+1. Does a UAT build always have the two databases, so that no `database` question is asked and the UAT answer alone renders `preview-db.sh`, `preview-db.yml` and `neon-cleanup.yml`? Default: yes. Jamie's note of 2026-10-27 says a UAT build has a production database and a UAT database. Then `migrations_path` is the one question left, asked when `uat` is yes, default `migrations`. A `uat: no` build renders no database tooling and keeps its own migration workflow, as vinecliff does. Unit 8 carries the answer.
 
 ## Decisions of record
 
@@ -30,6 +25,9 @@ Fixed for the whole epic:
 - **The vocabulary is the house's.** Epic, stub, triage stub, lane, gate, as `core/lexicon.md` and the blueprint's `intake/CONTEXT.md` define them. Never `scope` for an epic, never `run`, never `claude/<slug>` for a branch.
 - **Every rendered file is the blueprint's, byte for byte**, except the written-once list in `copier.yml`. A contract carries no repo's name and no placeholder. What a file needs to know about one repo it reads at run time (why: a copy that is exact makes `copier update` and the conformance report honest · the legacy's one rule that held).
 - **Sessions merge after the tick, in client repos, from `v1.0.0`.** The house and the blueprint keep "Jamie merges" until then. The human gates in a client repo are four: Spec approved (a tick), Ready to merge (a tick), the client's sign-off (`promote.sh approve --by`, on Jamie's word in the session), `release` (Jamie's word in the session) (why: Jamie ticks from the phone and the session does the mechanics · Jamie, 2026-10-27).
+- **A preview's Neon branch carries UAT's data**, not the schema only. UAT holds test data only (why: a tester continues on the rows they made · Jamie, 2026-10-27).
+- **On a `uat: no` build the session merges the release pull request on Jamie's word `release`.** The merge makes the tag and the changelog and moves nothing (Jamie, 2026-10-27).
+- **`merge.sh` and `release.sh` are the merge path.** `confirm-git-writes.sh` stays as it is, and a bare `gh pr merge` still asks. The `gate` check is the guard GitHub enforces (Jamie, 2026-10-27).
 - **The three guards stay byte-identical with the house.** `check.yml`'s `guards` job in the house compares them. New hooks are build-only, rendered behind `{% if not workspace %}`.
 - **Technical text in Simplified Technical English**, under the vendored `asd-ste100` skill, STE-flavored mode. A sentence of 20 words or fewer. Active voice. One instruction per sentence. No semicolons.
 - **`check.yml` in the blueprint is the proof.** A unit that adds a rendered file adds its `need` and `never` lines. A unit that adds a hook adds it to the shellcheck set. The update proof (unit 9) gates the tag.

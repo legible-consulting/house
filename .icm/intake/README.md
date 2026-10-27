@@ -17,13 +17,11 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 
 ## Order
 
-Set by Jamie on 2026-10-25; the last two swapped by Jamie on 2026-10-26.
+Set by Jamie on 2026-10-27. The three epics that hold no open stub (`house-modules`, `render-and-publish`, `desk-forms`) wait for their close-out and carry no line.
 
-1. triage
-2. house-modules
-3. render-and-publish
-4. desk-restyle
-5. desk-forms
+1. desk-restyle
+2. triage
+3. blueprint-pipeline
 
 ## Milestones
 
