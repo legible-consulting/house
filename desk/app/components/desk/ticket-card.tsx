@@ -16,6 +16,8 @@ import { StepTrack } from "./track";
 // its link with a ::after that covers the card, and each control of the strip sits above it
 // with `relative z-10`, as the data table's action cell does. The card takes no hover wash:
 // red words fall below 4.5:1 on the wash in dark (globals.css). `compact` hides the meta line.
+// `current` marks the card of the page it sits on: an ink edge, "this ticket" in mono, and
+// `aria-current` on the title. `back` is the page a tick returns to (lib/gates.ts), /work when absent.
 
 const LABEL: Record<GateName, string> = { "spec-approved": "Spec approved", "ready-to-merge": "Ready to merge" };
 const ABOVE = "relative z-10";
@@ -35,7 +37,7 @@ export const metaOf = (s: Stub): string =>
 const CI_WORD: Record<Ci, string> = { green: "CI green", red: "CI red", pending: "CI pending", none: "no CI" };
 
 // The CI word in mono meta, linked to the run it comes from. Red is red words in 600.
-function CiWord({ pr }: { pr: Pr }) {
+export function CiWord({ pr }: { pr: Pr }) {
   const cls = cn("font-mono text-meta whitespace-nowrap", pr.ci === "red" && "font-semibold text-destructive");
   if (!pr.run?.url) return <span className={cls}>{CI_WORD[pr.ci]}</span>;
   return (
@@ -46,7 +48,8 @@ function CiWord({ pr }: { pr: Pr }) {
 }
 
 // The pull request's next act, when it is Jamie's: the gate to tick, or the merge on GitHub.
-export function NextAct({ repo, p, className }: { repo: string; p: Pr; className?: string }) {
+// `back` is the page the tick returns to.
+export function NextAct({ repo, p, back, className }: { repo: string; p: Pr; back?: string; className?: string }) {
   if (p.waiting === "merge") {
     return (
       <a href={p.url} className={cn(buttonVariants({ size: "sm", variant: "outline" }), className)}>
@@ -56,7 +59,7 @@ export function NextAct({ repo, p, className }: { repo: string; p: Pr; className
   }
   if (!p.waiting) return null;
   return (
-    <form action={tickGate.bind(null, repo, p.number, p.waiting)} className={className}>
+    <form action={tickGate.bind(null, repo, p.number, p.waiting, back)} className={className}>
       <Button type="submit" size="sm">
         Tick {LABEL[p.waiting]}
       </Button>
@@ -70,6 +73,8 @@ export function TicketCard({
   stub,
   pr,
   compact = false,
+  current = false,
+  back,
   className,
 }: {
   client: string; // the client folder's slug, or `house`
@@ -77,16 +82,25 @@ export function TicketCard({
   stub: Stub;
   pr?: Pr | null; // the open pull request matched to the stub
   compact?: boolean;
+  current?: boolean; // the card of the ticket whose page this is
+  back?: string; // the page a tick returns to
   className?: string;
 }) {
   return (
-    <article className={cn("relative grid gap-0.5 rounded-pane border bg-card px-3 py-1.5", className)}>
+    <article
+      className={cn(
+        "relative grid gap-0.5 rounded-pane border bg-card px-3 py-1.5",
+        current && "border-foreground",
+        className,
+      )}
+    >
       <div className="flex min-h-row items-start gap-2 py-1 text-ui">
         <span className="flex h-lh shrink-0 items-center">
           <TicketMark state={stub.state} />
         </span>
         <Link
           href={ticketHref(client, stub)}
+          aria-current={current ? "page" : undefined}
           className={cn(
             "min-w-0 flex-1 after:absolute after:inset-0 after:rounded-pane hover:underline",
             stub.state === "next" && "font-semibold",
@@ -94,6 +108,7 @@ export function TicketCard({
         >
           <span className="line-clamp-2">{stub.title}</span>
         </Link>
+        {current && <span className="shrink-0 font-mono text-meta text-muted-foreground">this ticket</span>}
       </div>
       {!compact && <p className="truncate pl-4 font-mono text-meta text-muted-foreground">{metaOf(stub)}</p>}
       {stub.state === "blocked" && stub.blocked && (
@@ -116,7 +131,7 @@ export function TicketCard({
                 Preview
               </a>
             )}
-            <NextAct repo={repo} p={pr} className={ABOVE} />
+            <NextAct repo={repo} p={pr} back={back} className={ABOVE} />
           </div>
         </div>
       )}

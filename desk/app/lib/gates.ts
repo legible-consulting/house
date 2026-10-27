@@ -10,11 +10,17 @@ import { dropWork, gateOf, ReadFailed, request, tickedBody, tokenOrReason, type 
 // write on the owner's token. A 403 or 404 means the token is read-only: the sentence names
 // the variable and the pull request, and Jamie ticks on GitHub. Only the jamie role may call
 // it: a gate is where Jamie's judgement enters, and nothing else ticks one.
+//
+// `to` is the page that called it, bound by the form: the action returns there. A form that
+// binds three arguments passes its FormData here, and the action returns to /work. Only a
+// path of the desk's own work and client pages is kept, so no form sends Jamie off the desk.
 
 const LABEL: Record<GateName, string> = { "spec-approved": "Spec approved", "ready-to-merge": "Ready to merge" };
 const isGate = (v: unknown): v is GateName => v === "spec-approved" || v === "ready-to-merge";
+const BACK_RE = /^\/(work|clients)(\/[a-z0-9-]+)*$/;
 
-export async function tickGate(repo: string, number: number, gate: GateName): Promise<void> {
+export async function tickGate(repo: string, number: number, gate: GateName, to?: unknown): Promise<void> {
+  const path = typeof to === "string" && BACK_RE.test(to) ? to : "/work";
   let error = "";
   let note = "";
   try {
@@ -51,9 +57,10 @@ export async function tickGate(repo: string, number: number, gate: GateName): Pr
     dropWork(repo);
     revalidatePath("/work");
     revalidatePath("/clients/[slug]", "page");
+    if (path !== "/work") revalidatePath(path);
   } catch (e) {
     error = e instanceof ReadFailed || e instanceof Error ? e.message : String(e);
   }
-  if (error) back("/work", { error });
-  back("/work", { note });
+  if (error) back(path, { error });
+  back(path, { note });
 }
