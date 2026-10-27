@@ -637,6 +637,62 @@ export function dropWork(repo: string): void {
 export const workInFlight = (repo: string): Promise<boolean> =>
   repoWork(repo).then((w) => w.prs.some((p) => inFlight(p.run)));
 
+// --- The steps, the path and the summary --------------------------------------------------
+
+// A ticket's walk through its pull request (desk/app/DESIGN.md, the five steps): spec, build,
+// check, ready, merge. A step is done when spec: Spec approved is ticked or not required;
+// build: the pull request is not a draft; check: CI is green; ready: Ready to merge is ticked
+// or not required; merge: the pull request is merged. The current step is the first step not
+// done. A ticket with no pull request has no step: its state is its column.
+export type Step = "spec" | "build" | "check" | "ready" | "merge";
+export const STEPS: readonly Step[] = ["spec", "build", "check", "ready", "merge"];
+
+const passed = (g: GateState) => g !== "open";
+
+// The current step of an open pull request, or `done` for a merged one: a merged pull
+// request leaves `prs` and enters `merged`.
+export function stepOf(pr: Pr | Merged): Step | "done" {
+  if (!("gates" in pr)) return "done";
+  if (!passed(pr.gates.specApproved)) return "spec";
+  if (pr.draft) return "build";
+  if (pr.ci !== "green") return "check";
+  if (!passed(pr.gates.readyToMerge)) return "ready";
+  return "merge";
+}
+
+// A ticket's page on the desk: its intake path under its project (DESIGN.md, rule 12).
+// `client` is the client folder's slug, or `house` for the house's own tickets.
+export function ticketHref(client: string, stub: Pick<Stub, "epic" | "slug">): string {
+  const parts = [client, stub.epic ?? "triage", stub.slug].map(encodeURIComponent);
+  return `/work/${parts.join("/")}`;
+}
+
+export interface Summary {
+  next: number;
+  running: number;
+  blocked: number;
+  queued: number;
+  waiting: number; // the pull requests whose next act is Jamie's
+  nextStub: Stub | null; // an epic's next, else the first queued triage stub
+}
+
+// A repo's work in counts, for a header's quiet line and a project row.
+export function summaryOf(w: RepoWork): Summary {
+  const stubs = [...w.epics.flatMap((e) => e.open), ...w.triage];
+  const count = (state: StubState) => stubs.filter((s) => s.state === state).length;
+  return {
+    next: count("next"),
+    running: count("running"),
+    blocked: count("blocked"),
+    queued: count("queued"),
+    waiting: w.waitingOnJamie.length,
+    nextStub:
+      w.epics.flatMap((e) => e.open).find((s) => s.state === "next") ??
+      w.triage.find((s) => s.state === "queued") ??
+      null,
+  };
+}
+
 // --- The start of a ticket ----------------------------------------------------------------
 
 // The words that start a ticket in a session, copied from the desk: the stub's own Prompt

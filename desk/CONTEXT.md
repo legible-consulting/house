@@ -101,6 +101,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Next.js on Vercel (`core/stack.md`), project `legible-desk`, `https://desk.jamienisbet.com`,
   deployed from `main` by the project's Git link (root directory `desk/app`), a preview per
   PR. `check.yml` builds it on every push.
+- Design: `app/DESIGN.md` holds the information rules (what a page shows first, the ticket
+  card, the track, the fold); `app/app/globals.css` holds the visual rules and the tokens.
 - Data: the house is read once, at build, by `app/scripts/read-house.mjs` (what it reads is
   listed at its top). The pool, the house workflow and the client repos are read per
   request. A page never reads the repo (why: a deployed function has no checkout; a push is
