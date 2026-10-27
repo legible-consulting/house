@@ -10,6 +10,11 @@ import type { FormField } from "@/lib/forms";
 // and /f/<token> (app/f/). A question posts as `q_<key>`; the error under it comes back from
 // the page's action, in the visitor's language. Every control is controlled by the page.
 
+// The ids a control names in `aria-describedby`, so a reader hears the hint and the error with it.
+export function describedBy(id: string, hint?: string | null, error?: string) {
+  return [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(" ") || undefined;
+}
+
 export function Row({
   id,
   label,
@@ -27,14 +32,18 @@ export function Row({
 }) {
   return (
     <div className="grid gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium">
+      <label htmlFor={id} className="text-ui">
         {label}
-        {optional && <span className="ml-2 text-xs font-normal text-muted-foreground">{optional}</span>}
+        {optional && <span className="ml-2 font-normal text-muted-foreground">{optional}</span>}
       </label>
-      {hint && <p className="text-xs text-muted-foreground">{hint}</p>}
+      {hint && (
+        <p id={`${id}-hint`} className="text-ui font-normal text-muted-foreground">
+          {hint}
+        </p>
+      )}
       {children}
       {error && (
-        <p id={`${id}-error`} className="text-sm text-destructive">
+        <p id={`${id}-error`} className="text-ui text-destructive">
           {error}
         </p>
       )}
@@ -56,7 +65,7 @@ export function Question({
   words: { choose: string; optional: string };
 }) {
   const id = `q_${field.key}`;
-  const a11y = { id, name: id, "aria-invalid": Boolean(error), "aria-describedby": error ? `${id}-error` : undefined };
+  const a11y = { id, name: id, "aria-invalid": Boolean(error), "aria-describedby": describedBy(id, field.hint, error) };
   const control =
     field.type === "textarea" ? (
       <Textarea {...a11y} rows={3} value={value} onChange={(e) => set(e.target.value)} />

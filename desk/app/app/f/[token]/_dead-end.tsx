@@ -7,14 +7,18 @@ export function DeadEnd({ kind, copy, email }: { kind: "invalid" | "answered"; c
   if (kind === "answered") {
     return (
       <Alert>
-        <AlertTitle>{copy.answeredTitle}</AlertTitle>
+        <AlertTitle>
+          <h1>{copy.answeredTitle}</h1>
+        </AlertTitle>
         <AlertDescription>{copy.answeredBody}</AlertDescription>
       </Alert>
     );
   }
   return (
     <Alert variant="destructive">
-      <AlertTitle>{copy.invalidTitle}</AlertTitle>
+      <AlertTitle>
+        <h1>{copy.invalidTitle}</h1>
+      </AlertTitle>
       <AlertDescription>
         <p>
           {copy.invalidBody}{" "}

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { cache } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import { linkById } from "@/lib/db";
 import { businessEmail } from "@/lib/house";
 import { formLanguageOf } from "@/lib/links";
@@ -49,17 +49,17 @@ export default async function SentLinkPage({ params }: { params: Params }) {
   const copy = COPY[language];
 
   return (
-    <div lang={language} className="mx-auto max-w-2xl px-4 py-8">
+    <div lang={language} className="mx-auto max-w-2xl px-gutter py-8">
       <Card>
         {link && !link.answered && (
           <CardHeader>
-            <CardTitle>{link.snapshot.title}</CardTitle>
+            <h1 className="text-title">{link.snapshot.title}</h1>
             {link.snapshot.intro && <CardDescription>{link.snapshot.intro}</CardDescription>}
           </CardHeader>
         )}
         <CardContent>
           {failed ? (
-            <p className="text-sm">{errorsOf(language).failed}</p>
+            <p className="text-body">{errorsOf(language).failed}</p>
           ) : !link ? (
             <DeadEnd kind="invalid" copy={copy} email={businessEmail} />
           ) : link.answered ? (
