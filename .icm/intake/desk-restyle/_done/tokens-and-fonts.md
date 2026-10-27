@@ -6,7 +6,6 @@
 - depends-on: none
 - complexity: medium
 - priority: P1
-- blocked: `house-modules/desk-process` is not merged (the breakdown's Build order). Remove this line when it is.
 
 ## Problem
 
@@ -69,12 +68,12 @@ Dark values:
 | `--background` | `oklch(0.235 0 0)` | ink is the canvas |
 | `--foreground`, `--primary` | `oklch(0.997 0.005 95)` | paper is the text and the tint |
 | `--primary-foreground` | `oklch(0.235 0 0)` | ink |
-| `--card`, `--popover`, `--sidebar` | `oklch(0.268 0.002 0)` | `#262625` |
-| `--secondary`, `--accent` | `oklch(0.293 0.002 0)` | `#2C2C2B` |
+| `--card`, `--popover`, `--sidebar` | `oklch(0.268 0.002 107)` | `#262625` |
+| `--secondary`, `--accent` | `oklch(0.293 0.002 107)` | `#2C2C2B` |
 | `--muted` | `oklch(0.205 0 0)` | `#171717` |
 | `--muted-foreground` | `oklch(0.629 0.007 97)` | `#8A8984`; 4.76:1 on ink |
 | `--foreground-2` | `oklch(0.782 0.008 99)` | `#B9B8B2`; 8.38:1 on ink |
-| `--border`, `--sidebar-border` | `oklch(0.325 0.002 0)` | `#343433` |
+| `--border`, `--sidebar-border` | `oklch(0.325 0.002 106)` | `#343433` |
 | `--input` | `oklch(0.390 0.003 107)` | `#454543` |
 | `--ring` | `oklch(0.997 0.005 95 / 40%)` | paper at 40% |
 | `--success` | `oklch(0.692 0.115 162)` | `#4FB286`; 6.39:1 on ink |
@@ -87,7 +86,7 @@ Type steps (desk size/line, weight, tracking; the touch step one notch up):
 
 | Step | Desk | Touch | Face | Used for |
 |---|---|---|---|---|
-| `title` | 24/30, 700, −0.02em | 28/34 | sans | the page title |
+| `title` | 22/28, 700, −0.02em | 28/34 | sans | the page title |
 | `heading` | 15/20, 600, −0.01em | 17/22 | sans | a section inside a page |
 | `body` | 14/22, 400 | 16/24 | sans | reading text, prose |
 | `ui` | 13/18, 500 | 15/20 | sans | rows, labels, controls, the base size |
@@ -101,8 +100,9 @@ Sizes and radii:
 
 | Variable | Desk | Touch |
 |---|---|---|
-| `--row` (a list row, a control, a button) | 32 px | 44 px |
-| `--control-sm` | 28 px | 44 px |
+| `--row` (a list row) | 32 px | 44 px |
+| `--control` (a button, an input, a select) | 30 px | 44 px |
+| `--control-sm` | 26 px | 44 px |
 | `--grid-row` (a data-table body row) | 40 px | 48 px |
 | `--grid-header` | 32 px | 44 px |
 | `--sidebar-width` | 208 px | same |
