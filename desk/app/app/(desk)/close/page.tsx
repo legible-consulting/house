@@ -1,15 +1,18 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation";
+import { DataTable, type Column } from "@/components/desk/data-table";
+import { Document } from "@/components/desk/document";
+import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
-import { Prose } from "@/components/desk/prose";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Stat, StatGrid } from "@/components/desk/stat";
+import { buttonVariants } from "@/components/ui/button";
+import { TableCell } from "@/components/ui/table";
 import { countsByStatus } from "@/lib/db";
-import type { Search } from "@/lib/guard";
+import { flash, type Search } from "@/lib/guard";
 import { clients, closeDocs } from "@/lib/house";
 import { STATUSES } from "@/lib/pool";
 import { STAGES, close, closeTotals, money, pipeline, today, type CloseRow } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
-import { cn } from "@/lib/utils";
 
 // The monthly close (desk/CONTEXT.md): every engaged client against its quote/economics.yaml,
 // the agreed price, the quote's estimate of the hours and the cost per month, and what is
@@ -19,6 +22,9 @@ import { cn } from "@/lib/utils";
 // the default is the current one. When rhythms.yml has committed desk/close/<that month>.md
 // (on the 1st, for the month that ended), the page renders that file and reads only the pool
 // live; otherwise, or with ?live=1, it computes the same rules live (lib/rhythms.ts).
+// The header names the month and steps to the one before and after it. The four totals lead
+// as tiles; the engagements are a table at the desk and one card per client on the phone; the
+// pipeline is two groups of tiles.
 export const dynamic = "force-dynamic";
 
 const MONTH_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
@@ -32,12 +38,46 @@ const label = (month: string): string =>
 
 const price = (r: CloseRow): string =>
   r.price === null ? "not set" : `${money(r.price, r.currency)} ${r.priceKind === "total" ? "total" : "/ month"}`;
+const amount = (n: number | null, currency: string): string => (n === null ? "—" : money(n, currency));
+const negative = (n: number | null) => (n !== null && n < 0 ? "text-destructive" : undefined);
+
+// The engagements. On the phone a client is one card: the name, then the kind and the price,
+// then the hours, the cost, the margin and the hourly rate, each under its label; the
+// commission is one more line only when the record owes one.
+const columns: Column<CloseRow>[] = [
+  { key: "client", label: "Client", phone: "title", cell: (r) => r.client.name ?? r.client.slug },
+  { key: "kind", label: "Kind", phone: "meta", cell: (r) => r.client.kind ?? "" },
+  {
+    key: "price",
+    label: "Price",
+    align: "end",
+    phone: "meta",
+    cell: (r) => <span className={r.price === null ? "text-muted-foreground" : undefined}>{price(r)}</span>,
+  },
+  { key: "hours", label: "Hours / month", align: "end", cell: (r) => (r.hours === null ? "—" : r.hours) },
+  { key: "cost", label: "Cost / month", align: "end", cell: (r) => amount(r.cost, r.currency) },
+  {
+    key: "margin",
+    label: "Margin / month",
+    align: "end",
+    cell: (r) => <span className={negative(r.margin)}>{amount(r.margin, r.currency)}</span>,
+  },
+  { key: "hourly", label: "Hourly", align: "end", cell: (r) => amount(r.hourly, r.currency) },
+  {
+    key: "commission",
+    label: "Commission owed",
+    align: "end",
+    className: "max-md:has-[[data-none]]:hidden",
+    cell: (r) => (r.commission === null ? <span data-none="">—</span> : money(r.commission, r.currency)),
+  },
+];
 
 export default async function Close({ searchParams }: { searchParams: Search }) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
   if (user.role !== "jamie") redirect("/");
   const q = await searchParams;
+  const { error, note } = await flash(searchParams);
   const month = typeof q.month === "string" && MONTH_RE.test(q.month) ? q.month : today().slice(0, 7);
   const live = q.live === "1";
   const file = live ? undefined : closeDocs.find((d) => d.file === `${month}.md`);
@@ -46,173 +86,135 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
   const t = closeTotals(rows);
   const pipe = pipeline(counts, clients);
   const cur = rows[0]?.currency ?? "EUR";
-  const num = (n: number | null, strong = false, c = cur) => (
-    <TableCell className={cn("text-right tabular-nums", strong && "font-medium")}>{n === null ? "—" : money(n, c)}</TableCell>
+
+  const step = (n: -1 | 1) => (
+    <a
+      href={`/close?month=${shift(month, n)}`}
+      aria-label={`${n < 0 ? "Previous" : "Next"} month, ${label(shift(month, n))}`}
+      className={buttonVariants({ variant: "ghost", size: "icon-lg" })}
+    >
+      {n < 0 ? <ChevronLeft className="size-5" aria-hidden="true" /> : <ChevronRight className="size-5" aria-hidden="true" />}
+    </a>
+  );
+  const header = (
+    <PageHeader
+      user={user}
+      title="Monthly close"
+      meta={label(month)}
+      actions={
+        <>
+          {step(-1)}
+          {step(1)}
+        </>
+      }
+    />
   );
 
-  const nav = (
-    <>
-      <a href={`/close?month=${shift(month, -1)}`} className="underline">
-        ← {label(shift(month, -1))}
-      </a>
-      {" · "}
-      <a href={`/close?month=${shift(month, 1)}`} className="underline">
-        {label(shift(month, 1))} →
-      </a>
-    </>
-  );
-  const pipelineCards = (
-    <div className="mt-8 grid gap-6 lg:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Pipeline · the pool</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {STATUSES.map((s) => (
-              <li key={s}>
-                <div className="text-xl font-semibold tabular-nums">{counts[s]}</div>
-                <div className="text-xs text-muted-foreground">{s}</div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-sm text-muted-foreground">
-            {pipe.pool} prospects, read live. Conversion, handed off against handed off plus lost:{" "}
-            {pipe.conversion === null ? "nothing decided yet" : `${Math.round(pipe.conversion * 100)}%`}.
-          </p>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Pipeline · the folders</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-5">
-            {STAGES.map((s) => (
-              <li key={s}>
-                <div className="text-xl font-semibold tabular-nums">{pipe.byStage[s]}</div>
-                <div className="text-xs text-muted-foreground">{s}</div>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-sm text-muted-foreground">{clients.length} client folders by stage.</p>
-        </CardContent>
-      </Card>
+  const pipelineGroups = (
+    <div className="mt-8 grid gap-8 lg:grid-cols-2">
+      <section aria-labelledby="pipeline-pool">
+        <h2 id="pipeline-pool" className="mb-3 text-heading">
+          Pipeline · the pool
+        </h2>
+        <StatGrid className="lg:grid-cols-4">
+          {STATUSES.map((s) => (
+            <Stat key={s} value={counts[s]} label={s} />
+          ))}
+        </StatGrid>
+        <p className="mt-2 text-ui font-normal text-muted-foreground">
+          <span className="font-mono tabular-nums">{pipe.pool}</span> prospects, read live. Conversion, handed off
+          against handed off plus lost:{" "}
+          {pipe.conversion === null ? (
+            "nothing decided yet"
+          ) : (
+            <span className="font-mono tabular-nums">{Math.round(pipe.conversion * 100)}%</span>
+          )}
+          .
+        </p>
+      </section>
+      <section aria-labelledby="pipeline-folders">
+        <h2 id="pipeline-folders" className="mb-3 text-heading">
+          Pipeline · the folders
+        </h2>
+        <StatGrid>
+          {STAGES.map((s) => (
+            <Stat key={s} value={pipe.byStage[s]} label={s} />
+          ))}
+        </StatGrid>
+        <p className="mt-2 text-ui font-normal text-muted-foreground">
+          <span className="font-mono tabular-nums">{clients.length}</span> client folders by stage.
+        </p>
+      </section>
     </div>
   );
-
-  const header = (
-    <PageHeader user={user} title="Monthly close" meta={`${month} · ${file ? `desk/close/${file.file}` : "live"}`} />
-  );
-  const when = <span className="font-semibold text-foreground">{label(month)}</span>;
 
   if (file) {
     return (
       <>
         {header}
-        <p className="mb-4 text-body text-muted-foreground">
-          {when} · {nav}. desk/close/{file.file}, written by rhythms.yml on {file.date}.{" "}
-          <a href={`/close?month=${month}&live=1`} className="underline">
-            The live view
-          </a>{" "}
-          reads the house as of the last push.
-        </p>
-        <Card>
-          <CardContent>
-            <Prose markdown={file.body.replace(/^# .*\n+/, "")} />
-          </CardContent>
-        </Card>
-        {pipelineCards}
+        <Flash error={error} note={note} />
+        <Document
+          date={file.date}
+          title={label(month)}
+          lede={
+            <>
+              desk/close/{file.file}, written by rhythms.yml.{" "}
+              <a href={`/close?month=${month}&live=1`} className="underline">
+                The live view
+              </a>{" "}
+              reads the house as of the last push.
+            </>
+          }
+          markdown={file.body.replace(/^# .*\n+/, "")}
+        />
+        {pipelineGroups}
       </>
     );
   }
 
-  const tiles: [string, string][] = [
-    ["Monthly price, agreed", money(t.monthly, cur)],
-    ["Cost per month, estimated", money(t.cost, cur)],
-    ["Margin per month", money(t.margin, cur)],
-    ["Hours per month, estimated", String(t.hours)],
-  ];
+  const foot = (
+    <>
+      <TableCell className="md:sticky md:left-0 md:bg-inherit">Total</TableCell>
+      <TableCell />
+      <TableCell data-numeric="">{money(t.monthly, cur)} / month</TableCell>
+      <TableCell data-numeric="">{t.hours}</TableCell>
+      <TableCell data-numeric="">{money(t.cost, cur)}</TableCell>
+      <TableCell data-numeric="" className={negative(t.margin)}>
+        {money(t.margin, cur)}
+      </TableCell>
+      <TableCell />
+      <TableCell data-numeric="">{money(t.commission, cur)}</TableCell>
+    </>
+  );
 
   return (
     <>
       {header}
-      <p className="mb-4 text-body text-muted-foreground">
-        {when} · {nav}. Every engaged client against its economics: the agreed price, the quote&apos;s estimate of the
-        hours and the cost per month, and what is left. Invoices and payments are handled outside the house.
+      <Flash error={error} note={note} />
+      <p className="mb-4 max-w-reading text-body text-muted-foreground">
+        Every engaged client against its economics: the agreed price, the quote&apos;s estimate of the hours and the
+        cost per month, and what is left. Computed live from the house as of the last push. Invoices and payments are
+        handled outside the house.
       </p>
 
-      <ul className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {tiles.map(([k, v]) => (
-          <li key={k}>
-            <Card className="py-3">
-              <CardContent className="px-4">
-                <div className="text-2xl font-semibold tabular-nums">{v}</div>
-                <div className="text-xs text-muted-foreground">{k}</div>
-              </CardContent>
-            </Card>
-          </li>
-        ))}
-      </ul>
+      <StatGrid className="mb-8">
+        <Stat value={money(t.monthly, cur)} label="Monthly price, agreed" />
+        <Stat value={money(t.cost, cur)} label="Cost per month, estimated" />
+        <Stat value={<span className={negative(t.margin)}>{money(t.margin, cur)}</span>} label="Margin per month" />
+        <Stat value={t.hours} label="Hours per month, estimated" />
+      </StatGrid>
 
-      <h3 className="mb-2 text-sm font-medium">Engagements</h3>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Client</TableHead>
-            <TableHead>Kind</TableHead>
-            <TableHead className="text-right">Price</TableHead>
-            <TableHead className="text-right">Hours / month</TableHead>
-            <TableHead className="text-right">Cost / month</TableHead>
-            <TableHead className="text-right">Margin / month</TableHead>
-            <TableHead className="text-right">Hourly</TableHead>
-            <TableHead className="text-right">Commission owed</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={8} className="text-muted-foreground">
-                Nothing to close: no client is at agreement or later.
-              </TableCell>
-            </TableRow>
-          )}
-          {rows.map((r) => (
-            <TableRow key={r.client.slug}>
-              <TableCell className="font-medium">
-                <a href={`/clients/${r.client.slug}`} className="hover:underline">
-                  {r.client.name ?? r.client.slug}
-                </a>
-              </TableCell>
-              <TableCell>{r.client.kind ?? ""}</TableCell>
-              <TableCell className={cn("text-right tabular-nums", r.price === null && "text-muted-foreground")}>
-                {price(r)}
-              </TableCell>
-              <TableCell className="text-right tabular-nums">{r.hours === null ? "—" : r.hours}</TableCell>
-              {num(r.cost, false, r.currency)}
-              <TableCell className={cn("text-right tabular-nums", r.margin !== null && r.margin < 0 && "text-destructive")}>
-                {r.margin === null ? "—" : money(r.margin, r.currency)}
-              </TableCell>
-              {num(r.hourly, false, r.currency)}
-              {num(r.commission, false, r.currency)}
-            </TableRow>
-          ))}
-          {rows.length > 0 && (
-            <TableRow>
-              <TableCell className="font-medium">Total</TableCell>
-              <TableCell />
-              <TableCell className="text-right font-medium tabular-nums">{money(t.monthly, cur)} / month</TableCell>
-              <TableCell className="text-right font-medium tabular-nums">{t.hours}</TableCell>
-              {num(t.cost, true)}
-              {num(t.margin, true)}
-              <TableCell />
-              {num(t.commission, true)}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+      <h2 className="mb-3 text-heading">Engagements</h2>
+      <DataTable
+        columns={columns}
+        rows={rows}
+        rowKey={(r) => r.client.slug}
+        href={(r) => `/clients/${r.client.slug}`}
+        empty="Nothing to close: no client is at agreement or later."
+        foot={foot}
+      />
       {projected.length > 0 && (
-        <p className="mt-2 text-sm text-muted-foreground">
+        <p className="mt-2 text-ui font-normal text-muted-foreground">
           Projected, not agreed:{" "}
           {projected.map((r, i) => (
             <span key={r.client.slug}>
@@ -220,31 +222,29 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
               <a href={`/clients/${r.client.slug}`} className="underline">
                 {r.client.name ?? r.client.slug}
               </a>{" "}
-              ({r.client.stage}) {price(r)}
+              ({r.client.stage}) <span className="font-mono tabular-nums">{price(r)}</span>
             </span>
           ))}
           .
         </p>
       )}
-      <dl className="mt-4 grid gap-1 text-xs text-muted-foreground sm:grid-cols-2">
-        <div>
-          <dt className="font-medium text-foreground">Price</dt>
-          <dd>price.monthly for a retainer or a role, price.total for a build, in quote/economics.yaml. Agreed from the agreement stage; before it, projected.</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-foreground">Hours and cost</dt>
-          <dd>The quote&apos;s estimates, hours.per_month and costs_monthly in that file. The house measures neither.</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-foreground">Margin and hourly</dt>
-          <dd>The monthly price less the monthly cost, and the monthly price over the hours. A build shows neither: its price is a total.</dd>
-        </div>
-        <div>
-          <dt className="font-medium text-foreground">Commission owed</dt>
-          <dd>The record&apos;s commission.owed, settled as the client pays, outside the house (01-prospecting/prospect.md).</dd>
-        </div>
+      <dl className="mt-4 grid max-w-reading grid-cols-[max-content_1fr] gap-x-4 gap-y-1 text-meta text-muted-foreground">
+        <dt className="font-medium text-foreground">Price</dt>
+        <dd>
+          price.monthly for a retainer or a role, price.total for a build, in quote/economics.yaml. Agreed from the
+          agreement stage; before it, projected.
+        </dd>
+        <dt className="font-medium text-foreground">Hours and cost</dt>
+        <dd>The quote&apos;s estimates, hours.per_month and costs_monthly in that file. The house measures neither.</dd>
+        <dt className="font-medium text-foreground">Margin and hourly</dt>
+        <dd>
+          The monthly price less the monthly cost, and the monthly price over the hours. A build shows neither: its
+          price is a total.
+        </dd>
+        <dt className="font-medium text-foreground">Commission owed</dt>
+        <dd>The record&apos;s commission.owed, settled as the client pays, outside the house (01-prospecting/prospect.md).</dd>
       </dl>
-      {pipelineCards}
+      {pipelineGroups}
     </>
   );
 }

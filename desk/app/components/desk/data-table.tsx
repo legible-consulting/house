@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { Empty } from "./empty";
 
@@ -11,8 +11,8 @@ import { Empty } from "./empty";
 // value. A `hide` cell is for the desk only. An `action` cell is the row's trailing control
 // at every width: the last cell from md, the foot of the card on the phone, on the trailing
 // edge and above the card's link. When a row has a link, the whole card is its target on the
-// phone; from md the title is. No rows renders the empty pattern, never an
-// empty row.
+// phone; from md the title is. A `foot` is a total row for the desk only: the phone reads the
+// totals elsewhere on the page. No rows renders the empty pattern, never an empty row.
 
 type Phone = "title" | "show" | "meta" | "hide" | "action";
 
@@ -39,6 +39,7 @@ export function DataTable<Row>({
   rowKey,
   href,
   empty,
+  foot,
   className,
 }: {
   columns: Column<Row>[];
@@ -46,6 +47,7 @@ export function DataTable<Row>({
   rowKey: (row: Row) => string;
   href?: (row: Row) => string | undefined; // the row's link: the title is its text
   empty: ReactNode; // one sentence: what is absent and what writes it
+  foot?: ReactNode; // the cells of a total row, one per column
   className?: string;
 }) {
   if (rows.length === 0) return <Empty className={className}>{empty}</Empty>;
@@ -104,6 +106,11 @@ export function DataTable<Row>({
             );
           })}
         </TableBody>
+        {foot && (
+          <TableFooter className="max-md:hidden">
+            <TableRow className="bg-background font-semibold hover:bg-background">{foot}</TableRow>
+          </TableFooter>
+        )}
       </table>
     </div>
   );
