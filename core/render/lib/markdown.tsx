@@ -321,7 +321,7 @@ export class Markdown {
 
   /**
    * Leads stay on the page of what follows them: the first item of a list, a
-   * table kept whole, or, after a heading, a paragraph short enough to move.
+   * table kept whole, or, after a heading (or two), a paragraph short enough to move.
    */
   blocks(tokens: Token[], tight = false): ReactNode[] {
     const out: ReactNode[] = [];
@@ -342,16 +342,16 @@ export class Markdown {
         i = j;
       } else if (
         shown[i].type === "heading" &&
-        shown[i + 1]?.type === "paragraph" &&
-        shown[i + 1].text.length < 600
+        j > i &&
+        next.type === "paragraph" &&
+        next.text.length < 600
       ) {
         out.push(
           <View key={i} wrap={false}>
-            {this.block(shown[i], 0)}
-            {this.block(shown[i + 1], 1)}
+            {shown.slice(i, j + 1).map((t, k) => this.block(t, k))}
           </View>
         );
-        i++;
+        i = j;
       } else {
         out.push(this.block(shown[i], i, tight));
       }
