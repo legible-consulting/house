@@ -7,6 +7,8 @@ year: 2026
 services:
   - Site
   - App
+  - Software engineering
+  - GEO optimisation
 stack:
   - Next.js
   - Neon Postgres

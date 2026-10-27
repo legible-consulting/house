@@ -29,7 +29,7 @@ The portfolio produces one case study per finished build, in the client's folder
   1. Read the record. When `public` is `none`, stop: no case. Read the pack, or before a pack the proposal, the kickoff note and the profile.
   2. Ask Jamie, in one batch, what the files do not settle. Each question has a default, read from the files:
      - Is it live, and at which URL? Default: the production domain in the kickoff note or the access table, `not checked`.
-     - Which of the six lines of `core/services.md` it was. Default: the line the proposal sold.
+     - Which lines of `core/services.md` it was. Default: the line the proposal sold.
      - One figure: only when the client agreed to it in writing. Default: no figure.
      - `featured` and `order` on the site. Default: `featured: true`, the next free `order`.
   3. Write `clients/<slug>/case/case.md` in the shape below. English, first person, the register of `core/voice.md`. The case is public text: the never-words of `core/voice.md` apply, and no price, no rate, no commission and no figure the client did not allow appears in it.
@@ -45,7 +45,7 @@ The portfolio produces one case study per finished build, in the client's folder
   | `summary` | Two sentences: the problem, then what they have now. |
   | `client` | The client's name. Absent with `anonymous`. |
   | `year` | The year the build ended, or the year of the case for a build not ended. |
-  | `services` | One or more of the six lines of `core/services.md`: `Site`, `App`, `Platform`, `Workshop`, `Coaching`, `Retainer`. |
+  | `services` | One or more line names of `core/services.md`, as its table of lines writes them. |
   | `stack` | The main tools, as the client repo uses them. |
   | `outcome` | One line, what the client has now. |
   | `featured` | `true` or `false`. |

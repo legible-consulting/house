@@ -42,12 +42,13 @@ One level, every name a word. The numbered folders are the stages a deal walks, 
 | `conformance/` | every live repo against the blueprint, on a schedule |
 | `training/` | the workshop and coaching procedure, the template of the coaching record. The kit is in the blueprint |
 | `portfolio/` | the case-study procedure. Each case is in its client's folder, `clients/<slug>/case/case.md` |
+| `content/` | the site's pages and the posts, each drawn from a case, a verdict, a concept or the core |
 | `research/` | the verdicts on tools and the concept library |
 | `.icm/intake/` | the house's own tickets: a module not built yet, a change to the desk |
 
 The stage numbers are final, in deal order, `01` to `08` (why: one renumber beats one renumber per new stage, and the numbers keep the sequence a deal walks · 2026-10-26).
 
-A module the business needs and the house does not have yet (content) is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
+A module the business needs and the house does not have yet is a ticket in `.icm/intake/`, not an empty folder (why: the tree shows what exists; a folder with a stub contract promised work and held none · 2026-10-25).
 
 ## Other house words
 

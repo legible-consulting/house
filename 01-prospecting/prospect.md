@@ -2,7 +2,7 @@
 title: Prospect
 kind: schema
 owner: jamie
-date: 2026-10-19
+date: 2026-10-27
 ---
 # Prospect — the pool row
 
@@ -29,7 +29,7 @@ before the salesman may set `ready for Jamie`, `lost` when the status is set to 
 | `language` | `pt-PT`, `fr-BE`, `en-GB` | ready | the sourcer |
 | `line` | `local`, `sme` (`target-profile.md`) | no | the sourcer |
 | `size` | `1`, `2-9`, `10-49`, `50+` (headcount) | no | the sourcer |
-| `service` | `site`, `app`, `platform`, `workshop`, `coaching`, `unknown` | no | the sourcer |
+| `service` | a line of `core/services.md`: `site`, `app`, `platform`, `workshop`, `coaching`, `retainer`, `geo`, `landing-page`, `automation`, `ai-infrastructure`, `ai-consultancy`, `project-management`, `software`, `lead-gen`; or `unknown` | no | the sourcer |
 | `deal_size` | `<2k`, `2k-10k`, `10k-30k`, `>30k` (EUR, a hint only, Jamie quotes) | no | the sourcer |
 | `source` | text, how the prospect was found: who referred, which event, which `targets/` list | add | the sourcer |
 | `sourced_by` | `jamie` or a salesman's handle (`users.handle`) | add | the desk, from the signed-in user. A salesman without a handle cannot set `ready for Jamie` (why: the record names the salesman by handle, and the monthly close reads it · 2026-10-26). |

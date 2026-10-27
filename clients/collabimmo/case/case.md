@@ -7,6 +7,9 @@ year: 2026
 services:
   - Site
   - App
+  - Landing pages, fully serviced
+  - Software engineering
+  - AI business infrastructure
 stack:
   - Next.js
   - Claude API
