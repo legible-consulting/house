@@ -17,7 +17,7 @@ Arnaud, réponds en quelques mots, directement dans ce document. Certaines quest
 pour toi, d'autres pour la personne qui gère l'informatique ou les RH : la colonne « Pour »
 le dit. Les réponses servent à régler les matinées, à préparer les après-midi et à
 décider ce qui entre dans Mammouth. Elles restent entre nous. Si je les ai pour le
-mardi 27 octobre, j'ajuste le programme avant de venir.
+jeudi 29 octobre, j'ajuste le programme avant de venir.
 
 ## 1. Les participants
 

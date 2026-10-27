@@ -1,4 +1,4 @@
-import { HeaderLine, Lines, Loading, Pane, Tiles } from "@/components/desk/loading";
+import { HeaderLine, Loading, Pane, Tiles } from "@/components/desk/loading";
 
 // The desk's home while it reads: the tiles, the action cards, Jamie's hand.
 export default function HomeLoading() {
@@ -11,7 +11,11 @@ export default function HomeLoading() {
         <Pane lines={3} />
         <Pane lines={3} />
       </div>
-      <Lines count={6} />
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <Pane lines={2} />
+        <Pane lines={2} />
+        <Pane lines={2} />
+      </div>
     </Loading>
   );
 }

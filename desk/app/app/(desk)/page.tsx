@@ -1,18 +1,18 @@
 import { redirect } from "next/navigation";
 import { Empty } from "@/components/desk/empty";
 import { Flash } from "@/components/desk/flash";
-import { Fold } from "@/components/desk/fold";
 import { PageHeader } from "@/components/desk/page-header";
-import { Prose } from "@/components/desk/prose";
 import { Stat, StatGrid } from "@/components/desk/stat";
 import { actions as nextActions, type Urgency } from "@/lib/actions";
 import { countsByStatus } from "@/lib/db";
 import { startOf } from "@/lib/github";
 import { flash, type Search } from "@/lib/guard";
-import { clients, hand, type ClientRow } from "@/lib/house";
+import { steps } from "@/lib/hand";
+import { clients, type ClientRow } from "@/lib/house";
 import { today } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { ActionGroup } from "@/app/_action";
+import { HandGroup } from "@/app/_hand";
 
 // Jamie's page (desk/app/DESIGN.md, rule 1): what do I do today? The tiles count the next
 // client actions by urgency and the pool's leads that wait on Jamie. Then one card per next
@@ -20,9 +20,10 @@ import { ActionGroup } from "@/app/_action";
 // Each card carries Copy prompt, the words that start a session on the house to do the action
 // (lib/actions.ts). The actions are the glance's rows (lib/rhythms.ts glanceRows), from the
 // house as of the last push to main, computed now; rhythms.yml commits the glance file every
-// morning. Under the cards, Jamie's hand: the house's own steps that no session takes
-// (.icm/intake/README.md, read at build), the open items that are Jamie's alone, behind their
-// count (components/desk/fold.tsx). The clients table is /clients. The page re-reads itself
+// morning. Under the cards, Jamie's hand: one card per step of the house's own build that no
+// session takes alone (.icm/intake/README.md, read at build; app/_hand.tsx), each with Copy
+// prompt, the words that start a session to prepare the step (lib/hand.ts). The clients table
+// is /clients. The page re-reads itself
 // while a house run or a deploy is in flight (components/desk/page-header.tsx). A salesman
 // goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
@@ -67,7 +68,6 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
   const start = startOf(await searchParams);
   const now = today();
   const { actions, silent, ongoing } = nextActions(clients, now);
-  const steps = (hand.body.match(/^- /gm) ?? []).length;
   const by = (u: Urgency) => actions.filter((a) => a.urgency === u);
   const open = counts.new + counts.contacted + counts.replied + counts.meeting + counts["ready for Jamie"];
   // Rule 8: a tile that would read 0 is not drawn.
@@ -112,15 +112,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
         )}
       </div>
 
-      <section aria-label="Jamie's hand">
-        {steps > 0 ? (
-          <Fold label="Jamie's hand" count={steps}>
-            <Prose markdown={hand.body} />
-          </Fold>
-        ) : (
-          <p className="text-ui text-muted-foreground">Jamie's hand holds no step.</p>
-        )}
-      </section>
+      <HandGroup steps={steps} />
     </>
   );
 }

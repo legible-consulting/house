@@ -5,8 +5,8 @@ language: fr-BE
 stage: build
 kind: build
 opened: 2026-08-10
-next_action: Implement the changes the founders asked for in feedback round 1 (the epics cut in the client repo on 2026-10-23). Send the agreement for eSignature.
-deadline:
+next_action: Build the four feedback round 1 epics in the client repo, in the order of its `.icm/intake/README.md`, each to UAT. Then tell Alix and Jordane what to test on uat.berceo.be.
+deadline: 2026-11-13
 salesman:
 commission:
   sourced_by:
@@ -51,7 +51,8 @@ Jamie's own contact: no salesman, no commission.
   monthly retainer or as equity. Nothing is agreed (Jamie, 2026-10-23).
 - The agreement (`agreement/agreement.md`, drafted 2026-09-23, rendered in Drive) restates the
   devis and sets the dates: a soft launch in mid-December 2026, the public push in January 2027.
-  It is not sent and not signed. The work began in September 2026 without it.
+  It is not sent and not signed. The work began in September 2026 without it. Jamie sends it
+  for eSignature once feedback round 1 is in the application (Jamie, 2026-10-27).
 - A written legal opinion on chapter 5 of the discovery questionnaire is a launch condition, not
   a build condition. It is still unanswered. The criminal-record extract 596.2 is not stored
   until that opinion exists.
@@ -66,6 +67,9 @@ Jamie's own contact: no salesman, no commission.
 - The founders' feedback round 1 (Drive, `feedback-round-1.pdf`, 2026-10-23) replaces the open
   backlog whole: the new epics live in `.icm/intake/` in the client repo. A feedback request
   supersedes an earlier requirement, except the insurance wording (Jamie, 2026-10-23).
+- On 2026-10-27 none of the founders' changes is built. The four epics, in build order:
+  `vitrine-retour-1`, `onboarding-retour-1`, `demande-retour-1`, `abonnements-familles`. The next
+  thing the founders see is their requested changes on UAT (Jamie, 2026-10-27).
 
 ## Links
 

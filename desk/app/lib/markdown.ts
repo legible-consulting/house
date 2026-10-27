@@ -13,3 +13,6 @@ const md = new Marked({
 });
 
 export const render = (markdown: string): string => md.parse(markdown, { async: false });
+// One line of markdown as inline HTML, no <p>: a step of Jamie's hand on its card. The
+// `.inline-md` class of globals.css gives its `code` the prose rule.
+export const inline = (markdown: string): string => md.parseInline(markdown, { async: false });

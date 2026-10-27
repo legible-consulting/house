@@ -139,10 +139,19 @@ const clients = readdirSync(clientsDir, { withFileTypes: true })
 
 const template = read(clientsDir, "_template", "record.md");
 // Jamie's hand: the bullets under "## Jamie's hand" in .icm/intake/README.md, the steps of the
-// house's own build that wait on him. The bullets only: the section's prose stays in the README.
+// house's own build that wait on him. The bullets only, each on one line: a bullet's wrapped
+// lines (indented) join it. The section's prose stays in the README.
 const intakeReadme = read(house, ".icm", "intake", "README.md");
 const handSection = (intakeReadme.split(/^## Jamie's hand[^\n]*\n/m)[1] ?? "").split(/^## /m)[0];
-const handBody = handSection.split("\n").filter((l) => /^- /.test(l)).join("\n").trim();
+const handBody = handSection
+  .split("\n")
+  .reduce((bullets, l) => {
+    if (/^- /.test(l)) bullets.push(l.trimEnd());
+    else if (/^\s+\S/.test(l) && bullets.length > 0) bullets[bullets.length - 1] += ` ${l.trim()}`;
+    return bullets;
+  }, [])
+  .join("\n")
+  .trim();
 const hand = { file: ".icm/intake/README.md", title: "Jamie's hand", body: handBody };
 // The close files: the page renders the file for its month when one exists, and computes the
 // same words live otherwise.

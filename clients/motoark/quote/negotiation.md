@@ -135,3 +135,6 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
   start moves to Mon 9 Nov 2026 and the evaluation's end to Sun 7 Feb 2027, in the
   agreement, the proposal's timeline and the quote. The checkpoints: Fri 4 Dec 2026, Fri 8
   Jan 2027 (after the holidays, not on 25 Dec) and Fri 5 Feb 2027.
+
+- 2026-10-27. Sam did not come back on 26 Oct. The proposal is not sent. Jamie reworks it and
+  sends it on 28 Oct.

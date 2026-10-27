@@ -383,7 +383,8 @@
   .prose a:focus-visible {
     outline-offset: 2px;
   }
-  .prose code {
+  .prose code,
+  .inline-md code {
     font-family: var(--font-mono);
     font-size: 0.875em;
     background-color: var(--muted);
