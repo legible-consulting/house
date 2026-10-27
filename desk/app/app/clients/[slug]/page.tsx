@@ -1,4 +1,7 @@
 import { notFound, redirect } from "next/navigation";
+import { Heading } from "@/components/desk/document";
+import { Flash } from "@/components/desk/flash";
+import { Prose } from "@/components/desk/prose";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { flash, type Search } from "@/lib/guard";
@@ -10,7 +13,6 @@ import { RepoFacts } from "../../_repo";
 import { Shell } from "../../_shell";
 import { readLinks, SendForm } from "../../_send";
 import { ClientUsers, readUsers } from "../../_users";
-import { Flash, Heading, Prose } from "../../_ui";
 import { ClientWork, WorkBody } from "../../_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client

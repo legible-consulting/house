@@ -3,8 +3,9 @@ import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
-// A tag: mono micro uppercase on the key radius. The status tag (components/desk) is built on
-// it with a mark beside the state's name; the filled variants never carry a state.
+// A tag: mono micro uppercase on the key radius, for a role, a language, a gate or a run's
+// state word. A pool status or a verdict is the status tag (components/desk/status-tag.tsx),
+// a mark beside the name in mono meta; the filled variants never carry a state.
 const badgeVariants = cva(
   "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-sm border border-transparent px-1.5 font-mono text-micro uppercase tracking-eyebrow whitespace-nowrap transition-colors has-data-[icon=inline-end]:pr-1 has-data-[icon=inline-start]:pl-1 aria-invalid:border-destructive [&>svg]:pointer-events-none [&>svg]:size-3!",
   {

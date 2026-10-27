@@ -1,3 +1,4 @@
+import { Field } from "@/components/desk/field-group";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,7 +10,6 @@ import { forms } from "@/lib/house";
 import { formLanguageOf, linkUrl, type SentLink } from "@/lib/links";
 import { CopyButton } from "./_copy";
 import { sendForm } from "./_send-actions";
-import { Field } from "./_ui";
 
 // The links sent to one slug, or the reason they cannot be read. The table is applied by hand
 // from db/schema.sql, so a missing table fails this card only, in words (why: a deploy never
