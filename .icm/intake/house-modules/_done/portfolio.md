@@ -27,7 +27,7 @@ A `public:` field on every record, the module `portfolio/` with a built Process,
 
 ## Out of scope
 
-- The workflow that puts a ready case on the site: `.github/workflows/publish.yml`.
+- The script that puts a ready case on the site: `portfolio/publish.sh`.
 - Any price in a case.
 
 ## Notes

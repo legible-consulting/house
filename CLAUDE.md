@@ -49,13 +49,10 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
 - Never, even if asked in the moment: send anything to a client; merge or release; tick a
   gate; spend money or sign (why: each one reaches a client, the estate or money and cannot
   be taken back; the human is the gate).
-- Unattended runs only: the runs that write the glance and the monthly close, the
-  research intake, which only opens a PR, and the publish run, which copies a case Jamie
-  merged at `ready: true` to the site's `main` (`.github/workflows/publish.yml`) (why: the
-  first two are deterministic reads with nothing to send; the intake reads what Jamie shared,
-  writes a draft and opens a PR, and sends nothing to anyone; the publish run sends nothing
-  to anyone, and Jamie's merge of the case in the house is its gate; anything that acts waits
-  for Jamie · 2026-10-19, the publish run 2026-10-26).
+- Unattended runs only: the runs that write the glance and the monthly close, and the
+  research intake, which only opens a PR (why: the first two are deterministic reads with
+  nothing to send; the intake reads what Jamie shared, writes a draft and opens a PR, and
+  sends nothing to anyone; anything that acts waits for Jamie · 2026-10-19).
 - Never in git: credentials and identity documents. Client words, negotiation positions and
   contact details may live here (why: this repo is private; a secret in git outlives every
   rotation).

@@ -4,7 +4,7 @@
 - epic: render-and-publish
 - sequence: 2 of 2
 - depends-on: none
-- complexity: medium
+- complexity: small
 - priority: P2
 
 ## Problem
@@ -13,14 +13,12 @@ The house holds every case at `clients/<slug>/case/case.md` with `ready: true | 
 
 ## Proposed change
 
-A workflow that, on a push to `main` that touches a case, writes every `ready: true` case into the site's `content/work/` and pushes it to the site's `main`. Jamie's merge of the case in the house is the gate. The run sends nothing to anyone.
+A script in the house that Jamie runs from the local lane. It writes every `ready: true` case into the local clone's `content/work/` and pushes it to the site's `main` with Jamie's own git login. Jamie's merge of the case in the house, and his yes to the script's prompt, are the gate. The script sends nothing to anyone.
 
 ## Acceptance criteria
 
-- [ ] `.github/workflows/publish.yml` runs on `push` to `main` with paths `clients/*/case/case.md`, and on `workflow_dispatch`. It checks out the house, then `k0d0minio/jamienisbet` with the secret `SITE_PAT` into a second folder. `content/work/` in the site is the house's: the run empties it, then writes every case whose frontmatter says `ready: true` (mikefarah yq, `--front-matter=extract`) as `content/work/<slug>.md`, the slug from the frontmatter. No diff: no commit. Else it commits as `github-actions[bot]` with the message `house: cases <date>`, pushes to `main`, and rebases and retries three times like `rhythms.yml`. Actions pinned to a SHA. `permissions: contents: read`; the token does the write. No token in a command line. shellcheck clean.
-- [ ] `.github/workflows/README.md` gains the row for `publish.yml`.
-- [ ] `CLAUDE.md` Boundaries, the "Unattended runs only" line, names the publish run: it copies a case Jamie merged to the site's `main` and sends nothing to anyone; the merge in the house is the gate. With its why and date.
-- [ ] The root `.env.example`, GitHub Actions secrets, gains `SITE_PAT` with its note: a fine-grained token on `k0d0minio/jamienisbet`, Contents read and write, set on the house. Name only.
+- [ ] `portfolio/publish.sh` finds the clone of `k0d0minio/jamienisbet` from `desk/mani.yaml`, or from its first argument. It stops when the clone is not on `main` or has uncommitted changes, then pulls `main` fast-forward only. `content/work/` in the site is the house's: the script empties it, then writes every case whose frontmatter says `ready: true` (mikefarah yq, `--front-matter=extract`) as `content/work/<slug>.md`, the slug from the frontmatter. A bad slug or two ready cases with one slug: nothing is written. No diff: no commit. Else it shows the diff stat, asks, and on `y` commits `house: cases <date>` and pushes to `main`. On any other answer the clone is as it was. No token. shellcheck clean.
+- [ ] `portfolio/CONTEXT.md` holds `publish.sh` and says how the site receives a ready case.
 - [ ] `check.yml` is green.
 
 ## Out of scope
@@ -32,12 +30,8 @@ A workflow that, on a push to `main` that touches a case, writes every `ready: t
 
 Question for Jamie, in the pull request body:
 
-1. Does the same run carry `content/site/*.md` and `content/posts/*.md` to the site once `house-modules/content` exists? Default: no; a second path and a second target folder come with that module.
+1. Does the same script carry `content/site/*.md` and `content/posts/*.md` to the site once `house-modules/content` exists? Default: no; a second path and a second target folder come with that module.
 
-Read first: `CLAUDE.md` (Boundaries, House rules), `.github/workflows/README.md`, `.github/workflows/rhythms.yml` (the pinned actions, the commit to `main` with three retries), `.github/workflows/check.yml` (the `scripts` job), `portfolio/CONTEXT.md` (the case shape), `clients/CONTEXT.md` (`public:`, the holds), `desk/mani.yaml` (the jamienisbet row), `.env.example` at the root (the Actions secrets section).
+Read first: `CLAUDE.md` (Boundaries, House rules), `portfolio/CONTEXT.md` (the case shape), `clients/CONTEXT.md` (`public:`, the holds), `desk/mani.yaml` (the jamienisbet row), `conformance/drift.sh` (a local-lane script that reads `desk/mani.yaml`).
 
-What waits on Jamie after the merge, in order: create the fine-grained token on `k0d0minio/jamienisbet` with Contents read and write and set it as the house Actions secret `SITE_PAT`; run `publish.yml` once by `workflow_dispatch` with no ready case, which makes no commit; flip one case to `ready: true` and merge it, which appears on jamienisbet.com after Vercel deploys.
-
-## Prompt
-
-Repo legible-consulting/house, cloud with the house attached or desktop at ~/Desktop/legible-consulting/house. Read CLAUDE.md, .icm/intake/CONTEXT.md, .icm/intake/render-and-publish/breakdown.md, then this ticket, .icm/intake/render-and-publish/publish-cases.md, then the files its Notes name. Do what it says. One branch, one pull request to main, message starts with "publish:". Move the stub to .icm/intake/render-and-publish/_done/ in the same pull request. Never run the workflow's steps locally. No secret value, no token in a command line. Do not merge. Your last message names the pull request and the three things that wait on Jamie.
+What waits on Jamie after the merge, in order: run `bash portfolio/publish.sh` once and read the diff stat before the prompt; flip one case to `ready: true`, merge it, and run the script again, which appears on jamienisbet.com after Vercel deploys.
