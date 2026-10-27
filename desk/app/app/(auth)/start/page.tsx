@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
 import type { Search } from "@/lib/guard";
 import { forms } from "@/lib/house";
 import { COPY, languageOf } from "./copy";
@@ -21,11 +21,11 @@ export default async function Start({ searchParams }: { searchParams: Search }) 
     <div lang={language}>
       <Card>
         <CardHeader>
-          <CardTitle>{form?.title}</CardTitle>
+          <h1 className="text-title">{form?.title}</h1>
           <CardDescription>{form?.intro}</CardDescription>
         </CardHeader>
         <CardContent>
-          {form ? <StartForm form={form} copy={copy} /> : <p className="text-sm">{errors.failed}</p>}
+          {form ? <StartForm form={form} copy={copy} /> : <p className="text-body">{errors.failed}</p>}
         </CardContent>
       </Card>
     </div>

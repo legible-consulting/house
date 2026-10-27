@@ -5,7 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { FormSnapshot } from "@/lib/forms";
-import { Question, Row } from "@/app/_questions";
+import { describedBy, Question, Row } from "@/app/_questions";
 import { submitStart } from "./actions";
 import type { Copy, StartState } from "./copy";
 
@@ -46,7 +46,7 @@ export function StartForm({ form, copy }: { form: FormSnapshot; copy: PageCopy }
         type={type}
         autoComplete={autoComplete}
         aria-invalid={Boolean(err[name])}
-        aria-describedby={err[name] ? `${name}-error` : undefined}
+        aria-describedby={describedBy(name, name === "phone" ? copy.phoneHint : undefined, err[name])}
         value={values[name] ?? ""}
         onChange={(e) => set(name)(e.target.value)}
       />
@@ -62,7 +62,7 @@ export function StartForm({ form, copy }: { form: FormSnapshot; copy: PageCopy }
         </Alert>
       )}
       <section className="grid gap-4">
-        <h2 className="text-base font-medium">{copy.identity}</h2>
+        <h2 className="text-heading">{copy.identity}</h2>
         {identity("name", "text", "name")}
         {identity("email", "email", "email")}
         {identity("phone", "tel", "tel")}
@@ -75,7 +75,7 @@ export function StartForm({ form, copy }: { form: FormSnapshot; copy: PageCopy }
         </div>
       </section>
       <section className="grid gap-4">
-        <h2 className="text-base font-medium">{copy.questions}</h2>
+        <h2 className="text-heading">{copy.questions}</h2>
         {form.fields.map((f) => (
           <Question
             key={f.key}

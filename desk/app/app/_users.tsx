@@ -35,9 +35,9 @@ export function ClientUsers({ slug, read }: { slug: string; read: { users: Clien
       </CardHeader>
       <CardContent>
         {read.error ? (
-          <p className="text-sm text-destructive">{read.error}</p>
+          <p className="text-ui text-destructive">{read.error}</p>
         ) : read.users.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No user yet.</p>
+          <p className="text-ui text-muted-foreground">No user yet.</p>
         ) : (
           <Table>
             <TableHeader>

@@ -2,7 +2,7 @@
 title: Voice and document design
 kind: core
 owner: jamie
-date: 2026-10-26
+date: 2026-10-27
 ---
 # Voice — how we sound, and how a document looks
 
@@ -77,6 +77,13 @@ wins over its source drifts the site · 2026-10-19).
 | Page | A4 portrait. Margins 60 pt left and right, 64 pt top and bottom. |
 | Logo | The full form (the framed tile with the "Jamie Nisbet." wordmark) on a cover and in the first page's header. The icon form (JN in a frame) everywhere else. Always the traced SVG, `logo-full.svg` or `logo-mark.svg`, never redrawn. |
 | Texture | None. No gradients, no shadows, no photography. Whitespace is the brand. |
+
+**The desk.** The desk (`desk/app`) is a screen, not a document, and its design home is
+`desk/app/app/globals.css`. That file copies the brand's tokens and holds every colour, type
+step, size and radius of the desk. It states three rules. Paper and ink are the tints. Mono is
+metadata. Colour is for state only. When the file and the brand's tokens disagree, the tokens
+win and the file is fixed (why: one home for the desk's design, read by every component, and
+the brand stays the source · 2026-10-27).
 
 ## The documents
 
