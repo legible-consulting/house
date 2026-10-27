@@ -87,6 +87,17 @@ export function TicketTag({ state, className, children }: { state: StubState; cl
   );
 }
 
+// A ticket's state as its mark alone, for the ticket card (ticket-card.tsx), where the title
+// takes the line: the name is for a reader only.
+export function TicketMark({ state, className }: { state: StubState; className?: string }) {
+  return (
+    <span className={cn("inline-flex", className)}>
+      <Mark {...TICKET[state]} />
+      <span className="sr-only">{state}</span>
+    </span>
+  );
+}
+
 // A date is a state too. A deadline or a next action inside seven days shows the date and
 // the day count in amber, 600; one past shows the date in red, 600, and the word "overdue";
 // any other date is plain mono. `flag` false keeps a date plain: a closed row is never due.
