@@ -3,7 +3,7 @@
 - feature-slug: client-ci-shape
 - epic: blueprint-pipeline
 - sequence: 11 of 13
-- depends-on: uat-database
+- depends-on: preview-database
 - complexity: medium
 - priority: P1
 

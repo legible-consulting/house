@@ -5,7 +5,7 @@
 
 ## What I understood
 
-The blueprint renders every client build. Its `v0.9.0` carries one ticket contract, two scripts, three guards and the UAT contract. The legacy template carried a prompt router, a pipeline skill with four stages and six lanes, two working-knowledge skills, a board at session start and a Stop hook. Jamie wants six things from the legacy brought in: the router, the lanes and the useful concepts of the pipeline skill, the two skills, a fix to the deny list that blocks `.env.example`, a thought-through client CI, and a read-only board at session start. His notes add four decisions. Jamie ticks Ready to merge and the session merges and does what follows. A UAT build has a production database and a UAT database, every preview reads the UAT database, a preview with database changes gets a Neon branch cut from UAT, and a promotion by a session migrates production. Neon cleanup deletes only a branch a preview with database changes made. The reference for every ticket's words is the ASD-STE100 skill (`research/verdicts/asd-ste100-skill.md`, adopt), so that Jamie reads tickets with less effort.
+The blueprint renders every client build. Its `v0.9.0` carries one ticket contract, two scripts, three guards and the UAT contract. The legacy template carried a prompt router, a pipeline skill with four stages and six lanes, two working-knowledge skills, a board at session start and a Stop hook. Jamie wants six things from the legacy brought in: the router, the lanes and the useful concepts of the pipeline skill, the two skills, a fix to the deny list that blocks `.env.example`, a thought-through client CI, and a read-only board at session start. His notes add four decisions. Jamie ticks Ready to merge and the session merges and does what follows. Every build with a database follows one rule. The base database is UAT's with a UAT environment and production's without one. Every preview reads the base. A preview whose diff carries a migration gets a Neon branch cut from the base. Neon cleanup deletes only such a branch. Production migrates on the merge without UAT, and on the session's promotion with UAT. The reference for every ticket's words is the ASD-STE100 skill (`research/verdicts/asd-ste100-skill.md`, adopt), so that Jamie reads tickets with less effort.
 
 The result is thirteen units. Twelve change the blueprint or `legible-consulting/.github`. One aligns the house. The last tags `v1.0.0`. Conformance of the four live repos is `conformance/CONTEXT.md`'s and is not in this epic.
 
@@ -13,9 +13,9 @@ The result is thirteen units. Twelve change the blueprint or `legible-consulting
 
 Answered on 2026-10-27, and written into the decisions below: the order (`desk-restyle`, `triage`, `blueprint-pipeline`, in `README.md § Order`), a preview's Neon branch carries UAT's data, the session merges the release pull request on Jamie's word `release` on a `uat: no` build, and `merge.sh` and `release.sh` are the merge path with `confirm-git-writes.sh` unchanged.
 
-One question is open:
+The database question is answered too: a UAT build always has the two databases, and the same branch rule serves a build without UAT, with production as the base. No `database` question is asked. `migrations_path` is the one question, empty for a build with no database.
 
-1. Does a UAT build always have the two databases, so that no `database` question is asked and the UAT answer alone renders `preview-db.sh`, `preview-db.yml` and `neon-cleanup.yml`? Default: yes. Jamie's note of 2026-10-27 says a UAT build has a production database and a UAT database. Then `migrations_path` is the one question left, asked when `uat` is yes, default `migrations`. A `uat: no` build renders no database tooling and keeps its own migration workflow, as vinecliff does. Unit 8 carries the answer.
+None is open.
 
 ## Decisions of record
 
@@ -28,6 +28,7 @@ Fixed for the whole epic:
 - **A preview's Neon branch carries UAT's data**, not the schema only. UAT holds test data only (why: a tester continues on the rows they made · Jamie, 2026-10-27).
 - **On a `uat: no` build the session merges the release pull request on Jamie's word `release`.** The merge makes the tag and the changelog and moves nothing (Jamie, 2026-10-27).
 - **`merge.sh` and `release.sh` are the merge path.** `confirm-git-writes.sh` stays as it is, and a bare `gh pr merge` still asks. The `gate` check is the guard GitHub enforces (Jamie, 2026-10-27).
+- **One database rule for every build.** The base is UAT's database with a UAT environment, production's without. Every preview reads the base. A preview with a migration in its diff gets a Neon branch cut from the base. Production migrates on the merge without UAT, on the promotion with UAT (Jamie, 2026-10-27).
 - **The three guards stay byte-identical with the house.** `check.yml`'s `guards` job in the house compares them. New hooks are build-only, rendered behind `{% if not workspace %}`.
 - **Technical text in Simplified Technical English**, under the vendored `asd-ste100` skill, STE-flavored mode. A sentence of 20 words or fewer. Active voice. One instruction per sentence. No semicolons.
 - **`check.yml` in the blueprint is the proof.** A unit that adds a rendered file adds its `need` and `never` lines. A unit that adds a hook adds it to the shellcheck set. The update proof (unit 9) gates the tag.
@@ -52,10 +53,10 @@ Do not, each with its why:
 5. skills-and-ste — `pr-conventions`, `ticket-craft`, the vendored `asd-ste100` — depends-on: lanes
 6. router — `route-request.sh` and its test — depends-on: scripts
 7. session-board — `session-start.sh` — depends-on: none
-8. uat-database — two Neon projects, previews on UAT, branches on migrations — depends-on: scripts
-9. check-yml-proofs — the assertions, the router test, the update proof, the STE pin — depends-on: uat-database
+8. preview-database — one database rule for every build, branches on migrations — depends-on: scripts
+9. check-yml-proofs — the assertions, the router test, the update proof, the STE pin — depends-on: preview-database
 10. words — `CLAUDE.md.jinja`, the conventions, the README — depends-on: check-yml-proofs
-11. client-ci-shape — `check-client.yml` and `dependabot.yml` — depends-on: uat-database
+11. client-ci-shape — `check-client.yml` and `dependabot.yml` — depends-on: preview-database
 12. house-alignment — `07-build`, `core/stack.md`, `core/lexicon.md`, the house's deny list, `06-kickoff` — depends-on: words
 13. tag-v1 — `v1.0.0` — depends-on: house-alignment
 

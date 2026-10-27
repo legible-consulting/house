@@ -17,11 +17,11 @@ Five rows and one rule change in `CLAUDE.md.jinja`. The conventions rows for Cla
 
 ## Acceptance criteria
 
-- [ ] `template/CLAUDE.md.jinja`, a build, five rows: a bug, a tweak or a chore, with or without a stub → `.icm/lanes/<lane>/CONTEXT.md`. Production is wrong now → `.icm/lanes/hotfix/CONTEXT.md`. Work with no ticket → `.icm/intake/CONTEXT.md` § A request with no stub. A question about the build, or a review → read and answer, no stub, no branch, no pull request. Merge, release or promote → `.icm/intake/CONTEXT.md` § After the tick, and `.icm/uat/CONTEXT.md` where it exists.
+- [ ] `template/CLAUDE.md.jinja`, a build, five rows, six with a database: a bug, a tweak or a chore, with or without a stub → `.icm/lanes/<lane>/CONTEXT.md`. Production is wrong now → `.icm/lanes/hotfix/CONTEXT.md`. Work with no ticket → `.icm/intake/CONTEXT.md` § A request with no stub. A question about the build, or a review → read and answer, no stub, no branch, no pull request. Merge, release or promote → `.icm/intake/CONTEXT.md` § After the tick, and `.icm/uat/CONTEXT.md` where it exists. With `migrations_path` set: change the database, or read where a preview's database comes from → `.icm/database/CONTEXT.md`.
 - [ ] The rule "`main` changes by pull request. Gates are human checkboxes: read them, never tick them. The merge is Jamie's." becomes: `main` changes by pull request. Gates are human checkboxes: read them, never tick them. Jamie ticks Ready to merge, and the session merges with `.icm/scripts/merge.sh`. With `release` yes: the release is Jamie's word `release` in the session. The UAT rule says the session dispatches `promote.yml` with `promote.sh run` after the client's word is recorded.
 - [ ] A build's `CLAUDE.md` renders under 80 lines for every proof set.
 - [ ] `conventions/README.md`: the `Guards` row becomes `Claude assets`: the six hooks, the three skills and `settings.json` are the blueprint's, byte for byte. A `Lanes` row. The `Scripts` row names `merge.sh`, `release.sh`, `--ready` and `--dry-run`. The `Commits` row names the type table. The `Gates` row says the session merges after the tick. The `UAT` row says the two-project shape, `preview-db.sh` and `promote.sh run`. The `CI` row is the shape unit 11 builds.
-- [ ] `README.md`: the template table, the question table (`database`, `migrations_path`), the UAT table, the vendored skill's source, licence and commit.
+- [ ] `README.md`: the template table, the question table (`migrations_path`), the UAT and database tables, the vendored skill's source, licence and commit.
 - [ ] The blueprint's `CLAUDE.md`: its sentence on what `check.yml` renders and lints names the router test and the update proof.
 - [ ] The `writing` job reports no new finding in the changed files.
 

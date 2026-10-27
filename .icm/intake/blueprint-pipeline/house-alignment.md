@@ -21,7 +21,7 @@ Six small edits in the house, one pull request.
 - [ ] `core/lexicon.md`, `gate`: a session reads a gate and never ticks it. Jamie ticks. After Ready to merge the session merges.
 - [ ] `core/stack.md`: the hooks table names the router and the board as build-only hooks the blueprint renders, with their events. The house carries the three guards only.
 - [ ] `.claude/settings.json` in the house: the named deny list from unit 1, `desk/app/dist/**/*` and `desk/app/node_modules/**/*` kept.
-- [ ] `06-kickoff/CONTEXT.md`: step 6 adds `--data workspace=false` and the `database` and `migrations_path` answers. The gate paragraph adds two acts of Jamie's: Dependabot security updates on in the repository's settings, and a ruleset on `main` that requires the `gate` check.
+- [ ] `06-kickoff/CONTEXT.md`: step 6 adds `--data workspace=false` and the `migrations_path` answer, empty for a build with no database. The gate paragraph adds two acts of Jamie's: Dependabot security updates on in the repository's settings, and a ruleset on `main` that requires the `gate` check.
 - [ ] `CLAUDE.md`'s Boundaries line "Never, even if asked in the moment: ... merge or release" gains one clause: in the house. A client repo's merge after the tick is the blueprint's rule (why: the house's own pull requests carry no gate · 2026-10-27).
 - [ ] `check.yml` in the house is green.
 

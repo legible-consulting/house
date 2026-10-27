@@ -3,7 +3,7 @@
 - feature-slug: check-yml-proofs
 - epic: blueprint-pipeline
 - sequence: 9 of 13
-- depends-on: uat-database
+- depends-on: preview-database
 - complexity: medium
 - priority: P1
 
@@ -17,7 +17,7 @@ The render job gains the assertions and the router test. A new `update` job prov
 
 ## Acceptance criteria
 
-- [ ] The render job, builds: `need` the six hooks, the three skill folders, the four lanes, `merge.sh`, `release.sh`, `dependabot.yml`. With `database` yes: `need` `preview-db.sh`, `preview-db.yml`, `neon-cleanup.yml`. Workspaces: `never` the three build hooks, the skills, the lanes, the scripts. The matrix gains `database` and `migrations_path` for the `all` set.
+- [ ] The render job, builds: `need` the six hooks, the three skill folders, the four lanes, `merge.sh`, `release.sh`, `dependabot.yml`. With `migrations_path` set: `need` `.icm/database/CONTEXT.md`, `preview-db.sh`, `preview-db.yml`, `neon-cleanup.yml`. Workspaces: `never` the three build hooks, the skills, the lanes, the scripts. The matrix gains `migrations_path` for the `all` set and a `nouat-db` set.
 - [ ] The render job runs `bash .claude/hooks/route-request.test.sh` in a rendered build, and the `session-start.sh` fixture check from unit 7, and the `new-run.sh --dry-run` check from unit 4.
 - [ ] The deny assertion from unit 1 holds.
 - [ ] A new `update` job, two cases. From `v0.6.0`: `copier copy --vcs-ref v0.6.0 --defaults -d tier=app -d slug=zz -d client_name=Zz -d language=en . <dir>`, `git init -b main`, one commit, then `copier update --vcs-ref HEAD --defaults --conflict inline -d workspace=false -d monorepo=false -d release=true -d uat=false`. From `v0.8.0`: the same with the bank's answers and `uat=true`. After each update assert: no `<<<<<<<` or `>>>>>>>` marker in any file, `.copier-answers.yml` `_commit` names `HEAD`'s ref, every file the blueprint owns equals a fresh `HEAD` render with the same answers (`diff -r` with the written-once list excluded), the written-once files are untouched, and no file of the old render remains that `HEAD` does not render. A failure names the file.
