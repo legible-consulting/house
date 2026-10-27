@@ -2,27 +2,25 @@
 
 The tickets of the house itself: a module the business needs and does not have yet, a change to the desk, a chore. The shape is the blueprint's; the contract is `CONTEXT.md` beside this file. The desk's Work page reads this folder on `main` and copies each stub's `## Prompt` as the words that start it in a session.
 
-The epics, and what each holds:
+The epics, and what each holds. A finished epic sits whole in `_done/`:
 
 | Epic | Holds |
 |---|---|
 | `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo, the pool's no and purge |
-| `house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
-| `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
-| `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
-| `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
-| `blueprint-pipeline/` | the legacy ticket pipeline brought into the blueprint: the router, the lanes, the two skills and the writing reference, the board, the gated merge, the Neon database rule, the client CI shape, then `v1.0.0`, in thirteen pull requests |
-| `desk-ux/` | the desk read at a glance: the information rules in `DESIGN.md`, one ticket card and one track, a ticket page at its intake path, a project board in full screen, the Work page around its question, and the home and the other pages quieter, in six pull requests |
+| `_done/house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
+| `_done/render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
+| `_done/desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
+| `_done/desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
+| `_done/blueprint-pipeline/` | the legacy ticket pipeline brought into the blueprint: the router, the lanes, the two skills and the writing reference, the board, the gated merge, the Neon database rule, the client CI shape, then `v1.0.0`, in thirteen pull requests |
+| `_done/desk-ux/` | the desk read at a glance: the information rules in `DESIGN.md`, one ticket card and one track, a ticket page at its intake path, a project board in full screen, the Work page around its question, and the home and the other pages quieter, in six pull requests |
 
 The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by Jamie.
 
 ## Order
 
-Set by Jamie on 2026-10-27. The four epics that hold no open stub (`house-modules`, `render-and-publish`, `desk-forms`, `desk-restyle`) wait for their close-out and carry no line.
+Set by Jamie on 2026-10-27. A finished epic carries no line.
 
-1. desk-ux
-2. triage
-3. blueprint-pipeline
+1. triage
 
 ## Milestones
 
@@ -37,7 +35,7 @@ Set by Jamie on 2026-10-22. A line leaves when it is true.
 The steps of the house's own build that no session takes, because each reaches an account, the estate or money. The glance prints the bullets of this section (why: a step Jamie owes is a next action of the house itself · 2026-10-22). A client's own next step lives on its record, not here. A line leaves when it is done.
 
 - Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
-- `copier update` on the four live repos with their answers, through conformance, now that the blueprint has one root and a question bank (v0.8.0).
+- `copier update` to the blueprint `v1.0.0` on the live repos of `desk/mani.yaml`, through conformance. Give each answer by hand with `--data`. Never use `--defaults`: a repo on `v0.6.0` (vinecliff, remi-ai, jamienisbet) has no answer yet for `workspace`, `monorepo`, `release`, `uat`, `database` or `migrations_path`, and a default renders the wrong build. The answers per repo are in `triage/conformance-v1-0-0.md`. Check: each repo's `.copier-answers.yml` on `main` says `_commit: v1.0.0`.
 - Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
 - `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
   `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.

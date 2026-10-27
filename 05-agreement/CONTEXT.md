@@ -75,7 +75,7 @@ The agreement produces the signable contract for a deal the client said yes to, 
      `main`. The PR body lists the open values as numbered questions, each with its default,
      and any term proposed for `terms.md`.
 - The render: when `.github/workflows/render.yml` exists
-  (`.icm/intake/render-and-publish/render-stack.md`), the pull request's render run makes the
+  (`.icm/intake/_done/render-and-publish/_done/render-stack.md`), the pull request's render run makes the
   PDF as a run artifact. Until then Jamie renders by hand. The accepted proposal, with its
   price section, goes out with the agreement as its attachment (`voice.md`, The documents).
 - The signature: Jamie sends the agreement for signature through Google Docs eSignature and
