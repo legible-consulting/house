@@ -6,6 +6,7 @@ client: "Boys To Men Retreat"
 year: 2026
 services:
   - Site
+  - Software engineering
 stack:
   - Next.js
   - Resend
