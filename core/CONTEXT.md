@@ -99,7 +99,7 @@ Built (2026-10-26):
     split across two pages, or one that runs off the page, is the part of a document a
     client reads twice · Jamie, 2026-10-27).
   - The name of a PDF is `<Kind> - <client> - Jamie Nisbet - <date>.pdf`: the kind in the
-    client's language from `render/kinds.json`, the `name` in the client's `record.md`, and
+    document's `language` from `render/kinds.json`, the `name` in the client's `record.md`, and
     the `date` in the document's frontmatter. The document's title is not in the name
     (why: the kind already says what the document is, and a title often repeats it ·
     Jamie, 2026-10-27). The characters `/ \ : * ? " < > |` are dropped. A signed

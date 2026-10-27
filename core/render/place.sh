@@ -6,7 +6,7 @@
 # Usage: core/render/place.sh <client> <pdf>
 #   <folder> is the `drive_folder` in clients/<client>/record.md, or <client> when that field
 #   is empty. The Drive mounts when you open the Google account in Files. The PDF keeps the name
-#   render.sh gave it, which starts with the kind in the client's language (kinds.json).
+#   render.sh gave it, which starts with the kind in the document's language (kinds.json).
 #   A file of the same name in the folder is replaced in place: its Drive link stays.
 #   A file whose name starts with the signed kind is never written or replaced.
 #   Prints "RESULT: PLACED <name>".
@@ -37,22 +37,21 @@ root="$(cd "$here/../.." && pwd)"
 record="$root/clients/$client/record.md"
 [ -f "$record" ] || die "$record does not exist"
 folder="$(yq --front-matter=extract '.drive_folder // ""' "$record")"
-lang="$(yq --front-matter=extract '.language // ""' "$record")"
 [ -n "$folder" ] || folder="$client"
-[ -n "$lang" ] || die "$record has no 'language'"
 
+# The kind word is in the document's language, which may differ from the record's: agorasim's
+# record is pt-PT and its documents are English. Any language in kinds.json is accepted.
 base="$(basename "$pdf")"
-words="$(jq -c --arg l "${lang:0:2}" '.[$l] // empty' "$here/kinds.json")"
-[ -n "$words" ] || die "kinds.json has no words for language $lang"
-signed="$(jq -r '.signed' <<< "$words")"
-if [[ "$base" == "$signed"* ]]; then
-  die "'$base' starts with '$signed': a signed document is never touched"
-fi
+while IFS= read -r signed; do
+  if [[ "$base" == "$signed"* ]]; then
+    die "'$base' starts with '$signed': a signed document is never touched"
+  fi
+done < <(jq -r '.[].signed' "$here/kinds.json")
 named=0
 while IFS= read -r word; do
   if [[ "$base" == "$word - "* ]]; then named=1; fi
-done < <(jq -r '.proposal, .quote, .agreement' <<< "$words")
-[ "$named" -eq 1 ] || die "'$base' is not named by render.sh for a client in $lang"
+done < <(jq -r '.[] | .proposal, .quote, .agreement' "$here/kinds.json")
+[ "$named" -eq 1 ] || die "'$base' is not a name render.sh gives"
 
 # On a Drive mount a file's URI holds its ID; the name people see is its display name.
 child() {
@@ -70,9 +69,14 @@ child() {
 folders=()
 while IFS= read -r drive; do
   drive="${drive%/}"
-  if clients="$(child "$drive" "Clients")" && found="$(child "$clients" "$folder")"; then
-    folders+=("$found")
-  fi
+  # A mount's top level is "My Drive" (its name follows the desktop's language), "Shared
+  # with me" and any shared drive. Clients/ is looked for in each but "Shared with me".
+  while IFS=$'\t' read -r top _; do
+    [[ "$top" == */GVfsSharedWithMe ]] && continue
+    if clients="$(child "$top" "Clients")" && found="$(child "$clients" "$folder")"; then
+      folders+=("$found")
+    fi
+  done < <("$gio" list -u "$drive")
 done < <("$gio" mount -l | grep -oE 'google-drive://[^ ]+' | sort -u)
 [ "${#folders[@]}" -gt 0 ] || die "no Google Drive mount holds 'Clients/$folder': open Files, select the Google account, then run again"
 [ "${#folders[@]}" -eq 1 ] || die "more than one Google Drive mount holds 'Clients/$folder': unmount the others"

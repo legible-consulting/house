@@ -22,7 +22,7 @@ export interface Source {
 }
 
 /**
- * The kind as the first word of the file name, in the client's language.
+ * The kind as the first word of the file name, in the document's language (its `language` frontmatter).
  * kinds.json is the one table; place.sh reads it too.
  */
 const KIND_WORD = JSON.parse(
