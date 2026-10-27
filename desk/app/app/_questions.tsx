@@ -6,7 +6,7 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea";
 import type { FormField } from "@/lib/forms";
 
-// A form's fields as a visitor fills them, shared by the two public pages: /start (app/start/)
+// A form's fields as a visitor fills them, shared by the two public pages: /start (app/(auth)/start/)
 // and /f/<token> (app/f/). A question posts as `q_<key>`; the error under it comes back from
 // the page's action, in the visitor's language. Every control is controlled by the page.
 
