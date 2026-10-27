@@ -31,10 +31,10 @@ Restyle the ten vendored components against the tokens, changing classes and not
 
 | Component | Change |
 |---|---|
-| `button` | heights from `--row` and `--control-sm`; `rounded-md`; press deepens the colour (`active:` one step down the ramp), no translate; one primary per view |
-| `badge` | becomes the base of the status tag (stub 3); the filled variants are not used for state |
+| `button` | heights from `--row` and `--control-sm`; `rounded-md`; the outline variant has no `bg-input/*` fill; press deepens the colour (`active:` one step down the ramp), no translate; one primary per view |
+| `badge` | becomes the base of the status tag (stub 3); the filled variants are not used for state; no `hover:bg-muted` with `text-muted-foreground` (4.43:1 in light) |
 | `card` | hairline, `rounded-lg`, no shadow; `size="sm"` for a stat tile |
-| `input`, `textarea`, `native-select` | height from `--row`; `--input` hairline; `text-body` (16 px on touch); `rounded-md`; `aria-invalid` draws `--destructive` |
+| `input`, `textarea`, `native-select` | height from `--row`; `--input` hairline; `text-body` (16 px on touch); `rounded-md`; `aria-invalid` draws `--destructive`; no `bg-input/*` fill in either theme, because `--input` is the 3:1 edge colour and a fill of it drops the placeholder below 4.5:1 in dark |
 | `label` | `text-ui`, 500 |
 | `table` | header cells mono micro uppercase `--muted-foreground`; body rows `--grid-row` tall with a hairline under each; numeric cells right-aligned mono; a sticky header inside its scroll container |
 | `alert` | the flash base: hairline, soft fill, icon, `role` from the variant |

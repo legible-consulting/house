@@ -50,8 +50,8 @@ Light values:
 | `--muted-foreground` | `oklch(0.538 0.006 95)` | `#6F6E6A`, meta; 5.06:1 on paper |
 | `--foreground-2` (new) | `oklch(0.424 0.005 92)` | `#4F4E4B`, secondary text; 8.25:1 on paper |
 | `--border`, `--sidebar-border` | `oklch(0.915 0.008 99)` | `#E4E3DD`, the hairline |
-| `--input` | `oklch(0.847 0.008 99)` | `#CECDC7`, the strong hairline on a control |
-| `--ring` | `oklch(0.235 0 0 / 30%)` | ink at 30% |
+| `--input` | `oklch(0.538 0.006 95)` | `#6F6E6A`, the edge of a control; 5.06:1 on paper (3:1 is the floor) |
+| `--ring` | `oklch(0.235 0 0)` | ink, the focus outline; 16.52:1 on paper |
 | `--success` | `oklch(0.531 0.095 162)` | `#2E7D5B`; 4.95:1 on paper |
 | `--success-soft` | `oklch(0.962 0.012 162)` | `#ECF5F0` |
 | `--warning` | `oklch(0.626 0.125 70)` | `#B7791F`; 3.61:1, a mark only, never text |
@@ -71,11 +71,11 @@ Dark values:
 | `--card`, `--popover`, `--sidebar` | `oklch(0.268 0.002 107)` | `#262625` |
 | `--secondary`, `--accent` | `oklch(0.293 0.002 107)` | `#2C2C2B` |
 | `--muted` | `oklch(0.205 0 0)` | `#171717` |
-| `--muted-foreground` | `oklch(0.629 0.007 97)` | `#8A8984`; 4.76:1 on ink |
+| `--muted-foreground` | `oklch(0.692 0.007 97)` | `#9D9C97`, the ramp's 400; 6.06:1 on ink, 5.51:1 on card |
 | `--foreground-2` | `oklch(0.782 0.008 99)` | `#B9B8B2`; 8.38:1 on ink |
 | `--border`, `--sidebar-border` | `oklch(0.325 0.002 106)` | `#343433` |
-| `--input` | `oklch(0.390 0.003 107)` | `#454543` |
-| `--ring` | `oklch(0.997 0.005 95 / 40%)` | paper at 40% |
+| `--input` | `oklch(0.629 0.007 97)` | `#8A8984`; 4.76:1 on ink, 4.32:1 on card |
+| `--ring` | `oklch(0.997 0.005 95)` | paper, the focus outline; 16.52:1 on ink |
 | `--success` | `oklch(0.692 0.115 162)` | `#4FB286`; 6.39:1 on ink |
 | `--warning`, `--warning-text` | `oklch(0.732 0.129 74)` | `#D89B3E`; 6.89:1 on ink |
 | `--destructive` | `oklch(0.660 0.152 27)` | `#E0685E`; 5.01:1 on ink |
@@ -114,6 +114,8 @@ Sizes and radii:
 | `--radius-key` | 4 px | |
 | `--radius-control` | 6 px | |
 | `--radius-pane` | 8 px | |
+
+Contrast is WCAG 2.2 AA: 4.5:1 for text, 3:1 for a control's edge, a focus outline and a state mark. Where a brand value fails, the nearest step of the brand's paper-to-ink ramp that passes takes its place; no new colour enters. (why: the desk is the brand's paper and ink, and it must read for everyone on a phone and at a desk · Jamie, 2026-10-27).
 
 Elevation and borders: a card rests on a 1 px `--border` hairline and no shadow; a control (input, select, textarea, outline button) draws a 1 px `--input` hairline; `shadow-float` goes on a drawer, a popover and a menu only; no gradient, no blur, no image.
 

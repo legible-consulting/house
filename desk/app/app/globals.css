@@ -18,6 +18,11 @@
    `desk.css` at the root of k0d0minio/jamienisbet). When the two disagree, the brand's
    tokens win and this file is fixed. Each colour carries its brand hex. Each text colour
    carries its contrast ratio against the canvas and the fills it sits on.
+
+   Contrast follows WCAG 2.2 AA: 4.5:1 for text, 3:1 for a control's edge, a focus
+   outline and a state mark. Where a brand value fails, this file takes the nearest step
+   of the brand's paper-to-ink ramp that passes, and never a new colour. A pair that no
+   step of the palette can pass is forbidden in the comment beside the colour.
    ============================================================ */
 
 @import "tailwindcss";
@@ -146,18 +151,23 @@
   /* #6F6E6A, meta; 5.06:1 on paper, 5.10:1 on card, 4.76:1 on the lifted sheet.
      4.43:1 on muted: meta text never sits on the sunken fill. */
   --muted-foreground: oklch(0.538 0.006 95);
-  --border: oklch(0.915 0.008 99); /* #E4E3DD, the hairline */
-  --input: oklch(0.847 0.008 99); /* #CECDC7, the strong hairline on a control */
-  --ring: oklch(0.235 0 0 / 30%); /* ink at 30% */
+  --border: oklch(0.915 0.008 99); /* #E4E3DD, the hairline; it separates, it marks no control */
+  /* #6F6E6A, the edge of an input, a select, a textarea and an outline button; 5.06:1 on
+     paper, 5.10:1 on card. The brand's #CECDC7 is 1.58:1, below the 3:1 a control's edge
+     needs. */
+  --input: oklch(0.538 0.006 95);
+  /* Ink, the focus outline; 16.52:1 on paper. At 50%, the halo of a vendored component
+     is 3.25:1. */
+  --ring: oklch(0.235 0 0);
   /* State. Each one only beside its name as text. On a soft fill the words are ink and
-     the state colour draws the mark only: the state colours do not reach 4.5:1 on every
-     soft fill. */
-  --success: oklch(0.531 0.095 162); /* #2E7D5B; 4.95:1 on paper, 5.00:1 on card */
+     the state colour draws the mark only (3.30:1 or more on its soft fill). State words
+     never sit on the sunken fill: each state colour is below 4.5:1 there. */
+  --success: oklch(0.531 0.095 162); /* #2E7D5B; 4.95:1 on paper, 5.00:1 on card, 4.66:1 on the lifted sheet */
   --success-soft: oklch(0.962 0.012 162); /* #ECF5F0 */
   --warning: oklch(0.626 0.125 70); /* #B7791F; 3.61:1, a mark only, never text */
   --warning-text: oklch(0.519 0.106 70); /* #8F5C12, amber words; 5.61:1 on paper, 5.14:1 on warning-soft */
   --warning-soft: oklch(0.966 0.022 83); /* #FBF3E4 */
-  --destructive: oklch(0.559 0.16 28); /* #C0453B; 5.01:1 on paper, 5.05:1 on card */
+  --destructive: oklch(0.559 0.16 28); /* #C0453B; 5.01:1 on paper, 5.05:1 on card, 4.71:1 on the lifted sheet */
   --destructive-soft: oklch(0.954 0.017 27); /* #FBECEA */
   --sidebar: oklch(0.976 0.005 95); /* #F8F7F3, the lifted sheet */
   --sidebar-foreground: oklch(0.235 0 0); /* ink; 15.55:1 on the sidebar */
@@ -166,7 +176,7 @@
   --sidebar-accent: oklch(0.952 0.007 97); /* #F0EFEA, the current link */
   --sidebar-accent-foreground: oklch(0.235 0 0); /* ink; 14.48:1 on the current link */
   --sidebar-border: oklch(0.915 0.008 99); /* #E4E3DD */
-  --sidebar-ring: oklch(0.235 0 0 / 30%);
+  --sidebar-ring: oklch(0.235 0 0);
 
   /* The one shadow. Nothing at rest takes it. */
   --shadow-float: 0 8px 16px oklch(0.235 0 0 / 8%), 0 24px 56px oklch(0.235 0 0 / 14%);
@@ -280,18 +290,23 @@
     --accent: oklch(0.293 0.002 107); /* #2C2C2B, the hover wash */
     --accent-foreground: oklch(0.997 0.005 95); /* paper; 13.85:1 on the hover wash */
     --muted: oklch(0.205 0 0); /* #171717, the sunken fill */
-    /* #8A8984, meta; 4.76:1 on ink, 5.12:1 on muted.
-       4.32:1 on card and 3.99:1 on secondary: below 4.5:1 (the brand's value). */
-    --muted-foreground: oklch(0.629 0.007 97);
-    --border: oklch(0.325 0.002 106); /* #343433 */
-    --input: oklch(0.39 0.003 107); /* #454543 */
-    --ring: oklch(0.997 0.005 95 / 40%); /* paper at 40% */
+    /* #9D9C97 (the ramp's 400), meta; 6.06:1 on ink, 5.51:1 on card, 5.08:1 on
+       secondary, 6.52:1 on muted. The brand's #8A8984 is 4.32:1 on card. */
+    --muted-foreground: oklch(0.692 0.007 97);
+    --border: oklch(0.325 0.002 106); /* #343433, the hairline */
+    /* #8A8984, the edge of a control; 4.76:1 on ink, 4.32:1 on card. The brand's #454543
+       is 1.73:1. */
+    --input: oklch(0.629 0.007 97);
+    /* Paper, the focus outline; 16.52:1 on ink. At 50%, a component's halo is 5.08:1. */
+    --ring: oklch(0.997 0.005 95);
     --success: oklch(0.692 0.115 162); /* #4FB286; 6.39:1 on ink, 5.80:1 on card */
     --success-soft: color-mix(in oklch, var(--success) 16%, transparent);
     --warning: oklch(0.732 0.129 74); /* #D89B3E; 6.89:1 on ink, 6.26:1 on card */
     --warning-text: oklch(0.732 0.129 74); /* the same amber carries words on ink */
     --warning-soft: color-mix(in oklch, var(--warning) 16%, transparent);
-    --destructive: oklch(0.66 0.152 27); /* #E0685E; 5.01:1 on ink, 4.55:1 on card */
+    /* #E0685E; 5.01:1 on ink, 4.55:1 on card. 4.20:1 on secondary: red words sit on the
+       canvas, a card or a popover only. */
+    --destructive: oklch(0.66 0.152 27);
     --destructive-soft: color-mix(in oklch, var(--destructive) 16%, transparent);
     --sidebar: oklch(0.268 0.002 107); /* #262625 */
     --sidebar-foreground: oklch(0.997 0.005 95); /* paper; 15.01:1 on the sidebar */
@@ -300,7 +315,7 @@
     --sidebar-accent: oklch(0.293 0.002 107); /* #2C2C2B, the current link */
     --sidebar-accent-foreground: oklch(0.997 0.005 95); /* paper; 13.85:1 */
     --sidebar-border: oklch(0.325 0.002 106); /* #343433 */
-    --sidebar-ring: oklch(0.997 0.005 95 / 40%);
+    --sidebar-ring: oklch(0.997 0.005 95);
 
     --shadow-float: 0 8px 16px oklch(0 0 0 / 50%), 0 24px 56px oklch(0 0 0 / 60%);
   }
