@@ -35,7 +35,24 @@ export const NO_CONTACT = "asked not to be contacted";
 
 export const LINES = ["local", "sme"] as const;
 export const SIZES = ["1", "2-9", "10-49", "50+"] as const;
-export const SERVICES = ["site", "app", "platform", "workshop", "coaching", "unknown"] as const;
+// One value per line of core/services.md, in its order, then unknown.
+export const SERVICES = [
+  "site",
+  "app",
+  "platform",
+  "workshop",
+  "coaching",
+  "retainer",
+  "geo",
+  "landing-page",
+  "automation",
+  "ai-infrastructure",
+  "ai-consultancy",
+  "project-management",
+  "software",
+  "lead-gen",
+  "unknown",
+] as const;
 export const DEAL_SIZES = ["<2k", "2k-10k", "10k-30k", ">30k"] as const;
 
 export type Role = "jamie" | "salesman" | "client";
