@@ -6,7 +6,7 @@
 set -euo pipefail
 
 : "${REPOSITORY:?run through multi-gitter, which sets REPOSITORY}"
-house="$(cd "$(dirname "$0")/../.." && pwd)"
+house="$(cd "$(dirname "$0")/.." && pwd)"
 src="gh:legible-consulting/blueprint"
 
 if [ -f .copier-answers.yml ]; then

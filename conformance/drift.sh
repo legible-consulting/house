@@ -5,7 +5,7 @@
 # local lane (fetch only) and the GitHub API (archived flag); changes no client repo.
 set -euo pipefail
 
-house="$(cd "$(dirname "$0")/../.." && pwd)"
+house="$(cd "$(dirname "$0")/.." && pwd)"
 blueprint="https://github.com/legible-consulting/blueprint.git"
 assets=(.claude CLAUDE.md AGENTS.md .mcp.json .icm .opencode opencode.jsonc .cursor .github/copilot-instructions.md)
 
