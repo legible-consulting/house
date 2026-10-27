@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 // that opens a bottom drawer. The server renders the desk's frame; a phone swaps it after
 // hydration, with both closed, so nothing moves.
 
-const PILL = "inline-flex h-control shrink-0 items-center gap-2 rounded-full border px-3 text-ui whitespace-nowrap";
+const PILL = "inline-flex h-control shrink-0 items-center gap-2 rounded-full border border-input px-3 text-ui whitespace-nowrap";
 
 export function Dot({ className }: { className: string }) {
   return <span aria-hidden="true" className={cn("size-2 shrink-0 rounded-full", className)} />;
