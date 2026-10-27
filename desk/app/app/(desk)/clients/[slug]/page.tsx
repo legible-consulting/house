@@ -32,7 +32,10 @@ import { ClientWork, ProjectWork } from "@/app/_work";
 // repo's drift are internal and never on this page for a client. Jamie also sends a form from
 // here (app/_send.tsx): the answer saves the person as a user of this folder, and the Users card
 // (app/_users.tsx) lists the folder's users with their state, where Jamie activates one and
-// Neon Auth mails them a sign-in link.
+// Neon Auth mails them a sign-in link. The cards, for Jamie: where it stands, the work, the
+// release and checks, the documents, Send a form, the users. For a client: where it stands,
+// the release and checks, the work, the documents. No paragraph explains the page
+// (desk/app/DESIGN.md, rule 9).
 export const dynamic = "force-dynamic";
 
 const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
@@ -97,6 +100,45 @@ export default async function Client({
     jamie ? readUsers(c.slug) : null,
   ]);
 
+  const release = c.repo && (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <h2>Release and checks</h2>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <RepoFacts repo={c.repo} jamie={jamie} />
+      </CardContent>
+    </Card>
+  );
+  const work = c.repo && (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <h2>Work</h2>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>{jamie ? <ProjectWork repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
+    </Card>
+  );
+  const documents =
+    c.documents.length === 0 ? (
+      <Empty>No document yet. The proposal, the agreement and the handover land here as each stage writes them.</Empty>
+    ) : (
+      c.documents.map((d) => (
+        <Document
+          key={`${d.stage}/${d.file}`}
+          id={d.stage}
+          className="border-t pt-6"
+          date={d.date}
+          tag={<Badge variant="outline">{d.stage}</Badge>}
+          title={d.title}
+          markdown={d.body}
+        />
+      ))
+    );
+
   return (
     <>
       <PageHeader
@@ -106,11 +148,6 @@ export default async function Client({
         meta={<StageTrack stage={c.stage} track />}
         live={live}
       />
-      {jamie && (
-        <p className="mb-4 text-body text-muted-foreground">
-          clients/{c.slug}/record.md is the record; this page reads it at build time.
-        </p>
-      )}
       <Flash error={error} note={note} />
       <div className="grid gap-6">
         <Card>
@@ -124,51 +161,23 @@ export default async function Client({
           </CardContent>
         </Card>
 
-        {c.repo && (
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                <h2>Release and checks</h2>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <RepoFacts repo={c.repo} jamie={jamie} />
-            </CardContent>
-          </Card>
-        )}
-
-        {c.repo && (
-          <Card>
-            <CardHeader>
-              <CardTitle>
-                <h2>Work</h2>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>{jamie ? <ProjectWork repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
-          </Card>
-        )}
-
-        {sent && (
-          // record.md carries no contact fields, so the name and the email start empty.
-          <SendForm target={{ client: c.slug }} read={sent} language={c.language} name="" email="" />
-        )}
-
-        {users && <ClientUsers slug={c.slug} read={users} />}
-
-        {c.documents.length === 0 ? (
-          <Empty>No document yet. The proposal, the agreement and the handover land here as each stage writes them.</Empty>
+        {jamie ? (
+          <>
+            {work}
+            {release}
+            {documents}
+            {sent && (
+              // record.md carries no contact fields, so the name and the email start empty.
+              <SendForm target={{ client: c.slug }} read={sent} language={c.language} name="" email="" />
+            )}
+            {users && <ClientUsers slug={c.slug} read={users} />}
+          </>
         ) : (
-          c.documents.map((d) => (
-            <Document
-              key={`${d.stage}/${d.file}`}
-              id={d.stage}
-              className="border-t pt-6"
-              date={d.date}
-              tag={<Badge variant="outline">{d.stage}</Badge>}
-              title={d.title}
-              markdown={d.body}
-            />
-          ))
+          <>
+            {release}
+            {work}
+            {documents}
+          </>
         )}
       </div>
     </>

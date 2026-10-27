@@ -22,7 +22,8 @@ import { currentUser } from "@/lib/user";
 // the default is the current one. When rhythms.yml has committed desk/close/<that month>.md
 // (on the 1st, for the month that ended), the page renders that file and reads only the pool
 // live; otherwise, or with ?live=1, it computes the same rules live (lib/rhythms.ts).
-// The header names the month and steps to the one before and after it. The four totals lead
+// The header names the month, says when it is computed live, and steps to the one before and
+// after it. No paragraph explains the page (desk/app/DESIGN.md, rule 9). The four totals lead
 // as tiles; the engagements are a table at the desk and one card per client on the phone; the
 // pipeline is two groups of tiles.
 export const dynamic = "force-dynamic";
@@ -100,7 +101,7 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
     <PageHeader
       user={user}
       title="Monthly close"
-      meta={label(month)}
+      meta={file ? label(month) : `${label(month)} · computed live`}
       actions={
         <>
           {step(-1)}
@@ -191,11 +192,6 @@ export default async function Close({ searchParams }: { searchParams: Search }) 
     <>
       {header}
       <Flash error={error} note={note} />
-      <p className="mb-4 max-w-reading text-body text-muted-foreground">
-        Every engaged client against its economics: the agreed price, the quote&apos;s estimate of the hours and the
-        cost per month, and what is left. Computed live from the house as of the last push. Invoices and payments are
-        handled outside the house.
-      </p>
 
       <StatGrid className="mb-8">
         <Stat value={money(t.monthly, cur)} label="Monthly price, agreed" />
