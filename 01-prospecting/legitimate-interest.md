@@ -31,7 +31,7 @@ have not asked to be contacted (`target-profile.md`), to offer the services in
 One row per business in the desk's pool: the `prospects` and `touches` tables in the Neon
 project `legible-desk`, read and written through the desk at `desk.jamienisbet.com`. The
 fields are the ones `prospect.md` names: the company, the contact's name and role, an email
-or a phone number, the website, the country, the language, the line, the size, the service,
+or a phone number, a WhatsApp number, an Instagram handle, the website, the country, the language, the line, the size, the service,
 a deal-size hint, how the prospect was found, what they asked for, the touches (date,
 channel, one line), notes, and the reason when a row is lost.
 
@@ -143,8 +143,8 @@ once someone says no.
   contacted" on the row's page. The row goes to `lost` with the reason `asked not to be
   contacted` and loses its next action. `lost` is final for the row. That company gets no new
   row, by any salesman, on any channel (`cadence.md`, Channels). ✅
-- **The no is kept apart from the row.** The same gesture writes the row's email and phone to
-  the desk's no-contact list (the table `suppressions`: the address lower-cased, the number
+- **The no is kept apart from the row.** The same gesture writes the row's email, phone and
+  WhatsApp number to the desk's no-contact list (the table `suppressions`: the address lower-cased, the number
   with its country code; one number is the phone and WhatsApp). The desk refuses a new row,
   or an edit, that carries an address or a number on the list, and the pool API answers the
   site's contact form with a refusal and stores nothing. No code path deletes an entry. The
@@ -166,7 +166,8 @@ Prospect data earns its keep by being worked. When it is not:
 
 - **Twelve months.** A row at `new`, `contacted` or `lost` whose last touch, or whose
   `added` date when it has no touch, is older than 12 months is cleared of the person's
-  data: the contact's name, the email, the phone, the website, the ask and the notes. The
+  data: the contact's name, the email, the phone, the WhatsApp number, the Instagram handle,
+  the website, the ask and the notes. The
   company, the country, the line, the source and the dates stay. The touches keep their
   dates and lose their notes. `desk/app/scripts/pool-purge.mjs` clears them. Jamie runs it by
   hand from the laptop: it prints what it would clear, and it writes only with `--yes`. The

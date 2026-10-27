@@ -7,8 +7,8 @@ import { contactPoints, fieldsFrom, noContactError } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
 
 // A new row at `new`, sourced by the signed-in user. The slug comes from the company
-// (lib/db.ts freeSlug); the sourcer may edit it until the handoff. An email or phone on the
-// no-contact list gets no row (cadence.md, Channels).
+// (lib/db.ts freeSlug); the sourcer may edit it until the handoff. An email, phone or WhatsApp
+// number on the no-contact list gets no row (cadence.md, Channels).
 export async function addProspect(form: FormData) {
   let id = "";
   const error = await attempt(async () => {

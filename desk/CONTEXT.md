@@ -151,8 +151,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   lead lost; the token stands in for the session the form has none of · 2026-10-22).
 - The no-contact list, the table `suppressions`: "They asked not to be contacted" on
   `/pool/<id>`, for the sourcer and Jamie, sets the row to `lost` with that reason, clears
-  `next_action` and writes the row's email and phone to it. Adding a row, saving a row with a
-  new email or phone, and the pool API refuse a value on the list, in words. No code path
+  `next_action` and writes the row's email, phone and WhatsApp number to it (one number is the
+  phone and WhatsApp). Adding a row, saving a row with a new email, phone or WhatsApp number,
+  and the pool API refuse a value on the list, in words. No code path
   deletes an entry (why: a no is for good, `01-prospecting/legitimate-interest.md` §4 ·
   2026-10-26).
 - The purge, `app/scripts/pool-purge.mjs`: Jamie runs it by hand from the laptop with
