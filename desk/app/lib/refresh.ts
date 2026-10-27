@@ -10,7 +10,7 @@ import { currentUser } from "./user";
 // and Vercel redeploys the desk from that push about a minute later. The page follows the
 // run and the deploy: the redirect carries the run and the start's time
 // (?started=<key>&at=<seconds>), and the pill shows the run's state while the page re-reads
-// itself (app/_sync.tsx, app/_shell.tsx). Only the jamie role may call it. The call needs
+// itself (app/_sync.tsx, components/desk/page-header.tsx). Only the jamie role may call it. The call needs
 // Actions read and write on DESK_PAT: the token unset, or GitHub refusing, the page shows the
 // reason in words and still renders.
 

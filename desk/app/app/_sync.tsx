@@ -16,40 +16,31 @@ import {
 import { built } from "@/lib/house";
 import { refresh } from "@/lib/refresh";
 import { inFlight } from "@/lib/repos";
-import { cn } from "@/lib/utils";
 import { RunState } from "./_repo";
+import { Pill, SyncPanel } from "./_sync-panel";
 
-// The sync pill, Jamie only, at the top of every page: one word for whether the desk shows
-// main. Up to date: the build is main's head. Running: a house run is queued or running on
-// GitHub (the glance or the close; its commit redeploys the desk). Deploying: main is ahead
-// and its newest commit is under ten minutes old, so Vercel is on it. Out of sync: main is
-// ahead for longer, a failed or missing deploy, which Jamie fixes from the laptop. Unknown:
-// the distance could not be read; the panel says why. The pill opens a panel (a details
-// element, no script): the build, the distance, the runs with their Run buttons. While
-// anything is in flight the page re-reads itself (app/_shell.tsx).
+// The sync pill, Jamie only, on the trailing edge of every page header: one word for whether
+// the desk shows main. Up to date: the build is main's head. Running: a house run is queued
+// or running on GitHub (the glance or the close; its commit redeploys the desk). Deploying:
+// main is ahead and its newest commit is under ten minutes old, so Vercel is on it. Out of
+// sync: main is ahead for longer, a failed or missing deploy, which Jamie fixes from the
+// laptop. Unknown: the distance could not be read; the panel says why. The pill opens a panel
+// (app/_sync-panel.tsx: a details element from md, a drawer below it): the build's commit,
+// the distance, the runs with their Run buttons. While anything is in flight the page
+// re-reads itself (components/desk/page-header.tsx).
 
 type Word = "Up to date" | "Running" | "Deploying" | "Out of sync" | "Unknown";
 
+// The dot is a state mark beside its word: green, amber or red, never alone.
 const DOT: Record<Word, string> = {
-  "Up to date": "bg-emerald-600",
-  Running: "bg-amber-500",
-  Deploying: "bg-amber-500",
+  "Up to date": "bg-success",
+  Running: "bg-warning",
+  Deploying: "bg-warning",
   "Out of sync": "bg-destructive",
   Unknown: "bg-muted-foreground",
 };
 
 const SHOWN = 5;
-
-const pill = "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium";
-
-function Pill({ word, muted = false }: { word: string; muted?: boolean }) {
-  return (
-    <span className={cn(pill, muted && "text-muted-foreground")}>
-      <span aria-hidden className={cn("size-2 rounded-full", DOT[word as Word] ?? "bg-muted-foreground")} />
-      {word}
-    </span>
-  );
-}
 
 async function Panel({ start }: { start: Start | null }) {
   const own = (file: string) => (start?.file === file ? start : null);
@@ -71,84 +62,78 @@ async function Panel({ start }: { start: Start | null }) {
           : "Out of sync";
   const followed = start ? RUNS[start.key] : null;
   return (
-    <details className="relative">
-      <summary className={cn(pill, "cursor-pointer list-none [&::-webkit-details-marker]:hidden")}>
-        <span aria-hidden className={cn("size-2 rounded-full", DOT[word])} />
-        {word}
-      </summary>
-      <div className="absolute right-0 z-20 mt-2 grid w-[min(92vw,28rem)] gap-3 rounded-lg border bg-popover p-4 text-sm text-popover-foreground shadow-md">
-        <p className="text-xs text-muted-foreground">
-          Build {BUILD.slice(0, 7)} · house read {built}
-        </p>
-        <p>
-          {!d.ok ? (
-            <>main: {d.reason}</>
-          ) : ahead === 0 ? (
-            <>Up to date with main.</>
-          ) : (
-            <>
-              main is {ahead === 1 ? "1 commit" : `${ahead} commits`} ahead: {d.messages.slice(0, SHOWN).join("; ")}
-              {d.messages.length > SHOWN ? "; …" : ""}.{" "}
-              {deploying
-                ? "Vercel deploys each push in about a minute."
-                : "No deploy in ten minutes: a failed build, or one that never started. Fix it from the laptop and push."}
-            </>
-          )}
-        </p>
-        <dl className="grid gap-1">
-          {runs.map(({ file, read }) => (
-            <div key={file} className="flex flex-wrap items-center gap-2">
-              <dt>
-                <a href={runsUrl(file)} className="text-muted-foreground hover:text-foreground">
-                  {file}
-                </a>
-              </dt>
-              <dd>
-                {!read.ok ? (
-                  <span className="text-muted-foreground">{read.reason}</span>
-                ) : !read.run ? (
-                  <span className="text-muted-foreground">no run yet</span>
-                ) : (
-                  <>
-                    <RunState run={read.run} jamie />
-                    {!since(read.run, own(file)) && (
-                      <span className="text-muted-foreground"> · the run you started is not listed yet</span>
-                    )}
-                  </>
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
-        <div className="flex flex-wrap items-center gap-2">
-          <form action={refresh}>
-            <input type="hidden" name="run" value="glance" />
-            <Button type="submit" size="sm" variant="outline">
-              Run the glance
-            </Button>
-          </form>
-          <form action={refresh} className="flex items-center gap-2">
-            <input type="hidden" name="run" value="close" />
-            <Button type="submit" size="sm" variant="outline">
-              Run the close
-            </Button>
-            <Input
-              name="month"
-              placeholder="YYYY-MM"
-              pattern="\d{4}-(0[1-9]|1[0-2])"
-              title="The month to close, YYYY-MM. Empty is the month that ended."
-              aria-label="Month to close, YYYY-MM"
-              className="h-7 w-28 text-xs"
-            />
-          </form>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          A run writes its file and commits to main when the file changed, and Vercel redeploys the desk. The desk
-          computes the glance and the close live anyway: the file is the day&apos;s record.
-          {followed && <> {followed.label}: the run has started on GitHub, and this page follows it.</>}
-        </p>
+    <SyncPanel word={word} dot={DOT[word]}>
+      <p className="font-mono text-meta text-muted-foreground">
+        Build {BUILD.slice(0, 7)} · house read {built}
+      </p>
+      <p>
+        {!d.ok ? (
+          <>main: {d.reason}</>
+        ) : ahead === 0 ? (
+          <>Up to date with main.</>
+        ) : (
+          <>
+            main is {ahead === 1 ? "1 commit" : `${ahead} commits`} ahead: {d.messages.slice(0, SHOWN).join("; ")}
+            {d.messages.length > SHOWN ? "; …" : ""}.{" "}
+            {deploying
+              ? "Vercel deploys each push in about a minute."
+              : "No deploy in ten minutes: a failed build, or one that never started. Fix it from the laptop and push."}
+          </>
+        )}
+      </p>
+      <dl className="grid gap-1">
+        {runs.map(({ file, read }) => (
+          <div key={file} className="flex flex-wrap items-center gap-2">
+            <dt>
+              <a href={runsUrl(file)} className="font-mono text-meta text-muted-foreground underline hover:text-foreground">
+                {file}
+              </a>
+            </dt>
+            <dd>
+              {!read.ok ? (
+                <span className="text-muted-foreground">{read.reason}</span>
+              ) : !read.run ? (
+                <span className="text-muted-foreground">no run yet</span>
+              ) : (
+                <>
+                  <RunState run={read.run} jamie />
+                  {!since(read.run, own(file)) && (
+                    <span className="text-muted-foreground"> · the run you started is not listed yet</span>
+                  )}
+                </>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <div className="flex flex-wrap items-center gap-2">
+        <form action={refresh}>
+          <input type="hidden" name="run" value="glance" />
+          <Button type="submit" size="sm" variant="outline">
+            Run the glance
+          </Button>
+        </form>
+        <form action={refresh} className="flex items-center gap-2">
+          <input type="hidden" name="run" value="close" />
+          <Button type="submit" size="sm" variant="outline">
+            Run the close
+          </Button>
+          <Input
+            name="month"
+            placeholder="YYYY-MM"
+            pattern="\d{4}-(0[1-9]|1[0-2])"
+            title="The month to close, YYYY-MM. Empty is the month that ended."
+            aria-label="Month to close, YYYY-MM"
+            className="h-control-sm w-28 font-mono text-meta"
+          />
+        </form>
       </div>
-    </details>
+      <p className="text-ui font-normal text-muted-foreground">
+        A run writes its file and commits to main when the file changed, and Vercel redeploys the desk. The desk
+        computes the glance and the close live anyway: the file is the day&apos;s record.
+        {followed && <> {followed.label}: the run has started on GitHub, and this page follows it.</>}
+      </p>
+    </SyncPanel>
   );
 }
 

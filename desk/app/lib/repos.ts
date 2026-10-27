@@ -49,7 +49,7 @@ const TIMEOUT_MS = 5000;
 const REPO_RE = /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/;
 
 // How long a read is kept while the run it shows is queued or running: the page re-reads
-// itself at the same pace (app/_shell.tsx). lib/github.ts keeps the house's runs by the
+// itself at the same pace (components/desk/page-header.tsx). lib/github.ts keeps the house's runs by the
 // same rule.
 export const FLIGHT_MS = 15 * 1000;
 
@@ -187,6 +187,6 @@ export function repoStatus(repo: string): Promise<RepoStatus> {
 }
 
 // Whether the repo's latest check.yml run is queued or running: the page re-reads itself
-// while it is (app/_shell.tsx). A failed read is not in flight.
+// while it is (components/desk/page-header.tsx). A failed read is not in flight.
 export const repoInFlight = (repo: string): Promise<boolean> =>
   repoStatus(repo).then((s) => s.ok && inFlight(s.latest));
