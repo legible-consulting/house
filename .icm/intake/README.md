@@ -22,7 +22,6 @@ Set by Jamie on 2026-10-27. The four epics that hold no open stub (`house-module
 
 1. desk-ux
 2. triage
-3. blueprint-pipeline
 
 ## Milestones
 
