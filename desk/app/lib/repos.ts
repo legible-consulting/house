@@ -1,4 +1,5 @@
 import { maybeEnv } from "./env";
+import { limitReason } from "./limits";
 
 // The client repos' status (the build's release and check runs), read per request over the GitHub
 // REST API: per repo, the latest release, the latest completed check.yml run on the default
@@ -93,9 +94,8 @@ async function get(token: Token, path: string): Promise<{ status: number; body: 
     throw new Unreachable("GitHub did not answer");
   }
   if (res.status === 401) throw new Unreachable(`GitHub refuses ${token.name} (401)`);
-  if (res.status === 429 || (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0")) {
-    throw new Unreachable("GitHub rate limit reached");
-  }
+  const limited = limitReason(res);
+  if (limited) throw new Unreachable(limited);
   const body = (await res.json().catch(() => ({}))) as Record<string, unknown>;
   return { status: res.status, body };
 }

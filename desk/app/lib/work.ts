@@ -1,5 +1,6 @@
 import { maybeEnv } from "./env";
 import { HOUSE_REPO } from "./github";
+import { limitReason } from "./limits";
 import { inFlight, ownerVariable, runOf, tokenFor, type Run, type Token } from "./repos";
 
 // The work in each client repo, read per request over the GitHub REST API: the tickets in
@@ -149,9 +150,8 @@ export async function request(token: Token, method: string, path: string, body?:
     throw new ReadFailed("GitHub did not answer");
   }
   if (res.status === 401) throw new ReadFailed(`GitHub refuses ${token.name} (401)`);
-  if (res.status === 429 || (res.status === 403 && res.headers.get("x-ratelimit-remaining") === "0")) {
-    throw new ReadFailed("GitHub rate limit reached");
-  }
+  const limited = limitReason(res);
+  if (limited) throw new ReadFailed(limited);
   const json: unknown = await res.json().catch(() => ({}));
   return { status: res.status, body: json };
 }
