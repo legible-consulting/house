@@ -32,9 +32,17 @@
   "permissions": {
     "deny": [
       "Read(./**/.env)",
-      "Read(./**/.env.*)",
+      "Read(./**/.env.local)",
+      "Read(./**/.env.*.local)",
+      "Read(./**/.env.development)",
+      "Read(./**/.env.production)",
+      "Read(./**/.env.preview)",
+      "Read(./**/.env.staging)",
+      "Read(./**/.env.test)",
+      "Read(./**/.env.vercel)",
       "Read(./**/*.pem)",
       "Read(./**/*.key)",
+      "Read(./**/secrets/**)",
       "Read(./desk/app/dist/**/*)",
       "Read(./desk/app/node_modules/**/*)"
     ]

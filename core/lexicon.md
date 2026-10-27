@@ -69,7 +69,9 @@ A module the business needs and the house does not have yet is a ticket in `.icm
 - **gate** — a human checkbox. In a client repo, the two at the top of a pull request body,
   **Spec approved** and **Ready to merge**, each anchored by an HTML comment
   (`<!-- gate:spec-approved -->`, `<!-- gate:ready-to-merge -->`) so the desk reads them. A
-  session reads a gate and never ticks it. Jamie ticks on GitHub or from the desk.
+  session reads a gate and never ticks it. Jamie ticks, on GitHub or from the desk. After
+  Ready to merge the session merges, with the repo's `.icm/scripts/merge.sh` (why: Jamie ticks
+  from the phone, and the session does the mechanics · Jamie, 2026-10-27).
 - **kind** — the shape of an engagement in `record.md`: `build`, `retainer` or `role`.
   Defined in `clients/CONTEXT.md`.
 - **pool** — the leads a salesman works in the desk before Jamie takes one. Its statuses are

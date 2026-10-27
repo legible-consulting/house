@@ -42,14 +42,21 @@ Kickoff produces the client repo rendered from the blueprint, the access table, 
      ```bash
      copier copy gh:legible-consulting/blueprint ~/Desktop/legible-consulting/projects/<slug> \
        --data slug=<slug> --data client_name="<name>" --data language=<language> \
-       --data monorepo=<true|false> --data release=<true|false> --data uat=<true|false>
+       --data workspace=false --data monorepo=<true|false> --data release=<true|false> \
+       --data uat=<true|false> --data database=<none|neon|mongodb|other> \
+       --data migrations_path=<folder>
      ```
 
-     Each answer has one home:
+     Give `migrations_path` only when `database` is `neon`. A question with no answer in the
+     command makes copier prompt (why: a prompt stops a session that runs cold ·
+     2026-10-27). Each answer has one home:
      - `slug`, `client_name` and `language`: the record's `slug`, `name` and `language`.
+     - `workspace`: `false` for a build. A coaching workspace is not a kickoff of this kind.
      - `monorepo`: yes when the proposal's scope names two or more apps.
      - `release`: yes, unless Jamie says that the merge of a ticket is its release.
      - `uat`: yes when the proposal or the agreement says the client signs off each batch before it reaches production. Otherwise no, and the preview is the UAT.
+     - `database`: the database the build runs on: `none`, `neon`, `mongodb` or `other`. Only `neon` renders the database files. Another answer stays in `.copier-answers.yml`, so the blueprint learns what those builds need (why: sustentus runs MongoDB and will join the estate · Jamie, 2026-10-27).
+     - `migrations_path`: on `neon` only, the folder of the migration files, relative to the repo root. Default `migrations`.
 
      Copier renders the latest tag of the blueprint and records the answers in `.copier-answers.yml`.
   7. In the rendered folder: `git init -b main`, one commit `chore: render from the blueprint <tag>`, add the remote `k0d0minio/<slug>`, push `main`. This is the one push to a client repo's `main` that is not a pull request (why: a pull request needs a base branch, and an empty repo has none. Every later change is a pull request, `07-build/CONTEXT.md` · 2026-10-26).
@@ -64,7 +71,7 @@ Kickoff produces the client repo rendered from the blueprint, the access table, 
   - `kickoff/sources.md`, in English: the course lessons each day follows.
   - The kickoff form is not sent, and no repo is rendered (why: the form asks what a build asks, and a week asks about people, rooms and data · Euro Register, 2026-10-22). Kickoff ends when the week is delivered (`clients/CONTEXT.md`).
 - The client-facing words are in the client's language: the form, the questions, the programme. The access table, the kickoff note and `sources.md` are in English. The breakdown and the stubs follow the client repo's writing rules. The questions for the client reach the client in their language, from Jamie.
-- The gate: Jamie sends the form or gives the answers, creates the repo, reads the access table, the note and the breakdown, answers the questions, merges both pull requests and sets `repo:`. A session never sends to the client, never creates a repo, never merges, never sets `repo:`, never ticks a gate (boundary).
+- The gate: Jamie sends the form or gives the answers, creates the repo, reads the access table, the note and the breakdown, answers the questions, merges both pull requests and sets `repo:`. In the client repo's settings, Jamie turns on Dependabot security updates, and adds a ruleset on `main` that requires the `gate` check (`gate / gate`, never `code`) (why: both are repository settings that no rendered file can set, and the `gate` check is the guard GitHub enforces on the merge · Jamie, 2026-10-27). A session never sends to the client, never creates a repo, never merges, never sets `repo:`, never ticks a gate (boundary).
 
 ## Outputs
 

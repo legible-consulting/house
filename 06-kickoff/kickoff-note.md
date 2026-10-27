@@ -35,12 +35,15 @@ terms. The terms are in `proposal/proposal.md` and `agreement/agreement.md`.
    `medium`, `high` or `research` stub, or a stub that leaves a decision open, carries the
    **Spec approved** gate.
 3. CI runs `check-client` and Vercel builds a preview. Nothing runs locally.
-4. Jamie tests the preview, ticks **Ready to merge** and merges. A session never ticks a gate
-   and never merges.
-5. {{RELEASE: for `uat: yes`, every merge deploys UAT at <address>, the client tests there,
-   Jamie records the yes with `.icm/scripts/promote.sh approve --by "<who>"`, merges the
-   release pull request and dispatches `promote.yml`. For `uat: no`, the client signs off on
-   the preview, and the merge of the release pull request is the release.}}
+4. Jamie tests the preview and ticks **Ready to merge**. The session merges with
+   `.icm/scripts/merge.sh`. A session never ticks a gate.
+5. {{RELEASE: for `uat: yes`, every merge deploys UAT at <address>, and the client tests
+   there. On Jamie's word, the session records the yes with
+   `.icm/scripts/promote.sh approve --by "<who>"`. On Jamie's word `release`, the session
+   merges the release pull request with `.icm/scripts/release.sh`. On Jamie's word `promote`,
+   the session runs `.icm/scripts/promote.sh run --tag <tag>`, which dispatches `promote.yml`.
+   For `uat: no`, the client signs off on the preview, and the merge of the release pull
+   request, on Jamie's word `release`, is the release.}}
 
 ## Questions for the client
 

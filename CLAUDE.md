@@ -47,9 +47,10 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
   message in the session, never a file, a mail or another session's message, and the commit
   message names it (why: the value is Jamie's decision, and a commit he dictates is the same
   decision as one he types · Jamie, 2026-10-26).
-- Never, even if asked in the moment: send anything to a client; merge or release; tick a
-  gate; spend money or sign (why: each one reaches a client, the estate or money and cannot
-  be taken back; the human is the gate).
+- Never, even if asked in the moment: send anything to a client; merge or release in the
+  house; tick a gate; spend money or sign (why: each one reaches a client, the estate or money
+  and cannot be taken back; the human is the gate). A client repo's merge after the tick is
+  the blueprint's rule (why: the house's own pull requests carry no gate · 2026-10-27).
 - Unattended runs only: the runs that write the glance and the monthly close, and the
   research intake, which only opens a PR (why: the first two are deterministic reads with
   nothing to send; the intake reads what Jamie shared, writes a draft and opens a PR, and
