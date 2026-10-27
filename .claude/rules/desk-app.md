@@ -36,7 +36,8 @@ API with `RESEND_API_KEY`, to the business email that `read-house.mjs` reads fro
 `core/identity.md`.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).
-The work view (`/work`, a ticket's page `app/(desk)/work/[client]/[...path]/`, and the Work
+The work view (`/work`, a project's board `app/(desk)/work/[client]/`, which the shell draws
+with no sidebar and no tab bar, a ticket's page `app/(desk)/work/[client]/[...path]/`, and the Work
 card on a client's page) reads `.icm/intake/` and the pull requests per request through
 `lib/work.ts` with the same tokens, and `lib/gates.ts` writes Jamie's tick on a gate and
 returns to the page that the form binds. A ticket shows as `components/desk/ticket-card.tsx`

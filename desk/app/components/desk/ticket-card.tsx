@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { tickGate } from "@/lib/gates";
 import { ticketHref, type Ci, type GateName, type Pr, type Stub } from "@/lib/work";
@@ -18,6 +19,9 @@ import { StepTrack } from "./track";
 // red words fall below 4.5:1 on the wash in dark (globals.css). `compact` hides the meta line.
 // `current` marks the card of the page it sits on: an ink edge, "this ticket" in mono, and
 // `aria-current` on the title. `back` is the page a tick returns to (lib/gates.ts), /work when absent.
+// `action` is the card's own act above the strip, such as Copy prompt on a next ticket (rule 10).
+// A pull request matched to no ticket is NoTicketCard: "no ticket" in the place of the title,
+// then the same strip.
 
 const LABEL: Record<GateName, string> = { "spec-approved": "Spec approved", "ready-to-merge": "Ready to merge" };
 const ABOVE = "relative z-10";
@@ -67,6 +71,42 @@ export function NextAct({ repo, p, back, className }: { repo: string; p: Pr; bac
   );
 }
 
+// The pull request strip (rule 4): the number and the title, then the track with the step's
+// name, the CI word, the preview and the act when it is Jamie's.
+function PrStrip({ repo, pr, back, className }: { repo: string; pr: Pr; back?: string; className?: string }) {
+  return (
+    <div className={cn("grid gap-0.5", className)}>
+      <a
+        href={pr.url}
+        className={cn(ABOVE, "flex min-h-row min-w-0 max-w-full items-center gap-1.5 justify-self-start text-ui hover:underline")}
+      >
+        <span className="shrink-0 font-mono text-meta tabular-nums">#{pr.number}</span>
+        <span className="truncate">{pr.title}</span>
+      </a>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <StepTrack pr={pr} />
+        <CiWord pr={pr} />
+        {pr.preview && (
+          <a href={pr.preview} className={cn(ABOVE, "inline-flex min-h-row items-center text-ui underline underline-offset-3")}>
+            Preview
+          </a>
+        )}
+        <NextAct repo={repo} p={pr} back={back} className={ABOVE} />
+      </div>
+    </div>
+  );
+}
+
+// A pull request that ships no open ticket: "no ticket" in mono, then the strip.
+export function NoTicketCard({ repo, pr, back, className }: { repo: string; pr: Pr; back?: string; className?: string }) {
+  return (
+    <article className={cn("grid gap-0.5 rounded-pane border bg-card px-3 py-1.5", className)}>
+      <p className="py-1 font-mono text-meta text-muted-foreground">no ticket</p>
+      <PrStrip repo={repo} pr={pr} back={back} className="border-t pt-1" />
+    </article>
+  );
+}
+
 export function TicketCard({
   client,
   repo,
@@ -75,6 +115,7 @@ export function TicketCard({
   compact = false,
   current = false,
   back,
+  action,
   className,
 }: {
   client: string; // the client folder's slug, or `house`
@@ -84,6 +125,7 @@ export function TicketCard({
   compact?: boolean;
   current?: boolean; // the card of the ticket whose page this is
   back?: string; // the page a tick returns to
+  action?: ReactNode; // the card's own act, above the strip
   className?: string;
 }) {
   return (
@@ -114,27 +156,8 @@ export function TicketCard({
       {stub.state === "blocked" && stub.blocked && (
         <p className="pl-4 text-ui text-destructive">Blocked: {stub.blocked}</p>
       )}
-      {pr && (
-        <div className="mt-1 grid gap-0.5 border-t pt-1 pl-4">
-          <a
-            href={pr.url}
-            className={cn(ABOVE, "flex min-h-row min-w-0 max-w-full items-center gap-1.5 justify-self-start text-ui hover:underline")}
-          >
-            <span className="shrink-0 font-mono text-meta tabular-nums">#{pr.number}</span>
-            <span className="truncate">{pr.title}</span>
-          </a>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <StepTrack pr={pr} />
-            <CiWord pr={pr} />
-            {pr.preview && (
-              <a href={pr.preview} className={cn(ABOVE, "inline-flex min-h-row items-center text-ui underline underline-offset-3")}>
-                Preview
-              </a>
-            )}
-            <NextAct repo={repo} p={pr} back={back} className={ABOVE} />
-          </div>
-        </div>
-      )}
+      {action && <div className={cn(ABOVE, "flex flex-wrap items-center gap-2 py-1 pl-4")}>{action}</div>}
+      {pr && <PrStrip repo={repo} pr={pr} back={back} className="mt-1 border-t pt-1 pl-4" />}
     </article>
   );
 }

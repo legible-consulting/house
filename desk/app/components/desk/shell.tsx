@@ -19,7 +19,9 @@ import { Logo } from "./logo";
 // carries sign out (page-header.tsx). The current destination carries aria-current="page", a
 // tap on the tab of the page already shown re-reads it, and every in-app link is next/link.
 // app/(desk)/layout.tsx renders the shell with the session's user; each page renders its own
-// header and content inside it.
+// header and content inside it. A project's board (`/work/<client>`, one segment after
+// `work`) is full screen (desk/app/DESIGN.md, rule 11): no sidebar, no tab bar, and `main` takes
+// the full width. The skip link stays, and the page header holds the way back.
 
 export interface ShellUser {
   name: string;
@@ -48,6 +50,9 @@ const DESTINATIONS: Record<Role, Destination[]> = {
   client: [DESK],
 };
 const TABS = 4;
+
+// A project's board: /work/<client>, one segment after `work`.
+const isBoard = (pathname: string) => /^\/work\/[^/]+\/?$/.test(pathname);
 
 // The destination a path belongs to: a client's page is the desk's, a pool row is the pool's,
 // a verdict is research's.
@@ -193,8 +198,9 @@ function TabBar({ links, user }: { links: Destination[]; user: ShellUser }) {
 }
 
 export function Shell({ user, children }: { user: ShellUser | null; children: ReactNode }) {
+  const board = isBoard(usePathname());
   const links = user ? DESTINATIONS[user.role] : [];
-  const tabs = user !== null && user.role !== "client";
+  const tabs = !board && user !== null && user.role !== "client";
   return (
     <>
       <a
@@ -203,14 +209,18 @@ export function Shell({ user, children }: { user: ShellUser | null; children: Re
       >
         Skip to content
       </a>
-      <Sidebar links={links} user={user} />
+      {!board && <Sidebar links={links} user={user} />}
       <div
         className={cn(
-          "pr-safe-right pl-safe-left md:pl-[calc(var(--sidebar-width)+var(--safe-left))]",
+          "pr-safe-right pl-safe-left",
+          !board && "md:pl-[calc(var(--sidebar-width)+var(--safe-left))]",
           tabs && "pb-[calc(var(--tab-bar)+var(--safe-bottom))] md:pb-0",
         )}
       >
-        <main id="content" className="mx-auto w-full max-w-content px-gutter pb-8">
+        <main
+          id="content"
+          className={cn("mx-auto w-full px-gutter", board ? "pb-safe-bottom" : "max-w-content pb-8")}
+        >
           {children}
         </main>
       </div>
