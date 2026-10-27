@@ -46,12 +46,13 @@ variable. The Process says what a session does with them.
 - A client with `kind: retainer` or `kind: role` stays at `build` (`clients/CONTEXT.md`). The
   glance does not flag it as stalled or overdue for handover. The monthly close reads its
   `price.monthly` (why: neither engagement ends · 2026-10-16).
-- A ticket. `/work` lists the house's own tickets (`.icm/intake/`, read with `DESK_PAT`) and
-  each client repo's tickets (read with the owner's token). A row opens on the stub and its
-  Prompt, the stub's own `## Prompt` section. Jamie copies the Prompt into a session on the
-  repo that holds the ticket. The session works on a branch, moves the stub to `_done/` and
-  opens a pull request. The pull request then shows on `/work` with its gates, its CI and
-  its preview (why: a session takes a ticket cold, `.icm/intake/CONTEXT.md` · 2026-10-25).
+- A ticket. Each project's board, `/work/<client>`, holds its tickets: the house's own
+  (`.icm/intake/`, read with `DESK_PAT`) and each client repo's (read with the owner's token).
+  A card opens the ticket's page, with the stub and its Prompt, the stub's own `## Prompt`
+  section. Jamie copies the Prompt into a session on the repo that holds the ticket. The
+  session works on a branch, moves the stub to `_done/` and opens a pull request. The pull
+  request then shows on its ticket's card with its gates, its CI and its preview, on the board
+  and on `/work` (why: a session takes a ticket cold, `.icm/intake/CONTEXT.md` · 2026-10-25).
 - A gate. Jamie ticks a gate from `/work` or from the Work card on a client's page.
   `app/lib/gates.ts` writes the box in the pull request's body with the owner's token. When
   the token cannot write, the page names the variable. Jamie then ticks on GitHub (why: a gate
@@ -177,9 +178,11 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   is an error on the page, and the visitor can send again (why: nothing is thanked that is not
   in the house · 2026-10-26).
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
-  blueprint drift, latest release and `check.yml` run), `/work` (every client repo's open tickets, and the house's own from `.icm/intake/` read with `DESK_PAT`, in
-  `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
-  with their gates, CI and preview; what waits on Jamie first), a project's board at
+  blueprint drift, latest release and `check.yml` run), `/work` (three sections across every client repo and the house: On your desk, the ticket
+  cards whose next act is Jamie's, each with the act; Running, the other cards in flight,
+  newest first; Projects, one row per repo, the house last, with its counts, its next ticket
+  with the prompt to copy, and its board as the row's link; `?repo=<client>` redirects to the
+  board), a project's board at
   `/work/<client>`, full screen with no sidebar and no tab bar (`<client>` as below: four
   columns, Queued, Next, Running and Shipped, each a stack of ticket cards; the phone shows one
   column at a time, `?column=`; a tick returns to it), a ticket's page at its intake

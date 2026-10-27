@@ -17,14 +17,15 @@ import { workInFlight } from "@/lib/work";
 import { RepoFacts } from "@/app/_repo";
 import { readLinks, SendForm } from "@/app/_send";
 import { ClientUsers, readUsers } from "@/app/_users";
-import { ClientWork, WorkBody } from "@/app/_work";
+import { ClientWork, ProjectWork } from "@/app/_work";
 
 // One client, from clients/<slug>/ at build time: where it stands, the documents the client
 // reads (proposal, agreement, handover; the price is the proposal's last section). The repo's latest release and check.yml run
 // are read per request (lib/repos.ts); the client sees those two facts and nothing else from
-// the repo's status. The work (the tickets and the pull requests, lib/work.ts) is the same
-// list as /work for Jamie, and three lists in words for the client: in progress with the
-// preview link, shipped, queued. For Jamie the page re-reads itself while a check.yml run, a
+// the repo's status. The work (the tickets and the pull requests, lib/work.ts) is the project
+// for Jamie: its counts, the next ticket with its prompt, the cards that wait on him and the
+// link to its board; and three lists in words for the client: in progress with the preview
+// link, shipped, queued. For Jamie the page re-reads itself while a check.yml run, a
 // pull request's run or a deploy is in flight (components/desk/page-header.tsx). Jamie reads every folder; a
 // client reads the one linked to their account (users.client); a salesman follows a deal
 // from the pool row instead and never lands here. Research, negotiation, economics and the
@@ -143,7 +144,7 @@ export default async function Client({
                 <h2>Work</h2>
               </CardTitle>
             </CardHeader>
-            <CardContent>{jamie ? <WorkBody repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
+            <CardContent>{jamie ? <ProjectWork repo={c.repo} /> : <ClientWork repo={c.repo} />}</CardContent>
           </Card>
         )}
 
