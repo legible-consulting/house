@@ -72,8 +72,8 @@ export async function usersOf(slug: string): Promise<ClientUser[]> {
 }
 
 const prospectSelect = `
-  select p.id, p.slug, p.company, p.contact_name, p.role, p.email, p.phone, p.website,
-    p.country, p.language, p.line, p.size, p.service, p.deal_size, p.source, p.salesman,
+  select p.id, p.slug, p.company, p.contact_name, p.role, p.email, p.phone, p.whatsapp, p.instagram,
+    p.website, p.country, p.language, p.line, p.size, p.service, p.deal_size, p.source, p.salesman,
     p.ask, p.status, p.previous_status, p.next_action::text as next_action, p.notes,
     p.lost_reason, p.pr_url, p.record, p.created_at::date::text as added,
     p.updated_at::date::text as updated, u.email as salesman_email, u.name as salesman_name,
@@ -194,11 +194,11 @@ export async function countSubmission(ipHash: string): Promise<number> {
 
 export async function insertProspect(salesman: string, slug: string, f: ProspectFields): Promise<string> {
   const rows = (await sql()`
-    insert into prospects (slug, company, contact_name, role, email, phone, website, country,
-      language, line, size, service, deal_size, source, salesman, ask, notes)
+    insert into prospects (slug, company, contact_name, role, email, phone, whatsapp, instagram,
+      website, country, language, line, size, service, deal_size, source, salesman, ask, notes)
     values (${slug}, ${f.company}, ${f.contact_name}, ${f.role}, ${f.email}, ${f.phone},
-      ${f.website}, ${f.country}, ${f.language}, ${f.line}, ${f.size}, ${f.service},
-      ${f.deal_size}, ${f.source}, ${salesman}, ${f.ask}, ${f.notes})
+      ${f.whatsapp}, ${f.instagram}, ${f.website}, ${f.country}, ${f.language}, ${f.line},
+      ${f.size}, ${f.service}, ${f.deal_size}, ${f.source}, ${salesman}, ${f.ask}, ${f.notes})
     returning id
   `) as { id: string }[];
   return rows[0]!.id;
@@ -213,9 +213,10 @@ export async function updateProspect(
   await sql()`
     update prospects set
       slug = ${slug}, company = ${f.company}, contact_name = ${f.contact_name}, role = ${f.role},
-      email = ${f.email}, phone = ${f.phone}, website = ${f.website}, country = ${f.country},
-      language = ${f.language}, line = ${f.line}, size = ${f.size}, service = ${f.service},
-      deal_size = ${f.deal_size}, source = ${f.source}, ask = ${f.ask}, notes = ${f.notes},
+      email = ${f.email}, phone = ${f.phone}, whatsapp = ${f.whatsapp}, instagram = ${f.instagram},
+      website = ${f.website}, country = ${f.country}, language = ${f.language}, line = ${f.line},
+      size = ${f.size}, service = ${f.service}, deal_size = ${f.deal_size}, source = ${f.source},
+      ask = ${f.ask}, notes = ${f.notes},
       next_action = ${nextAction}, updated_at = now()
     where id = ${id}
   `;

@@ -151,6 +151,8 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
     ["Contact", [p.contact_name, p.role].filter(Boolean).join(", ")],
     ["Email", p.email],
     ["Phone", p.phone],
+    ["WhatsApp", p.whatsapp],
+    ["Instagram", p.instagram ? `@${p.instagram}` : ""],
     ["Website", p.website],
     ["Country", p.country],
     ["Language", p.language],

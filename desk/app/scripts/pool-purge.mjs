@@ -1,7 +1,7 @@
 // Clears the person's data from the pool rows nobody worked for 12 months
 // (01-prospecting/legitimate-interest.md §5). A row at `new`, `contacted` or `lost` whose last
 // touch, or its `added` date when it has no touch, is older than 12 months loses `contact_name`,
-// `email`, `phone`, `website`, `ask` and `notes`. It keeps `company`, `country`, `line`,
+// `email`, `phone`, `whatsapp`, `instagram`, `website`, `ask` and `notes`. It keeps `company`, `country`, `line`,
 // `source`, the reason and the dates. Its touches keep their dates and lose their notes. The
 // no-contact list (the table suppressions) is not touched: a no outlives the row's data (§4).
 // Usage, from desk/app, with DATABASE_URL in the environment (the Neon console's connection
@@ -17,7 +17,7 @@ if (!url) throw new Error("DATABASE_URL is not set: the Neon console, project le
 const yes = process.argv.slice(2).includes("--yes");
 const sql = neon(url);
 
-const FIELDS = ["contact_name", "email", "phone", "website", "ask", "notes"];
+const FIELDS = ["contact_name", "email", "phone", "whatsapp", "instagram", "website", "ask", "notes"];
 
 // The ids of the rows the rule covers, as SQL, for the report and for both writes: the writes
 // read the rule again, so a row touched after the report is left alone.

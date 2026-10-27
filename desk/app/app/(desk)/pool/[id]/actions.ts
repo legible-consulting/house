@@ -57,7 +57,7 @@ async function owned(id: string): Promise<{ user: DeskUser; p: Prospect }> {
   return { user, p };
 }
 
-// An email or phone new to the row is refused when it is on the no-contact list. The row's own
+// An email, phone or WhatsApp number new to the row is refused when it is on the no-contact list. The row's own
 // contact points are not checked, so a row closed by "They asked not to be contacted" still saves.
 export async function saveProspect(form: FormData) {
   const id = idOf(form);
@@ -123,7 +123,7 @@ export async function moveStatus(form: FormData) {
 }
 
 // "They asked not to be contacted" (cadence.md, Channels): the row goes to lost with that reason
-// and no next action, and its email and phone go on the no-contact list for good. The sourcer
+// and no next action, and its email, phone and WhatsApp number go on the no-contact list for good. The sourcer
 // and Jamie only, from any status but handed off.
 export async function askedNotToBeContacted(form: FormData) {
   const id = idOf(form);
@@ -135,7 +135,7 @@ export async function askedNotToBeContacted(form: FormData) {
     await suppressProspect(id, points);
     note = points.length
       ? `Lost: ${NO_CONTACT}. ${points.map((c) => c.value).join(" and ")} get no new row, on any channel.`
-      : `Lost: ${NO_CONTACT}. The row has no email or phone, so search the pool for the company before each add.`;
+      : `Lost: ${NO_CONTACT}. The row has no email, phone or WhatsApp number, so search the pool for the company before each add.`;
   });
   back(`/pool/${id}`, { error, note });
 }

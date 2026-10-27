@@ -24,6 +24,8 @@ before the salesman may set `ready for Jamie`, `lost` when the status is set to 
 | `role` | text | no | the sourcer |
 | `email` | text | ready, this or `phone` | the sourcer |
 | `phone` | text, with country code | ready, this or `email` | the sourcer |
+| `whatsapp` | text, a number with country code. The row's page links it to `wa.me` | no | the sourcer |
+| `instagram` | text, the handle in lower case, without `@`. The row's page links it to `instagram.com` | no | the sourcer |
 | `website` | URL | no | the sourcer |
 | `country` | `PT`, `BE`, `GB`, or another ISO 3166-1 alpha-2 code | ready | the sourcer |
 | `language` | `pt-PT`, `fr-BE`, `en-GB` | ready | the sourcer |
@@ -64,14 +66,14 @@ The list is defined in `clients/CONTEXT.md` and copied here unchanged:
 
 A no is set with "They asked not to be contacted" on the row's page, by the sourcer or Jamie:
 `lost` with `lost_reason` `asked not to be contacted`, `next_action` empty, and the row's
-`email` and `phone` on the desk's no-contact list for good. A row is not added, and a row's
-`email` or `phone` is not changed, to an address or a number on that list (`cadence.md`,
-Channels).
+`email`, `phone` and `whatsapp` on the desk's no-contact list for good. A row is not added, and
+a row's `email`, `phone` or `whatsapp` is not changed, to an address or a number on that list
+(`cadence.md`, Channels). The `instagram` handle is not on the list: Instagram is not a channel.
 
 A row at `new`, `contacted` or `lost` whose last touch, or its `added` date when it has no
 touch, is older than 12 months is cleared by `desk/app/scripts/pool-purge.mjs`, which Jamie
-runs by hand: `contact`, `email`, `phone`, `website`, `ask` and `notes` are emptied, and the
-touches lose their notes. `company`, `country`, `line`, `source`, `lost_reason` and the dates
+runs by hand: `contact`, `email`, `phone`, `whatsapp`, `instagram`, `website`, `ask` and
+`notes` are emptied, and the touches lose their notes. `company`, `country`, `line`, `source`, `lost_reason` and the dates
 stay (why: the data of a row nobody works is the data the row no longer needs ·
 `legitimate-interest.md` §5 · 2026-10-26).
 

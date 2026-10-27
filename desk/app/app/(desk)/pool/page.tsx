@@ -91,7 +91,10 @@ const columns = (user: DeskUser, now: string): Column<Prospect>[] => [
     key: "contact",
     label: "Contact",
     phone: "hide",
-    cell: (p) => [p.contact_name, p.email || p.phone].filter(Boolean).join(" · "),
+    cell: (p) =>
+      [p.contact_name, p.email || p.phone || p.whatsapp || (p.instagram && `@${p.instagram}`)]
+        .filter(Boolean)
+        .join(" · "),
   },
   {
     key: "updated",

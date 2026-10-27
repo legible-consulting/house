@@ -27,6 +27,12 @@ export function AddProspectForm() {
         <Field label="Phone">
           <Input name="phone" placeholder="+351 …" autoComplete="tel" inputMode="tel" enterKeyHint="next" />
         </Field>
+        <Field label="WhatsApp">
+          <Input name="whatsapp" placeholder="+351 …" inputMode="tel" enterKeyHint="next" />
+        </Field>
+        <Field label="Instagram">
+          <Input name="instagram" placeholder="@handle" autoCapitalize="none" spellCheck={false} enterKeyHint="next" />
+        </Field>
         <Field label="Country">
           <Input name="country" placeholder="PT, BE, GB" maxLength={2} autoComplete="country" enterKeyHint="next" />
         </Field>

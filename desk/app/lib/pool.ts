@@ -29,8 +29,8 @@ export const CADENCE = [
   { day: 28, touch: null, angle: "due for lost" },
 ] as const;
 // cadence.md, Channels: a no is permanent for the company, on every channel. The row's page sets
-// this reason with one gesture, which also puts the row's email and phone on the no-contact list
-// (the table suppressions).
+// this reason with one gesture, which also puts the row's email, phone and WhatsApp number on the
+// no-contact list (the table suppressions).
 export const NO_CONTACT = "asked not to be contacted";
 
 export const LINES = ["local", "sme"] as const;
@@ -90,6 +90,8 @@ export interface Prospect {
   role: string;
   email: string;
   phone: string;
+  whatsapp: string; // a number with its country code, as typed
+  instagram: string; // the handle, lower case, without @
   website: string;
   country: string;
   language: string;
@@ -123,6 +125,8 @@ export type ProspectFields = Pick<
   | "role"
   | "email"
   | "phone"
+  | "whatsapp"
+  | "instagram"
   | "website"
   | "country"
   | "language"
@@ -163,7 +167,8 @@ export function addDays(day: string, n: number): string {
 // One contact point of a row: its email lower-cased, or its phone as `+` and the digits of the
 // country code and number (00 reads as +), so "+351 912 345 678" and "00351912345678" are one
 // number. A phone without a country code keeps its digits only (prospect.md asks for the code).
-// One number is one contact point: the phone and WhatsApp.
+// One number is one contact point: the phone and WhatsApp. So the row's WhatsApp number is a
+// `phone` point too, and one point with the phone when they are one number.
 export type ContactPoint = { kind: "email" | "phone"; value: string };
 
 export function phoneKey(phone: string): string {
@@ -173,13 +178,40 @@ export function phoneKey(phone: string): string {
   return t.startsWith("+") ? `+${digits}` : digits;
 }
 
-export function contactPoints(c: { email: string; phone: string }): ContactPoint[] {
+export function contactPoints(c: { email: string; phone: string; whatsapp: string }): ContactPoint[] {
   const points: ContactPoint[] = [];
   const email = c.email.trim().toLowerCase();
   const phone = phoneKey(c.phone);
+  const whatsapp = phoneKey(c.whatsapp);
   if (email) points.push({ kind: "email", value: email });
   if (phone) points.push({ kind: "phone", value: phone });
+  if (whatsapp && whatsapp !== phone) points.push({ kind: "phone", value: whatsapp });
   return points;
+}
+
+// wa.me takes the number with its country code and no + or 00. A number without a country code
+// keeps its digits, as phoneKey does.
+export function whatsappUrl(number: string): string | null {
+  const n = phoneKey(number).replace(/^\+/, "");
+  return n ? `https://wa.me/${n}` : null;
+}
+
+// An Instagram handle: letters, digits, dots and underscores, at most 30. instagramHandle takes
+// it from `@name`, `name` or an instagram.com address, in lower case (handles ignore case).
+const HANDLE_RE = /^[a-z0-9._]{1,30}$/;
+
+export function instagramHandle(v: string): string {
+  return v
+    .trim()
+    .replace(/^(https?:\/\/)?(www\.)?instagram\.com\//i, "")
+    .replace(/^@/, "")
+    .replace(/[/?#].*$/, "")
+    .toLowerCase();
+}
+
+export function instagramUrl(handle: string): string | null {
+  const h = instagramHandle(handle);
+  return HANDLE_RE.test(h) ? `https://www.instagram.com/${h}/` : null;
 }
 
 // The refusal, in words, for the contact points the no-contact list holds.
@@ -258,6 +290,8 @@ export function fieldsFrom(form: FormData): ProspectFields {
     role: s("role"),
     email: s("email").toLowerCase(),
     phone: s("phone"),
+    whatsapp: s("whatsapp"),
+    instagram: instagramHandle(s("instagram")),
     website: s("website"),
     country: s("country").toUpperCase(),
     language: oneOf("language", LANGUAGES),
@@ -272,5 +306,8 @@ export function fieldsFrom(form: FormData): ProspectFields {
   if (!f.company) throw new Error("Company is required.");
   if (!f.source) throw new Error("Source is required: who referred, which event, which list.");
   if (f.country && !/^[A-Z]{2}$/.test(f.country)) throw new Error("Country is a two-letter code: PT, BE, GB.");
+  if (f.instagram && !HANDLE_RE.test(f.instagram)) {
+    throw new Error("Instagram is a handle: letters, digits, dots and underscores, at most 30.");
+  }
   return f;
 }

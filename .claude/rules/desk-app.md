@@ -13,7 +13,7 @@ form that does not parse fails the build. `lib/rhythms.ts` computes the glance a
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
 The pool is read per request from Neon. The no-contact list (`suppressions`) is written by the
 row page's "They asked not to be contacted" and read by every path that adds a row or changes
-its email or phone (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
+its email, phone or WhatsApp number (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
 worked for 12 months, by hand from the laptop. Three doors have no session: `app/api/pool/route.ts`,
 where the portfolio's contact form posts a lead with `POOL_TOKEN`, `/start` (`app/start/`),
 the public free look, and `/f/<token>` (`app/f/[token]/`), a sent link answered. The first two

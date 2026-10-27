@@ -51,9 +51,9 @@ Three rules for a business that did not ask to hear from us, from `legitimate-in
   the right to object are said in the first message · 2026-10-26).
 - A no is permanent for the company, on every channel. Press "They asked not to be contacted"
   on the row's page: the row goes to `lost` with the reason `asked not to be contacted`, its
-  next action is cleared, and its email and phone go on the desk's no-contact list. One
-  number closes the phone and WhatsApp. The desk and the pool API then refuse a row with that
-  email or phone, and nothing takes it off the list. Before adding a row, search the pool for
+  next action is cleared, and its email, phone and WhatsApp number go on the desk's no-contact
+  list. One number closes the phone and WhatsApp. The desk and the pool API then refuse a row
+  with that email or number, and nothing takes it off the list. Before adding a row, search the pool for
   the company: a company with that reason on a `lost` row is not added again, by any salesman
   (why: Art 21(2) GDPR makes an objection to direct marketing absolute; a no that did not
   stick is the whole objection · 2026-10-26).

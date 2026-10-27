@@ -1,14 +1,14 @@
 import { buttonVariants } from "@/components/ui/button";
 import { sell } from "@/lib/house";
-import { CADENCE, type Prospect } from "@/lib/pool";
+import { CADENCE, whatsappUrl, type Prospect } from "@/lib/pool";
 import { CopyButton } from "./_copy";
 
 // The seller's next touch, filled from the pool row: the pitch draft for the row's language
 // and the touch the cadence is at (one more than the touches logged), with the first name
-// in. The seller copies it, or opens it in their own mail or WhatsApp, adapts it and sends
-// it from their own account, then logs the touch. The desk sends nothing (cadence.md). Shown
-// while the cadence runs: at new or contacted, under three touches. The draft reads as a
-// document in the reading width; Copy comes first, the two ways out after it.
+// in. The seller copies it, or opens it in their own mail or WhatsApp (the row's WhatsApp
+// number, or its phone when it has none), adapts it and sends it from their own account, then
+// logs the touch. The desk sends nothing (cadence.md). Shown while the cadence runs: at new or
+// contacted, under three touches. The draft reads as a document in the reading width; Copy comes first, the two ways out after it.
 export function NextTouch({ p }: { p: Prospect }) {
   if (!(p.status === "new" || p.status === "contacted") || p.touches >= 3) return null;
   const touch = p.touches + 1;
@@ -16,7 +16,7 @@ export function NextTouch({ p }: { p: Prospect }) {
   const draft = sell.pitch.find((d) => d.touch === touch && d.language === p.language);
   const firstName = p.contact_name.trim().split(/\s+/)[0] ?? "";
   const text = draft ? (firstName ? draft.body.replaceAll("<first name>", firstName) : draft.body) : "";
-  const digits = p.phone.replace(/\D/g, "");
+  const wa = whatsappUrl(p.whatsapp || p.phone);
   return (
     <section aria-labelledby="next-touch" className="grid max-w-reading gap-4">
       <header>
@@ -52,9 +52,9 @@ export function NextTouch({ p }: { p: Prospect }) {
                 Open in mail
               </a>
             )}
-            {digits && (
+            {wa && (
               <a
-                href={`https://wa.me/${digits}?text=${encodeURIComponent(text)}`}
+                href={`${wa}?text=${encodeURIComponent(text)}`}
                 className={buttonVariants({ variant: "outline" })}
               >
                 Open in WhatsApp

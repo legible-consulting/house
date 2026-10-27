@@ -23,10 +23,12 @@ import {
   UUID_RE,
   canGoReady,
   canWrite,
+  instagramUrl,
   missingForReady,
   nextMoves,
   slugOf,
   today,
+  whatsappUrl,
   type Touch,
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
@@ -67,6 +69,16 @@ function Section({ id, title, children }: { id: string; title: string; children:
       </h2>
       {children}
     </section>
+  );
+}
+
+// A link under a contact field, out to the app that opens it. An anchor, so it also works on a
+// read-only row, where the field's fieldset is disabled.
+function OutLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a href={href} className="inline-flex min-h-row items-center font-mono text-meta underline underline-offset-3">
+      {label}
+    </a>
   );
 }
 
@@ -125,6 +137,8 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const noContact = write && p.lost_reason !== NO_CONTACT;
   const ready = write && canGoReady(p);
   const handoff = p.status === "ready for Jamie" && Boolean(p.pr_url);
+  const wa = whatsappUrl(p.whatsapp);
+  const ig = instagramUrl(p.instagram);
 
   return (
     <>
@@ -243,6 +257,25 @@ export default async function ProspectPage({ params, searchParams }: Props) {
               </Field>
               <Field label="Phone">
                 <Input name="phone" defaultValue={p.phone} placeholder="+351 …" inputMode="tel" enterKeyHint="next" />
+              </Field>
+              <Field label="WhatsApp" hint={wa && <OutLink href={wa} label={wa.replace("https://", "")} />}>
+                <Input
+                  name="whatsapp"
+                  defaultValue={p.whatsapp}
+                  placeholder="+351 …"
+                  inputMode="tel"
+                  enterKeyHint="next"
+                />
+              </Field>
+              <Field label="Instagram" hint={ig && <OutLink href={ig} label={ig.replace("https://www.", "")} />}>
+                <Input
+                  name="instagram"
+                  defaultValue={p.instagram}
+                  placeholder="@handle"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  enterKeyHint="next"
+                />
               </Field>
             </FieldGroup>
 
@@ -423,8 +456,8 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                 what={
                   <>
                     When they say no, on any channel. The row goes to lost with the reason {NO_CONTACT}, the next action
-                    is cleared, and the row&apos;s email and phone go on the no-contact list for good: the pool takes no
-                    new row for them, from any salesman or from the site.
+                    is cleared, and the row&apos;s email, phone and WhatsApp number go on the no-contact list for good: the
+                    pool takes no new row for them, from any salesman or from the site.
                   </>
                 }
               >

@@ -46,6 +46,8 @@ export function leadFields(body: unknown): ProspectFields {
     role: "",
     email,
     phone: text(b, "phone", MAX.phone, false),
+    whatsapp: "",
+    instagram: "",
     website: "",
     country: "",
     language,
