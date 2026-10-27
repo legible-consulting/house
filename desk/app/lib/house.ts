@@ -46,10 +46,14 @@ export interface ClientRow {
   commission?: { sourced_by?: string | null; owed?: number | string | null } | null;
   repo?: string | null;
   owner?: string | null;
+  drive?: string | null; // the client's folder in Google Drive
+  agreement_drive?: string | null; // the rendered agreement, then the signed copy (05-agreement)
   vercel_project?: string[] | null;
   economics: Economics | null;
   documents: ClientDoc[];
   blueprint: Blueprint | null;
+  notes?: string; // the record's body: Jamie's copied prompt only (lib/actions.ts), never a client's page
+  files?: string[]; // every file of clients/<slug>/, relative to it: the same prompt
 }
 
 export interface Pitch extends Doc {
