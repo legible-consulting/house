@@ -93,6 +93,7 @@ hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
 | `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | yes |
 | `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit, Bash) | refuses plaintext secrets in files outside an ignored `.env`; on Bash it reads the whole command, heredoc included | yes |
+| `reap-worktrees.sh` | SessionStart, SessionEnd | removes the worktrees that earlier sessions left in the repo of the session. It removes a worktree only when it is clean, all its commits are on a remote, it had no commit or checkout for 24 h, no process uses it and the app does not own it. The branch stays. Log: `~/.cache/claude-reap-worktrees.log` | no |
 | `route-request.sh` | UserPromptSubmit | the router: names the contract or the lane for each prompt. Build-only, with its test `route-request.test.sh` | no |
 | `session-start.sh` | SessionStart | the board: prints the open tickets at session start, read-only. Build-only | no |
 
@@ -100,6 +101,8 @@ The house carries the three guards only. The blueprint renders the router and th
 a build, never into a workspace, and registers them in the build's `.claude/settings.json`
 (why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
 2026-10-27). The router and the board are repo copies only, never global hooks.
+
+`reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes them. The app removes only its own session worktrees (why: house had 46 worktrees and blueprint 11 · 2026-10-27).
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
 writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
