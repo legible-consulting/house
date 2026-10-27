@@ -1,3 +1,4 @@
+import { ChevronRight } from "lucide-react";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { FilterGroup } from "@/app/_filters";
@@ -20,8 +21,10 @@ import { JumpGroup } from "./_jump";
 // group at the top: the target profile and the cadence as card grids, one card per section of
 // the file, the cadence's days as four stat tiles; every pitch draft by touch, in one
 // language or all (?lang=, a toggle group), each with a Copy button and its placeholders
-// marked; the seller kit (kit.<language>.md) in the same cards and the same language. A
-// row's next touch, filled from the row, is on the pool row's page. A change in the folder
+// marked; the seller kit (kit.<language>.md) in the same cards and the same language. With
+// every language shown, each pitch and each kit section folds behind its heading; with one
+// language chosen, they are open. No paragraph explains the page (desk/app/DESIGN.md, rule 9).
+// A row's next touch, filled from the row, is on the pool row's page. A change in the folder
 // ships with the next push to main.
 export const dynamic = "force-dynamic";
 
@@ -58,25 +61,76 @@ const kits = sell.kit.map((k) => ({
 // "Opener · en-GB" → "Opener"
 const angle = (p: Pitch) => p.title.split(" · ")[0];
 
+// A card that folds behind its heading (desk/app/DESIGN.md, rule 6). With every language
+// shown, each pitch and each kit section folds, so the page lists their headings; with one
+// language chosen, they are open cards. No script: the browser opens and closes a <details>.
+function Pane({
+  heading,
+  fold,
+  className,
+  children,
+}: {
+  heading?: ReactNode;
+  fold: boolean;
+  className?: string;
+  children: ReactNode;
+}) {
+  if (!fold || !heading) {
+    return (
+      <Card className={className}>
+        {heading && (
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">{heading}</CardTitle>
+          </CardHeader>
+        )}
+        {children}
+      </Card>
+    );
+  }
+  return (
+    <details
+      className={cn(
+        "group/pane rounded-lg border border-border bg-card text-body text-card-foreground [--card-spacing:--spacing(4)]",
+        className,
+      )}
+    >
+      <summary className="flex min-h-row cursor-pointer list-none items-center gap-2 px-4 py-3 text-heading [&::-webkit-details-marker]:hidden">
+        <ChevronRight className="size-4 shrink-0 text-muted-foreground group-open/pane:rotate-90" aria-hidden="true" />
+        {heading}
+      </summary>
+      <div className="pb-4">{children}</div>
+    </details>
+  );
+}
+
 // The card grid: one card per section of a file, the intro across the row. One column on the
-// phone, two from sm. `level` is the cards' heading level under the section's.
-function Sections({ list, level = 3 }: { list: { title: string; html: string }[]; level?: 3 | 4 }) {
+// phone, two from sm. `level` is the cards' heading level under the section's. With `fold`,
+// each section folds behind its title, and the intro behind `intro`.
+function Sections({
+  list,
+  level = 3,
+  fold = false,
+  intro,
+}: {
+  list: { title: string; html: string }[];
+  level?: 3 | 4;
+  fold?: boolean;
+  intro?: ReactNode;
+}) {
   const Heading = level === 4 ? "h4" : "h3";
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className={cn("grid gap-4 sm:grid-cols-2", fold && "items-start")}>
       {list.map((s, i) => (
-        <Card key={i} className={cn(!s.title && "sm:col-span-2")}>
-          {s.title && (
-            <CardHeader>
-              <CardTitle>
-                <Heading>{s.title}</Heading>
-              </CardTitle>
-            </CardHeader>
-          )}
+        <Pane
+          key={i}
+          fold={fold}
+          heading={s.title ? <Heading>{s.title}</Heading> : fold ? intro : undefined}
+          className={cn(!s.title && "sm:col-span-2")}
+        >
           <CardContent>
             <Prose html={s.html} />
           </CardContent>
-        </Card>
+        </Pane>
       ))}
     </div>
   );
@@ -123,11 +177,6 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
   return (
     <>
       <PageHeader user={user} title="Sell" meta="01-prospecting/" />
-      <p className="mb-4 max-w-reading text-body text-muted-foreground">
-        Who the pool chases, how a prospect is approached, the draft for each touch, and the seller kit. Read-only: the
-        words live in <code className="font-mono text-meta">01-prospecting/</code> and change there. On a pool row,
-        the next touch comes filled in.
-      </p>
       <div className="mb-6">
         <JumpGroup
           label="Sections"
@@ -167,14 +216,15 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
             const drafts = pitches.filter((p) => p.touch === t && (!lang || p.language === lang));
             if (drafts.length === 0) return null;
             return (
-              <Card key={t}>
-                <CardHeader>
-                  <CardTitle>
-                    <h3>
-                      <span className="font-mono tabular-nums">{t}</span> · {angle(drafts[0]!)}
-                    </h3>
-                  </CardTitle>
-                </CardHeader>
+              <Pane
+                key={t}
+                fold={!lang}
+                heading={
+                  <h3>
+                    <span className="font-mono tabular-nums">{t}</span> · {angle(drafts[0]!)}
+                  </h3>
+                }
+              >
                 <CardContent className={cn("grid gap-6", !lang && "lg:grid-cols-3")}>
                   {drafts.map((p) => (
                     <div key={p.file} className="grid min-w-0 content-start gap-2">
@@ -186,7 +236,7 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
                     </div>
                   ))}
                 </CardContent>
-              </Card>
+              </Pane>
             );
           })}
         </Section>
@@ -199,15 +249,22 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
           {languages("Language of the kit")}
           {kits
             .filter((k) => !lang || k.language === lang)
-            .map((k) => (
-              <div key={k.file} className="grid gap-3">
-                <div className="flex items-center gap-2">
+            .map((k) => {
+              // With every language shown, the kit's title heads its folded intro.
+              const title = (
+                <>
                   <Badge variant="outline">{k.language}</Badge>
                   <h3 className="text-ui font-semibold">{k.title}</h3>
+                </>
+              );
+              const folded = !lang && k.sections.some((s) => !s.title);
+              return (
+                <div key={k.file} className="grid gap-3">
+                  {!folded && <div className="flex items-center gap-2">{title}</div>}
+                  <Sections list={k.sections} level={4} fold={!lang} intro={title} />
                 </div>
-                <Sections list={k.sections} level={4} />
-              </div>
-            ))}
+              );
+            })}
         </Section>
       </div>
     </>

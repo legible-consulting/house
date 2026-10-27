@@ -4,6 +4,7 @@ import { DataTable, type Column } from "@/components/desk/data-table";
 import { Empty } from "@/components/desk/empty";
 import { Field, FieldActions, FieldGroup } from "@/components/desk/field-group";
 import { Flash } from "@/components/desk/flash";
+import { Fold } from "@/components/desk/fold";
 import { PageHeader } from "@/components/desk/page-header";
 import { VerdictTag } from "@/components/desk/status-tag";
 import { Button } from "@/components/ui/button";
@@ -21,8 +22,11 @@ import { addLink } from "./actions";
 // phone shares to /share instead); then every verdict and concept from main at build time (lib/house.ts) as a data table, under four
 // filters in the query (?use=, ?kind=, ?verdict=, ?tier=), each row opening on
 // /research/<slug>. The filters' values come from the files, so a new kind or use appears
-// without a change here.
+// without a change here. Above FOLD rows, the table folds behind its count under the filters
+// (desk/app/DESIGN.md, rule 6). No paragraph explains the page (rule 9).
 export const dynamic = "force-dynamic";
+
+const FOLD = 25;
 
 const FILTERS = ["use", "kind", "verdict", "tier"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -81,13 +85,22 @@ export default async function Research({ searchParams }: { searchParams: Search 
     `${concepts} concepts`,
     waiting.ok ? `${waiting.links.length} queued` : "queue not read",
   ].join(" · ");
+  const table = (
+    <DataTable
+      columns={columns}
+      rows={shown}
+      rowKey={(v) => `${v.folder}/${v.slug}`}
+      href={(v) => `/research/${v.slug}`}
+      empty={
+        research.length === 0
+          ? "No verdict or concept yet. The daily intake writes one for each queued link."
+          : "No file matches these filters."
+      }
+    />
+  );
   return (
     <>
       <PageHeader user={user} title="Research" meta={meta} />
-      <p className="mb-4 max-w-reading text-body text-muted-foreground">
-        A link lands here, the daily intake writes its verdict into the house, and the verdict shows below after the
-        next push to main. On the phone: install the desk from Chrome&apos;s menu, then share any link to Desk.
-      </p>
       <Flash error={error} note={note} />
 
       <section aria-labelledby="queue" className="mb-10 grid gap-4">
@@ -166,17 +179,13 @@ export default async function Research({ searchParams }: { searchParams: Search 
             </div>
           ))}
         </div>
-        <DataTable
-          columns={columns}
-          rows={shown}
-          rowKey={(v) => `${v.folder}/${v.slug}`}
-          href={(v) => `/research/${v.slug}`}
-          empty={
-            research.length === 0
-              ? "No verdict or concept yet. The daily intake writes one for each queued link."
-              : "No file matches these filters."
-          }
-        />
+        {shown.length > FOLD ? (
+          <Fold label="Matches" count={shown.length} limit={FOLD}>
+            {table}
+          </Fold>
+        ) : (
+          table
+        )}
       </section>
     </>
   );
