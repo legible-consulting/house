@@ -26,6 +26,8 @@ create table if not exists prospects (
   email text not null default '',
   phone text not null default '',
   website text not null default '',
+  whatsapp text not null default '',
+  instagram text not null default '',
   country text not null default '',
   language text not null default '',
   line text not null default '',
@@ -132,6 +134,13 @@ alter table prospects
   add column if not exists previous_status text,
   add column if not exists lost_reason text not null default '',
   add column if not exists record text;
+-- The WhatsApp number and the Instagram handle of a row, loaded from the jamie-nisbet biz
+-- backup of 2026-10-25 (applied 2026-10-27, with the 105 rows of that load). The pool pages do
+-- not show them yet (why: the old pool held both for most leads, and a dropped channel is a lead
+-- nobody can reach · Jamie, 2026-10-27).
+alter table prospects
+  add column if not exists whatsapp text not null default '',
+  add column if not exists instagram text not null default '';
 do $$
 begin
   if (select data_type from information_schema.columns
