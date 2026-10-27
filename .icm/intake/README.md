@@ -11,18 +11,17 @@ The epics, and what each holds:
 | `render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
 | `desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
 | `desk-forms/` | the free look on `/start`, the questionnaire Jamie sends by link on `/f/<token>`, the mail to Jamie, the client's sign-up and magic-link sign-in, in nine pull requests |
+| `blueprint-pipeline/` | the legacy ticket pipeline brought into the blueprint: the router, the lanes, the two skills and the writing reference, the board, the gated merge, the Neon database rule, the client CI shape, then `v1.0.0`, in thirteen pull requests |
 
 The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) and in each breakdown's own list. The order inside an epic is its `sequence`. The order across epics is `## Order` below, set by Jamie.
 
 ## Order
 
-Set by Jamie on 2026-10-25; the last two swapped by Jamie on 2026-10-26.
+Set by Jamie on 2026-10-27. The three epics that hold no open stub (`house-modules`, `render-and-publish`, `desk-forms`) wait for their close-out and carry no line.
 
-1. triage
-2. house-modules
-3. render-and-publish
-4. desk-restyle
-5. desk-forms
+1. desk-restyle
+2. triage
+3. blueprint-pipeline
 
 ## Milestones
 
