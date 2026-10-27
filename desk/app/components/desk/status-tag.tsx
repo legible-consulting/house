@@ -32,10 +32,12 @@ const VERDICT: Record<string, Look> = {
   watch: { mark: "dot", colour: "bg-warning", text: "text-warning-text" },
   decline: { mark: "dot", colour: "bg-border", text: "text-muted-foreground" },
 };
+// A ticket row takes the hover wash, where red words fall below 4.5:1 in dark: a blocked
+// ticket's name stays ink, in 600, and the red draws the mark only.
 const TICKET: Record<StubState, Look> = {
   next: { mark: "dot", colour: "bg-foreground", text: "font-semibold" },
   running: { mark: "ring", colour: "border-foreground" },
-  blocked: { mark: "dot", colour: "bg-destructive", text: "text-destructive" },
+  blocked: { mark: "dot", colour: "bg-destructive", text: "font-semibold" },
   queued: { mark: "ring", colour: "border-muted-foreground", text: "text-muted-foreground" },
 };
 const UNKNOWN: Look = { mark: "ring", colour: "border-muted-foreground", text: "text-muted-foreground" };
