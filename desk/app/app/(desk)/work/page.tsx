@@ -1,11 +1,8 @@
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import { Flash } from "@/components/desk/flash";
-import { Fold } from "@/components/desk/fold";
 import { PageHeader } from "@/components/desk/page-header";
-import { Prose } from "@/components/desk/prose";
 import { flash, type Search } from "@/lib/guard";
-import { hand } from "@/lib/house";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
 import { OnYourDesk, Projects, Running, WorkCount, withRepo } from "@/app/_work";
@@ -19,9 +16,8 @@ import { OnYourDesk, Projects, Running, WorkCount, withRepo } from "@/app/_work"
 // Jamie and the queued tickets. `?repo=<client>` redirects to that board, any other query to
 // /work; `?error=` and `?note=` are the flash after a tick (lib/gates.ts). The page re-reads
 // itself while a pull request's run or a deploy is in flight (components/desk/page-header.tsx).
-// Under On your desk, Jamie's hand: the house's own steps that no session takes
-// (.icm/intake/README.md, read at build), folded behind their count. The home keeps to the
-// client actions (DESIGN.md, rule 1).
+// Jamie's hand, the house's own steps that no session takes, is on the home, not here
+// (DESIGN.md, rule 1).
 export const dynamic = "force-dynamic";
 
 const FLASH = new Set(["error", "note"]);
@@ -37,7 +33,6 @@ export default async function Work({ searchParams }: { searchParams: Search }) {
     redirect("/work");
   }
   const { error, note } = await flash(searchParams);
-  const steps = (hand.body.match(/^- /gm) ?? []).length;
   return (
     <>
       <PageHeader
@@ -53,13 +48,6 @@ export default async function Work({ searchParams }: { searchParams: Search }) {
       <Flash error={error} note={note} />
       <div className="grid gap-8">
         <OnYourDesk />
-        {steps > 0 && (
-          <section aria-label="Jamie's hand">
-            <Fold label="Jamie's hand" count={steps} limit={6}>
-              <Prose markdown={hand.body} />
-            </Fold>
-          </section>
-        )}
         <Running />
         <Projects />
       </div>

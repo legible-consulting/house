@@ -1,6 +1,17 @@
 "use client";
 
-import { Ellipsis, FlaskConical, Handshake, House, ListChecks, LogOut, Receipt, Users, type LucideIcon } from "lucide-react";
+import {
+  Briefcase,
+  Ellipsis,
+  FlaskConical,
+  Handshake,
+  House,
+  ListChecks,
+  LogOut,
+  Receipt,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
@@ -37,6 +48,7 @@ interface Destination {
 
 const DESK: Destination = { href: "/", label: "Desk", icon: House };
 const WORK: Destination = { href: "/work", label: "Work", icon: ListChecks };
+const CLIENTS: Destination = { href: "/clients", label: "Clients", icon: Briefcase };
 const POOL: Destination = { href: "/pool", label: "Pool", icon: Users };
 const CLOSE: Destination = { href: "/close", label: "Close", icon: Receipt };
 const SELL: Destination = { href: "/sell", label: "Sell", icon: Handshake };
@@ -45,7 +57,7 @@ const RESEARCH: Destination = { href: "/research", label: "Research", icon: Flas
 // One order for the sidebar and the tabs. The tab bar shows the first four and puts the rest
 // behind More, which also holds sign out, so it is there for a role with fewer links too.
 const DESTINATIONS: Record<Role, Destination[]> = {
-  jamie: [DESK, WORK, POOL, CLOSE, SELL, RESEARCH],
+  jamie: [DESK, WORK, CLIENTS, POOL, CLOSE, SELL, RESEARCH],
   salesman: [POOL, SELL],
   client: [DESK],
 };
@@ -54,11 +66,14 @@ const TABS = 4;
 // A project's board: /work/<client>, one segment after `work`.
 const isBoard = (pathname: string) => /^\/work\/[^/]+\/?$/.test(pathname);
 
-// The destination a path belongs to: a client's page is the desk's, a pool row is the pool's,
-// a verdict is research's.
+// The destination a path belongs to: a client's page is Clients' for Jamie and the desk's for
+// a client, whose links have no Clients; a pool row is the pool's; a verdict is research's.
 function currentOf(pathname: string, links: Destination[]): string | undefined {
-  if (pathname === "/" || pathname.startsWith("/clients/")) return links.find((l) => l.href === "/")?.href;
-  return links.find((l) => l.href !== "/" && (pathname === l.href || pathname.startsWith(`${l.href}/`)))?.href;
+  if (pathname === "/") return links.find((l) => l.href === "/")?.href;
+  const hit = links.find((l) => l.href !== "/" && (pathname === l.href || pathname.startsWith(`${l.href}/`)))?.href;
+  if (hit) return hit;
+  if (pathname.startsWith("/clients/")) return links.find((l) => l.href === "/")?.href;
+  return undefined;
 }
 
 const ROW =

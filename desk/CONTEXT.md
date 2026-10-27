@@ -180,10 +180,11 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Jamie's pages: `/` (one card per next client action, the glance's rows, grouped by urgency:
   overdue, this week, later, no deadline; each card with Copy prompt, the words that start a
   session on the house to do the action, with the record, the folder's files and the stage's
-  contract, `lib/actions.ts`; tiles that count the urgent actions and the open leads; the
-  clients table with each repo's blueprint drift, latest release and `check.yml` run; no
-  ticket and no step of Jamie's hand), `/work` (three sections across every client repo and the house: On your desk, the ticket
-  cards whose next act is Jamie's, each with the act, then Jamie's hand folded behind its count; Running, the other cards in flight,
+  contract, `lib/actions.ts`; tiles that count the urgent actions and the open leads; then
+  Jamie's hand, the steps of `.icm/intake/README.md`, behind their count; no ticket),
+  `/clients` (the clients table: each client's stage, its repo's blueprint drift, latest
+  release and `check.yml` run, one row linked to the client's page), `/work` (three sections across every client repo and the house: On your desk, the ticket
+  cards whose next act is Jamie's, each with the act; Running, the other cards in flight,
   newest first; Projects, one row per repo, the house last, with its counts, its next ticket
   with the prompt to copy, and its board as the row's link; `?repo=<client>` redirects to the
   board), a project's board at

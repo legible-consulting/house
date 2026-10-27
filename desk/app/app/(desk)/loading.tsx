@@ -1,13 +1,17 @@
-import { HeaderLine, Loading, Pane, Rows, Tiles } from "@/components/desk/loading";
+import { HeaderLine, Lines, Loading, Pane, Tiles } from "@/components/desk/loading";
 
-// The desk's home while it reads: the glance card, the seven pool tiles, the clients table.
+// The desk's home while it reads: the tiles, the action cards, Jamie's hand.
 export default function HomeLoading() {
   return (
     <Loading>
       <HeaderLine />
-      <Pane lines={5} />
-      <Tiles count={7} className="lg:grid-cols-7" />
-      <Rows count={5} />
+      <Tiles count={4} />
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <Pane lines={3} />
+        <Pane lines={3} />
+        <Pane lines={3} />
+      </div>
+      <Lines count={6} />
     </Loading>
   );
 }
