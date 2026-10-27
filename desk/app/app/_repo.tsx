@@ -1,4 +1,5 @@
 import { Suspense, type ReactNode } from "react";
+import { Facts } from "@/components/desk/facts";
 import { Badge } from "@/components/ui/badge";
 import { inFlight, repoStatus, type RepoStatus, type Run } from "@/lib/repos";
 
@@ -126,32 +127,25 @@ export function CheckCell({ repo, jamie }: { repo: string | null | undefined; ja
   );
 }
 
-async function Facts({ repo, jamie }: { repo: string; jamie: boolean }) {
+async function RepoFactList({ repo, jamie }: { repo: string; jamie: boolean }) {
   const s = await repoStatus(repo);
-  if (!s.ok) return <p className="text-sm text-muted-foreground">{unavailable(s, jamie)}</p>;
+  if (!s.ok) return <p className="text-ui text-muted-foreground">{unavailable(s, jamie)}</p>;
   return (
-    <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-      <div>
-        <dt className="text-xs text-muted-foreground">Latest release</dt>
-        <dd>
-          <Release s={s} jamie={jamie} />
-        </dd>
-      </div>
-      <div>
-        <dt className="text-xs text-muted-foreground">check.yml on the default branch</dt>
-        <dd>
-          <Check s={s} jamie={jamie} />
-        </dd>
-      </div>
-    </dl>
+    <Facts
+      className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
+      facts={[
+        { label: "Latest release", value: <Release s={s} jamie={jamie} /> },
+        { label: "check.yml on the default branch", value: <Check s={s} jamie={jamie} /> },
+      ]}
+    />
   );
 }
 
 // The release and check.yml as two facts, for the client's page.
 export function RepoFacts({ repo, jamie }: { repo: string; jamie: boolean }) {
   return (
-    <Suspense fallback={<p className="text-sm text-muted-foreground">Reading GitHub…</p>}>
-      <Facts repo={repo} jamie={jamie} />
+    <Suspense fallback={<p className="text-ui text-muted-foreground">Reading GitHub…</p>}>
+      <RepoFactList repo={repo} jamie={jamie} />
     </Suspense>
   );
 }

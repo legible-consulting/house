@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
-import { stringify } from "yaml";
-import { type FolderRead, listFolder, writeFile } from "./github";
+import { parse, stringify } from "yaml";
+import { listFolder, readOnMain, writeFile } from "./github";
 
 // The research queue (research/CONTEXT.md, research): one file per link Jamie shares to
 // the desk, written to main in research/queue/. The daily intake reads the folder,
@@ -77,5 +77,49 @@ export async function queueLink(s: Shared, now = new Date()): Promise<{ note: st
   return { note: result === "created" ? `Queued ${found.link}` : `Already queued today: ${found.link}` };
 }
 
-// The queue as it stands on main.
-export const queue = (): Promise<FolderRead> => listFolder(QUEUE);
+// One link that waits for the intake: the file on GitHub, the link's host and title, and
+// the time it was shared. The host and the day come from the file's name; the title and the
+// time from its frontmatter, when the file reads.
+export interface Queued {
+  name: string;
+  url: string; // the file on GitHub
+  host: string;
+  title: string; // empty when the share had none, or the file did not read
+  captured: string; // "2026-10-27 14:05 UTC", or the day alone when the file did not read
+}
+
+export type QueueRead = { ok: true; links: Queued[] } | { ok: false; reason: string };
+
+const NAME_RE = /^(\d{4}-\d{2}-\d{2})-(.+)-[0-9a-f]{6}\.md$/;
+// The intake empties the folder every day, so it holds a few files; a folder past this many
+// shows the rest by name only, so a backlog never costs a read per file.
+const READ_MAX = 30;
+
+async function queued(file: { name: string; url: string }, read: boolean): Promise<Queued> {
+  const m = NAME_RE.exec(file.name);
+  const base: Queued = { ...file, host: m?.[2] ?? file.name, title: "", captured: m?.[1] ?? "" };
+  if (!read) return base;
+  try {
+    const head = /^---\r?\n([\s\S]*?)\r?\n---/.exec(await readOnMain(`${QUEUE}/${file.name}`))?.[1] ?? "";
+    const front = (parse(head) ?? {}) as Record<string, unknown>;
+    const url = typeof front.url === "string" ? front.url : "";
+    const at = typeof front.captured === "string" ? front.captured : "";
+    return {
+      ...base,
+      host: url ? new URL(url).hostname.replace(/^www\./, "") : base.host,
+      title: typeof front.title === "string" ? front.title : "",
+      captured: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(at) ? `${at.slice(0, 10)} ${at.slice(11, 16)} UTC` : base.captured,
+    };
+  } catch {
+    return base;
+  }
+}
+
+// The queue as it stands on main: the folder, then each file, newest first. A file that does
+// not read keeps what its name says.
+export async function queue(): Promise<QueueRead> {
+  const folder = await listFolder(QUEUE);
+  if (!folder.ok) return folder;
+  const files = [...folder.files].reverse();
+  return { ok: true, links: await Promise.all(files.map((f, i) => queued(f, i < READ_MAX))) };
+}
