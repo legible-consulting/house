@@ -5,7 +5,7 @@ language: fr-BE
 stage: build
 kind: build
 opened: 2026-08-10
-next_action: Build the four feedback round 1 epics in the client repo, in the order of its `.icm/intake/README.md`, each to UAT. Then tell Alix and Jordane what to test on uat.berceo.be.
+next_action: Ask Alix and Jordane to test their feedback round 1 changes on uat.berceo.be, with a date for their answer.
 deadline: 2026-11-13
 salesman:
 commission:
@@ -67,9 +67,10 @@ Jamie's own contact: no salesman, no commission.
 - The founders' feedback round 1 (Drive, `feedback-round-1.pdf`, 2026-10-23) replaces the open
   backlog whole: the new epics live in `.icm/intake/` in the client repo. A feedback request
   supersedes an earlier requirement, except the insurance wording (Jamie, 2026-10-23).
-- On 2026-10-27 none of the founders' changes is built. The four epics, in build order:
-  `vitrine-retour-1`, `onboarding-retour-1`, `demande-retour-1`, `abonnements-familles`. The next
-  thing the founders see is their requested changes on UAT (Jamie, 2026-10-27).
+- On 2026-10-27 none of the founders' changes is built. The four epics, in build order
+  `vitrine-retour-1`, `onboarding-retour-1`, `demande-retour-1`, `abonnements-familles`, show on
+  the desk's Work board. The next thing the founders see is their requested changes on UAT. The
+  next action here is the test request that follows (Jamie, 2026-10-27).
 
 ## Links
 

@@ -95,6 +95,11 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   before the house and Jamie keeps them · 2026-10-27); from the agreement on, `agreement_drive` (the Drive link of the rendered
   agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
   (`05-agreement/CONTEXT.md`).
+- `next_action` and `deadline` in `record.md`: the one thing Jamie does next for or with the
+  client, and the date he does it by. A send, a call, a walkthrough, a progress report, or the
+  date the client tests on UAT. Work in the client repo is never a next action: its tickets live
+  in the repo's `.icm/intake/` and show on the desk's Work board (why: the desk's home is what
+  Jamie does today, and a card that names a build never closes · Jamie, 2026-10-27).
 - `<slug>/research/` · `proposal/` · `quote/` · `agreement/` · `kickoff/` · `training/` ·
   `handover/` · `case/`: one subfolder per module that has produced for this client.
 - `<slug>/case/case.md`, the case study, one per client, in English, for the site

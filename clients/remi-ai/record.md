@@ -46,8 +46,8 @@ backlog is pushed on branch `user-stories-2026-10` of `k0d0minio/remi-ai`, commi
 pull request yet.
 
 On 2026-10-27 Anthropic's retention terms and Resend's region are confirmed. The answers are
-not yet in Morgane's document. Morgane's date is 30 October 2026. After the paste, the next
-actions are, in order: open the pull request for `user-stories-2026-10`, then start the first
-epic. The epics run in the order of Morgane's user stories, as Jamie set it on the call with
-Morgane (Jamie, 2026-10-27). The client repo's `.icm/intake/README.md` holds the table. The build
-slowed in October. From here the pace is Morgane's dates (Jamie, 2026-10-27).
+not yet in Morgane's document. Morgane's date is 30 October 2026. The pull request for
+`user-stories-2026-10` and the first epic are repo work, on the desk's Work board. The epics run
+in the order of Morgane's user stories, as Jamie set it on the call with Morgane (Jamie,
+2026-10-27). The client repo's `.icm/intake/README.md` holds the table. The build slowed in
+October. From here the pace is Morgane's dates (Jamie, 2026-10-27).

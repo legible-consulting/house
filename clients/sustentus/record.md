@@ -5,8 +5,8 @@ language: en
 stage: build
 kind: retainer
 opened: 2025-09-24
-next_action: Clear the Linear board. Paste each open Linear ticket by hand into a scope run on the sustentus repo.
-deadline: 2026-10-30
+next_action:
+deadline:
 salesman:
 commission:
   sourced_by:
@@ -31,5 +31,5 @@ An AI-first B2B SaaS platform for customer success, expert matching, invoicing a
 
 Jamie's one goal every week is to clear his Linear board. He pastes each open Linear ticket by
 hand into a scope run on the sustentus repo. That is enough for now, and no tool replaces it
-(Jamie, 2026-10-27). The deadline is the Friday of the week. When the board is clear, the session
-that closes the action moves the date to the next Friday.
+(Jamie, 2026-10-27). That is repo work, not a next action for the client, so the record carries
+none and the desk reads Sustentus as ongoing.

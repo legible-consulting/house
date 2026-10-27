@@ -6,7 +6,7 @@ stage: build
 kind: build
 public: named
 opened: 2026-07-01
-next_action: Build the five feedback round 1 epics in the client repo, each ticket to UAT. When the first tickets are on UAT, ask Diogo and Rita to test them and give a date for their answer.
+next_action: Send Diogo and Rita the plan for feedback round 1, with the date the first items reach UAT and the date by which they test.
 deadline: 2026-10-30
 salesman:
 commission:
@@ -55,8 +55,9 @@ in `research/profile.md`, and a ticket asks the ones it needs.
 **On 2026-10-27.** None of the 24 feedback items is built. The backlog in the client repo's
 `.icm/intake/` is five epics (`add-ons-on-the-site`, `bookings-and-payment-links`,
 `open-and-private-tours`, `site-copy-and-photos`, `wedding-quotes`) and six triage stubs, cut on
-2026-10-23. Diogo and Rita have not been asked to test. Go-live follows their approval of UAT, as
-soon as possible, no date set (Jamie, 2026-10-27).
+2026-10-23. That work shows on the desk's Work board. Diogo and Rita have not been asked to test
+and have no date. Go-live follows their approval of UAT, as soon as possible, no date set (Jamie,
+2026-10-27).
 
 **Where things are.** Drive: the folder above. Code, tickets, runbook and register:
 [k0d0minio/agorasim](https://github.com/k0d0minio/agorasim) (`.icm/intake/`,
