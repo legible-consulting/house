@@ -1,6 +1,7 @@
 "use client";
 
-import { useSyncExternalStore, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useDesk } from "@/app/_media";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
 
@@ -24,14 +25,6 @@ export function Pill({ word, dot = "bg-muted-foreground", muted = false }: { wor
     </span>
   );
 }
-
-const MD = "(min-width: 48rem)";
-const subscribe = (onChange: () => void) => {
-  const m = window.matchMedia(MD);
-  m.addEventListener("change", onChange);
-  return () => m.removeEventListener("change", onChange);
-};
-const useDesk = () => useSyncExternalStore(subscribe, () => window.matchMedia(MD).matches, () => true);
 
 export function SyncPanel({ word, dot, children }: { word: string; dot: string; children: ReactNode }) {
   const desk = useDesk();
