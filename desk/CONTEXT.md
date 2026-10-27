@@ -179,7 +179,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 - Jamie's pages: `/` (the glance, the pool's counts, the clients table with each repo's
   blueprint drift, latest release and `check.yml` run), `/work` (every client repo's open tickets, and the house's own from `.icm/intake/` read with `DESK_PAT`, in
   `.icm/intake/` as rows, each with the prompt that starts it in a session; the pull requests
-  with their gates, CI and preview; what waits on Jamie first), a ticket's page at its intake
+  with their gates, CI and preview; what waits on Jamie first), a project's board at
+  `/work/<client>`, full screen with no sidebar and no tab bar (`<client>` as below: four
+  columns, Queued, Next, Running and Shipped, each a stack of ticket cards; the phone shows one
+  column at a time, `?column=`; a tick returns to it), a ticket's page at its intake
   path, `/work/<client>/<epic>/<slug>` and `/work/<client>/triage/<slug>` (`<client>` is
   `house` for the house: the state and the next step, the pull request with its gates, the
   prompt, the stub, its place in the epic; a tick returns to it), `/close?month=`,
