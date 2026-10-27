@@ -4,8 +4,8 @@
 # rules (desk/app/scripts/rhythms.mjs imports lib/rhythms.ts), and commits the file to main.
 # The desk computes the same words live on every request; the file is the day's record for
 # the phone, Google and the terminal. It sends nothing and moves no stage. Not run on a PR:
-# CI cannot test a scheduled push. The desk job in check.yml runs the script on every push
-# without a commit. Run it once by hand (workflow_dispatch) after each change.
+# CI cannot test a scheduled push. The desk job in check.yml runs the script on every pull request
+# and every push to main, without a commit. Run it once by hand (workflow_dispatch) after each change.
 name: rhythms
 
 on:

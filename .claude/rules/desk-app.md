@@ -50,6 +50,6 @@ workflow's latest run and the distance from the build's commit to `main`. `lib/l
 reads each token's GitHub rate limit for the sync pill's panel, and gives the three GitHub
 clients the sentence, with the reset time, for a read that the limit refused.
 Do not run
-`npm run build`, `dev` or `test` here: `check.yml` builds it on every push, and Vercel deploys
+`npm run build`, `dev` or `test` here: `check.yml` builds it on every pull request, and Vercel deploys
 it from `main` through the project's Git link (root directory `desk/app`).
 Keep the app out of every other module's context; a module never imports from it.
