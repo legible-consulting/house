@@ -91,9 +91,18 @@ Built (2026-10-26):
     the client says yes to one document · 2026-10-19).
   - The text before the first rule (`---`) is the cover when it holds the `#` title. A
     paragraph in capitals only is an eyebrow.
-  - The name of a PDF is `<Kind> - <title> - Jamie Nisbet - <date>.pdf`: the kind in the
-    client's language from `render/kinds.json`, then `title` and `date` from the
-    frontmatter. The characters `/ \ : * ? " < > |` are dropped from the title. A signed
+  - A table fills the text width and never passes the margin. Hairlines separate its rows.
+    A column of figures (prices, rates, counts, dates) is set in IBM Plex Mono and, after
+    the first column, right-aligned. An empty header row is not drawn. A row with a label and
+    empty cells is a row to sign in and gets room for a signature. A table that fits on a
+    page is kept whole, with the heading or the label line before it (why: a price table
+    split across two pages, or one that runs off the page, is the part of a document a
+    client reads twice · Jamie, 2026-10-27).
+  - The name of a PDF is `<Kind> - <client> - Jamie Nisbet - <date>.pdf`: the kind in the
+    client's language from `render/kinds.json`, the `name` in the client's `record.md`, and
+    the `date` in the document's frontmatter. The document's title is not in the name
+    (why: the kind already says what the document is, and a title often repeats it ·
+    Jamie, 2026-10-27). The characters `/ \ : * ? " < > |` are dropped. A signed
     copy is named by Jamie and starts with the signed kind (`Signed`, `Signé`, `Assinado`);
     `place.sh` never writes or replaces a file whose name starts with it (why: the signed
     copy is the record of the deal; a render must never overwrite it · 2026-10-22).

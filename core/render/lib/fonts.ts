@@ -42,6 +42,8 @@ export const fetchFonts = async (
     { family: sans, weight: 600, italic: true },
     { family: mono, weight: 400 },
     { family: mono, weight: 500 },
+    // Bold figures in a table are mono at the heading weight.
+    { family: mono, weight: 600 },
   ];
   const res = await fetch(css2(faces), {
     headers: { "User-Agent": "legible-render" },

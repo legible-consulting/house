@@ -13,6 +13,15 @@ import { Divider } from "@/components/pdf/divider/divider";
 import { Heading } from "@/components/pdf/heading/heading";
 import { Text } from "@/components/pdf/text/text";
 import { Text as Run, View } from "@/lib/pdf-primitives";
+import {
+  A4_WIDTH,
+  CELL_LEADING,
+  CELL_PAD,
+  CELL_SIZE,
+  isSignRow,
+  LABEL_SIZE,
+  layoutTable,
+} from "@/lib/table";
 import type { DocumentDesign } from "@/lib/voice";
 
 /**
@@ -163,50 +172,77 @@ export class Markdown {
     );
   }
 
-  table(t: Tokens.Table, key?: number): ReactNode {
-    const width = (cells: Tokens.TableCell[]) => cells.map((c) => c.text.length);
-    const longest = t.header.map((_, c) =>
-      Math.max(...[width(t.header), ...t.rows.map(width)].map((w) => w[c] ?? 0), 4)
-    );
-    const total = longest.reduce((a, b) => a + b, 0);
-    const columns = longest.map((l) => ({
-      width: { fraction: Math.max(l / total, 0.12) },
-    }));
-    const pad = { paddingBottom: 6, paddingLeft: 6, paddingRight: 6, paddingTop: 6 };
+  /**
+   * A table fills the text width and never passes the margin (lib/table.ts).
+   * Hairlines separate the rows. A column of figures is set in mono and, after
+   * the first column, right-aligned. An empty header row is not drawn. A row
+   * to sign in gets room for a signature. A table short enough to fit on one
+   * page is kept whole, with its lead (the heading or label before it).
+   */
+  table(t: Tokens.Table, key?: number, lead?: ReactNode): ReactNode {
+    const layout = layoutTable(t, A4_WIDTH - 2 * this.d.marginX);
+    const columns = layout.fractions.map((fraction) => ({ width: { fraction } }));
     const rule = { borderBottomColor: this.d.hairline, borderBottomWidth: 0.5 };
-    const label = 7.5;
-    return (
-      <View key={key} style={{ marginBottom: 12, marginTop: 4 }}>
-        <Table columns={columns}>
-          <Row header style={{ backgroundColor: this.d.sheet, ...rule }}>
-            {t.header.map((cell, c) => (
-              <Cell key={c} style={pad}>
+    const cell = (extra = {}) => ({
+      ...rule,
+      paddingBottom: CELL_PAD,
+      paddingLeft: CELL_PAD,
+      paddingRight: CELL_PAD,
+      paddingTop: CELL_PAD,
+      ...extra,
+    });
+    const align = (c: number) =>
+      layout.figures[c] && c > 0 ? ("right" as const) : ("left" as const);
+    const body = (c: number) => ({
+      fontFamily: layout.figures[c] ? this.d.mono : this.d.sans,
+      fontSize: layout.figures[c] ? CELL_SIZE - 0.5 : CELL_SIZE,
+      lineHeight: CELL_LEADING,
+      textAlign: align(c),
+    });
+    const table = (
+      <Table
+        columns={columns}
+        style={layout.header ? undefined : { borderTopColor: this.d.hairline, borderTopWidth: 0.5 }}
+      >
+        {layout.header ? (
+          <Row header>
+            {t.header.map((head, c) => (
+              <Cell key={c} style={cell({ backgroundColor: this.d.sheet })}>
                 <Run
                   style={{
                     color: this.d.meta,
                     fontFamily: this.d.mono,
-                    fontSize: label,
-                    letterSpacing: tracking(label, 0.12),
+                    fontSize: LABEL_SIZE,
+                    letterSpacing: tracking(LABEL_SIZE, 0.12),
+                    textAlign: align(c),
                     textTransform: "uppercase",
                   }}
                 >
-                  {this.inline(cell.tokens)}
+                  {this.inline(head.tokens)}
                 </Run>
               </Cell>
             ))}
           </Row>
-          {t.rows.map((row, r) => (
-            <Row key={r} style={rule}>
-              {row.map((cell, c) => (
-                <Cell key={c} style={pad}>
-                  <Run style={{ fontSize: this.d.bodySize - 1, lineHeight: 1.4 }}>
-                    {this.inline(cell.tokens)}
-                  </Run>
+        ) : null}
+        {t.rows.map((row, r) => {
+          const sign = isSignRow(row);
+          return (
+            <Row key={r}>
+              {row.map((value, c) => (
+                <Cell key={c} style={cell(sign ? { minHeight: 40 } : {})}>
+                  <Run style={body(c)}>{this.inline(value.tokens)}</Run>
                 </Cell>
               ))}
             </Row>
-          ))}
-        </Table>
+          );
+        })}
+      </Table>
+    );
+    const whole = layout.height < 420;
+    return (
+      <View key={key} wrap={whole ? false : undefined} style={{ marginBottom: 12 }}>
+        {lead}
+        <View style={{ marginTop: 4 }}>{table}</View>
       </View>
     );
   }
@@ -267,32 +303,56 @@ export class Markdown {
   }
 
   /**
-   * A heading is kept on the page of what follows it: a paragraph short enough
-   * to move with it, or the first item of a list.
+   * A lead introduces what follows it: a heading, a paragraph that is all bold
+   * ("Worked examples"), or a short paragraph that ends with a colon.
+   */
+  private isLead(t: Token): boolean {
+    if (t.type === "heading") {
+      return true;
+    }
+    if (t.type !== "paragraph" || isEyebrow(t)) {
+      return false;
+    }
+    const tokens = (t as Tokens.Paragraph).tokens;
+    const allBold = tokens.length === 1 && tokens[0].type === "strong";
+    return allBold || (t.text.length < 300 && t.text.trimEnd().endsWith(":"));
+  }
+
+  /**
+   * Leads stay on the page of what follows them: the first item of a list, a
+   * table kept whole, or, after a heading, a paragraph short enough to move.
    */
   blocks(tokens: Token[], tight = false): ReactNode[] {
     const out: ReactNode[] = [];
     const shown = tokens.filter((t) => this.block(t, 0, tight) !== null);
     for (let i = 0; i < shown.length; i++) {
-      const t = shown[i];
-      const next = shown[i + 1];
-      if (
-        t.type === "heading" &&
-        next?.type === "paragraph" &&
-        next.text.length < 600
+      let j = i;
+      while (j < shown.length - 1 && j - i < 2 && this.isLead(shown[j])) {
+        j++;
+      }
+      const next = shown[j];
+      if (j > i && (next.type === "table" || next.type === "list")) {
+        const lead = shown.slice(i, j).map((t, k) => this.block(t, k));
+        out.push(
+          next.type === "table"
+            ? this.table(next as Tokens.Table, i, lead)
+            : this.list(next as Tokens.List, i, lead)
+        );
+        i = j;
+      } else if (
+        shown[i].type === "heading" &&
+        shown[i + 1]?.type === "paragraph" &&
+        shown[i + 1].text.length < 600
       ) {
         out.push(
           <View key={i} wrap={false}>
-            {this.block(t, 0)}
-            {this.block(next, 1)}
+            {this.block(shown[i], 0)}
+            {this.block(shown[i + 1], 1)}
           </View>
         );
         i++;
-      } else if (t.type === "heading" && next?.type === "list") {
-        out.push(this.list(next as Tokens.List, i, this.block(t, 0)));
-        i++;
       } else {
-        out.push(this.block(t, i, tight));
+        out.push(this.block(shown[i], i, tight));
       }
     }
     return out;

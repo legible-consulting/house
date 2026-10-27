@@ -82,12 +82,18 @@ const inlineQuote = (proposal: string, quote: string): string => {
 const clean = (s: string): string =>
   s.replace(/[/\\:*?"<>|]/g, "").replace(/\s+/g, " ").trim();
 
-export const fileNameFor = (kind: Kind, lang: string, title: string, date: string): string =>
-  `${kindWord(lang, kind)} - ${clean(title)} - Jamie Nisbet - ${date}.pdf`;
+/**
+ * The kind already says what the document is, so the name carries the
+ * client's name, not the document's title (Jamie, 2026-10-27).
+ */
+export const fileNameFor = (kind: Kind, lang: string, client: string, date: string): string =>
+  `${kindWord(lang, kind)} - ${clean(client)} - Jamie Nisbet - ${date}.pdf`;
 
 export const readSource = (root: string, client: string, kind: Kind): Source => {
   const path = join(root, "clients", client, kind, `${kind}.md`);
   const { meta, body } = split(path);
+  const recordPath = join(root, "clients", client, "record.md");
+  const name = field(split(recordPath).meta, "name", recordPath);
   const title = field(meta, "title", path);
   const date = field(meta, "date", path);
   const lang = field(meta, "language", path);
@@ -101,7 +107,7 @@ export const readSource = (root: string, client: string, kind: Kind): Source => 
   return {
     body: text,
     date,
-    fileName: fileNameFor(kind, lang, title, date),
+    fileName: fileNameFor(kind, lang, name, date),
     kind,
     lang,
     title,
