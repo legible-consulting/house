@@ -15,7 +15,7 @@ import { maybeEnv } from "./env";
 // force-dynamic, where Next.js makes each fetch no-store by default, and the map does not
 // depend on how Next.js applies that rule to a fetch with an Authorization header. The map
 // lives as long as the warm function instance: one read per repo every five minutes at most,
-// every 15 seconds while the latest run is queued or running, and concurrent page views
+// every minute while the latest run is queued or running, and concurrent page views
 // share the one read in flight. A failed read is kept one minute only, so a new token takes
 // effect soon. A cold instance reads again.
 
@@ -51,7 +51,7 @@ const REPO_RE = /^[A-Za-z0-9-]+\/[A-Za-z0-9._-]+$/;
 // How long a read is kept while the run it shows is queued or running: the page re-reads
 // itself at the same pace (components/desk/page-header.tsx). lib/github.ts keeps the house's runs by the
 // same rule.
-export const FLIGHT_MS = 15 * 1000;
+export const FLIGHT_MS = 60 * 1000;
 
 const cache = new Map<string, { at: number; ttl: number; value: Promise<RepoStatus> }>();
 
