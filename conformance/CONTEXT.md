@@ -23,6 +23,11 @@ Conformance produces a report that every live repo matches the blueprint and car
 - `desk/mani.yaml` tags each repo `live` or `dormant`. A live repo is checked against the
   blueprint tag. A dormant repo is checked for being archived and gets no PR (why: an
   archived repo changes no more, so a template update would only reopen it · 2026-10-19).
+- A repo conforms only through `copier update`. A conformance PR holds what `conform.sh`
+  writes and the triage stub, nothing more. A repo file that does not follow a blueprint
+  contract is a blueprint defect: open a pull request on `legible-consulting/blueprint`, so the
+  fix reaches every repo with the next tag, never an edit by hand in each repo (why: a copied
+  line changes only by hand in each repo, so a new tag does not reach it · Jamie, 2026-10-28).
 - Claude and agent assets (`.claude/`, `CLAUDE.md`, `AGENTS.md`, `.icm/`, `.opencode/` and
   the like) are listed in the report, not removed: whether one is still used is Jamie's call.
 - From the local lane, Jamie's own `gh` login: `bash conformance/drift.sh` writes the
