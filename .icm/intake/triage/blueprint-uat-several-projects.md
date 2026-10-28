@@ -24,11 +24,11 @@ The scripts find the build's Vercel projects themselves: every project in `VERCE
 
 - [ ] No Actions variable names a Vercel project or a Neon project. The scripts find the projects of the repository through the Vercel API (`GET /v10/projects` filtered by the repository) and keep those with the custom environment `uat`.
 - [ ] The scripts find the Neon project of the base with no `NEON_PROJECT_ID`. The contract names the rule, for example a project name from the repository's name.
-- [ ] `promote.yml` migrates production once. Then it waits until the staged production build of the tag's commit is READY on every named project. Then it promotes each one. ERROR or CANCELED on any project stops the run before any promotion.
+- [ ] `promote.yml` migrates production once. Then it waits until the staged production build of the tag's commit is READY on every UAT project. Then it promotes each one. ERROR or CANCELED on any project stops the run before any promotion.
 - [ ] A re-run of a failed `promote.yml` promotes only the projects that are not current yet.
-- [ ] `promote.sh status` prints the setup acts, the UAT deployment and the staged build of each named project.
-- [ ] `rollback.sh` prints one `vercel rollback` command per named project.
-- [ ] `preview-db.sh create` and `delete` set and remove the three variables on each named project.
+- [ ] `promote.sh status` prints the setup acts, the UAT deployment and the staged build of each UAT project.
+- [ ] `rollback.sh` prints one `vercel rollback` command per UAT project.
+- [ ] `preview-db.sh create` and `delete` set and remove the three variables on each UAT project.
 - [ ] `.icm/uat/CONTEXT.md`, `.icm/database/CONTEXT.md`, `.env.example` and the names tables drop `VERCEL_PROJECT` and `NEON_PROJECT_ID`, and state the discovery rule.
 - [ ] `check.yml` renders a monorepo answer set with two projects and lints the result.
 
@@ -36,7 +36,7 @@ The scripts find the build's Vercel projects themselves: every project in `VERCE
 
 - Repo `legible-consulting/blueprint`. Commits: `feat:`.
 - Files: `template/.github/workflows/{% if uat %}promote.yml{% endif %}`, `template/{% if not workspace %}.icm{% endif %}/scripts/` (`promote.sh`, `rollback.sh`, `preview-db.sh`, `lib/vercel.sh`), `template/{% if not workspace %}.icm{% endif %}/{% if uat %}uat{% endif %}/CONTEXT.md`, `template/{% if not workspace %}.icm{% endif %}/{% if database == 'neon' %}database{% endif %}/CONTEXT.md`, `template/.github/workflows/{% if database == 'neon' %}neon-cleanup.yml{% endif %}`.
-- A project the build does not name keeps "Auto-assign Custom Production Domains" on and follows `main`. In `remi-ai`, `marketing` and `documentation` do that.
+- A project with no `uat` keeps "Auto-assign Custom Production Domains" on and follows `main`. In `remi-ai`, `marketing` and `documentation` do that.
 - The blueprint is public: no client name in the blueprint's files or its pull request.
 - The Vercel API filter: `GET /v10/projects?repoUrl=<the repository URL>` lists the projects linked to the repository. A project's custom environments come from `GET /v9/projects/<id>/custom-environments`.
 - Out of scope: a change in a client repo. Each client gets the change through `copier update`. `remi-ai` then stops the hand promotion.
