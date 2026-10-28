@@ -24,7 +24,8 @@ import { JumpGroup } from "./_jump";
 // the file, the cadence's days as four stat tiles; every pitch draft by touch, in the user's
 // language (lib/language.ts) or, for one read, another or all (?lang=<language> or ?lang=all, a
 // toggle group), each with a Copy button and its placeholders marked; the seller kit
-// (kit.<language>.md) in the same cards and the same language. With
+// (kit.<language>.md, parsed into lessons by lib/kit.ts: the intro, then one card per lesson,
+// its title and its words, never its key list) in the same cards and the same language. With
 // every language shown, each pitch and each kit section folds behind its heading; with one
 // language chosen, they are open. No paragraph explains the page (desk/app/DESIGN.md, rule 9).
 // A row's next touch, filled from the row, is on the pool row's page. A change in the folder
@@ -58,7 +59,10 @@ const pitches = sell.pitch.map((p) => ({ ...p, html: marked(render(p.body)) }));
 const touches = [...new Set(pitches.map((p) => p.touch))].sort((a, b) => a - b);
 const kits = sell.kit.map((k) => ({
   ...k,
-  sections: sections(k.body).map((s) => ({ ...s, html: marked(s.html) })),
+  sections: [
+    ...(k.intro ? [{ title: "", html: marked(render(k.intro)) }] : []),
+    ...k.lessons.map((l) => ({ title: l.title, html: marked(render(l.body)) })),
+  ],
 }));
 
 // "Opener · en-GB" → "Opener"
@@ -264,7 +268,7 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
               );
               const folded = !lang && k.sections.some((s) => !s.title);
               return (
-                <div key={k.file} className="grid gap-3">
+                <div key={k.language} className="grid gap-3">
                   {!folded && <div className="flex items-center gap-2">{title}</div>}
                   <Sections list={k.sections} level={4} fold={!lang} intro={title} />
                 </div>

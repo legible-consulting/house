@@ -3,43 +3,355 @@ title: "Kit du vendeur · fr-BE"
 kind: kit
 language: fr-BE
 owner: jamie
-date: 2026-10-22
+date: 2026-10-28
 ---
-# Kit du vendeur — comment me faire parvenir un contact
+# Kit du vendeur — comment me faire parvenir une piste
 
-Ce kit est le tien. Il dit comment un contact arrive jusqu'à moi, quoi envoyer, quoi
-répondre quand ils hésitent, ce que je vends et à quoi ressemblent tes 10 %. Lis d'abord le
-profil cible (qui nous cherchons) et la cadence (trois contacts, puis on s'arrête). Les
-brouillons sous Pitch sont la version complète de chaque contact. Les messages ici sont les
-courts, pour quelqu'un que tu connais déjà. Une partie marquée est à toi de remplir. Tu
-envoies depuis ton propre email, ton téléphone ou WhatsApp, ou en personne. Le desk n'envoie
-rien, et je ne vois jamais le message que tu as envoyé.
+Je suis Jamie. Ce kit contient tout ce qu'il te faut pour me faire parvenir une piste.
+D'abord, qui je suis et ce que je vends. Ensuite, le système, de la ligne que tu crées aux
+10 % que tu gagnes. Enfin, les mots à envoyer et les réponses à donner. Lis-le une fois dans
+l'ordre, puis reviens à une leçon quand tu en as besoin.
 
-## D'un nom à une passation
+Tu envoies chaque message depuis ton propre e-mail, ton téléphone ou WhatsApp, ou tu le dis
+en personne. Le desk n'envoie rien, et je ne vois jamais le message que tu as envoyé. Une
+partie marquée, comme <first name>, est à toi de remplir.
 
-1. **Crée la ligne avant le premier message.** Sur la page du pool : l'entreprise, la
-   personne, un email ou un numéro de téléphone, la langue et la source (qui l'a recommandé,
-   quel événement, quelle liste). La ligne est à toi à partir de là. L'email sur la ligne
-   garde aussi le contact à toi quand la personne m'écrit par mon site.
-2. **Envoie le premier contact et enregistre-le.** Date, canal, une ligne. La ligne passe à
-   `contacted` et le desk fixe la date suivante. Un premier e-mail ou WhatsApp à une
-   entreprise qui n'a rien demandé va à une adresse de l'entreprise, jamais à celle d'une
-   personne, et garde les deux lignes à la fin du brouillon d'ouverture : où tu l'as trouvée,
-   et qu'une réponse suffit pour arrêter. Un non est définitif : mets `lost` avec la raison
-   `asked not to be contacted`, et n'ajoute plus jamais cette entreprise (la cadence).
-3. **Suis la cadence.** Un nouvel angle au jour 7, une dernière note au jour 21. Enregistre
-   chaque contact. Une réponse met la ligne à `replied`. Un rendez-vous avec toi la met à
-   `meeting`.
-4. **Passe-la-moi.** Écris ce qu'ils ont demandé, avec leurs mots, comme demande. Avec le
-   contact, un email ou un téléphone, le pays, la langue, la demande et un contact
-   enregistré, mets `ready for Jamie`. Je lis la passation et l'affaire est à moi à partir
-   de là. Tu vois son étape jusqu'à l'accord.
-5. **Tu es payé.** 10 % de ce que je facture au titre du premier accord signé, au fur et à
-   mesure que le client paie. Le tableau à la fin montre à quoi ça ressemble.
+## Qui je suis
+
+- key: who-jamie-is
+- part: jamie
+
+Je suis Jamie Nisbet, ingénieur logiciel à Mafra, près de Lisbonne. Je travaille de cette
+façon depuis 2021, pour des entreprises au Portugal, en Belgique, au Royaume-Uni, aux
+Émirats arabes unis et aux États-Unis.
+
+Je construis des sites, des apps et des plateformes pour des entreprises. J'apprends aux
+équipes une façon d'organiser leur travail pour que des logiciels et des assistants en
+reprennent une partie. Et je donne un deuxième avis sur là où les outils ont leur place, et
+là où ils ne l'ont pas.
+
+Je suis une seule personne. Je prends l'appel, je cadre le travail, je le construis et je le
+livre. Personne n'est renvoyé de main en main.
+
+Je travaille en anglais, en français et en portugais. Chaque client lit sa propre langue.
+
+Ce que je ne fais pas :
+
+- Rédaction, image de marque ou design comme travail en soi. J'oriente vers quelqu'un qui le
+  fait bien.
+- Du travail à l'heure. Chaque mission est à prix fixe ou sur un périmètre mensuel écrit.
+
+## Comment je travaille
+
+- key: how-jamie-works
+- part: jamie
+
+C'est la même chose à chaque fois, donc tu peux le promettre.
+
+1. **D'abord un appel.** Vingt minutes sur la façon dont leur activité tourne et ce qu'ils
+   veulent faire faire. Je leur dis franchement ce qui vaut la peine d'être construit et ce
+   qui ne l'est pas.
+2. **Un prix fixe avec deux options.** Après l'appel, j'écris une proposition : la plus
+   petite version honnête qui fait le travail, et le périmètre entier. Le prix en est la
+   dernière section.
+3. **Le périmètre est convenu avant que le travail commence.** Ensuite, le prix ne bouge
+   plus. Un prix plus bas retire une partie nommée du périmètre.
+4. **Un aperçu avant chaque mise en ligne.** Ils voient chaque changement avant qu'il parte
+   en ligne, et ils disent oui.
+5. **Un dossier de passation à la fin.** Ce qu'ils ont, comment s'en servir, qui héberge
+   quoi. Un suivi s'ils le veulent.
+
+Je ne vends pas d'heures. Et les mots sont les leurs : les textes des pages et les
+traductions, c'est au client de les apporter, ou c'est une ligne à part dans la proposition.
+
+## Ce que je vends
+
+- key: what-jamie-sells
+- part: jamie
+
+Quatorze lignes, en cinq groupes. Sur la ligne du pool, choisis la ligne la plus proche comme
+service, ou `unknown`.
+
+### Construire
+
+- **Site.** Leur activité trouvable et présentable : des pages, un parcours de contact, de
+  réservation ou de menu, sur leur propre domaine, en ligne et livré.
+- **Landing page entièrement gérée.** Une page, conçue, rédigée, hébergée et tenue à jour par
+  moi. Le texte est compris dans celle-ci.
+- **App.** Un outil qui fonctionne, avec un état : des comptes, des données, une vue
+  d'administration, les flux dont leur activité vit.
+- **Plateforme.** Une app avec plusieurs rôles ou plusieurs surfaces : une place de marché,
+  un produit avec son administration, sa documentation et son support.
+- **Ingénierie logicielle.** Des applications web et des systèmes faits pour durer : rapides,
+  accessibles, documentés et faciles à changer.
+- **Optimisation GEO.** Leur activité citée dans les réponses de ChatGPT, Gemini et
+  Perplexity, pas seulement dans les résultats de recherche.
+
+### Enseigner
+
+- **Atelier.** Une journée, sur place ou à distance, qui apprend à une équipe ma façon
+  d'organiser le travail pour que logiciels et assistants puissent le reprendre. Les supports
+  restent chez eux, avec une attestation de présence qu'ils peuvent classer.
+- **Coaching.** Des heures en tête-à-tête où chaque personne applique cette façon de
+  travailler à son propre poste.
+
+### Conseiller
+
+- **Conseil en IA.** Un deuxième avis sur là où les outils ont leur place et là où ils ne
+  l'ont pas : les quelques usages qui valent la peine, et le reste nommé et écarté.
+- **Gestion de projet.** Quelqu'un de technique qui garde un projet sur les rails : le
+  périmètre, le calendrier et les personnes, avec un état honnête sur lequel agir.
+
+### Automatiser
+
+- **Automatisation IA et non-IA.** Les étapes répétées de leur semaine faites par un
+  logiciel : leurs outils connectés, un modèle là où il se justifie, du code simple là où il
+  ne se justifie pas.
+- **Infrastructure IA pour l'entreprise.** La base qui rend un assistant utile dans toute
+  l'entreprise : leurs propres documents, consultables, et des réponses ancrées dans leurs
+  données.
+- **Développement de canaux d'acquisition.** Les canaux qui font entrer le travail : la
+  recommandation, la prospection et les outils derrière.
+
+### Forfait mensuel
+
+- **Forfait mensuel.** Du travail continu contre un périmètre mensuel écrit. L'hébergement
+  et le support de base y sont compris.
+
+Trois règles :
+
+- **Tu ne chiffres jamais.** Chaque prix est le mien, dit lors d'un appel ou dans une
+  proposition, jamais dans un message. Le budget sur la ligne est une indication, rien de
+  plus.
+- **Prix fixe ou forfait mensuel.** Je ne vends pas d'heures.
+- **Les mots sont les leurs.** Les textes des pages et les traductions, c'est au client de
+  les apporter, ou c'est une ligne à part dans la proposition. La landing page entièrement
+  gérée est la seule exception.
+
+Ne dis « IA » qu'après eux. Avec un patron de café, le mot gêne. Avec une entreprise tech,
+c'est leur propre mot.
+
+Une piste qui n'entre dans aucune ligne vaut quand même une ligne. Écris ce qu'ils ont
+demandé et je décide.
+
+## Qui nous cherchons
+
+- key: who-we-look-for
+- part: jamie
+
+Deux sortes d'entreprises :
+
+- **Une entreprise locale.** Un café, une salle, un cabinet, un magasin, avec un seul
+  patron. Des sites et de petites apps. La plupart m'arrivent par recommandation.
+- **Une entreprise avec un processus fait à la main.** Une tâche que quelqu'un répète chaque
+  semaine et qu'un logiciel pourrait reprendre. Des missions plus grandes, souvent
+  continues, souvent à distance. C'est la piste que je veux en premier.
+
+Au Portugal, en Belgique et au Royaume-Uni, en portugais, en français ou en anglais. Un
+autre pays convient pour du travail à distance, s'ils lisent une des trois langues. Chaque
+message part dans leur langue.
+
+Une bonne piste montre certains de ces signes. Plus il y en a, mieux c'est :
+
+- **Quelqu'un s'est porté garant.** Toi, ou une personne en qui ils ont confiance. La
+  confiance existe avant le premier appel.
+- **Une vraie activité qui tourne.** Des clients et du chiffre aujourd'hui.
+- **Une personne qui décide et paie vite.** Une personne dit oui, et l'acompte arrive sans
+  relance.
+- **Un processus fait à la main aujourd'hui.** La tâche que quelqu'un répète chaque semaine.
+- **Une raison que ce soit maintenant.** Un lancement, une saison forte, une nouvelle
+  marque, un concurrent qui vient de passer en ligne.
+
+L'un ou l'autre met fin à une piste. Mets `lost` avec la raison :
+
+- Marchander le prix avant que quiconque ait cadré le travail.
+- Deux développeurs ont déjà quitté le même projet. Un troisième n'y changera rien.
+
+Une idée sans clients pour l'instant ne met pas fin à une piste à elle seule. Celles-là, je
+les tranche à l'appel.
+
+## Crée la ligne
+
+- key: add-the-row
+- part: system
+- status: new
+- next: Envoie la première prise de contact depuis ton propre compte, puis enregistre-la sur la ligne.
+
+Crée la ligne avant d'envoyer le premier message. La ligne garde la piste à toi. Son e-mail
+la garde aussi à toi si la personne m'écrit par mon site.
+
+1. **Cherche d'abord dans le pool.** Une entreprise a une seule ligne. Si un autre vendeur
+   l'a, elle est à lui. Si une ligne porte `asked not to be contacted`, cette entreprise
+   n'est plus jamais ajoutée.
+2. **Maintenant : l'entreprise et la source.** La source, c'est comment tu les as trouvés :
+   qui les a recommandés, quel événement, quelle liste.
+3. **Avant de me la passer : le reste.** Le nom de la personne, un e-mail ou un numéro de
+   téléphone, le pays, la langue, et ce qu'ils ont demandé.
+
+Le desk fait le slug à partir du nom de l'entreprise : le nom court de la ligne, comme
+`cafe-central`. Tu peux le changer jusqu'à la passation. Le desk refuse un slug qui est déjà
+dans le pool ou qui est déjà un de mes clients.
+
+La ligne commence à `new`.
+
+## La première prise de contact
+
+- key: the-first-touch
+- part: system
+- status: contacted
+- touch: 1
+- next: Attends une réponse, et envoie la prise de contact suivante à la date que montre la ligne.
+
+Envoie le premier message depuis ton propre e-mail, ton téléphone ou WhatsApp, ou dis-le en
+personne. Pars du brouillon de la prise de contact 1 et fais-le tien.
+
+Quand ils n'ont rien demandé :
+
+- **L'e-mail ou le WhatsApp va à l'entreprise.** `info@`, `contact@`, le standard, le
+  WhatsApp du magasin. Jamais l'adresse ou le numéro personnel de quelqu'un.
+- **Un indépendant, ou le numéro personnel de quelqu'un : appelle ou passe d'abord.**
+  L'e-mail et WhatsApp s'ouvrent une fois qu'ils ont répondu.
+- **Garde les deux lignes à la fin du brouillon.** Où tu les as trouvés, et qu'une réponse
+  suffit pour arrêter. C'est toi qui remplis où.
+
+Puis enregistre la prise de contact sur la ligne : la date, le canal, une phrase. La ligne
+passe à `contacted`, et le desk fixe la date suivante, sept jours plus tard.
+
+## Suis la cadence
+
+- key: follow-the-cadence
+- part: system
+- touch: 2 | 3
+
+Trois prises de contact, puis on s'arrête. Chacune est un nouvel angle, pas une répétition.
+
+- **Jour 7 : un nouvel angle.** Un exemple de travail semblable, ou une idée concrète.
+- **Jour 21 : la dernière note.** Dis que c'est la dernière, et laisse la porte ouverte.
+
+Enregistre chaque prise de contact. Le desk déplace la date suivante à chaque fois.
+
+**Quand ils restent silencieux.** Au jour 28, sept jours après la dernière note, la ligne
+est due pour `lost`. Mets-la, avec la raison. Un nouvel essai plus tard est une nouvelle
+ligne qui nomme celle-ci dans sa source.
+
+**Quand ils disent non.** Appuie sur « They asked not to be contacted » sur la ligne. C'est
+définitif : aucun vendeur ne recontacte cette entreprise, sur aucun canal, et le desk refuse
+son e-mail et son numéro.
+
+## Quand ils répondent
+
+- key: when-they-reply
+- part: system
+- status: replied
+- next: Écris ce qu'ils veulent, avec leurs mots, comme demande, et propose vingt minutes avec moi.
+
+Mets la ligne à `replied`. La cadence s'arrête ici. À partir de maintenant, c'est toi qui
+fixes la date suivante.
+
+Demande ce qu'ils veulent faire faire, avec leurs mots, et écris-le sur la ligne comme
+demande. Un paragraphe suffit. C'est la première chose que je lis.
+
+Puis propose vingt minutes avec moi. Ou rencontre-les d'abord toi-même, si ça leur convient
+mieux.
+
+## Organise le rendez-vous
+
+- key: set-up-the-meeting
+- part: system
+- status: meeting
+- next: Après le rendez-vous, remplis ce dont j'ai besoin et mets ready for Jamie.
+
+Mon lien de réservation est [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Envoie-le depuis ton propre compte, avec
+une phrase sur qui je suis. Ils choisissent un moment qui leur convient,
+et la réservation m'arrive.
+
+Quand ils ont réservé, mets la ligne à `meeting`. Écris la date, l'heure et le lieu dans les
+notes de la ligne. Un rendez-vous avec toi compte aussi : si tu les rencontres d'abord
+toi-même, mets aussi `meeting`.
+
+Pendant l'appel, j'écoute : comment leur activité tourne, ce qu'ils veulent faire faire, à
+quoi ressemble le travail fini. Je leur dis franchement ce qui vaut la peine d'être construit
+et ce qui ne l'est pas. Le prix vient après l'appel, dans une proposition, à prix fixe avec
+deux options. Tu es le bienvenu à l'appel, et tu n'as pas besoin d'y être.
+
+## Passe-la-moi
+
+- key: hand-it-to-jamie
+- part: system
+- status: ready for Jamie
+- next: Attends que je la prenne, puis appuie sur « Check the PR » sur la ligne.
+
+Une fois qu'ils ont répondu, ou que vous vous êtes rencontrés, passe-moi la piste. La ligne
+a besoin de :
+
+- le nom de la personne
+- un e-mail ou un numéro de téléphone
+- le pays et la langue
+- la demande, avec leurs mots
+- au moins une prise de contact enregistrée
+
+Il te faut aussi un identifiant, le nom court sous lequel le desk te connaît. Si tu n'en as
+pas, demande-le-moi.
+
+Mets `ready for Jamie`. Le desk ouvre alors une pull request : ma demande d'ouvrir le
+dossier du client à partir de ta ligne. Je la lis et je l'accepte. C'est la passation.
+
+Puis appuie sur « Check the PR » sur la ligne. Si j'ai pris la piste, la ligne passe à
+`handed off`. Sinon, elle revient là où elle était, et j'écris pourquoi dans les notes.
+
+## Après la passation
+
+- key: after-the-handoff
+- part: system
+- status: handed off
+- next: Rien à faire sur la ligne. Suis l'étape de l'affaire.
+
+La ligne est en lecture seule maintenant. Le client a son propre dossier, et l'affaire est à
+moi.
+
+Tu vois où elle en est, jusqu'à l'accord :
+
+- `prospect` : je sais qui ils sont.
+- `research` : j'apprends leur métier avant l'appel ou la proposition.
+- `proposal` : j'ai écrit la proposition, avec le prix en dernière section, et ils la
+  lisent.
+- `agreement` : ils ont dit oui, et l'accord est en train d'être signé.
+
+Après ça, tu ne vois plus d'étape ni de document. Quand l'accord est signé, j'inscris tes
+10 %.
+
+## Tes 10 %
+
+- key: your-10-percent
+- part: system
+
+10 % de ce que je facture au titre du premier accord signé d'une affaire que tu as apportée,
+hors TVA, hébergement et coûts de tiers.
+
+- **Au fur et à mesure que le client paie.** C'est dû au prorata de chaque facture payée.
+  Rien n'est dû sur une facture impayée.
+- **Le premier accord seulement.** Le travail ultérieur, et les mois de forfait après ce
+  premier accord, ne paient rien.
+- **Chaque mois.** La clôture mensuelle liste ce qui est dû, et je règle contre les
+  paiements.
+
+| Le travail | Le client paie | Tu gagnes |
+|---|---|---|
+| Un site | 1 500 € | 150 € |
+| Un site avec de vraies intégrations | 4 000 € | 400 € |
+| Une app | 12 000 € | 1 200 € |
+| Un forfait, trois mois convenus à 2 000 € par mois | 6 000 € sur les trois mois | 600 €, au fur et à mesure que chaque mois est payé |
+
+Exemples seulement. Tes 10 % sont toujours 10 % de ce que le client paie réellement au titre
+de ce premier accord.
 
 ## Ouvertures
 
-Trois entrées, une de chaque. Choisis le canal que la personne utilise déjà avec toi.
+- key: openers
+- part: reference
+
+Les courtes, pour quelqu'un que tu connais déjà. Choisis le canal que la personne utilise
+déjà avec toi. Les brouillons de la prise de contact 1 sont la version complète.
 
 ### WhatsApp
 
@@ -49,7 +361,7 @@ Trois entrées, une de chaque. Choisis le canal que la personne utilise déjà a
 > et te dit franchement ce qui vaut la peine d'être construit et ce qui ne l'est pas. Vingt
 > minutes avec lui suffisent pour le savoir. Tu veux que j'organise ça ?
 
-### Email
+### E-mail
 
 > Bonjour <first name>,
 >
@@ -69,12 +381,14 @@ Dis-le, puis envoie-le par message le jour même :
 > une seule personne de bout en bout, et il chiffre honnêtement. Laisse-moi vous mettre en
 > contact. »
 
-Puis l'ouverture WhatsApp, pour que le fil existe et que tu puisses l'enregistrer.
+Puis envoie l'ouverture WhatsApp, pour que le fil existe et que tu puisses l'enregistrer.
 
 ## Relances
 
-Trois contacts, puis on s'arrête. Chacun est un angle différent, pas une répétition. Le desk
-montre la date suivante sur la ligne.
+- key: follow-ups
+- part: reference
+
+Les courtes. Les brouillons des prises de contact 2 et 3 sont la version complète.
 
 ### Jour 7 · un nouvel angle
 
@@ -89,18 +403,10 @@ montre la date suivante sur la ligne.
 > <one thing seen> n'est pas le problème qu'il semblait être, c'est une réponse honnête. Si
 > ça devient pertinent plus tard, ce fil est le bon endroit. Réponds quand tu veux.
 
-### Quand ils restent silencieux
-
-Sept jours après la dernière note, la ligne est due pour `lost`. Mets-la, avec la raison.
-Une nouvelle approche plus tard est une nouvelle ligne qui nomme celle-ci dans sa source.
-
-### Quand ils répondent
-
-La ligne passe à `replied`. Demande ce qu'ils veulent faire faire, avec leurs mots. C'est la
-demande. Propose vingt minutes avec moi, ou rencontre-les d'abord toi-même. Puis mets
-`ready for Jamie`.
-
 ## S'ils hésitent
+
+- key: if-they-hesitate
+- part: reference
 
 **« C'est trop cher. »** Personne n'a encore de prix. Je chiffre après l'appel, à prix fixe
 et avec deux options : la plus petite version honnête qui fait le travail, et le périmètre
@@ -116,7 +422,7 @@ S'ils aiment le faire eux-mêmes, n'insiste pas.
 du périmètre à la passation, à prix fixe. Laisse la porte ouverte pour le jour où la
 première option se tait. Une vérification : si deux développeurs ont déjà quitté le même
 projet, laisse tomber. Un troisième prestataire sur un projet hanté, c'est ce qui met fin à
-un contact.
+une piste.
 
 **« Pas maintenant. »** Très bien. Ne relance pas. Demande ce qui rendrait le moment
 opportun : un lancement, une saison forte, une nouvelle marque. Mets cette date sur la ligne
@@ -126,70 +432,3 @@ et reviens à ce moment-là.
 technique. Une seule personne cadre, construit et livre. Ils voient un aperçu avant chaque
 mise en ligne et disent oui avant qu'elle parte. À la fin, ils reçoivent un dossier de
 passation, et un suivi s'ils le veulent. Toi non plus, tu n'es responsable de rien.
-
-## Ce qui fait qu'un contact vaut la peine
-
-Plus il y en a, mieux c'est :
-
-- **Quelqu'un s'est porté garant.** Toi, ou une personne en qui ils ont confiance. La
-  confiance existe avant le premier appel.
-- **Une vraie activité qui tourne.** Des clients et du chiffre aujourd'hui. Le travail sert
-  quelque chose qui fonctionne déjà.
-- **Une personne qui décide et paie vite.** Une personne dit oui. L'acompte arrive sans
-  relance.
-- **Un processus fait à la main aujourd'hui.** Une tâche qu'une personne répète chaque
-  semaine et qu'un logiciel pourrait reprendre. C'est le contact que je cherche en premier.
-- **Une raison que ce soit maintenant.** Un lancement, une saison forte, une nouvelle
-  marque, un concurrent qui vient de passer en ligne.
-
-Avant que je le prenne, la ligne porte : le nom de la personne, un email ou un téléphone, le
-pays, la langue, la demande avec leurs mots, et un contact enregistré.
-
-L'un ou l'autre met fin à un contact. Mets `lost` avec la raison :
-
-- Marchander avant que quiconque ait cadré le travail.
-- Deux développeurs ont déjà quitté le même projet.
-
-Une idée sans clients pour l'instant ne met pas fin à un contact à elle seule. Celles-là, je
-les tranche à l'appel.
-
-## Ce que je vends
-
-| Ligne | Le client obtient |
-|---|---|
-| Site | Son activité trouvable et présentable : des pages, un parcours de contact, de réservation ou de menu, sur son propre domaine, en ligne et livré. |
-| App | Un outil qui fonctionne, avec un état : des comptes, des données, une vue d'administration, les flux dont son activité vit. |
-| Plateforme | Une app avec plusieurs rôles ou plusieurs surfaces : une place de marché, un produit avec son administration, sa documentation et son support. |
-| Atelier | Une journée, sur place ou à distance, qui apprend à une équipe ma façon d'organiser le travail pour que logiciels et assistants puissent le reprendre. Les supports restent chez eux. |
-| Coaching | Des heures en tête-à-tête où chaque personne applique cette façon de travailler à son propre poste. |
-| Forfait mensuel | Du travail continu contre un périmètre mensuel écrit. L'hébergement et le support de base y sont compris. |
-
-Trois règles :
-
-- **Tu ne chiffres jamais.** Chaque prix est le mien, dit lors d'un appel ou dans une
-  proposition, jamais dans un message. L'indication de budget sur la ligne est une
-  indication, rien de plus.
-- **Prix fixe ou forfait mensuel.** Je ne vends pas d'heures.
-- **Les mots sont les leurs.** Les textes des pages et les traductions, c'est au client de
-  les apporter, ou c'est une ligne à part dans la proposition.
-
-Un contact qui n'entre dans aucune ligne vaut quand même une ligne. Dis ce qu'ils ont
-demandé et je décide.
-
-## À quoi ressemblent tes 10 %
-
-10 % de ce que je facture au titre du premier accord signé d'une affaire que tu as apportée,
-hors TVA, hébergement et coûts de tiers. C'est dû au fur et à mesure que le client paie, au
-prorata de chaque facture payée. Rien n'est dû sur une facture impayée. Le travail
-ultérieur, et les mois de forfait après ce premier accord, ne paient rien. La clôture
-mensuelle liste ce qui est dû, et je règle contre les paiements.
-
-| Le travail | Le client paie | Tu gagnes |
-|---|---|---|
-| Un site | 1 500 € | 150 € |
-| Un site avec de vraies intégrations | 4 000 € | 400 € |
-| Une app | 12 000 € | 1 200 € |
-| Un forfait, trois mois convenus à 2 000 € par mois | 6 000 € sur les trois mois | 600 €, au fur et à mesure que chaque mois est payé |
-
-Exemples seulement. Tes 10 % sont toujours 10 % de ce que le client paie réellement au titre
-de ce premier accord.

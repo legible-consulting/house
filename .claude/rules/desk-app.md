@@ -13,7 +13,10 @@ the glance's rows and each record's body and file list; under them the hand rows
 bullet. `/clients` (`app/(desk)/clients/page.tsx`) is the clients table.
 `lib/forms.ts` parses a form (`*/forms/*.md`, the grammar in `01-prospecting/CONTEXT.md`) into a
 snapshot and checks its language files against each other; `read-house.mjs` imports it, and a
-form that does not parse fails the build. `lib/rhythms.ts` computes the glance and the close
+form that does not parse fails the build. `lib/kit.ts` parses the seller kit
+(`01-prospecting/kit.<language>.md`, the grammar in the same contract) into lessons and checks the
+three files against each other, as `lib/forms.ts` does; `read-house.mjs` imports it, and a kit
+that does not parse fails the build. `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
 The pool is read per request from Neon. `lib/language.ts languageOf` gives the language a user reads
 in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, else the browser's

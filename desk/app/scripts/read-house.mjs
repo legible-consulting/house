@@ -13,7 +13,9 @@
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
 //   01-prospecting/            the Sell page (the profile, the cadence, the pitches, the
-//                                   seller kit) and the seller's next touch
+//                                   seller kit) and the seller's next touch. The kit is parsed
+//                                   by lib/kit.ts into lessons. A kit that does not parse fails
+//                                   the build
 //   research/{verdicts,concepts}/*.md
 //                                   research's verdicts and concepts: the frontmatter as fields, the
 //                                   body as prose, for /research
@@ -24,6 +26,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import { checkLanguages, parseForm } from "../lib/forms.ts";
+import { checkKits, KIT_LANGUAGES, parseKit } from "../lib/kit.ts";
 
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
@@ -161,9 +164,35 @@ const closes = files(closeDir, ".md")
   .filter((d) => d.fm.kind === "close")
   .map(plain);
 
+// The seller kit (01-prospecting/kit.<language>.md), one file per language, parsed with the
+// grammar in 01-prospecting/CONTEXT.md and checked against each other. Every break is listed,
+// and then the build stops (why: the desk maps a lesson to a status and a touch by its key, so a
+// kit that does not line up teaches the wrong step · 2026-10-28).
+const kitErrors = [];
+const kits = files(sellDir, ".md")
+  .filter((f) => f.startsWith("kit."))
+  .flatMap((f) => {
+    const file = `01-prospecting/${f}`;
+    try {
+      return [{ file, kit: parseKit(file, read(sellDir, f)) }];
+    } catch (e) {
+      kitErrors.push(e instanceof Error ? e.message : String(e));
+      return [];
+    }
+  });
+for (const language of KIT_LANGUAGES) {
+  if (!kits.some((k) => k.kit.language === language)) kitErrors.push(`01-prospecting/kit.${language}.md: the kit in ${language} is missing.`);
+}
+try {
+  checkKits(kits);
+} catch (e) {
+  kitErrors.push(e instanceof Error ? e.message : String(e));
+}
+if (kitErrors.length) throw new Error(`The seller kit does not parse:\n${kitErrors.join("\n")}`);
+
 // prospecting's words for a salesman (01-prospecting/prospect.md, "The salesman's deal"): the
 // target profile, the cadence, every pitch draft, in file order (touch, then language), and
-// the seller kit, one file per language.
+// the seller kit, one parsed kit per language.
 const sellDoc = (...path) => doc(join(sellDir, ...path.slice(0, -1)), path.at(-1));
 const sell = {
   profile: plain(sellDoc("target-profile.md")),
@@ -172,12 +201,7 @@ const sell = {
     const d = sellDoc("pitch", f);
     return { ...plain(d), touch: Number(d.fm.touch ?? 0), language: String(d.fm.language ?? "") };
   }),
-  kit: files(sellDir, ".md")
-    .filter((f) => f.startsWith("kit."))
-    .map((f) => {
-      const d = sellDoc(f);
-      return { ...plain(d), language: String(d.fm.language ?? "") };
-    }),
+  kit: kits.map((k) => k.kit),
 };
 
 // research's verdicts and concepts (research/{verdicts,concepts}/<slug>.md): the
