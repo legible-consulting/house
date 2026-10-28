@@ -123,6 +123,7 @@ alter table users add column if not exists client text;
 alter table users add column if not exists active boolean not null default true;
 -- The language a user reads the desk in (language-preference of .icm/intake/salesman-desk). Empty
 -- means no preference: the desk then reads the browser's language, else en-GB (lib/language.ts).
+-- Applied 2026-10-28.
 alter table users
   add column if not exists language text not null default ''
     check (language in ('', 'pt-PT', 'fr-BE', 'en-GB'));
