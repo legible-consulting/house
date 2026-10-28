@@ -28,3 +28,8 @@ projects:
     path: ~/Desktop/legible-consulting/projects/jamienisbet
     url: https://github.com/k0d0minio/jamienisbet.git
     tags: [live]
+
+  messy-play:
+    path: ~/Desktop/legible-consulting/projects/messy-play
+    url: https://github.com/k0d0minio/messy-play.git
+    tags: [live]
