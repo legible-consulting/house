@@ -273,7 +273,18 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   and one lesson per page answers what to do at this step · 2026-10-28). A salesman does not
   read `target-profile.md` or `cadence.md` in the desk: Jamie reads them at the foot of his
   `/sell`, under the fold "The house's model" (why: the kit carries what a salesman needs from
-  them, in the salesman's language · 2026-10-28). On a
+  them, in the salesman's language · 2026-10-28). `/pool` opens on Mine for a salesman (All, Open,
+  Handed off and Lost stay choices; Jamie's opens on All), with the rows due now first whatever
+  the filter. A search on the header's trailing edge, `?q=`, keeps the rows of the filter whose
+  company, contact, email, phone, WhatsApp, Instagram or source holds it, in any case, in SQL
+  (`lib/db.ts allProspects`); the empty result asks the salesman to search All before adding a
+  row (`cadence.md`, Channels). A row's header draws the pool's six statuses, `new` to `handed
+  off`, as a track (`components/desk/pool-track.tsx`); `lost` shows its name only. Under it,
+  for an open row the user writes, one line: "Next:" and the `next:` of the kit's lesson for the
+  row's status, in the user's language, with the lesson's title as its link to `/sell/<key>`.
+  The add card and the drawer link the lesson for `new`; Next touch's eyebrow links the lesson
+  that shows the touch (why: the pool teaches where the salesman acts, `DESIGN.md` rule 9 ·
+  2026-10-28). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's
   draft from `01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own

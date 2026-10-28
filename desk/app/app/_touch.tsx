@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { sell } from "@/lib/house";
+import type { Kit } from "@/lib/kit";
 import { CADENCE, whatsappUrl, type Prospect } from "@/lib/pool";
 import { CopyButton } from "./_copy";
 
@@ -28,7 +30,8 @@ export function Draft({ text }: { text: string }) {
 // number, or its phone when it has none), adapts it and sends it from their own account, then
 // logs the touch. The desk sends nothing (cadence.md). Shown while the cadence runs: at new or
 // contacted, under three touches. The draft reads as a document in the reading width; Copy comes first, the two ways out after it.
-export function NextTouch({ p }: { p: Prospect }) {
+// The eyebrow links to the kit's lesson that shows this touch, in `kit`, the user's language.
+export function NextTouch({ p, kit }: { p: Prospect; kit: Kit }) {
   if (!(p.status === "new" || p.status === "contacted") || p.touches >= 3) return null;
   const touch = p.touches + 1;
   const step = CADENCE.find((c) => c.touch === touch);
@@ -36,11 +39,23 @@ export function NextTouch({ p }: { p: Prospect }) {
   const firstName = p.contact_name.trim().split(/\s+/)[0] ?? "";
   const text = draft ? (firstName ? draft.body.replaceAll("<first name>", firstName) : draft.body) : "";
   const wa = whatsappUrl(p.whatsapp || p.phone);
+  const lesson = kit.lessons.find((l) => l.touches.includes(touch));
+  const eyebrow = `Touch ${touch} of 3${step ? ` · the ${step.angle}` : ""}`;
   return (
     <section aria-labelledby="next-touch" className="grid max-w-reading gap-4">
       <header>
         <p className="mb-1 font-mono text-micro uppercase tracking-eyebrow text-muted-foreground">
-          Touch {touch} of 3{step ? ` · the ${step.angle}` : ""}
+          {lesson ? (
+            <Link
+              href={`/sell/${lesson.key}`}
+              className="inline-flex min-h-row items-center underline underline-offset-3 hover:text-foreground"
+            >
+              {eyebrow}
+              <span className="sr-only">: the lesson {lesson.title}</span>
+            </Link>
+          ) : (
+            eyebrow
+          )}
         </p>
         <h2 id="next-touch" className="text-heading">
           Next touch

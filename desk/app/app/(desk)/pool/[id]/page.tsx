@@ -1,10 +1,13 @@
+import { headers } from "next/headers";
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { DataTable, type Column } from "@/components/desk/data-table";
 import { Field, FieldActions, FieldGroup } from "@/components/desk/field-group";
 import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
-import { Due, StatusTag } from "@/components/desk/status-tag";
+import { PoolTrack } from "@/components/desk/pool-track";
+import { Due } from "@/components/desk/status-tag";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +15,7 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { Textarea } from "@/components/ui/textarea";
 import { prospectById, touchesOf } from "@/lib/db";
 import { flash, type Search } from "@/lib/guard";
+import { languageOf } from "@/lib/language";
 import {
   CHANNELS,
   DEAL_SIZES,
@@ -32,16 +36,19 @@ import {
   type Touch,
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
+import { kitIn } from "@/app/(desk)/sell/_course";
 import { readLinks, SendForm } from "@/app/_send";
 import { NextTouch } from "@/app/_touch";
 import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
-// One prospect: the facts in four field groups, the touches, the next touch's draft
-// (app/_touch.tsx), and the actions as cards: the move, "They asked not to be contacted", and
-// "Ready for Jamie", which opens the handoff PR on the house and keeps its link here.
-// Read-only for every salesman but the sourcer, and for everyone once handed off: one sentence
-// under the header says so. Jamie also sends a form from here (app/_send.tsx); the answer is
-// collected only, with no user.
+// One prospect: the status on its track in the header (pool-track.tsx), the facts in four field
+// groups, the touches, the next touch's draft (app/_touch.tsx), and the actions as cards: the
+// move, "They asked not to be contacted", and "Ready for Jamie", which opens the handoff PR on
+// the house and keeps its link here. Read-only for every salesman but the sourcer, and for
+// everyone once handed off: one sentence under the header says so. On an open row the user
+// writes, one line under the header names the next step and links its lesson, from the kit's
+// lesson for the row's status in the user's language (DESIGN.md, rule 9). Jamie also sends a
+// form from here (app/_send.tsx); the answer is collected only, with no user.
 export const dynamic = "force-dynamic";
 
 type Props = {
@@ -118,11 +125,13 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const p = await prospectById(id);
   if (!p) notFound();
   const jamie = user.role === "jamie";
-  const [touches, { error, note }, sent] = await Promise.all([
+  const [touches, { error, note }, sent, h] = await Promise.all([
     touchesOf(id),
     flash(searchParams),
     jamie ? readLinks(p.slug) : null,
+    headers(),
   ]);
+  const kit = kitIn(languageOf(user, h.get("accept-language")));
 
   const write = canWrite(p, user);
   const moves = nextMoves(p, user);
@@ -139,6 +148,8 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const handoff = p.status === "ready for Jamie" && Boolean(p.pr_url);
   const wa = whatsappUrl(p.whatsapp);
   const ig = instagramUrl(p.instagram);
+  // A status with no lesson shows no line.
+  const lesson = write && open ? kit.lessons.find((l) => l.status === p.status) : undefined;
 
   return (
     <>
@@ -147,13 +158,24 @@ export default async function ProspectPage({ params, searchParams }: Props) {
         title={p.company}
         back={{ href: "/pool", label: "Pool" }}
         meta={`sourced by ${p.sourced_by} · added ${p.added} · updated ${p.updated}`}
-        actions={<StatusTag status={p.status} />}
+        actions={<PoolTrack status={p.status} track />}
       />
       {!write && (
         <p className="mb-4 max-w-reading text-body text-foreground-2">
           {p.status === "handed off"
             ? "Handed off: the client folder is the record now, so this row is read-only."
             : `Read-only: only the sourcer, ${p.sourced_by}, and Jamie write this row.`}
+        </p>
+      )}
+      {lesson?.next && (
+        <p className="mb-4 flex max-w-reading flex-wrap items-center gap-x-2 text-body text-foreground-2">
+          <span>Next: {lesson.next}</span>
+          <Link
+            href={`/sell/${lesson.key}`}
+            className="inline-flex min-h-row items-center text-foreground underline underline-offset-3"
+          >
+            {lesson.title}
+          </Link>
         </p>
       )}
       <Flash error={error} note={note} />
@@ -367,7 +389,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           )}
         </Section>
 
-        {canTouch && <NextTouch p={p} />}
+        {canTouch && <NextTouch p={p} kit={kit} />}
 
         {sent && (
           <SendForm

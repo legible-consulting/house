@@ -24,7 +24,10 @@ in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, e
 language. `/sell` (`app/(desk)/sell/page.tsx`) is the course's index and `/sell/<key>`
 (`app/(desk)/sell/[key]/page.tsx`) one lesson, both from the kit that `lib/kit.ts` parses into
 `house.json`, with the shared parts in `app/(desk)/sell/_course.tsx`; a lesson's pitch draft
-shows in the document block of the row's Next touch (`app/_touch.tsx Draft`). The no-contact list (`suppressions`) is written by the
+shows in the document block of the row's Next touch (`app/_touch.tsx Draft`). `/pool`
+(`app/(desk)/pool/page.tsx`) searches in SQL (`lib/db.ts allProspects`); a row's status draws
+as `components/desk/pool-track.tsx`, and the row, the add card (`pool/_add.tsx`) and Next touch
+link their lesson from the kit by its `status:` or `touch:`. The no-contact list (`suppressions`) is written by the
 row page's "They asked not to be contacted" and read by every path that adds a row or changes
 its email, phone or WhatsApp number (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
 worked for 12 months, by hand from the laptop. Three doors have no session: `app/api/pool/route.ts`,
