@@ -42,9 +42,6 @@ The steps of the house's own build that no session takes, because each reaches a
   meeting_where from prospects limit 1` runs.
 - **Activate a client user.** Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
 - **Close Berceo #68, promote, and walk Agorasim's go-live.** Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
-- **Set THROTTLE_SALT on legible-desk.** `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
-  `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
-  Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
 - **Invite GPardas to the org.** GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - **Split the gh logins.** The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - **Turn on secret scanning on blueprint and .github.** Secret scanning and push protection on `blueprint` and `.github`; `english-with-jamie` and `garmani` have both on. Check: `gh api repos/legible-consulting/blueprint --jq .security_and_analysis` says `enabled` twice.
