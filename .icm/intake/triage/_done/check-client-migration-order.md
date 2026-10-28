@@ -33,3 +33,13 @@ Decide also if `check-client.yml` runs `format:check` with `--if-present`, and i
 ## Out of scope
 
 - The Slack secret, the variable and `slack-app-manifest.yaml` in remi-ai. Jamie removes them in the GitHub settings if he wants to (pull request 141, question 2).
+
+## Decisions (Jamie, 2026-10-27)
+
+Jamie took the default on the five questions of legible-consulting/.github pull request 10.
+
+1. Each repo owns a `check:migrations` package script. `check-client.yml` runs it with `--if-present`, as it runs `lint`, `typecheck` and `test`. There is no shared script in `legible-consulting/.github`.
+2. `check-client.yml` finds the migrations folder from `migrations_path` in `.copier-answers.yml` when `database: neon`. There is no new input.
+3. `check-client.yml` does not run `format:check`. Principle 2 says that formatting is never a verdict.
+4. The zero-warning lint limit belongs in the `lint` script of each repo.
+5. Remi-ai does not add `--max-warnings=0` now. Its stub `lint-zero-warnings` is parked.
