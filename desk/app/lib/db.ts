@@ -91,8 +91,24 @@ const prospectSelect = `
   from prospects p join users u on u.id = p.salesman`;
 
 // Jamie and every salesman read the whole pool (prospecting: one owner per row, all read it).
-export async function allProspects(): Promise<Prospect[]> {
-  return (await sql().query(`${prospectSelect} order by p.updated_at desc`)) as Prospect[];
+// `q`, the search on /pool, keeps the rows whose company, contact, email, phone, WhatsApp,
+// Instagram or source holds it, in any case (cadence.md, Channels: search the pool before adding a
+// row). `%`, `_` and `\` in it are literal. A number matches on its digits too, so "912 345 678"
+// finds "+351912345678".
+export async function allProspects(q = ""): Promise<Prospect[]> {
+  const words = q.trim();
+  if (!words) return (await sql().query(`${prospectSelect} order by p.updated_at desc`)) as Prospect[];
+  const like = `%${words.replace(/[\\%_]/g, "\\$&")}%`;
+  const digits = words.replace(/\D/g, "");
+  return (await sql().query(
+    `${prospectSelect}
+     where p.company ilike $1 or p.contact_name ilike $1 or p.email ilike $1 or p.phone ilike $1
+       or p.whatsapp ilike $1 or ('@' || p.instagram) ilike $1 or p.source ilike $1
+       or ($2 <> '' and (regexp_replace(p.phone, '\\D', '', 'g') like $2
+         or regexp_replace(p.whatsapp, '\\D', '', 'g') like $2))
+     order by p.updated_at desc`,
+    [like, digits.length >= 6 ? `%${digits}%` : ""],
+  )) as Prospect[];
 }
 
 export async function prospectById(id: string): Promise<Prospect | null> {

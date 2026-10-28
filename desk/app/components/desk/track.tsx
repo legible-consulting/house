@@ -3,8 +3,9 @@ import { cn } from "@/lib/utils";
 
 // A walk through ordered steps (desk/app/DESIGN.md, rule 5): one hairline segment per step,
 // filled up to the current step, and the current step's name beside them in mono meta. A
-// reader hears "Step 2 of 5, build". The deal's stages (stage-track.tsx) and the ticket's
-// steps (StepTrack below) and a lesson of the course (/sell/<key>) draw through it. A name
+// reader hears "Step 2 of 5, build". The deal's stages (stage-track.tsx), a lead's statuses
+// (pool-track.tsx), the ticket's steps (StepTrack below) and a lesson of the course
+// (/sell/<key>) draw through it. A name
 // longer than the width left is cut with an ellipsis; a reader still hears it whole. `lg` is
 // for the ticket page: segments 24 px wide and 2 px tall.
 

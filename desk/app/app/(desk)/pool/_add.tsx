@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import Link from "next/link";
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { useDesk } from "@/app/_media";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,8 @@ import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } f
 // edge. Below md it opens a bottom drawer with the form; from md it opens the same form in a
 // card under the table and moves the focus to its first field. `AddProspect` holds the one
 // open state that the button and the panel share. Both start closed, so the phone's swap
-// after hydration moves nothing.
+// after hydration moves nothing. Under the title, the "what" line and the link to the kit's
+// lesson for a new row (DESIGN.md, rule 9: a salesman's page teaches where the salesman acts).
 
 const PANEL = "add-prospect";
 const TITLE = "Add a prospect";
@@ -44,8 +46,31 @@ export function AddProspectButton() {
   );
 }
 
-// The form's container: the card from md, the drawer below it. `children` is the form.
-export function AddProspectPanel({ children }: { children: ReactNode }) {
+// The "what" line, then the lesson's title as its link on a line of its own, when the kit has
+// the lesson.
+function What({ lesson }: { lesson?: { href: string; title: string } }) {
+  if (!lesson) return WHAT;
+  return (
+    <>
+      {WHAT}
+      <span className="block">
+        <Link href={lesson.href} className="inline-flex min-h-row items-center underline underline-offset-3">
+          {lesson.title}
+        </Link>
+      </span>
+    </>
+  );
+}
+
+// The form's container: the card from md, the drawer below it. `children` is the form;
+// `lesson` is the kit's lesson for a new row, in the user's language.
+export function AddProspectPanel({
+  lesson,
+  children,
+}: {
+  lesson?: { href: string; title: string };
+  children: ReactNode;
+}) {
   const { open, setOpen } = useContext(Open);
   const desk = useDesk();
   const card = useRef<HTMLDivElement>(null);
@@ -60,7 +85,9 @@ export function AddProspectPanel({ children }: { children: ReactNode }) {
           <CardTitle>
             <h2>{TITLE}</h2>
           </CardTitle>
-          <CardDescription>{WHAT}</CardDescription>
+          <CardDescription>
+            <What lesson={lesson} />
+          </CardDescription>
         </CardHeader>
         <CardContent>{children}</CardContent>
       </Card>
@@ -71,7 +98,9 @@ export function AddProspectPanel({ children }: { children: ReactNode }) {
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>{TITLE}</DrawerTitle>
-          <DrawerDescription>{WHAT}</DrawerDescription>
+          <DrawerDescription>
+            <What lesson={lesson} />
+          </DrawerDescription>
         </DrawerHeader>
         <div className="overflow-y-auto p-4 pb-[calc(1rem+var(--safe-bottom))]">{children}</div>
       </DrawerContent>
