@@ -251,8 +251,8 @@ jeito.
 - status: meeting
 - next: Depois da reunião, preenche o que preciso e marca ready for Jamie.
 
-Tenho um link de marcação. Pede-mo uma vez, e guarda-o. Envia-o da tua própria conta, com
-uma frase sobre quem sou. Escolhem a hora que lhes dá jeito, e a marcação chega-me a mim.
+O meu link de marcação é [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Envia-o da tua própria conta, com uma frase
+sobre quem sou. Escolhem a hora que lhes dá jeito, e a marcação chega-me a mim.
 
 Quando marcarem, põe a linha em `meeting`. Escreve a data, a hora e o local nas notas da
 linha. Uma reunião contigo também conta: se te encontrares tu primeiro com eles, marca

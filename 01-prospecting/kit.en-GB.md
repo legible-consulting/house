@@ -243,8 +243,8 @@ Then offer twenty minutes with me. Or meet them yourself first, if that suits th
 - status: meeting
 - next: After the meeting, fill in what I need and set ready for Jamie.
 
-I keep a booking link. Ask me for it once, and keep it. Send it to them from your own account,
-with one line about who I am. They pick a time that suits them, and the booking comes to me.
+My booking link is [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Send it to them from your own account, with one
+line about who I am. They pick a time that suits them, and the booking comes to me.
 
 When they have booked, set the row to `meeting`. Write the date, the time and the place in the
 row's notes. A meeting with you counts too: if you meet them yourself first, set `meeting` as

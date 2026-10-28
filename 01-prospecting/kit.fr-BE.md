@@ -261,8 +261,8 @@ mieux.
 - status: meeting
 - next: Après le rendez-vous, remplis ce dont j'ai besoin et mets ready for Jamie.
 
-J'ai un lien de réservation. Demande-le-moi une fois, et garde-le. Envoie-le depuis ton
-propre compte, avec une phrase sur qui je suis. Ils choisissent un moment qui leur convient,
+Mon lien de réservation est [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Envoie-le depuis ton propre compte, avec
+une phrase sur qui je suis. Ils choisissent un moment qui leur convient,
 et la réservation m'arrive.
 
 Quand ils ont réservé, mets la ligne à `meeting`. Écris la date, l'heure et le lieu dans les
