@@ -23,7 +23,7 @@ The scripts find the build's Vercel projects themselves: every project in `VERCE
 ## Acceptance criteria
 
 - [ ] No Actions variable names a Vercel project or a Neon project. The scripts find the projects of the repository through the Vercel API (`GET /v10/projects` filtered by the repository) and keep those with the custom environment `uat`.
-- [ ] The scripts find the Neon project of the base with no `NEON_PROJECT_ID`. The contract names the rule, for example a project name from the repository's name.
+- [ ] The scripts find the Neon project of the base with no `NEON_PROJECT_ID`, by its name: `uat-<project name>`, with the project name from `slug` in `.copier-answers.yml` (Jamie, 2026-10-28). The contract states the rule and the setup names the Neon project that way.
 - [ ] `promote.yml` migrates production once. Then it waits until the staged production build of the tag's commit is READY on every UAT project. Then it promotes each one. ERROR or CANCELED on any project stops the run before any promotion.
 - [ ] A re-run of a failed `promote.yml` promotes only the projects that are not current yet.
 - [ ] `promote.sh status` prints the setup acts, the UAT deployment and the staged build of each UAT project.
