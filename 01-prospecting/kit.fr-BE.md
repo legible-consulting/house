@@ -234,7 +234,7 @@ Enregistre chaque prise de contact. Le desk déplace la date suivante à chaque 
 est due pour `lost`. Mets-la, avec la raison. Un nouvel essai plus tard est une nouvelle
 ligne qui nomme celle-ci dans sa source.
 
-**Quand ils disent non.** Appuie sur « They asked not to be contacted » sur la ligne. C'est
+**Quand ils disent non.** Appuie sur « Ils ont demandé à ne pas être contactés » sur la ligne. C'est
 définitif : aucun vendeur ne recontacte cette entreprise, sur aucun canal, et le desk refuse
 son e-mail et son numéro.
 
@@ -281,7 +281,7 @@ deux options. Tu es le bienvenu à l'appel, et tu n'as pas besoin d'y être.
 - key: hand-it-to-jamie
 - part: system
 - status: ready for Jamie
-- next: Attends que je la prenne, puis appuie sur « Check the PR » sur la ligne.
+- next: Attends que je la prenne, puis appuie sur « Vérifier la PR » sur la ligne.
 
 Une fois qu'ils ont répondu, ou que vous vous êtes rencontrés, passe-moi la piste. La ligne
 a besoin de :
@@ -298,7 +298,7 @@ pas, demande-le-moi.
 Mets `ready for Jamie`. Le desk ouvre alors une pull request : ma demande d'ouvrir le
 dossier du client à partir de ta ligne. Je la lis et je l'accepte. C'est la passation.
 
-Puis appuie sur « Check the PR » sur la ligne. Si j'ai pris la piste, la ligne passe à
+Puis appuie sur « Vérifier la PR » sur la ligne. Si j'ai pris la piste, la ligne passe à
 `handed off`. Sinon, elle revient là où elle était, et j'écris pourquoi dans les notes.
 
 ## Après la passation

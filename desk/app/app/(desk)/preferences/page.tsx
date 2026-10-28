@@ -9,13 +9,15 @@ import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select"
 import { flash, type Search } from "@/lib/guard";
 import { LANGUAGE_NAMES, languageOf } from "@/lib/language";
 import { LANGUAGES } from "@/lib/pool";
-import { currentUser } from "@/lib/user";
+import { currentUser, wordsLanguage } from "@/lib/user";
+import { words } from "@/lib/words";
 import { savePreferences } from "./actions";
 
 // Preferences: the user's own row, for Jamie and a salesman (a client goes to /). The name and
 // the email are facts, read-only: Neon Auth holds them. The language is the one choice. With no
 // preference saved, the select shows the language the desk reads now, from the browser, and the
-// hint says so. The shell's user name links here (components/desk/shell.tsx).
+// hint says so. The shell's user name links here (components/desk/shell.tsx). The words are the
+// user's (lib/words.ts); each language keeps its own name.
 export const dynamic = "force-dynamic";
 
 export default async function Preferences({ searchParams }: { searchParams: Search }) {
@@ -24,19 +26,20 @@ export default async function Preferences({ searchParams }: { searchParams: Sear
   if (user.role === "client") redirect("/");
   const [{ error, note }, h] = await Promise.all([flash(searchParams), headers()]);
   const current = languageOf(user, h.get("accept-language"));
+  const w = words(await wordsLanguage(user));
   return (
     <>
-      <PageHeader user={user} title="Preferences" meta={user.email} />
+      <PageHeader user={user} title={w.preferences.title} meta={user.email} />
       <Flash error={error} note={note} />
       <form action={savePreferences} className="grid gap-6">
         <FieldGroup>
-          <Field label="Name">
+          <Field label={w.fields.name}>
             <Input defaultValue={user.name} placeholder="—" readOnly />
           </Field>
-          <Field label="Email">
+          <Field label={w.fields.email}>
             <Input type="email" defaultValue={user.email} readOnly />
           </Field>
-          <Field label="Language" hint={user.language ? undefined : "From your browser. Save to keep it."}>
+          <Field label={w.fields.language} hint={user.language ? undefined : w.preferences.fromBrowser}>
             <NativeSelect name="language" defaultValue={current}>
               {LANGUAGES.map((l) => (
                 <NativeSelectOption key={l} value={l} lang={l}>
@@ -46,7 +49,7 @@ export default async function Preferences({ searchParams }: { searchParams: Sear
             </NativeSelect>
           </Field>
           <FieldActions>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{w.save}</Button>
           </FieldActions>
         </FieldGroup>
       </form>

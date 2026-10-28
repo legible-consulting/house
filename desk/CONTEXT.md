@@ -124,6 +124,15 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   else `en-GB` (`app/lib/language.ts`). A `?lang=` in a page's URL is for one read and does not
   change the row (why: a salesman reads in one language on every device, and the prospect's
   language is the row's, not the salesman's · 2026-10-28).
+- The words of a page. The salesman's pages read in the user's language: the shell's labels,
+  `/pool`, `/pool/<id>`, `/sell`, `/sell/<key>`, `/preferences`, and the flashes and the errors
+  of their actions, from one typed words file in the three languages (`app/lib/words.ts`).
+  `/sell` with `?lang=` reads in that language for the read. Jamie's pages, the sign-in pages and
+  a client's page read in English, and a `jamie` user reads every page in English. A pool
+  status, a channel, a country, a language code, a field key and a stage stay the model's word,
+  in mono, in every language, and a date stays ISO. `<html lang>` is the language of the page's
+  words (why: a French salesman reads a French lesson under a French header, and one word for
+  one thing across three languages keeps the kit and the page in step · 2026-10-28).
 - How a client gets in. Jamie and the salesmen sign in with email and password. A client user
   of a folder (`role: client` with a `client`) signs in by magic link only: the password form
   reads the `users` row by email before it asks Neon Auth, and answers a client's email with

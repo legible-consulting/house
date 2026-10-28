@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import type { Role } from "@/lib/pool";
+import type { Words } from "@/lib/words";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 
@@ -32,13 +33,17 @@ import { Logo } from "./logo";
 // app/(desk)/layout.tsx renders the shell with the session's user; each page renders its own
 // header and content inside it. A project's board (`/work/<client>`, one segment after
 // `work`) is full screen (desk/app/DESIGN.md, rule 11): no sidebar, no tab bar, and `main` takes
-// the full width. The skip link stays, and the page header holds the way back.
+// the full width. The skip link stays, and the page header holds the way back. The words are the
+// user's (lib/words.ts shell): a salesman reads Pool, Sell, More, sign out and the skip link in
+// their language; Jamie's own destinations have no entry there and stay English.
 
 export interface ShellUser {
   name: string;
   email: string;
   role: Role;
 }
+
+export type ShellWords = Words["shell"];
 
 interface Destination {
   href: string;
@@ -122,7 +127,7 @@ function Mark() {
 
 // The user at the sidebar's foot and in the More drawer. For Jamie and a salesman the name is
 // the way to /preferences; a client has no preferences page.
-function Who({ user, className }: { user: ShellUser; className?: string }) {
+function Who({ user, words, className }: { user: ShellUser; words: ShellWords; className?: string }) {
   const pathname = usePathname();
   const name = user.name || user.email;
   return (
@@ -144,14 +149,14 @@ function Who({ user, className }: { user: ShellUser; className?: string }) {
       <form action={signOut}>
         <Button type="submit" variant="ghost" size="sm" className="w-full justify-start">
           <LogOut aria-hidden="true" />
-          Sign out
+          {words.signOut}
         </Button>
       </form>
     </div>
   );
 }
 
-function Sidebar({ links, user }: { links: Destination[]; user: ShellUser | null }) {
+function Sidebar({ links, user, words }: { links: Destination[]; user: ShellUser | null; words: ShellWords }) {
   const pathname = usePathname();
   const current = currentOf(pathname, links);
   return (
@@ -169,14 +174,14 @@ function Sidebar({ links, user }: { links: Destination[]; user: ShellUser | null
           ))}
         </ul>
       </nav>
-      {user && <Who user={user} className="border-t p-3" />}
+      {user && <Who user={user} words={words} className="border-t p-3" />}
     </aside>
   );
 }
 
 // The fifth tab: a drawer with the links the bar has no room for, the user and sign out. It
 // closes on a navigation.
-function More({ links, user }: { links: Destination[]; user: ShellUser }) {
+function More({ links, user, words }: { links: Destination[]; user: ShellUser; words: ShellWords }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const current = currentOf(pathname, links);
@@ -187,14 +192,14 @@ function More({ links, user }: { links: Destination[]; user: ShellUser }) {
     <Drawer open={open} onOpenChange={setOpen} showSwipeHandle>
       <DrawerTrigger className={TAB}>
         <Ellipsis className="size-5 shrink-0" aria-hidden="true" />
-        <span>More</span>
+        <span>{words.more}</span>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>More</DrawerTitle>
+          <DrawerTitle>{words.more}</DrawerTitle>
         </DrawerHeader>
         {links.length > 0 && (
-          <nav aria-label="More" className="p-2">
+          <nav aria-label={words.more} className="p-2">
             <ul className="grid gap-0.5">
               {links.map((d) => (
                 <li key={d.href}>
@@ -204,13 +209,13 @@ function More({ links, user }: { links: Destination[]; user: ShellUser }) {
             </ul>
           </nav>
         )}
-        <Who user={user} className="border-t p-4 pb-[calc(1rem+var(--safe-bottom))]" />
+        <Who user={user} words={words} className="border-t p-4 pb-[calc(1rem+var(--safe-bottom))]" />
       </DrawerContent>
     </Drawer>
   );
 }
 
-function TabBar({ links, user }: { links: Destination[]; user: ShellUser }) {
+function TabBar({ links, user, words }: { links: Destination[]; user: ShellUser; words: ShellWords }) {
   const pathname = usePathname();
   const current = currentOf(pathname, links);
   return (
@@ -221,14 +226,18 @@ function TabBar({ links, user }: { links: Destination[]; user: ShellUser }) {
       {links.slice(0, TABS).map((d) => (
         <NavLink key={d.href} d={d} current={current} className={TAB} icon="size-5" />
       ))}
-      <More links={links.slice(TABS)} user={user} />
+      <More links={links.slice(TABS)} user={user} words={words} />
     </nav>
   );
 }
 
-export function Shell({ user, children }: { user: ShellUser | null; children: ReactNode }) {
+// The pool's and Sell's labels in the user's words; every other destination is Jamie's.
+const labelled = (links: Destination[], words: ShellWords): Destination[] =>
+  links.map((d) => (d === POOL ? { ...d, label: words.pool } : d === SELL ? { ...d, label: words.sell } : d));
+
+export function Shell({ user, words, children }: { user: ShellUser | null; words: ShellWords; children: ReactNode }) {
   const board = isBoard(usePathname());
-  const links = user ? DESTINATIONS[user.role] : [];
+  const links = user ? labelled(DESTINATIONS[user.role], words) : [];
   const tabs = !board && user !== null && user.role !== "client";
   return (
     <>
@@ -236,9 +245,9 @@ export function Shell({ user, children }: { user: ShellUser | null; children: Re
         href="#content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-ui"
       >
-        Skip to content
+        {words.skip}
       </a>
-      {!board && <Sidebar links={links} user={user} />}
+      {!board && <Sidebar links={links} user={user} words={words} />}
       <div
         className={cn(
           "pr-safe-right pl-safe-left",
@@ -253,7 +262,7 @@ export function Shell({ user, children }: { user: ShellUser | null; children: Re
           {children}
         </main>
       </div>
-      {tabs && user && <TabBar links={links} user={user} />}
+      {tabs && user && <TabBar links={links} user={user} words={words} />}
     </>
   );
 }

@@ -14,7 +14,7 @@ import { render } from "@/lib/markdown";
 import { CADENCE } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
 import { cn } from "@/lib/utils";
-import { courseHref, kitIn, marked, PART_TITLES, ReadIn, readingLanguage } from "./_course";
+import { courseHref, kitIn, marked, ReadIn, readingLanguage } from "./_course";
 
 // Sell: the course's index (salesman-desk, decision 4). The seller kit (kit.<language>.md, parsed
 // into lessons by lib/kit.ts) in one language: the user's (lib/language.ts), or another for one
@@ -22,7 +22,9 @@ import { courseHref, kitIn, marked, PART_TITLES, ReadIn, readingLanguage } from 
 // of its lessons in the kit's order, one row per lesson linked to /sell/<key>. Jamie also gets the
 // house's model, target-profile.md and cadence.md, under a fold at the foot; a salesman does not
 // read them in the desk (the breakdown, question 1). No paragraph explains the page
-// (desk/app/DESIGN.md, rule 9). A change in the folder ships with the next push to main.
+// (desk/app/DESIGN.md, rule 9). The page's own words are the reader's (lib/words.ts sell): the
+// URL's language for one read, under `lang`, else the user's; the fold is Jamie's and English.
+// A change in the folder ships with the next push to main.
 export const dynamic = "force-dynamic";
 
 // A file's H2 sections, rendered once per server: the words are fixed at build time. The H1
@@ -73,14 +75,14 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
   if (!user) redirect("/sign-in");
   if (user.role === "client") redirect("/");
   const [q, h] = await Promise.all([searchParams, headers()]);
-  const { lang, pinned } = readingLanguage(user, q.lang, h.get("accept-language"));
+  const { lang, pinned, w } = await readingLanguage(user, q.lang, h.get("accept-language"));
   const kit = kitIn(lang);
   return (
-    <>
-      <PageHeader user={user} title="Sell" meta={`${LANGUAGE_NAMES[lang]} · ${kit.lessons.length} lessons`} />
+    <div lang={pinned ?? undefined}>
+      <PageHeader user={user} title={w.sell.title} meta={w.sell.meta(LANGUAGE_NAMES[lang], kit.lessons.length)} />
       <div className="grid gap-10">
         <div className="grid max-w-reading gap-6">
-          <ReadIn path="/sell" lang={lang} />
+          <ReadIn path="/sell" lang={lang} label={w.sell.readIn} />
           {kit.intro && <Prose html={intros.get(kit.language)} />}
         </div>
 
@@ -90,7 +92,7 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
           return (
             <section key={part} aria-labelledby={`part-${part}`} className="grid max-w-reading gap-3">
               <h2 id={`part-${part}`} className="text-heading">
-                {PART_TITLES[part]}
+                {w.sell.parts[part]}
               </h2>
               <ol className="divide-y border-y">
                 {lessons.map((l, i) => (
@@ -142,6 +144,6 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
           </Fold>
         )}
       </div>
-    </>
+    </div>
   );
 }

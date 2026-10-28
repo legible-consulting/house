@@ -43,7 +43,7 @@ export function PageHeader({
   user?: DeskUser | null;
   title: ReactNode;
   meta?: ReactNode; // one line in mono: a date, a slug, a count, a stage
-  back?: { href: string; label: string }; // a detail page's way back
+  back?: { href: string; label: string; said?: string }; // a detail page's way back; `said` is what a reader hears
   actions?: ReactNode; // on the trailing edge, before the pill
   live?: Promise<boolean>[]; // what the page shows that may be in flight
   start?: Start | null; // a run Jamie started from the pill, followed on this page
@@ -71,7 +71,7 @@ export function PageHeader({
             className="-ml-2 flex size-row shrink-0 items-center justify-center rounded-md text-foreground-2 transition-colors duration-100 hover:bg-accent hover:text-foreground"
           >
             <ChevronLeft className="size-5" aria-hidden="true" />
-            <span className="sr-only">Back to {back.label}</span>
+            <span className="sr-only">{back.said ?? `Back to ${back.label}`}</span>
           </Link>
         )}
         <div className="min-w-0 flex-1 py-1.5">

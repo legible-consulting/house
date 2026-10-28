@@ -22,7 +22,12 @@ from it on every request; `scripts/rhythms.mjs` writes the same words as files (
 The pool is read per request from Neon. `lib/language.ts languageOf` gives the language a user reads
 in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, else the browser's
 `Accept-Language` by `lib/lead.ts LOCALES`, else `en-GB`; `/sell` reads it when its URL names no
-language. `/sell` (`app/(desk)/sell/page.tsx`) is the course's index and `/sell/<key>`
+language. `lib/words.ts` holds every word of the salesman's pages in the three languages, one typed
+object per language (`WORDS`, `words(language)`); `lib/user.ts wordsLanguage` gives the language of
+those words (a salesman's own, `en-GB` for every other user), the shell (`components/desk/shell.tsx`)
+and each salesman page take them, and `app/layout.tsx` sets `<html lang>` from `lib/user.ts
+pageLanguage`. A model word in a sentence of `words.ts` sits in backticks, and
+`components/desk/phrase.tsx` draws it in mono, in a flash too. `/sell` (`app/(desk)/sell/page.tsx`) is the course's index and `/sell/<key>`
 (`app/(desk)/sell/[key]/page.tsx`) one lesson, both from the kit that `lib/kit.ts` parses into
 `house.json`, with the shared parts in `app/(desk)/sell/_course.tsx`; a lesson's pitch draft
 shows in the document block of the row's Next touch (`app/_touch.tsx Draft`), and the lesson for

@@ -101,28 +101,45 @@ export function TicketMark({ state, className }: { state: StubState; className?:
 // A date is a state too. A deadline or a next action inside seven days shows the date and
 // the day count in amber, 600; one past shows the date in red, 600, and the word "overdue";
 // any other date is plain mono. `flag` false keeps a date plain: a closed row is never due.
+// `words` are the day count's words in the user's language (lib/words.ts due); English by
+// default. The date stays ISO.
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+export interface DueWords {
+  overdue: string;
+  today: string;
+  inDays: (n: number) => string;
+}
+
+const DUE: DueWords = { overdue: "overdue", today: "today", inDays: (n) => `in ${n} ${n === 1 ? "day" : "days"}` };
 
 export function Due({
   date,
   today,
   flag = true,
+  words = DUE,
   className,
 }: {
   date: string | null | undefined;
   today: string;
   flag?: boolean;
+  words?: DueWords;
   className?: string;
 }) {
   if (!date) return null;
   const days = flag && DATE.test(date) ? daysBetween(today, date) : null;
   const base = "font-mono text-meta tabular-nums whitespace-nowrap";
   if (days === null || days > 7) return <span className={cn(base, className)}>{date}</span>;
-  if (days < 0) return <span className={cn(base, "font-semibold text-destructive", className)}>{date} · overdue</span>;
-  const words = days === 0 ? "today" : `in ${days} ${days === 1 ? "day" : "days"}`;
+  if (days < 0) {
+    return (
+      <span className={cn(base, "font-semibold text-destructive", className)}>
+        {date} · {words.overdue}
+      </span>
+    );
+  }
   return (
     <span className={cn(base, "font-semibold text-warning-text", className)}>
-      {date} · {words}
+      {date} · {days === 0 ? words.today : words.inDays(days)}
     </span>
   );
 }
