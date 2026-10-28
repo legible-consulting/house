@@ -18,6 +18,8 @@ Six pull requests, in order, each reviewable on a phone. The pool's statuses, th
 3. Do the salesman's pages' own words translate (labels, buttons, hints, flashes), or only the kit and the drafts? Default: they translate, in the last stub. The pool's statuses, the channels and the field keys stay the model's words, in mono.
 4. Where does `salesman-desk` go in `## Order`? Default: first, then `triage` (why: the two open triage stubs are P2 chores on the client repos' secrets and the blueprint, so the two epics never meet in a file).
 
+Answered by Jamie in the session on 2026-10-28: the four defaults stand. The two model files leave the salesman's `/sell`. The meeting is booked by a link in `core/identity.md`. The pages' own words translate. `salesman-desk` is first in `README.md` `## Order`.
+
 ## Decisions of record
 
 Fixed for the whole epic. The ones that bind a page go into `desk/app/DESIGN.md` in the stub that first needs them.

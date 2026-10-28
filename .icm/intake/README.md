@@ -19,9 +19,10 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 
 ## Order
 
-Set by Jamie on 2026-10-27. A finished epic carries no line.
+Set by Jamie on 2026-10-28. A finished epic carries no line.
 
-1. triage
+1. salesman-desk
+2. triage
 
 ## Milestones
 
