@@ -1,7 +1,7 @@
 # Stub: The neon workflows of the estate have their secrets, and the failed cleanup runs are green
 
 - lane: chore
-- found-by: the blueprint v1.0.0 conformance (`triage/conformance-v1-0-0.md`) · 2026-10-27
+- found-by: the blueprint v1.0.0 conformance (`triage/_done/conformance-v1-0-0.md`) · 2026-10-27
 - complexity: low
 - priority: P2
 
