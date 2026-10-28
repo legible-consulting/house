@@ -205,7 +205,8 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   path, `/work/<client>/<epic>/<slug>` and `/work/<client>/triage/<slug>` (`<client>` is
   `house` for the house: the state and the next step, the pull request with its gates, the
   prompt, the stub, its place in the epic; a tick returns to it), `/close?month=`,
-  `/clients/<slug>`, `/pool`, `/sell`, `/research` (every verdict and concept from `main`,
+  `/clients/<slug>`, `/pool`, `/sell` (the salesman's course, and the house's model under a
+  fold at its foot), `/research` (every verdict and concept from `main`,
   under four filters, use, kind, verdict and tier, each file as prose on `/research/<slug>`;
   the links shared to the desk that the intake has not judged yet; and the form to paste one;
   `research/CONTEXT.md`). `/close`
@@ -260,9 +261,19 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   activation, active already, or not changed because of another role. A failed upsert is in
   the Vercel log with the row id, and the mail says so. A link with `signup` false changes no
   user (why: a pool row has no folder for a user · 2026-10-25).
-- A salesman's pages: `/pool`, `/preferences` and `/sell` (the target profile, the cadence, the pitch drafts
-  and the seller kit, `01-prospecting/kit.<language>.md`, in the user's language, or for one
-  read another language or all, `?lang=`). On a
+- A salesman's pages: `/pool`, `/preferences`, `/sell` and `/sell/<key>`, the course of the seller
+  kit, `01-prospecting/kit.<language>.md` as `lib/kit.ts` parses it, in the user's language, or
+  for one read another of the three, `?lang=` (the "Read in" group). `/sell` is the index: the
+  kit's intro, then its three parts, Jamie and what he sells, The system, The reference, each a
+  list of its lessons in the kit's order, one row per lesson with its number, its title and the
+  status it teaches. `/sell/<key>` is one lesson: its place in its part as a track, its words,
+  for a lesson with `touch:` the pitch draft of each touch in the reader's language with Copy,
+  and the lessons before and after it in the kit's order. A key no kit has is a 404. The desk
+  stores no progress: the URL is the lesson (why: a salesman reads a lesson again at any time,
+  and one lesson per page answers what to do at this step · 2026-10-28). A salesman does not
+  read `target-profile.md` or `cadence.md` in the desk: Jamie reads them at the foot of his
+  `/sell`, under the fold "The house's model" (why: the kit carries what a salesman needs from
+  them, in the salesman's language · 2026-10-28). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's
   draft from `01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own

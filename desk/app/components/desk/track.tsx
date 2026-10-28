@@ -4,8 +4,9 @@ import { cn } from "@/lib/utils";
 // A walk through ordered steps (desk/app/DESIGN.md, rule 5): one hairline segment per step,
 // filled up to the current step, and the current step's name beside them in mono meta. A
 // reader hears "Step 2 of 5, build". The deal's stages (stage-track.tsx) and the ticket's
-// steps (StepTrack below) both draw through it. `lg` is for the ticket page: segments 24 px
-// wide and 2 px tall.
+// steps (StepTrack below) and a lesson of the course (/sell/<key>) draw through it. A name
+// longer than the width left is cut with an ellipsis; a reader still hears it whole. `lg` is
+// for the ticket page: segments 24 px wide and 2 px tall.
 
 export function Track({
   steps,
@@ -31,7 +32,7 @@ export function Track({
       aria-label={`${unit} ${at + 1} of ${steps.length}, ${words}`}
       className={cn("inline-flex items-center gap-2", className)}
     >
-      <span aria-hidden="true" className={cn("flex items-center", size === "lg" ? "gap-1" : "gap-0.5")}>
+      <span aria-hidden="true" className={cn("flex shrink-0 items-center", size === "lg" ? "gap-1" : "gap-0.5")}>
         {steps.map((s, j) => (
           <span
             key={s}
@@ -39,7 +40,7 @@ export function Track({
           />
         ))}
       </span>
-      <span aria-hidden="true" className={cn("font-mono text-meta whitespace-nowrap", strong && "font-semibold")}>
+      <span aria-hidden="true" className={cn("min-w-0 truncate font-mono text-meta", strong && "font-semibold")}>
         {words}
       </span>
     </span>

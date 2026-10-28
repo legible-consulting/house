@@ -3,6 +3,25 @@ import { sell } from "@/lib/house";
 import { CADENCE, whatsappUrl, type Prospect } from "@/lib/pool";
 import { CopyButton } from "./_copy";
 
+// A pitch draft as a document block: the words as written, the lines kept, and each placeholder
+// the sender fills (<first name>, <one thing seen>) marked. The row's Next touch and a lesson of
+// the course (/sell/<key>) show a draft in it.
+export function Draft({ text }: { text: string }) {
+  return (
+    <pre className="rounded-lg border bg-card p-4 font-sans text-body whitespace-pre-wrap text-card-foreground">
+      {text.split(/(<[^<>\n]+>)/).map((part, i) =>
+        i % 2 === 1 ? (
+          <mark key={i} className="rounded-key bg-warning-soft px-1 text-foreground">
+            {part}
+          </mark>
+        ) : (
+          part
+        ),
+      )}
+    </pre>
+  );
+}
+
 // The seller's next touch, filled from the pool row: the pitch draft for the row's language
 // and the touch the cadence is at (one more than the touches logged), with the first name
 // in. The seller copies it, or opens it in their own mail or WhatsApp (the row's WhatsApp
@@ -39,9 +58,7 @@ export function NextTouch({ p }: { p: Prospect }) {
         </p>
       ) : (
         <>
-          <pre className="rounded-lg border bg-card p-4 font-sans text-body whitespace-pre-wrap text-card-foreground">
-            {text}
-          </pre>
+          <Draft text={text} />
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
             <CopyButton text={text} label="Copy the draft" size="default" variant="default" />
             {p.email && (
