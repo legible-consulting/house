@@ -8,11 +8,15 @@
 #
 # Four things still stop and ask, because they are not recoverable by another commit:
 #   1. History rewrites      — rebase, amend, reset --hard, filter-branch, reflog expire
-#   2. Force / destructive push — --force, --force-with-lease, --mirror, --delete, +refspec
+#   2. Force / destructive push — --force, --force-with-lease, --mirror, --delete, +refspec,
+#                                 and a REST ref delete (gh api -X DELETE …/git/refs/…)
 #   3. Pushing the default branch — main/master, whether named explicitly or as the
 #                                   currently checked-out branch of a bare `git push`
-#   4. Merge or release      — gh pr merge, gh release create; the house boundary says
-#                              never merge or release, so the human makes that call
+#   4. Merge or release      — gh pr merge, gh release create, and a REST merge
+#                              (gh api -X PUT …/merge); the house boundary says never merge
+#                              or release, so the human makes that call
+# The REST forms are what .icm/scripts/merge.sh and release.sh call. The hook reads only the
+# command line the session types, so the scripts, which carry their own gate, stay allowed.
 # Everything else git does — add, commit, ordinary push, fetch, merge, stash, checkout,
 # switch, restore, branch, tag, worktree, config, gh pr create — is auto-approved.
 # `worktree` and `config` are deliberately NOT guarded: the built-in worktree flow
@@ -114,6 +118,22 @@ fi
 printf '%s' "$cmd" | grep -Eq "${b}gh[[:space:]]+pr[[:space:]]+merge" && hit="gh pr merge"
 printf '%s' "$cmd" | grep -Eq "${b}gh[[:space:]]+release[[:space:]]+create" && hit="gh release create"
 printf '%s' "$cmd" | grep -Eq "${b}gh[[:space:]]+(repo|release)[[:space:]]+delete" && hit="gh delete (irreversible)"
+
+# The same acts through the REST API: a PUT on a path that ends in /merge, and a DELETE on a
+# git/refs/ path. The method and the path come in either order: -X PUT, -XPUT, -X=PUT,
+# --method PUT, --method=PUT, in any case. A gh api call with no method is a GET and passes.
+api="${b}gh[[:space:]]+api${seg}"
+end='([[:space:]]|$|[;&|)])'
+q="[\"']?"                                                  # an optional quote
+opt='[[:space:]](-X[[:space:]=]*|--method[[:space:]=]+)'   # the method flag
+put="${opt}${q}[Pp][Uu][Tt]${q}${end}"
+del="${opt}${q}[Dd][Ee][Ll][Ee][Tt][Ee]${q}${end}"
+mpath="[^[:space:]]*/merge${q}"                             # a path that ends in /merge
+rpath='[^[:space:]]*git/refs/'                              # a path under git/refs/
+# The path comes first or second. A path first ends at a space, because the method flag
+# after it starts with one.
+printf '%s' "$cmd" | grep -Eq "${api}(${put}${seg}${mpath}${end}|${mpath}([[:space:]]${seg})?${put})" && hit="gh api merge"
+printf '%s' "$cmd" | grep -Eq "${api}(${del}${seg}${rpath}|${rpath}${seg}${del})" && hit="gh api ref delete"
 
 [ -n "$hit" ] || exit 0
 
