@@ -7,7 +7,7 @@
 
 ## Problem
 
-Remi-ai removed `.github/workflows/quality.yaml` on 2026-10-27 (retire list of `triage/conformance-v1-0-0.md`). That job ran three checks that `check-client.yml` in `legible-consulting/.github` does not run:
+Remi-ai removed `.github/workflows/quality.yaml` on 2026-10-27 (retire list of `triage/_done/conformance-v1-0-0.md`). That job ran three checks that `check-client.yml` in `legible-consulting/.github` does not run:
 
 1. The migration-order check: `node packages/services/scripts/check-migration-order.mjs --base <base>`. Drizzle applies a migration only if its journal `when` is after the newest applied migration. A migration generated before one on `main` is recorded as applied and never runs. The check makes such a pull request red.
 2. `pnpm format:check` (prettier).

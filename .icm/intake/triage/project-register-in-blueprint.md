@@ -1,7 +1,7 @@
 # Stub: The blueprint decides where a repo keeps its project register
 
 - lane: chore
-- found-by: the v1.0.0 retire list (`triage/conformance-v1-0-0.md`); Jamie's decision on agorasim `.icm/project.md` · 2026-10-27
+- found-by: the v1.0.0 retire list (`triage/_done/conformance-v1-0-0.md`); Jamie's decision on agorasim `.icm/project.md` · 2026-10-27
 - complexity: medium
 - priority: P2
 
