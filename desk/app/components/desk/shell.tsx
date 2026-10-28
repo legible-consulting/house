@@ -25,7 +25,7 @@ import { Logo } from "./logo";
 
 // The app shell: the chrome around every page with a session. From md, a fixed sidebar on the
 // lifted sheet with the JN mark, one row per destination the role has, and the user at the
-// foot. Below md, a fixed tab bar of at most five tabs; the fifth, More, opens a drawer with
+// foot, whose name links to /preferences. Below md, a fixed tab bar of at most five tabs; the fifth, More, opens a drawer with
 // the rest of the links, the user and sign out. A client has no tab bar: the page header
 // carries sign out (page-header.tsx). The current destination carries aria-current="page", a
 // tap on the tab of the page already shown re-reads it, and every in-app link is next/link.
@@ -120,11 +120,25 @@ function Mark() {
   );
 }
 
+// The user at the sidebar's foot and in the More drawer. For Jamie and a salesman the name is
+// the way to /preferences; a client has no preferences page.
 function Who({ user, className }: { user: ShellUser; className?: string }) {
+  const pathname = usePathname();
+  const name = user.name || user.email;
   return (
     <div className={cn("grid gap-2", className)}>
       <div className="flex min-w-0 items-center gap-2">
-        <span className="min-w-0 flex-1 truncate text-ui">{user.name || user.email}</span>
+        {user.role === "client" ? (
+          <span className="min-w-0 flex-1 truncate text-ui">{name}</span>
+        ) : (
+          <Link
+            href="/preferences"
+            aria-current={pathname === "/preferences" ? "page" : undefined}
+            className="flex min-h-row min-w-0 flex-1 items-center rounded-md text-ui underline-offset-3 hover:underline aria-[current=page]:font-semibold"
+          >
+            <span className="truncate">{name}</span>
+          </Link>
+        )}
         <Badge variant="outline">{user.role}</Badge>
       </div>
       <form action={signOut}>

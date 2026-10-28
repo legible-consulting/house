@@ -15,7 +15,10 @@ bullet. `/clients` (`app/(desk)/clients/page.tsx`) is the clients table.
 snapshot and checks its language files against each other; `read-house.mjs` imports it, and a
 form that does not parse fails the build. `lib/rhythms.ts` computes the glance and the close
 from it on every request; `scripts/rhythms.mjs` writes the same words as files (`rhythms.yml`).
-The pool is read per request from Neon. The no-contact list (`suppressions`) is written by the
+The pool is read per request from Neon. `lib/language.ts languageOf` gives the language a user reads
+in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, else the browser's
+`Accept-Language` by `lib/lead.ts LOCALES`, else `en-GB`; `/sell` reads it when its URL names no
+language. The no-contact list (`suppressions`) is written by the
 row page's "They asked not to be contacted" and read by every path that adds a row or changes
 its email, phone or WhatsApp number (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
 worked for 12 months, by hand from the laptop. Three doors have no session: `app/api/pool/route.ts`,

@@ -11,18 +11,25 @@ import { NO_CONTACT, slugOf, STATUSES } from "./pool";
 // text (YYYY-MM-DD) so no time zone moves a day.
 const sql = () => neon(env("DATABASE_URL"));
 
-// `client` and `active` are read through to_jsonb so the query works before and after
+// `client`, `active` and `language` are read through to_jsonb so the query works before and after
 // db/schema.sql adds the column: a deploy never waits on the console. A missing `client` reads
-// as null, and a missing `active` reads as true, the column's default.
+// as null, a missing `active` reads as true and a missing `language` as "", the columns' defaults.
 const userActive = `coalesce((to_jsonb(users.*) ->> 'active')::boolean, true)`;
 const userSelect = `
   select id, email, name, role, coalesce(handle, split_part(email, '@', 1)) as handle,
-    to_jsonb(users.*) ->> 'client' as client, ${userActive} as active
+    to_jsonb(users.*) ->> 'client' as client, ${userActive} as active,
+    coalesce(to_jsonb(users.*) ->> 'language', '') as language
   from users`;
 
 export async function userByEmail(email: string): Promise<DeskUser | null> {
   const rows = (await sql().query(`${userSelect} where email = $1`, [email])) as DeskUser[];
   return rows[0] ?? null;
+}
+
+// The user's own language, from /preferences. False when no row has the id.
+export async function setLanguage(id: string, language: DeskUser["language"]): Promise<boolean> {
+  const rows = (await sql()`update users set language = ${language} where id = ${id} returning id`) as { id: string }[];
+  return rows.length > 0;
 }
 
 // First sign-in opens the row at role client, with no handle. Jamie promotes with SQL

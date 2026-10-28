@@ -29,7 +29,7 @@ variable. The Process says what a session does with them.
   read per request. A fact changed in the house reaches the desk only by a push to `main`. To
   change what a page shows, change the house file and push (why: a page never reads the repo,
   Outputs, Data · 2026-10-21).
-- The roles. `jamie` sees every page. `salesman` sees `/pool` and `/sell`, and a handed-off
+- The roles. `jamie` sees every page. `salesman` sees `/pool`, `/sell` and `/preferences`, and a handed-off
   deal up to `agreement`. `client` sees `/clients/<slug>` for the folder `users.client` names,
   and nothing else. Jamie sets a role in the Neon console (Outputs, Sign-in).
 - A client user. Jamie sends a form from `/clients/<slug>`. The person's answer saves them as
@@ -114,6 +114,12 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   Neon console (the upserts are at the foot of `schema.sql`). `users.active` is false for a
   client that the answer to a sent link saved, and true for every other row. `currentUser()`
   (`app/lib/user.ts`) reads a user with `active` false as a client with no folder.
+  `users.language` is `pt-PT`, `fr-BE`, `en-GB` or empty. The user sets it on `/preferences`, and
+  Jamie may set it by hand (the upsert at the foot of `schema.sql`). A page reads the row's
+  language, else the first language of the browser's `Accept-Language` that maps to the three,
+  else `en-GB` (`app/lib/language.ts`). A `?lang=` in a page's URL is for one read and does not
+  change the row (why: a salesman reads in one language on every device, and the prospect's
+  language is the row's, not the salesman's · 2026-10-28).
 - How a client gets in. Jamie and the salesmen sign in with email and password. A client user
   of a folder (`role: client` with a `client`) signs in by magic link only: the password form
   reads the `users` row by email before it asks Neon Auth, and answers a client's email with
@@ -177,6 +183,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   links open it, and a bot must not fill the pool · 2026-10-25). A failed count, row or file
   is an error on the page, and the visitor can send again (why: nothing is thanked that is not
   in the house · 2026-10-26).
+- `/preferences`, for Jamie and a salesman (a client goes to `/`): the name and the email as
+  read-only facts, and the language as a select of the three in their own names. Save writes
+  `users.language` and comes back with a note, or with the error in words. The user's name in
+  the sidebar's foot and in the More drawer links to it.
 - Jamie's pages: `/` (one card per next client action, the glance's rows, grouped by urgency:
   overdue, this week, later, no deadline; each card with Copy prompt, the words that start a
   session on the house to do the action, with the record, the folder's files and the stage's
@@ -250,8 +260,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   activation, active already, or not changed because of another role. A failed upsert is in
   the Vercel log with the row id, and the mail says so. A link with `signup` false changes no
   user (why: a pool row has no folder for a user · 2026-10-25).
-- A salesman's pages: `/pool` and `/sell` (the target profile, the cadence, the pitch drafts
-  and the seller kit, `01-prospecting/kit.<language>.md`, in one language or all). On a
+- A salesman's pages: `/pool`, `/preferences` and `/sell` (the target profile, the cadence, the pitch drafts
+  and the seller kit, `01-prospecting/kit.<language>.md`, in the user's language, or for one
+  read another language or all, `?lang=`). On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's
   draft from `01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own
