@@ -2,7 +2,7 @@
 title: Prospect
 kind: schema
 owner: jamie
-date: 2026-10-27
+date: 2026-10-28
 ---
 # Prospect — the pool row
 
@@ -119,8 +119,11 @@ out with its comma (why: `role` is optional, and the record must not read `, ,` 
   owed on an unpaid invoice. The monthly close lists the commission owed per deal, and Jamie
   settles it against the payments, which are handled outside the house (why: Jamie's answer ·
   2026-10-19; invoices left the house · 2026-10-22).
-- In the desk a salesman sees: this folder's `target-profile.md`, `cadence.md`, `pitch/` and
-  `kit.<language>.md`, read-only. Every row of the pool, others' rows read-only. For a deal they sourced, the
+- In the desk a salesman sees: this folder's `kit.<language>.md` and `pitch/`, read-only.
+  `target-profile.md`, `cadence.md` and this file are the house's model, read by the kit's
+  author; the kit carries what a salesman needs from them, in their language. Where the kit
+  and a model file disagree, the model wins and the kit is fixed (why: one document in one
+  language · 2026-10-28). Every row of the pool, others' rows read-only. For a deal they sourced, the
   `stage` of the client folder up to `agreement`, and nothing after it, no documents. Their
   own commission only, never another salesman's (why: Jamie's answer, from interview round
   R11 · 2026-10-19).

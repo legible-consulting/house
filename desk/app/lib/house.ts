@@ -1,4 +1,5 @@
 import type { FormLanguage, FormSnapshot } from "./forms";
+import type { Kit } from "./kit";
 import data from "./house.json";
 
 // The house at build time: lib/house.json is written by scripts/read-house.mjs (the list of
@@ -61,11 +62,6 @@ export interface Pitch extends Doc {
   language: string;
 }
 
-// 01-prospecting/kit.<language>.md: the seller kit, one per language.
-export interface Kit extends Doc {
-  language: string;
-}
-
 // The latest drift report: its file, its date and the blueprint tag it was read against.
 export interface Estate {
   file: string;
@@ -85,6 +81,7 @@ export const hand = data.hand as Doc;
 export const estate = data.estate as unknown as Estate | null;
 // Every desk/close/<YYYY-MM>.md (rhythms.yml).
 export const closeDocs = data.closes as unknown as Doc[];
+// The seller kit is one parsed kit per language (01-prospecting/kit.<language>.md, lib/kit.ts).
 export const sell = data.sell as unknown as { profile: Doc; cadence: Doc; pitch: Pitch[]; kit: Kit[] };
 
 export const day = (v: unknown): string => String(v ?? "").slice(0, 10);

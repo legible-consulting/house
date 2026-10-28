@@ -31,8 +31,12 @@ Prospecting produces a target profile, researched target lists, outreach drafts 
 
 How a salesman works the pool, in the desk:
 
-1. Read `target-profile.md`, the drafts in `pitch/` and the kit, `kit.<language>.md`. All
-   three are read-only in the desk.
+1. Read the kit, `kit.<language>.md`, in your language, and the drafts in `pitch/`. Both are
+   read-only in the desk. `target-profile.md` and `cadence.md` are the house's model: the
+   kit's author reads them, and the kit carries what a salesman needs from them. Where the kit
+   and a model file disagree, the model wins and the kit is fixed (why: one document in one
+   language, and a model file carries why-lines and law the salesman does not act on ·
+   2026-10-28).
 2. Add a prospect, or take one from a `targets/<list>.md` a session researched. The desk
    fills `slug`, `sourced_by`, `added` and `status: new`. The desk refuses a `slug` that
    exists in the pool or in `clients/*/record.md` (why: one company has one row, and a
@@ -79,13 +83,15 @@ A session in this folder produces the stage-level material, never a pool row:
 - `pitch/<touch>.<language>.md`: one draft per touch in `cadence.md` and per language in
   `target-profile.md`, written from `core/voice.md` and `core/services.md`. The sender adapts
   it by hand.
-- `kit.<language>.md`: the seller kit, one per language in `target-profile.md`: how a lead
-  reaches Jamie, the openers for the seller's own channels, the follow-ups, the answers when
-  a prospect hesitates, what makes a lead worth sending, the lines, and what the 10% looks
-  like. Written from `core/voice.md`, `core/services.md` and `prospect.md`. Where a price
-  disagrees with `core/services.md` or a term with `prospect.md`, the house wins and the kit
+- `kit.<language>.md`: the seller kit, the salesman's one document, one per language in
+  `target-profile.md`, in the kit grammar (Outputs). Two parts and a reference: who Jamie is
+  and what he sells; the system, from the row to the 10%; the words to send and the answers
+  to give. Written from `core/identity.md`, `core/voice.md`, `core/services.md`,
+  `target-profile.md`, `cadence.md` and `prospect.md`, in Jamie's voice. Where a price
+  disagrees with `core/services.md` or a term with a model file, the house wins and the kit
   is fixed. No price reaches a prospect through it (why: `core/services.md`, "Never public"
-  · 2026-10-22).
+  · 2026-10-22). The session writes the en-GB file and translates it. Jamie reviews the
+  words on the pull request.
 - `forms/<form>.<language>.md`: a form, in the grammar in Outputs. A new form gets three
   files, `en-GB`, `fr-BE` and `pt-PT`. The session writes the en-GB file and translates it.
   Jamie reviews the translations on the pull request.
@@ -102,8 +108,8 @@ A session in this folder produces the stage-level material, never a pool row:
   beside the activity it covers, so the limits are read where the pitch is written ·
   2026-10-26).
 - `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
-- `kit.<language>.md`: the seller kit, one per language (built 2026-10-22). The desk shows it
-  on `/sell`.
+- `kit.<language>.md`: the seller kit, one per language (built 2026-10-22, rewritten as
+  lessons 2026-10-28). The desk shows it on `/sell`.
 - `targets/<list>.md`: one researched list per search.
 - `forms/free-look.<language>.md`: the free look, eight questions in `en-GB`, `fr-BE` and
   `pt-PT` (built 2026-10-26). It is the form for `/start` on the desk (the `desk-forms`
@@ -128,6 +134,30 @@ A session in this folder produces the stage-level material, never a pool row:
     position. The words change per language. The position does not · 2026-10-25).
   - No question and no option shows a price, a band or the floor (why: a form is a public
     page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
+- The kit grammar. The desk parses every kit with it (`desk/app/lib/kit.ts`), and a kit that
+  does not parse fails the build:
+  - One kit per language, `kit.<language>.md`. Frontmatter: `kind: kit`, `title`, `language`
+    (`en-GB`, `fr-BE` or `pt-PT`), `owner`, `date`.
+  - The H1 and the paragraphs before the first `##` are the intro: Jamie's words to the
+    salesman, the course's first screen.
+  - Each `##` heading is one lesson, in the words the salesman reads. The first thing under
+    the heading is one list of `- key: value` lines. Under the list, the lesson's words:
+    paragraphs, `###` subsections, lists, quotes and tables, as prose.
+  - `key:` is required: kebab-case, the lesson's slug in the URL, the same in the three files.
+  - `part:` is required: `jamie`, `system` or `reference`. The lessons of one part are
+    contiguous, and the parts come in that order.
+  - `status:` is optional: one pool status of `prospect.md` the lesson teaches. At most one
+    lesson per status. A lesson with `status:` also has `next:`, one sentence: the thing the
+    salesman does at that status. The row page shows it.
+  - `touch:` is optional: `1`, `2` or `3`, or several separated by ` | `. The lesson page
+    shows the pitch draft of each touch in the reader's language after the words.
+  - The three files of the kit have the same keys in the same order, with the same `part`,
+    `status` and `touch` per key. The words change per language. The keys do not (why: the
+    desk maps a lesson to a status and a touch by its key · 2026-10-28).
+  - No lesson shows a price, a band or the floor (`core/services.md`, Never public). The
+    commission examples of 2026-10-22 stay: they show the salesman's 10%, not a price.
+  - The pool's statuses and the deal's stages stay as the model writes them, in every
+    language.
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.
 - `leads/<slug>/`: a lead's folder, by the pool row's slug. A lead's answers to a form are

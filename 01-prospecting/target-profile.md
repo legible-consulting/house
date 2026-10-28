@@ -2,13 +2,13 @@
 title: Target profile
 kind: profile
 owner: jamie
-date: 2026-10-19
+date: 2026-10-28
 ---
 # Target profile — who the pool goes looking for
 
-One home for who prospecting chases, what makes a good lead, and what ends one. A salesman reads this
-before the first touch. The desk shows it on the pool page, read-only. From Jamie's answers of
-2026-10-19 (wave step E1).
+One home for who prospecting chases, what makes a good lead, and what ends one. The kit's
+author reads this, and a salesman reads it in the kit, `kit.<language>.md`, lesson
+`who-we-look-for` (2026-10-28). From Jamie's answers of 2026-10-19 (wave step E1).
 
 ## Two lines, weighted to SMEs
 
