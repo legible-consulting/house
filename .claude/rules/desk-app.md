@@ -21,7 +21,10 @@ from it on every request; `scripts/rhythms.mjs` writes the same words as files (
 The pool is read per request from Neon. `lib/language.ts languageOf` gives the language a user reads
 in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, else the browser's
 `Accept-Language` by `lib/lead.ts LOCALES`, else `en-GB`; `/sell` reads it when its URL names no
-language. The no-contact list (`suppressions`) is written by the
+language. `/sell` (`app/(desk)/sell/page.tsx`) is the course's index and `/sell/<key>`
+(`app/(desk)/sell/[key]/page.tsx`) one lesson, both from the kit that `lib/kit.ts` parses into
+`house.json`, with the shared parts in `app/(desk)/sell/_course.tsx`; a lesson's pitch draft
+shows in the document block of the row's Next touch (`app/_touch.tsx Draft`). The no-contact list (`suppressions`) is written by the
 row page's "They asked not to be contacted" and read by every path that adds a row or changes
 its email, phone or WhatsApp number (`lib/db.ts suppressed`); `scripts/pool-purge.mjs` clears a row nobody
 worked for 12 months, by hand from the laptop. Three doors have no session: `app/api/pool/route.ts`,
