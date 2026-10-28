@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # conform.sh
+# Runs in a worktree of one local-lane clone, on its new branch, with REPOSITORY set (the repo
 # is owner/name). A repo rendered from the blueprint gets `copier update` to the latest tag. A
 # repo built before the blueprint is adopted: only `.copier-answers.yml` is added, from its
 # client record, so later tags reach it by `copier update` and none of its own files changes.
 set -euo pipefail
 
-: "${REPOSITORY:?run through multi-gitter, which sets REPOSITORY}"
+: "${REPOSITORY:?set REPOSITORY to owner/name, for example k0d0minio/berceo}"
 house="$(cd "$(dirname "$0")/.." && pwd)"
 src="gh:legible-consulting/blueprint"
 

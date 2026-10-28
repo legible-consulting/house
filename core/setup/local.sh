@@ -9,7 +9,7 @@ have brew || { log "Homebrew is missing: install it first (https://brew.sh), the
 # command on PATH → Homebrew formula
 declare -A formula=(
   [gh]=gh [jq]=jq [yq]=yq [gitleaks]=gitleaks
-  [mani]=mani [multi-gitter]=multi-gitter [copier]=copier
+  [mani]=mani [copier]=copier
 )
 
 missing=()

@@ -20,7 +20,6 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | yq (mikefarah) | YAML and frontmatter queries | 4.54.1 | `setup/local.sh` | `setup/cloud.sh` |
 | gitleaks | secret scan (F1 before the transfers; the core's cloud check) | 8.30.1 local · Ubuntu's 8.16 in cloud | `setup/local.sh` | `setup/cloud.sh` |
 | mani | run a command across the estate's clones (the build, from the local lane) | 0.32.1 | `setup/local.sh` | — |
-| multi-gitter | one PR per repo across the estate (conformance) | 0.63.1 | `setup/local.sh` | — |
 | copier | render a client repo from the blueprint (kickoff) | 9.19.1 | `setup/local.sh` | — |
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | yt-dlp | a video's description and captions as text (the research intake) | 2026.8.19 | — | `setup/cloud.sh`, by `uv tool` |
@@ -75,7 +74,7 @@ Layout:
 | Path | Holds |
 |---|---|
 | `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo (client repos are not here; they are `k0d0minio/<slug>`) |
-| `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, multi-gitter, copier). Every clone `desk/mani.yaml` names is here (2026-10-27). |
+| `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, copier, gh). Every clone `desk/mani.yaml` names is here (2026-10-27). |
 | `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 
