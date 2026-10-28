@@ -1,3 +1,4 @@
+> Dropped: the blueprint Neon redesign (legible-consulting/blueprint pull request 34) removes NEON_API_KEY, NEON_PROJECT_ID and the neon workflows. The env-cleanup-<repo> stubs replace this stub, 2026-10-28
 # Stub: The neon workflows of the estate have their secrets, and the failed cleanup runs are green
 
 - lane: chore
