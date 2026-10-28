@@ -65,6 +65,7 @@ export interface DeskUser {
   handle: string;
   client: string | null; // the clients/<slug> a client-role user reads; null for the rest
   active: boolean; // false for a client saved by a sent link and not activated yet
+  language: (typeof LANGUAGES)[number] | ""; // the user's own, set on /preferences; "" for none
 }
 
 // A client user of one folder, as the Users card on /clients/<slug> lists them.

@@ -14,6 +14,7 @@ create table if not exists users (
   handle text unique,
   client text,
   active boolean not null default true,
+  language text not null default '' check (language in ('', 'pt-PT', 'fr-BE', 'en-GB')),
   created_at timestamptz not null default now()
 );
 
@@ -120,6 +121,11 @@ alter table users add column if not exists client text;
 -- .icm/intake/desk-forms). The default is true so that the rows of Jamie and the salesmen keep
 -- working after this statement.
 alter table users add column if not exists active boolean not null default true;
+-- The language a user reads the desk in (language-preference of .icm/intake/salesman-desk). Empty
+-- means no preference: the desk then reads the browser's language, else en-GB (lib/language.ts).
+alter table users
+  add column if not exists language text not null default ''
+    check (language in ('', 'pt-PT', 'fr-BE', 'en-GB'));
 alter table prospects
   add column if not exists slug text unique,
   add column if not exists role text not null default '',
@@ -169,3 +175,8 @@ end $$;
 -- never sets an active row back to inactive. A user with active false is a client with no
 -- folder, who sees nothing (lib/user.ts currentUser). Jamie activates the user later
 -- (magic-link-sign-in) (why: Jamie decides who gets in and when · 2026-10-25).
+-- The language. The user sets their own on /preferences (lib/db.ts setLanguage), from one of
+-- pt-PT, fr-BE and en-GB. Jamie may set it by hand, by email, before or after the first sign-in
+-- (why: a salesman reads in one language on every device · 2026-10-28):
+--   insert into users (email, language) values ('salesman@example.com', 'pt-PT')
+--     on conflict (email) do update set language = 'pt-PT';

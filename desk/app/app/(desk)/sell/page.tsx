@@ -1,4 +1,5 @@
 import { ChevronRight } from "lucide-react";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { FilterGroup } from "@/app/_filters";
@@ -10,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Search } from "@/lib/guard";
 import { type Pitch, sell } from "@/lib/house";
+import { isLanguage, languageOf } from "@/lib/language";
 import { render } from "@/lib/markdown";
 import { CADENCE, LANGUAGES } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
@@ -19,9 +21,10 @@ import { JumpGroup } from "./_jump";
 // Sell: what prospecting gives a salesman before the first touch, read-only (prospect.md, "The
 // salesman's deal"), from 01-prospecting/ at build time. Four sections, reached from a toggle
 // group at the top: the target profile and the cadence as card grids, one card per section of
-// the file, the cadence's days as four stat tiles; every pitch draft by touch, in one
-// language or all (?lang=, a toggle group), each with a Copy button and its placeholders
-// marked; the seller kit (kit.<language>.md) in the same cards and the same language. With
+// the file, the cadence's days as four stat tiles; every pitch draft by touch, in the user's
+// language (lib/language.ts) or, for one read, another or all (?lang=<language> or ?lang=all, a
+// toggle group), each with a Copy button and its placeholders marked; the seller kit
+// (kit.<language>.md) in the same cards and the same language. With
 // every language shown, each pitch and each kit section folds behind its heading; with one
 // language chosen, they are open. No paragraph explains the page (desk/app/DESIGN.md, rule 9).
 // A row's next touch, filled from the row, is on the pool row's page. A change in the folder
@@ -160,16 +163,18 @@ export default async function Sell({ searchParams }: { searchParams: Search }) {
   const user = await currentUser();
   if (!user) redirect("/sign-in");
   if (user.role === "client") redirect("/");
-  const q = await searchParams;
-  const lang = typeof q.lang === "string" && (LANGUAGES as readonly string[]).includes(q.lang) ? q.lang : "";
-  // One language or all, for the pitches and the kit alike, kept in the URL. The page stays
-  // where it is: the sections above the filter do not change with it.
+  const [q, h] = await Promise.all([searchParams, headers()]);
+  // One language or all, for the pitches and the kit alike. With no ?lang=, the user's own
+  // (lib/language.ts); ?lang=all or one language is for this read only, and the preference does
+  // not change. The page stays where it is: the sections above the filter do not change with it.
+  const lang: string =
+    q.lang === "all" ? "" : isLanguage(q.lang) ? q.lang : languageOf(user, h.get("accept-language"));
   const languages = (label: string) => (
     <FilterGroup
       label={label}
       value={lang || "all"}
       items={[
-        { value: "all", label: "Every language", href: "/sell" },
+        { value: "all", label: "Every language", href: "/sell?lang=all" },
         ...LANGUAGES.map((l) => ({ value: l, label: l, href: `/sell?lang=${l}` })),
       ]}
     />

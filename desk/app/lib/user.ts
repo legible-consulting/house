@@ -24,6 +24,6 @@ export const currentUser = cache(async (): Promise<DeskUser | null> => {
   const s = await sessionUser();
   if (!s) return null;
   const u = await userByEmail(s.email);
-  if (!u) return { id: "", email: s.email, name: s.name, role: "client", handle: "", client: null, active: false };
+  if (!u) return { id: "", email: s.email, name: s.name, role: "client", handle: "", client: null, active: false, language: "" };
   return u.active ? u : { ...u, role: "client", client: null };
 });
