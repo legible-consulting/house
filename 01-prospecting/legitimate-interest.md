@@ -184,10 +184,6 @@ Prospect data earns its keep by being worked. When it is not:
 - **Rows that were handed off** (`handed off`) leave this assessment entirely: they are a
   business relationship with its own basis and its own accounting retention, recorded in
   `clients/<slug>/`.
-- **A list of 117 businesses compiled in July 2026 is held outside the pool**, in a Neon
-  project and two archives on Jamie's machine. Nothing reads it, and nothing in this
-  assessment relies on it. Whether it enters the pool with a source or is deleted is Jamie's
-  hand (`.icm/intake/README.md`). ⚠️
 
 ## 6. When this has to be redone
 

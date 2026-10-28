@@ -53,10 +53,3 @@ The steps of the house's own build that no session takes, because each reaches a
 - **Check the first cold batch against the opt-out list.** Before the first batch of cold emails: check its role addresses against the Direção-Geral
   do Consumidor's opt-out list (`01-prospecting/legitimate-interest.md` §3). Check:
   the batch's rows carry a touch note that says so.
-- **Import or delete the 117 old prospect rows.** The 117 prospect rows compiled on 2026-07-23 are in three places nothing reads: Neon
-  project `jamie-nisbet` (`restless-rain-15879798`, schema `biz`) and the two archives
-  `desk/app/biz-2026-10-22-backup.tar.gz` and `desk/app/biz-backup-2026-10-25.tar.gz`,
-  untracked in the house. Import them into the pool as rows with a source, or delete the
-  project and the two files (`legitimate-interest.md` §5; the archives hold personal data
-  and stay out of git). Check: the rows are in the pool, or the project is gone from the Neon
-  console and the two files from `desk/app/`.
