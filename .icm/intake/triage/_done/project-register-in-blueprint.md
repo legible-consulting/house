@@ -24,3 +24,24 @@ Find out whether a later blueprint version must give each repo a place for the p
 - [ ] If the blueprint adds a register: its path, its sections and its writer are in a blueprint pull request.
 - [ ] Agorasim's decisions D1 to D47 and its open questions have a decided place. The decision says if a session restores them from the git history.
 - [ ] The files in agorasim that name `.icm/project.md` point at a file that exists.
+
+## Notes
+
+The proposal, for Jamie's decision in the pull request (2026-10-28): the blueprint keeps no register (option 2).
+
+- Each fact of a register has a home in the blueprint or in the house already. A register is a second home, and a second home drifts. Agorasim's register of 2026-09-18 named the `go-live` epic, the pipeline profile and icm-board after each one was gone.
+- A register needs one writer that reads the whole repo and writes a summary. The retired `/project` skill was that writer. The house builds no orchestrator.
+- The register held D1 to D27, not D1 to D47. D47 was an estate decision that its run log named.
+- `.icm/docs/` is not a blueprint folder. Copier does not render it and no blueprint contract names it. It is agorasim's own folder.
+
+The home of each fact:
+
+| Fact | Home | Writer |
+|---|---|---|
+| What the build is, for whom, its stack | the repo's `README.md` | the session that changes the build |
+| A product rule that binds every epic: a price rule, capacity, money, a message, accessibility, a feature that stays out | the repo's `.icm/intake/README.md` § Decisions | the session that writes the rule, on Jamie's word |
+| A decision of one epic or one ticket | its `breakdown.md` or its stub | the session that cuts it |
+| A feature and its state | the code, the open stubs and their `_done/` | none |
+| The price, the commission, the agreement | the house `clients/<slug>/`: `record.md`, `proposal/`, `quote/`, `agreement/` | the house modules |
+| A question that waits on the client | the house `clients/<slug>/research/profile.md` § What stays open, or the stub that needs the answer | the house module or the ticket session |
+| The run log | `git log` | none |
