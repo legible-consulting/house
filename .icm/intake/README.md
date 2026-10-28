@@ -36,6 +36,10 @@ Set by Jamie on 2026-10-22. A line leaves when it is true.
 
 The steps of the house's own build that no session takes, because each reaches an account, the estate or money. The glance prints the bullets of this section (why: a step Jamie owes is a next action of the house itself · 2026-10-22). Each bullet opens with a short title in bold, the act in a few words: the desk shows the title as the row and keeps the rest until the row opens (why: a step's full line is detail · Jamie, 2026-10-27). A client's own next step lives on its record, not here. A line leaves when it is done.
 
+- **Add the meeting columns to the pool.** Neon, project `legible-desk`, SQL editor: run
+  `desk/app/db/schema.sql` once more, for the three meeting columns on `prospects`. Until then
+  the move to `meeting` answers with an error. Check: `select meeting_at, meeting_with,
+  meeting_where from prospects limit 1` runs.
 - **Activate a client user.** Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
 - **Close Berceo #68, promote, and walk Agorasim's go-live.** Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
 - **Set THROTTLE_SALT on legible-desk.** `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of

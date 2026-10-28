@@ -112,6 +112,9 @@ export interface Prospect {
   next_action: string | null;
   notes: string;
   lost_reason: string;
+  meeting_at: string | null; // the meeting's instant, ISO in UTC; shown as Jamie's time (meetingTime)
+  meeting_with: MeetingWith | "";
+  meeting_where: string; // a place, a phone number or a link
   pr_url: string | null;
   record: string | null;
   added: string;
@@ -219,6 +222,67 @@ export function instagramUrl(handle: string): string | null {
 export const noContactError = (hits: ContactPoint[]): string =>
   `${hits.map((c) => c.value).join(" and ")}: they asked not to be contacted. The pool takes no row for it, on any channel (cadence.md, Channels).`;
 
+// The meeting (prospect.md, Fields): when, with whom and where. The time is Jamie's, in his time
+// zone: the desk writes it there and shows it there, so a salesman in Brussels and Jamie read
+// one time (why: the meeting is Jamie's to take or to know of · 2026-10-28).
+export const TIME_ZONE = "Europe/Lisbon";
+export const MEETING_WITH = ["sourcer", "jamie"] as const;
+export type MeetingWith = (typeof MEETING_WITH)[number];
+export const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+export interface Meeting {
+  date: string; // YYYY-MM-DD, in Jamie's time zone
+  time: string; // HH:MM, in Jamie's time zone
+  with: MeetingWith;
+  where: string;
+}
+
+// An instant as Jamie's date and time.
+export function meetingTime(at: string): { date: string; time: string } {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(at));
+  const v = (t: Intl.DateTimeFormatPartTypes) => parts.find((x) => x.type === t)?.value ?? "";
+  return { date: `${v("year")}-${v("month")}-${v("day")}`, time: `${v("hour")}:${v("minute")}` };
+}
+
+// The row's meeting, or null when it has none.
+export function meetingOf(p: Prospect): Meeting | null {
+  if (!p.meeting_at || !p.meeting_with) return null;
+  return { ...meetingTime(p.meeting_at), with: p.meeting_with, where: p.meeting_where };
+}
+
+// Who takes the meeting, in words: Jamie, or the sourcer by handle.
+export const meetingWho = (m: Meeting, p: Pick<Prospect, "sourced_by">): string =>
+  m.with === "jamie" ? "Jamie" : p.sourced_by;
+
+// A `where` that is a link opens as one.
+export const linkOf = (where: string): string | null => (/^https?:\/\/\S+$/.test(where.trim()) ? where.trim() : null);
+
+export const MEETING_NEEDED = "meeting needs its date, its time and with whom.";
+
+// The meeting fields of a form (the Move card and the Meeting field group): null when all four
+// are empty. A part filled without the date, the time or with whom is refused, in words.
+export function meetingFrom(form: FormData): Meeting | null {
+  const s = (k: string) => String(form.get(k) ?? "").trim();
+  const date = s("meeting_date");
+  const time = s("meeting_time");
+  const withWhom = s("meeting_with");
+  const where = s("meeting_where");
+  if (!date && !time && !withWhom && !where) return null;
+  if (!date || !time || !withWhom) throw new Error(`The ${MEETING_NEEDED}`);
+  if (!DATE_RE.test(date)) throw new Error("The meeting's date is YYYY-MM-DD.");
+  if (!TIME_RE.test(time)) throw new Error("The meeting's time is HH:MM, in Lisbon time.");
+  if (!MEETING_WITH.includes(withWhom as MeetingWith)) throw new Error("The meeting is with the sourcer or with Jamie.");
+  return { date, time, with: withWhom as MeetingWith, where };
+}
+
 // Only the sourcer and Jamie write a row; every other salesman reads it. A handed-off row
 // is read-only for all: the client folder is the record from then on.
 export function canWrite(p: Prospect, u: DeskUser): boolean {
@@ -259,6 +323,7 @@ export function missingForReady(p: Prospect): string[] {
   if (!p.language) missing.push("language");
   if (!p.ask) missing.push("ask");
   if (p.touches < 1) missing.push("one logged touch");
+  if (p.status === "meeting" && !meetingOf(p)) missing.push("the meeting's date, time and with whom");
   return missing;
 }
 

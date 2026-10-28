@@ -31,7 +31,7 @@ the UAE and the United States.
 | NIF | 336899076 |
 | Business email | contact@jamienisbet.com |
 | Public front | jamienisbet.com · github.com/legible-consulting |
-| Booking link | Discovery Call, https://calendar.app.google/wSximgdkMuBcoHee7. A salesman sends it from their own account to book a call with Jamie (`01-prospecting/kit.<language>.md`, set-up-the-meeting · Jamie, 2026-10-28). |
+| Booking link | Discovery Call, https://calendar.app.google/wSximgdkMuBcoHee7. A salesman sends it from their own account to book a call with Jamie. The desk shows it with Copy under the lesson set-up-the-meeting (`01-prospecting/kit.<language>.md`) and reads no calendar (Jamie, 2026-10-28). |
 | IBAN | Never in git. Invoices are written and sent outside the house. |
 
 Agreements and invoices carry the legal name and the NIF, never the trade name alone (why:

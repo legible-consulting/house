@@ -148,6 +148,15 @@ alter table prospects
 alter table prospects
   add column if not exists whatsapp text not null default '',
   add column if not exists instagram text not null default '';
+-- The meeting of a row (meeting-on-the-row of .icm/intake/salesman-desk): when, with whom and
+-- where, required at `meeting` (01-prospecting/prospect.md, Fields). `meeting_at` keeps its zone;
+-- the desk reads and writes it as Jamie's time, Europe/Lisbon. Until this runs, the desk reads a
+-- row as having no meeting (lib/db.ts).
+alter table prospects
+  add column if not exists meeting_at timestamptz,
+  add column if not exists meeting_with text not null default ''
+    check (meeting_with in ('', 'sourcer', 'jamie')),
+  add column if not exists meeting_where text not null default '';
 do $$
 begin
   if (select data_type from information_schema.columns

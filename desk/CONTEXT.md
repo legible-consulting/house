@@ -65,7 +65,11 @@ variable. The Process says what a session does with them.
 - A lead. The portfolio's contact form posts to `/api/pool` with `POOL_TOKEN`. The free look
   posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
   email is open. A salesman or Jamie moves the row through the pool's statuses
-  (`clients/CONTEXT.md`). At `ready for Jamie` the desk opens a pull request on the house that
+  (`clients/CONTEXT.md`). The move to `meeting` asks for the meeting: `meeting_at`,
+  `meeting_with` (`sourcer` or `jamie`) and `meeting_where`, in Jamie's time zone
+  (`01-prospecting/prospect.md`, Fields). A meeting with Jamie shows on his `/` until its day
+  has passed, and the handoff carries it into the record (why: Jamie learns of a meeting booked
+  for him from the desk, not from a note · 2026-10-28). At `ready for Jamie` the desk opens a pull request on the house that
   creates `clients/<slug>/record.md` and moves the lead's answers into the folder
   (`01-prospecting/CONTEXT.md`, The handoff). Jamie merges it (why: a lead copied by hand from a
   mail is a lead lost · 2026-10-22).
@@ -191,6 +195,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   overdue, this week, later, no deadline; each card with Copy prompt, the words that start a
   session on the house to do the action, with the record, the folder's files and the stage's
   contract, `lib/actions.ts`; tiles that count the urgent actions and the open leads; then
+  the section "Meetings booked for you · <n>" when one exists: the open pool rows with
+  `meeting_with: jamie` from today on, soonest first, each the date and the time in mono, the
+  company linked to its pool row, the sourcer and where (`app/_meetings.tsx`); a meeting is not
+  a client action until the handoff, so `lib/actions.ts` does not read it; then
   one row per step of Jamie's hand (`.icm/intake/README.md`): the step's bold title, with
   Copy prompt on the row; the row opens on the step and its check; the prompt is the words that start a session on the house to prepare the step, `lib/hand.ts`; no ticket),
   `/clients` (the clients table: each client's stage, its repo's blueprint drift, latest
@@ -268,7 +276,10 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   list of its lessons in the kit's order, one row per lesson with its number, its title and the
   status it teaches. `/sell/<key>` is one lesson: its place in its part as a track, its words,
   for a lesson with `touch:` the pitch draft of each touch in the reader's language with Copy,
-  and the lessons before and after it in the kit's order. A key no kit has is a 404. The desk
+  for the lesson with `status: meeting` the booking link of `core/identity.md` with Copy when it
+  is set (`read-house.mjs` reads it as it reads the business email; the salesman sends it from
+  their own account, and the desk reads no calendar), and the lessons before and after it in
+  the kit's order. A key no kit has is a 404. The desk
   stores no progress: the URL is the lesson (why: a salesman reads a lesson again at any time,
   and one lesson per page answers what to do at this step · 2026-10-28). A salesman does not
   read `target-profile.md` or `cadence.md` in the desk: Jamie reads them at the foot of his
@@ -284,7 +295,11 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   row's status, in the user's language, with the lesson's title as its link to `/sell/<key>`.
   The add card and the drawer link the lesson for `new`; Next touch's eyebrow links the lesson
   that shows the touch (why: the pool teaches where the salesman acts, `DESIGN.md` rule 9 ·
-  2026-10-28). On a
+  2026-10-28). The Move card asks for the meeting's date, time, with whom and where when the
+  move is to `meeting`, and refuses the move without the first three. From `meeting` on, the
+  header's facts line shows the meeting: the date and the time in mono, in Lisbon time, with
+  whom, and where, as a link when it is a URL. From `replied` on, the sourcer edits it in the
+  Meeting field group of Facts. On a
   handed-off row, the deal's stage up to `agreement` and nothing after it (`01-prospecting/`). On a row at `new` or `contacted`, the next touch's
   draft from `01-prospecting/pitch/` in the row's language, with the first name in, to
   copy or to open in the seller's own mail or WhatsApp (why: the seller sends from their own

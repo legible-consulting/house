@@ -7,6 +7,7 @@ import {
   revertReady,
   setHandedOff,
   setNextAction,
+  setMeeting,
   setReady,
   setStatus,
   slugTaken,
@@ -20,6 +21,7 @@ import { attempt, back } from "@/lib/guard";
 import { clientSlugs } from "@/lib/house";
 import {
   DATE_RE,
+  MEETING_NEEDED,
   NO_CONTACT,
   SLUG_RE,
   UUID_RE,
@@ -29,6 +31,8 @@ import {
   fieldsFrom,
   isChannel,
   isStatus,
+  meetingFrom,
+  meetingOf,
   missingForReady,
   nextActionAfterTouch,
   nextMoves,
@@ -84,7 +88,17 @@ export async function saveProspect(form: FormData) {
     }
     const next = String(form.get("next_action") ?? "").trim() || null;
     if (next && !DATE_RE.test(next)) throw new Error("Next action is a date, YYYY-MM-DD.");
+    // The Meeting field group shows from `replied` on and sends `meeting_group`. At `meeting` and
+    // at `ready for Jamie` the meeting stays set (prospect.md, Fields).
+    const meeting = form.has("meeting_group") ? meetingFrom(form) : undefined;
+    if (meeting === null && (p.status === "meeting" || p.status === "ready for Jamie")) {
+      throw new Error(`At ${p.status} the ${MEETING_NEEDED}`);
+    }
     await updateProspect(id, slug, f, next);
+    // Written only when it changed, so a row saves before db/schema.sql adds the columns.
+    if (meeting !== undefined && JSON.stringify(meeting) !== JSON.stringify(meetingOf(p))) {
+      await setMeeting(id, meeting);
+    }
   });
   back(`/pool/${id}`, { error });
 }
@@ -117,6 +131,12 @@ export async function moveStatus(form: FormData) {
     if (!isStatus(status) || !nextMoves(p, user).includes(status)) throw new Error("Not a move from here.");
     const reason = String(form.get("lost_reason") ?? "").trim();
     if (status === "lost" && !reason) throw new Error("lost needs its reason.");
+    // The move to `meeting` carries the meeting: when, with whom and where (prospect.md, Fields).
+    if (status === "meeting") {
+      const meeting = meetingFrom(form);
+      if (!meeting) throw new Error(MEETING_NEEDED);
+      await setMeeting(id, meeting);
+    }
     await setStatus(id, status, status === "lost" ? reason : p.lost_reason);
   });
   back(`/pool/${id}`, { error });

@@ -14,7 +14,8 @@ folder is the record (`clients/CONTEXT.md`). From Jamie's answers of 2026-10-19 
 ## Fields
 
 `required` says when the field must be filled: `add` at the moment the row is created, `ready`
-before the salesman may set `ready for Jamie`, `lost` when the status is set to `lost`, or `no`.
+before the salesman may set `ready for Jamie`, `meeting` when the status is set to `meeting`, `lost`
+when the status is set to `lost`, or `no`.
 
 | Field | Type | Required | Set by |
 |---|---|---|---|
@@ -40,6 +41,9 @@ before the salesman may set `ready for Jamie`, `lost` when the status is set to 
 | `touches` | list of `{date, channel, note}`. `channel` is `email`, `phone`, `whatsapp`, `in person` | ready, at least one | the sourcer |
 | `next_action` | date | no | the desk, from `cadence.md`. The sourcer may edit it. |
 | `notes` | text | no | the sourcer |
+| `meeting_at` | a date and a time, stored with its zone and shown in Jamie's time zone, Europe/Lisbon | meeting | the sourcer, at the move to `meeting` or in the row's Meeting fields |
+| `meeting_with` | `sourcer` or `jamie`: who takes the meeting | meeting | the sourcer |
+| `meeting_where` | text: a place, a phone number or a link | no | the sourcer |
 | `lost_reason` | text | lost | the sourcer |
 | `record` | path, `clients/<slug>/record.md` | no | the desk, at "Check the PR" on the row's page after Jamie merges the handoff PR |
 | `added` | date | add | the desk |
@@ -59,7 +63,7 @@ The list is defined in `clients/CONTEXT.md` and copied here unchanged:
 | `new` | The row exists. No touch is logged. | the desk, at add |
 | `contacted` | At least one touch is logged. No reply yet. | the sourcer |
 | `replied` | The prospect answered. | the sourcer |
-| `meeting` | A meeting with the sourcer is booked or held. | the sourcer |
+| `meeting` | A meeting is booked or held, with the sourcer or with Jamie. `meeting_at` and `meeting_with` are set. | the sourcer, with `meeting_at` and `meeting_with` |
 | `ready for Jamie` | Every `ready` field is filled. The handoff PR is open. | the sourcer, from `replied` or `meeting` only |
 | `handed off` | Jamie merged the handoff PR. The row is read-only. `record` is set. | the desk, at "Check the PR" on the row's page. The sourcer, Jamie or another salesman clicks it. The desk does not watch the PR (why: one read at a click, and no webhook to keep · 2026-10-26). |
 | `lost` | The prospect said no, or went silent past the cadence. `lost_reason` is set. | the sourcer, from any status except `handed off` |
@@ -94,7 +98,7 @@ here keeps the template's value.
 | `language` | `language` |
 | `stage` | `prospect` |
 | `opened` | the date the PR is opened |
-| `next_action` | `next_action` |
+| `next_action` | `meeting_at`'s date when `meeting_with` is `jamie` and the date is ahead, else `next_action` |
 | `salesman` | `sourced_by`, or empty when it is `jamie` |
 | `commission.sourced_by` | `sourced_by` |
 | `commission.owed` | empty. Jamie sets it from the first agreement. |
@@ -105,6 +109,13 @@ here keeps the template's value.
 In paragraph 2, one touch reads `1 touch`. `<date>` is the date of the latest touch. `<email or
 phone>` is the email, or the phone when the row has no email. An empty part of `Contact:` is left
 out with its comma (why: `role` is optional, and the record must not read `, ,` · 2026-10-26).
+
+When `meeting_at` is set, paragraph 2 ends with `Meeting with Jamie on <date> at <time>, <where>.`
+when `meeting_with` is `jamie`, or `Meeting with <sourced_by> on <date> at <time>, <where>.` when
+it is `sourcer`. `<date>` and `<time>` are in Jamie's time zone. An empty `<where>` is left out
+with its comma. When the meeting with Jamie is ahead, `next_action` is its date, so the glance
+shows it from the merge on (why: a meeting a salesman booked for Jamie is the client's first next
+action · 2026-10-28).
 
 ## The salesman's deal
 

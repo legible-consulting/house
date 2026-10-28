@@ -243,12 +243,15 @@ Then offer twenty minutes with me. Or meet them yourself first, if that suits th
 - status: meeting
 - next: After the meeting, fill in what I need and set ready for Jamie.
 
-My booking link is [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Send it to them from your own account, with one
-line about who I am. They pick a time that suits them, and the booking comes to me.
+My booking link, Discovery Call, is under this lesson. Send it to them from your own account,
+with one line about who I am. They pick a time that suits them, and the booking comes to me. If
+no link shows under this lesson, ask me for it.
 
-When they have booked, set the row to `meeting`. Write the date, the time and the place in the
-row's notes. A meeting with you counts too: if you meet them yourself first, set `meeting` as
-well.
+When they have booked, set the row to `meeting`. The move asks for the date and the time, in
+Lisbon time, who takes the meeting, you or me, and where: a place, a phone number or a link.
+The meetings booked with me show on my own page of the desk. A meeting with you counts too: if
+you meet them yourself first, set `meeting` as well, with you as the one who takes it. If the
+time moves, change it on the row.
 
 On the call I listen: how their business runs, what they want done, what done looks like. I
 tell them straight what is worth building and what is not. The price comes after the call, in

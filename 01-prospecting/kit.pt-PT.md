@@ -251,12 +251,15 @@ jeito.
 - status: meeting
 - next: Depois da reunião, preenche o que preciso e marca ready for Jamie.
 
-O meu link de marcação é [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Envia-o da tua própria conta, com uma frase
-sobre quem sou. Escolhem a hora que lhes dá jeito, e a marcação chega-me a mim.
+O meu link de marcação, Discovery Call, está por baixo desta lição. Envia-o da tua própria
+conta, com uma frase sobre quem sou. Escolhem a hora que lhes dá jeito, e a marcação chega-me a
+mim. Se não aparecer nenhum link por baixo desta lição, pede-mo.
 
-Quando marcarem, põe a linha em `meeting`. Escreve a data, a hora e o local nas notas da
-linha. Uma reunião contigo também conta: se te encontrares tu primeiro com eles, marca
-`meeting` na mesma.
+Quando marcarem, põe a linha em `meeting`. A mudança pede a data e a hora, na hora de Lisboa,
+quem faz a reunião, tu ou eu, e onde: um local, um número de telefone ou um link. As reuniões
+marcadas comigo aparecem na minha própria página do desk. Uma reunião contigo também conta: se
+te encontrares tu primeiro com eles, marca `meeting` na mesma, contigo como quem a faz. Se a
+hora mudar, muda-a na linha.
 
 Na conversa eu ouço: como o negócio funciona, o que querem que seja feito, como é o trabalho
 acabado. Digo-lhes com franqueza o que vale a pena construir e o que não vale. O preço vem

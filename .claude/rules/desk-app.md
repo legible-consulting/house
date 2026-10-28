@@ -10,7 +10,8 @@ report, the close files, the Sell words, the research verdicts and concepts, eve
 The home's action cards (`app/_action.tsx`) and their copied prompt (`lib/actions.ts`) read
 the glance's rows and each record's body and file list; under them the hand rows
 (`app/_hand.tsx`) and their prompt (`lib/hand.ts`) read the Jamie's hand list, one step per
-bullet. `/clients` (`app/(desk)/clients/page.tsx`) is the clients table.
+bullet. Between the two, the meetings booked for Jamie (`app/_meetings.tsx`), read per request by
+`lib/db.ts meetingsForJamie`. `/clients` (`app/(desk)/clients/page.tsx`) is the clients table.
 `lib/forms.ts` parses a form (`*/forms/*.md`, the grammar in `01-prospecting/CONTEXT.md`) into a
 snapshot and checks its language files against each other; `read-house.mjs` imports it, and a
 form that does not parse fails the build. `lib/kit.ts` parses the seller kit
@@ -24,7 +25,12 @@ in: `users.language`, which `/preferences` (`app/(desk)/preferences/`) writes, e
 language. `/sell` (`app/(desk)/sell/page.tsx`) is the course's index and `/sell/<key>`
 (`app/(desk)/sell/[key]/page.tsx`) one lesson, both from the kit that `lib/kit.ts` parses into
 `house.json`, with the shared parts in `app/(desk)/sell/_course.tsx`; a lesson's pitch draft
-shows in the document block of the row's Next touch (`app/_touch.tsx Draft`). `/pool`
+shows in the document block of the row's Next touch (`app/_touch.tsx Draft`), and the lesson for
+`meeting` shows the booking link that `read-house.mjs` reads from the identity table of
+`core/identity.md` (`lib/house.ts bookingLink`), with Copy. A row's meeting (`meeting_at`,
+`meeting_with`, `meeting_where`) is read and written in Jamie's time zone by `lib/pool.ts`
+(`meetingFrom`, `meetingTime`) and `lib/db.ts setMeeting`; the handoff (`lib/record.ts`,
+`lib/github.ts`) carries it. `/pool`
 (`app/(desk)/pool/page.tsx`) searches in SQL (`lib/db.ts allProspects`); a row's status draws
 as `components/desk/pool-track.tsx`, and the row, the add card (`pool/_add.tsx`) and Next touch
 link their lesson from the kit by its `status:` or `touch:`. The no-contact list (`suppressions`) is written by the

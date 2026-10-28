@@ -1,7 +1,7 @@
 import { parse } from "yaml";
 import { env, maybeEnv } from "./env";
 import { limitReason } from "./limits";
-import type { Prospect } from "./pool";
+import { meetingOf, meetingWho, type Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 
 // The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
@@ -146,6 +146,7 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
     if (del.status !== 200) fail(`delete ${m.from}`, del);
   }
 
+  const m = meetingOf(p);
   const rows: [string, string][] = [
     ["Company", p.company],
     ["Contact", [p.contact_name, p.role].filter(Boolean).join(", ")],
@@ -164,6 +165,7 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
     ["Sourced by", p.sourced_by],
     ["Touches", String(touches)],
     ["Next action", p.next_action ?? ""],
+    ["Meeting", m ? `with ${meetingWho(m, p)}, ${m.date} ${m.time} Lisbon${m.where ? `, ${m.where}` : ""}` : ""],
   ];
   const body = [
     `Pool handoff from the desk. Merge opens \`clients/${slug}/\` at \`prospect\`; the row then moves to \`handed off\` when its sourcer or Jamie checks the PR from the desk.`,

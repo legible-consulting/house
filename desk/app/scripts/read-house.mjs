@@ -8,7 +8,8 @@
 //                                   the client-facing documents, for the client's page. The
 //                                   quote is the proposal's last section, not a document of its own
 //   clients/_template/record.md     the handoff PR
-//   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it
+//   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it;
+//                                   the booking link: the lesson for `meeting` shows it with Copy
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
 //   desk/close/*.md                 the monthly close files (rhythms.yml)
 //   desk/estate/<latest drift>.md   the drift report: each repo's line goes to its client
@@ -269,7 +270,13 @@ if (formErrors.length) throw new Error(`A form does not parse:\n${formErrors.joi
 // in silence · 2026-10-26).
 const businessEmail = read(house, "core", "identity.md").match(/^\|\s*Business email\s*\|\s*([^|\s]+)\s*\|/m)?.[1];
 if (!businessEmail) throw new Error("core/identity.md: the identity table has no Business email row.");
-const identity = { email: businessEmail };
+// The booking link, from the same table: the first URL of its row, or null when the row is
+// missing or holds none ("none yet"). The lesson with `status: meeting` shows it with Copy, and
+// the salesman sends it from their own account (why: the desk sends nothing and reads no
+// calendar · 2026-10-28).
+const bookingRow = read(house, "core", "identity.md").match(/^\|\s*Booking link\s*\|([^|]*)\|/m)?.[1] ?? "";
+const booking = bookingRow.match(/https?:\/\/[^\s,)]+/)?.[0]?.replace(/[.;]+$/, "") ?? null;
+const identity = { email: businessEmail, booking };
 
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(

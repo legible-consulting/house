@@ -261,13 +261,15 @@ mieux.
 - status: meeting
 - next: Après le rendez-vous, remplis ce dont j'ai besoin et mets ready for Jamie.
 
-Mon lien de réservation est [Discovery Call](https://calendar.app.google/wSximgdkMuBcoHee7). Envoie-le depuis ton propre compte, avec
-une phrase sur qui je suis. Ils choisissent un moment qui leur convient,
-et la réservation m'arrive.
+Mon lien de réservation, Discovery Call, est sous cette leçon. Envoie-le depuis ton propre
+compte, avec une phrase sur qui je suis. Ils choisissent un moment qui leur convient, et la
+réservation m'arrive. Si aucun lien ne s'affiche sous cette leçon, demande-le-moi.
 
-Quand ils ont réservé, mets la ligne à `meeting`. Écris la date, l'heure et le lieu dans les
-notes de la ligne. Un rendez-vous avec toi compte aussi : si tu les rencontres d'abord
-toi-même, mets aussi `meeting`.
+Quand ils ont réservé, mets la ligne à `meeting`. Le changement demande la date et l'heure, à
+l'heure de Lisbonne, qui mène le rendez-vous, toi ou moi, et le lieu : une adresse, un numéro
+de téléphone ou un lien. Les rendez-vous réservés avec moi s'affichent sur ma propre page du
+desk. Un rendez-vous avec toi compte aussi : si tu les rencontres d'abord toi-même, mets aussi
+`meeting`, avec toi comme celui qui le mène. Si l'heure change, change-la sur la ligne.
 
 Pendant l'appel, j'écoute : comment leur activité tourne, ce qu'ils veulent faire faire, à
 quoi ressemble le travail fini. Je leur dis franchement ce qui vaut la peine d'être construit

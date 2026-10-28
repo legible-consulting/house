@@ -4,7 +4,7 @@ import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
 import { Stat, StatGrid } from "@/components/desk/stat";
 import { actions as nextActions, type Urgency } from "@/lib/actions";
-import { countsByStatus } from "@/lib/db";
+import { countsByStatus, meetingsForJamie } from "@/lib/db";
 import { startOf } from "@/lib/github";
 import { flash, type Search } from "@/lib/guard";
 import { steps } from "@/lib/hand";
@@ -13,6 +13,7 @@ import { today } from "@/lib/rhythms";
 import { currentUser } from "@/lib/user";
 import { ActionGroup } from "@/app/_action";
 import { HandGroup } from "@/app/_hand";
+import { MeetingsGroup } from "@/app/_meetings";
 
 // Jamie's page (desk/app/DESIGN.md, rule 1): what do I do today? The tiles count the next
 // client actions by urgency and the pool's leads that wait on Jamie. Then one card per next
@@ -23,7 +24,8 @@ import { HandGroup } from "@/app/_hand";
 // morning. Under the cards, Jamie's hand: one row per step of the house's own build that no
 // session takes alone (.icm/intake/README.md, read at build; app/_hand.tsx), its title with
 // Copy prompt, and the step under it when the row opens. The prompt is the words that start a
-// session to prepare the step (lib/hand.ts). The clients table is /clients. The page re-reads
+// session to prepare the step (lib/hand.ts). Between the two, the meetings booked for Jamie
+// from the pool, when one exists (app/_meetings.tsx). The clients table is /clients. The page re-reads
 // itself while a house run or a deploy is in flight (components/desk/page-header.tsx). A salesman
 // goes to the pool. A client goes to their client's page.
 export const dynamic = "force-dynamic";
@@ -63,7 +65,7 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
       </>
     );
   }
-  const counts = await countsByStatus();
+  const [counts, meetings] = await Promise.all([countsByStatus(), meetingsForJamie()]);
   const { error, note } = await flash(searchParams);
   const start = startOf(await searchParams);
   const now = today();
@@ -111,6 +113,8 @@ export default async function Home({ searchParams }: { searchParams: Search }) {
           </div>
         )}
       </div>
+
+      <MeetingsGroup meetings={meetings} />
 
       <HandGroup steps={steps} />
     </>
