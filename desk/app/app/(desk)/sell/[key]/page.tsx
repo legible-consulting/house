@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/desk/page-header";
 import { Prose } from "@/components/desk/prose";
 import { Track } from "@/components/desk/track";
 import type { Search } from "@/lib/guard";
-import { sell } from "@/lib/house";
+import { bookingLink, sell } from "@/lib/house";
 import { render } from "@/lib/markdown";
 import { CADENCE } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
@@ -18,7 +18,9 @@ import { courseHref, kitIn, marked, PART_TITLES, placeOf, ReadIn, readingLanguag
 // DESIGN.md rule 5) filled to this lesson; the words as prose in the reading width; for a lesson
 // with `touch:`, the pitch draft of each touch in the reader's language, in the document block
 // of the row's Next touch (app/_touch.tsx), with Copy; at the foot, the lessons before and after
-// it in the kit's order, across the parts. A key no kit has is a 404. A page with a URL, as a
+// it in the kit's order, across the parts. The lesson for `meeting` shows the booking link of
+// core/identity.md with Copy under its words, when it is set: the salesman sends it from their
+// own account. A key no kit has is a 404. A page with a URL, as a
 // ticket is (rule 12): a salesman shares a lesson by its link.
 export const dynamic = "force-dynamic";
 
@@ -69,6 +71,23 @@ export default async function Lesson({ params, searchParams }: Props) {
         </div>
 
         <Prose html={marked(render(lesson.body))} />
+
+        {lesson.status === "meeting" && bookingLink && (
+          <section aria-labelledby="booking" className="grid gap-4">
+            <h2 id="booking" className="text-heading">
+              Booking link
+            </h2>
+            <a
+              href={bookingLink}
+              className="inline-flex min-h-row items-center font-mono text-meta break-all underline underline-offset-3"
+            >
+              {bookingLink.replace(/^https?:\/\//, "")}
+            </a>
+            <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+              <CopyButton text={bookingLink} label="Copy the link" size="default" variant="default" />
+            </div>
+          </section>
+        )}
 
         {drafts.map(({ touch, step, draft }) => (
           <section key={touch} aria-labelledby={`touch-${touch}`} className="grid gap-4">

@@ -3,8 +3,8 @@ import { env } from "./env";
 import type { FormSnapshot } from "./forms";
 import { clientSlugs } from "./house";
 import type { OpenLink, SentLink } from "./links";
-import type { Channel, ClientUser, ContactPoint, DeskUser, Prospect, ProspectFields, Status, Touch } from "./pool";
-import { NO_CONTACT, slugOf, STATUSES } from "./pool";
+import type { Channel, ClientUser, ContactPoint, DeskUser, Meeting, Prospect, ProspectFields, Status, Touch } from "./pool";
+import { NO_CONTACT, slugOf, STATUSES, TIME_ZONE } from "./pool";
 
 // A client per call: the driver speaks HTTP, there is nothing to pool, and a missing
 // DATABASE_URL then fails the page that needs it instead of every page. Dates come back as
@@ -78,11 +78,18 @@ export async function usersOf(slug: string): Promise<ClientUser[]> {
   )) as ClientUser[];
 }
 
+// The meeting's three columns are read through to_jsonb as the users' are, so the pool works
+// before and after db/schema.sql adds them: a missing column reads as no meeting. `meeting_at`
+// comes back as an ISO instant in UTC; lib/pool.ts meetingTime shows it as Jamie's time.
+const meetingAt = `(to_jsonb(p.*) ->> 'meeting_at')::timestamptz`;
 const prospectSelect = `
   select p.id, p.slug, p.company, p.contact_name, p.role, p.email, p.phone, p.whatsapp, p.instagram,
     p.website, p.country, p.language, p.line, p.size, p.service, p.deal_size, p.source, p.salesman,
     p.ask, p.status, p.previous_status, p.next_action::text as next_action, p.notes,
     p.lost_reason, p.pr_url, p.record, p.created_at::date::text as added,
+    to_char(${meetingAt} at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as meeting_at,
+    coalesce(to_jsonb(p.*) ->> 'meeting_with', '') as meeting_with,
+    coalesce(to_jsonb(p.*) ->> 'meeting_where', '') as meeting_where,
     p.updated_at::date::text as updated, u.email as salesman_email, u.name as salesman_name,
     u.handle as salesman_handle,
     case when u.role = 'jamie' then 'jamie'
@@ -250,6 +257,44 @@ export async function setStatus(id: string, status: Status, lostReason: string):
     update prospects set status = ${status}, lost_reason = ${lostReason}, updated_at = now()
     where id = ${id}
   `;
+}
+
+// The row's meeting, written as Jamie's time (lib/pool.ts TIME_ZONE); null clears it.
+export async function setMeeting(id: string, m: Meeting | null): Promise<void> {
+  if (!m) {
+    await sql()`
+      update prospects set meeting_at = null, meeting_with = '', meeting_where = '', updated_at = now()
+      where id = ${id}
+    `;
+    return;
+  }
+  await sql()`
+    update prospects set meeting_at = (${m.date}::date + ${m.time}::time) at time zone ${TIME_ZONE},
+      meeting_with = ${m.with}, meeting_where = ${m.where}, updated_at = now()
+    where id = ${id}
+  `;
+}
+
+// A meeting a salesman, or Jamie, booked for Jamie (the section on /).
+export interface BookedMeeting {
+  id: string;
+  company: string;
+  sourced_by: string;
+  meeting_at: string; // ISO in UTC
+  meeting_where: string;
+}
+
+// The open rows' meetings with Jamie from today on, in his time zone, soonest first. A lost or
+// handed-off row is not listed: after the handoff the record's next_action carries the meeting.
+export async function meetingsForJamie(): Promise<BookedMeeting[]> {
+  return (await sql().query(
+    `with m as (${prospectSelect} where p.status not in ('lost', 'handed off'))
+     select id, company, sourced_by, meeting_at, meeting_where from m
+     where meeting_with = 'jamie' and meeting_at is not null
+       and (meeting_at::timestamptz at time zone $1)::date >= (now() at time zone $1)::date
+     order by meeting_at`,
+    [TIME_ZONE],
+  )) as BookedMeeting[];
 }
 
 export async function setNextAction(id: string, day: string | null): Promise<void> {

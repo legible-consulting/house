@@ -28,11 +28,15 @@ import {
   canGoReady,
   canWrite,
   instagramUrl,
+  linkOf,
+  meetingOf,
+  meetingWho,
   missingForReady,
   nextMoves,
   slugOf,
   today,
   whatsappUrl,
+  type Prospect,
   type Touch,
 } from "@/lib/pool";
 import { currentUser } from "@/lib/user";
@@ -48,7 +52,9 @@ import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJa
 // everyone once handed off: one sentence under the header says so. On an open row the user
 // writes, one line under the header names the next step and links its lesson, from the kit's
 // lesson for the row's status in the user's language (DESIGN.md, rule 9). Jamie also sends a
-// form from here (app/_send.tsx); the answer is collected only, with no user.
+// form from here (app/_send.tsx); the answer is collected only, with no user. The meeting
+// (prospect.md, Fields) is asked for by the move to `meeting`, edited in the Meeting field group
+// from `replied` on, and shown in the facts line from `meeting` on, as Jamie's time.
 export const dynamic = "force-dynamic";
 
 type Props = {
@@ -66,6 +72,40 @@ const Options = ({ list }: { list: readonly string[] }) => (
     ))}
   </>
 );
+
+// Who takes the meeting: the sourcer by handle, or Jamie. A row Jamie sourced has one choice.
+function WithOptions({ p }: { p: Prospect }) {
+  return (
+    <>
+      <NativeSelectOption value="">—</NativeSelectOption>
+      {p.sourced_by !== "jamie" && <NativeSelectOption value="sourcer">{p.sourced_by}, the sourcer</NativeSelectOption>}
+      <NativeSelectOption value="jamie">Jamie</NativeSelectOption>
+    </>
+  );
+}
+
+// The meeting's four fields, in the Move card and in the Meeting field group. The time is Jamie's.
+function MeetingFields({ p, when = "" }: { p: Prospect; when?: string }) {
+  const m = meetingOf(p);
+  return (
+    <>
+      <Field label={`Date${when}`}>
+        <Input type="date" name="meeting_date" defaultValue={m?.date ?? ""} />
+      </Field>
+      <Field label={`Time${when}`} hint="Lisbon time.">
+        <Input type="time" name="meeting_time" defaultValue={m?.time ?? ""} />
+      </Field>
+      <Field label={`With${when}`}>
+        <NativeSelect name="meeting_with" defaultValue={m?.with ?? ""}>
+          <WithOptions p={p} />
+        </NativeSelect>
+      </Field>
+      <Field label={`Where${when}`} hint="A place, a phone number or a link.">
+        <Input name="meeting_where" defaultValue={m?.where ?? ""} enterKeyHint="done" />
+      </Field>
+    </>
+  );
+}
 
 // A section of the page with its heading, so a reader lists it.
 function Section({ id, title, children }: { id: string; title: string; children: ReactNode }) {
@@ -148,6 +188,11 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const handoff = p.status === "ready for Jamie" && Boolean(p.pr_url);
   const wa = whatsappUrl(p.whatsapp);
   const ig = instagramUrl(p.instagram);
+  const meeting = meetingOf(p);
+  const meetingLink = meeting ? linkOf(meeting.where) : null;
+  const showMeeting = Boolean(meeting) && ["meeting", "ready for Jamie", "handed off"].includes(p.status);
+  const meetingGroup = ["replied", "meeting", "ready for Jamie", "handed off"].includes(p.status) || Boolean(meeting);
+  const toMeeting = moves.includes("meeting");
   // A status with no lesson shows no line.
   const lesson = write && open ? kit.lessons.find((l) => l.status === p.status) : undefined;
 
@@ -179,13 +224,34 @@ export default async function ProspectPage({ params, searchParams }: Props) {
         </p>
       )}
       <Flash error={error} note={note} />
-      {(p.next_action || p.pr_url || p.record || p.lost_reason) && (
+      {(p.next_action || showMeeting || p.pr_url || p.record || p.lost_reason) && (
         <dl className="mb-6 flex flex-wrap items-baseline gap-x-6 gap-y-1 text-ui">
           {p.next_action && (
             <div className="flex items-baseline gap-2">
               <dt className="text-muted-foreground">Next action</dt>
               <dd>
                 <Due date={p.next_action} today={today()} flag={open} />
+              </dd>
+            </div>
+          )}
+          {showMeeting && meeting && (
+            <div className="flex flex-wrap items-baseline gap-x-2">
+              <dt className="text-muted-foreground">Meeting</dt>
+              <dd className="flex flex-wrap items-baseline gap-x-2">
+                <span className="font-mono text-meta tabular-nums">
+                  {meeting.date} {meeting.time} Lisbon
+                </span>
+                <span>with {meetingWho(meeting, p)}</span>
+                {meetingLink ? (
+                  <a
+                    href={meetingLink}
+                    className="inline-flex min-h-row items-center font-mono text-meta break-all underline underline-offset-3"
+                  >
+                    {meetingLink.replace(/^https?:\/\//, "")}
+                  </a>
+                ) : (
+                  meeting.where && <span>{meeting.where}</span>
+                )}
               </dd>
             </div>
           )}
@@ -339,6 +405,13 @@ export default async function ProspectPage({ params, searchParams }: Props) {
               </Field>
             </FieldGroup>
 
+            {meetingGroup && (
+              <FieldGroup legend="Meeting" disabled={!write}>
+                <input type="hidden" name="meeting_group" value="1" />
+                <MeetingFields p={p} />
+              </FieldGroup>
+            )}
+
             {write && (
               <FieldActions>
                 <Button type="submit">Save</Button>
@@ -406,11 +479,15 @@ export default async function ProspectPage({ params, searchParams }: Props) {
             {moves.length > 0 && (
               <Action
                 title="Move"
-                what={
+                what={[
                   p.status === "new" && p.touches === 0 && user.role !== "jamie"
                     ? "contacted needs one logged touch."
-                    : "lost needs its reason."
-                }
+                    : "",
+                  toMeeting ? "meeting needs its date, its time and with whom." : "",
+                  "lost needs its reason.",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
               >
                 <form action={moveStatus}>
                   <input type="hidden" name="id" value={p.id} />
@@ -427,6 +504,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                     <Field label="Reason, when lost">
                       <Input name="lost_reason" />
                     </Field>
+                    {toMeeting && <MeetingFields p={p} when=", when meeting" />}
                     <FieldActions>
                       <Button type="submit" variant="secondary">
                         Move
