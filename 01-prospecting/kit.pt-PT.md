@@ -224,7 +224,7 @@ Regista todos os toques. O desk muda a data seguinte de cada vez.
 prazo para `lost`. Marca-a, com o motivo. Uma nova tentativa mais tarde é uma linha nova que
 nomeia esta na origem.
 
-**Quando dizem que não.** Carrega em "They asked not to be contacted" na linha. É para
+**Quando dizem que não.** Carrega em "Pediram para não ser contactados" na linha. É para
 sempre: nenhum vendedor volta a contactar essa empresa, por nenhum canal, e o desk recusa o
 email e o número dela.
 
@@ -271,7 +271,7 @@ não precisas de lá estar.
 - key: hand-it-to-jamie
 - part: system
 - status: ready for Jamie
-- next: Espera que eu pegue nele, e depois carrega em "Check the PR" na linha.
+- next: Espera que eu pegue nele, e depois carrega em "Verificar o PR" na linha.
 
 Depois de responderem, ou de se encontrarem, passa-me o contacto. A linha precisa de:
 
@@ -287,7 +287,7 @@ um, pede-mo.
 Marca `ready for Jamie`. O desk abre então um pull request: o meu pedido para abrir a pasta
 do cliente a partir da tua linha. Eu leio-o e aceito-o. Essa é a passagem.
 
-Depois carrega em "Check the PR" na linha. Se peguei no contacto, a linha passa a
+Depois carrega em "Verificar o PR" na linha. Se peguei no contacto, a linha passa a
 `handed off`. Se não, volta para onde estava, e eu escrevo porquê nas notas.
 
 ## Depois da passagem

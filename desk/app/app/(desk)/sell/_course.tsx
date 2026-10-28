@@ -1,28 +1,27 @@
 import { FilterGroup } from "@/app/_filters";
 import { sell } from "@/lib/house";
-import type { Kit, KitLesson, KitPart } from "@/lib/kit";
+import type { Kit, KitLesson } from "@/lib/kit";
 import { isLanguage, LANGUAGE_NAMES, languageOf, type Language } from "@/lib/language";
 import { LANGUAGES, type DeskUser } from "@/lib/pool";
+import { wordsLanguage } from "@/lib/user";
+import { words, type Words } from "@/lib/words";
 
 // The course that /sell and /sell/<key> share (salesman-desk, decision 4): the kit's lessons in
 // the kit's order, under its three parts, in one language at a time. The desk stores no
-// progress: the URL is the lesson.
-
-export const PART_TITLES: Record<KitPart, string> = {
-  jamie: "Jamie and what he sells",
-  system: "The system",
-  reference: "The reference",
-};
+// progress: the URL is the lesson. The parts' names and the pages' own words are lib/words.ts
+// sell.
 
 // The language of this read: ?lang= when it names one of the three, for this read only, else the
-// user's (lib/language.ts). `pinned` is the URL's language, which the course's links keep.
-export function readingLanguage(
+// user's (lib/language.ts). `pinned` is the URL's language, which the course's links keep. `w` is
+// the page's own words: the pinned language's, so a read in another language is one language
+// from the header to the foot; else the user's words (lib/user.ts wordsLanguage).
+export async function readingLanguage(
   user: DeskUser,
   lang: string | string[] | undefined,
   acceptLanguage: string | null,
-): { lang: Language; pinned: Language | null } {
-  if (isLanguage(lang)) return { lang, pinned: lang };
-  return { lang: languageOf(user, acceptLanguage), pinned: null };
+): Promise<{ lang: Language; pinned: Language | null; w: Words }> {
+  if (isLanguage(lang)) return { lang, pinned: lang, w: words(lang) };
+  return { lang: languageOf(user, acceptLanguage), pinned: null, w: words(await wordsLanguage(user)) };
 }
 
 // The kit in one language. read-house.mjs fails the build when one of the three is missing, so
@@ -47,10 +46,10 @@ export const marked = (html: string): string =>
 
 // "Read in": the three languages in their own names. A press goes to the same page in that
 // language, and the preference does not change.
-export function ReadIn({ path, lang }: { path: string; lang: Language }) {
+export function ReadIn({ path, lang, label }: { path: string; lang: Language; label: string }) {
   return (
     <FilterGroup
-      label="Read in"
+      label={label}
       value={lang}
       items={LANGUAGES.map((l) => ({ value: l, label: LANGUAGE_NAMES[l], href: `${path}?lang=${l}` }))}
     />

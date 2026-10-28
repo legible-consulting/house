@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/desk/logo";
 
-// A path the desk does not have. The root layout is static and reads no session, so this
+// A path the desk does not have. The root layout reads no more than the language, so this
 // view draws no shell: the mark, one sentence, the way to the desk. A page in the shell that
 // calls notFound() renders app/(desk)/not-found.tsx instead, inside the chrome.
 export default function NotFound() {

@@ -1,5 +1,8 @@
+import type { Words } from "./words";
+
 // The pool's rules, from 01-prospecting/prospect.md (the fields, the statuses, who
-// writes a row) and cadence.md (next_action). Pure functions; the SQL lives in db.ts.
+// writes a row) and cadence.md (next_action). Pure functions; the SQL lives in db.ts. A refusal
+// is in the words of the user who acts (lib/words.ts errors).
 
 export const STATUSES = [
   "new",
@@ -218,10 +221,6 @@ export function instagramUrl(handle: string): string | null {
   return HANDLE_RE.test(h) ? `https://www.instagram.com/${h}/` : null;
 }
 
-// The refusal, in words, for the contact points the no-contact list holds.
-export const noContactError = (hits: ContactPoint[]): string =>
-  `${hits.map((c) => c.value).join(" and ")}: they asked not to be contacted. The pool takes no row for it, on any channel (cadence.md, Channels).`;
-
 // The meeting (prospect.md, Fields): when, with whom and where. The time is Jamie's, in his time
 // zone: the desk writes it there and shows it there, so a salesman in Brussels and Jamie read
 // one time (why: the meeting is Jamie's to take or to know of · 2026-10-28).
@@ -265,21 +264,19 @@ export const meetingWho = (m: Meeting, p: Pick<Prospect, "sourced_by">): string 
 // A `where` that is a link opens as one.
 export const linkOf = (where: string): string | null => (/^https?:\/\/\S+$/.test(where.trim()) ? where.trim() : null);
 
-export const MEETING_NEEDED = "meeting needs its date, its time and with whom.";
-
 // The meeting fields of a form (the Move card and the Meeting field group): null when all four
 // are empty. A part filled without the date, the time or with whom is refused, in words.
-export function meetingFrom(form: FormData): Meeting | null {
+export function meetingFrom(form: FormData, e: Words["errors"]): Meeting | null {
   const s = (k: string) => String(form.get(k) ?? "").trim();
   const date = s("meeting_date");
   const time = s("meeting_time");
   const withWhom = s("meeting_with");
   const where = s("meeting_where");
   if (!date && !time && !withWhom && !where) return null;
-  if (!date || !time || !withWhom) throw new Error(`The ${MEETING_NEEDED}`);
-  if (!DATE_RE.test(date)) throw new Error("The meeting's date is YYYY-MM-DD.");
-  if (!TIME_RE.test(time)) throw new Error("The meeting's time is HH:MM, in Lisbon time.");
-  if (!MEETING_WITH.includes(withWhom as MeetingWith)) throw new Error("The meeting is with the sourcer or with Jamie.");
+  if (!date || !time || !withWhom) throw new Error(e.meetingParts);
+  if (!DATE_RE.test(date)) throw new Error(e.meetingDate);
+  if (!TIME_RE.test(time)) throw new Error(e.meetingTime);
+  if (!MEETING_WITH.includes(withWhom as MeetingWith)) throw new Error(e.meetingWith);
   return { date, time, with: withWhom as MeetingWith, where };
 }
 
@@ -314,16 +311,19 @@ export function nextMoves(p: Prospect, u: DeskUser): Status[] {
   }
 }
 
-// What `ready for Jamie` needs, by name, so the page can say what is missing.
-export function missingForReady(p: Prospect): string[] {
-  const missing: string[] = [];
+// What `ready for Jamie` needs, by key, so the page can say what is missing in the user's words
+// (lib/words.ts row.missing).
+export type Missing = "contact" | "reach" | "country" | "language" | "ask" | "touch" | "meeting";
+
+export function missingForReady(p: Prospect): Missing[] {
+  const missing: Missing[] = [];
   if (!p.contact_name) missing.push("contact");
-  if (!p.email && !p.phone) missing.push("email or phone");
+  if (!p.email && !p.phone) missing.push("reach");
   if (!p.country) missing.push("country");
   if (!p.language) missing.push("language");
   if (!p.ask) missing.push("ask");
-  if (p.touches < 1) missing.push("one logged touch");
-  if (p.status === "meeting" && !meetingOf(p)) missing.push("the meeting's date, time and with whom");
+  if (p.touches < 1) missing.push("touch");
+  if (p.status === "meeting" && !meetingOf(p)) missing.push("meeting");
   return missing;
 }
 
@@ -343,11 +343,11 @@ export function nextActionAfterTouch(status: Status, touches: Touch[]): string |
 
 // Form input to the stored fields: trimmed strings. Company and source are required at add
 // (prospecting); the closed lists are checked against their values.
-export function fieldsFrom(form: FormData): ProspectFields {
+export function fieldsFrom(form: FormData, e: Words["errors"]): ProspectFields {
   const s = (k: string) => String(form.get(k) ?? "").trim();
   const oneOf = (k: string, list: readonly string[]) => {
     const v = s(k);
-    if (v && !list.includes(v)) throw new Error(`${k} is one of ${list.join(", ")}.`);
+    if (v && !list.includes(v)) throw new Error(e.oneOf(k, list));
     return v;
   };
   const f: ProspectFields = {
@@ -369,11 +369,9 @@ export function fieldsFrom(form: FormData): ProspectFields {
     ask: s("ask"),
     notes: s("notes"),
   };
-  if (!f.company) throw new Error("Company is required.");
-  if (!f.source) throw new Error("Source is required: who referred, which event, which list.");
-  if (f.country && !/^[A-Z]{2}$/.test(f.country)) throw new Error("Country is a two-letter code: PT, BE, GB.");
-  if (f.instagram && !HANDLE_RE.test(f.instagram)) {
-    throw new Error("Instagram is a handle: letters, digits, dots and underscores, at most 30.");
-  }
+  if (!f.company) throw new Error(e.companyRequired);
+  if (!f.source) throw new Error(e.sourceRequired);
+  if (f.country && !/^[A-Z]{2}$/.test(f.country)) throw new Error(e.country);
+  if (f.instagram && !HANDLE_RE.test(f.instagram)) throw new Error(e.instagram);
   return f;
 }

@@ -7,13 +7,15 @@ import { cn } from "@/lib/utils";
 // (pool-track.tsx), the ticket's steps (StepTrack below) and a lesson of the course
 // (/sell/<key>) draw through it. A name
 // longer than the width left is cut with an ellipsis; a reader still hears it whole. `lg` is
-// for the ticket page: segments 24 px wide and 2 px tall.
+// for the ticket page: segments 24 px wide and 2 px tall. A salesman's page passes `unit` and
+// `of` in the salesman's words (lib/words.ts): "Statut 3 sur 6, replied".
 
 export function Track({
   steps,
   at,
   name,
   unit = "Step",
+  of = "of",
   strong = false,
   size = "sm",
   className,
@@ -22,6 +24,7 @@ export function Track({
   at: number; // the current step's index; steps up to it are filled
   name?: string; // the words beside the track; the step's name when absent
   unit?: string; // the reader's word: "Step 2 of 5"
+  of?: string; // the reader's "of", in the page's language
   strong?: boolean; // the name in 600: the step waits on Jamie
   size?: "sm" | "lg";
   className?: string;
@@ -30,7 +33,7 @@ export function Track({
   return (
     <span
       role="img"
-      aria-label={`${unit} ${at + 1} of ${steps.length}, ${words}`}
+      aria-label={`${unit} ${at + 1} ${of} ${steps.length}, ${words}`}
       className={cn("inline-flex items-center gap-2", className)}
     >
       <span aria-hidden="true" className={cn("flex shrink-0 items-center", size === "lg" ? "gap-1" : "gap-0.5")}>

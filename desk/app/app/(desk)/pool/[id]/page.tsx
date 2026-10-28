@@ -6,6 +6,7 @@ import { DataTable, type Column } from "@/components/desk/data-table";
 import { Field, FieldActions, FieldGroup } from "@/components/desk/field-group";
 import { Flash } from "@/components/desk/flash";
 import { PageHeader } from "@/components/desk/page-header";
+import { Phrase } from "@/components/desk/phrase";
 import { PoolTrack } from "@/components/desk/pool-track";
 import { Due } from "@/components/desk/status-tag";
 import { Button } from "@/components/ui/button";
@@ -39,7 +40,8 @@ import {
   type Prospect,
   type Touch,
 } from "@/lib/pool";
-import { currentUser } from "@/lib/user";
+import { currentUser, wordsLanguage } from "@/lib/user";
+import { words, type Words } from "@/lib/words";
 import { kitIn } from "@/app/(desk)/sell/_course";
 import { readLinks, SendForm } from "@/app/_send";
 import { NextTouch } from "@/app/_touch";
@@ -54,7 +56,9 @@ import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJa
 // lesson for the row's status in the user's language (DESIGN.md, rule 9). Jamie also sends a
 // form from here (app/_send.tsx); the answer is collected only, with no user. The meeting
 // (prospect.md, Fields) is asked for by the move to `meeting`, edited in the Meeting field group
-// from `replied` on, and shown in the facts line from `meeting` on, as Jamie's time.
+// from `replied` on, and shown in the facts line from `meeting` on, as Jamie's time. Every word of
+// the page is the user's (lib/words.ts); a status, a channel, a language code, a country, a key
+// and a date stay the model's, a status in a sentence in mono (components/desk/phrase.tsx).
 export const dynamic = "force-dynamic";
 
 type Props = {
@@ -74,33 +78,36 @@ const Options = ({ list }: { list: readonly string[] }) => (
 );
 
 // Who takes the meeting: the sourcer by handle, or Jamie. A row Jamie sourced has one choice.
-function WithOptions({ p }: { p: Prospect }) {
+function WithOptions({ p, w }: { p: Prospect; w: Words }) {
   return (
     <>
       <NativeSelectOption value="">—</NativeSelectOption>
-      {p.sourced_by !== "jamie" && <NativeSelectOption value="sourcer">{p.sourced_by}, the sourcer</NativeSelectOption>}
+      {p.sourced_by !== "jamie" && (
+        <NativeSelectOption value="sourcer">{w.row.sourcer(p.sourced_by)}</NativeSelectOption>
+      )}
       <NativeSelectOption value="jamie">Jamie</NativeSelectOption>
     </>
   );
 }
 
 // The meeting's four fields, in the Move card and in the Meeting field group. The time is Jamie's.
-function MeetingFields({ p, when = "" }: { p: Prospect; when?: string }) {
+// `when` follows each label in the Move card: ", when `meeting`".
+function MeetingFields({ p, w, when = "" }: { p: Prospect; w: Words; when?: string }) {
   const m = meetingOf(p);
   return (
     <>
-      <Field label={`Date${when}`}>
+      <Field label={<Phrase text={`${w.fields.date}${when}`} />}>
         <Input type="date" name="meeting_date" defaultValue={m?.date ?? ""} />
       </Field>
-      <Field label={`Time${when}`} hint="Lisbon time.">
+      <Field label={<Phrase text={`${w.fields.time}${when}`} />} hint={w.row.lisbonTime}>
         <Input type="time" name="meeting_time" defaultValue={m?.time ?? ""} />
       </Field>
-      <Field label={`With${when}`}>
+      <Field label={<Phrase text={`${w.fields.with}${when}`} />}>
         <NativeSelect name="meeting_with" defaultValue={m?.with ?? ""}>
-          <WithOptions p={p} />
+          <WithOptions p={p} w={w} />
         </NativeSelect>
       </Field>
-      <Field label={`Where${when}`} hint="A place, a phone number or a link.">
+      <Field label={<Phrase text={`${w.fields.where}${when}`} />} hint={w.row.whereHint}>
         <Input name="meeting_where" defaultValue={m?.where ?? ""} enterKeyHint="done" />
       </Field>
     </>
@@ -145,15 +152,15 @@ function Action({ title, what, children }: { title: string; what: ReactNode; chi
 }
 
 // The touches: on the phone each is a card, the date first, the channel under it, the note.
-const touchColumns: Column<Touch>[] = [
+const touchColumns = (w: Words): Column<Touch>[] => [
   {
     key: "date",
-    label: "Date",
+    label: w.fields.date,
     phone: "title",
     cell: (t) => <span className="font-mono tabular-nums">{t.touched_on}</span>,
   },
-  { key: "channel", label: "Channel", phone: "meta", cell: (t) => t.channel },
-  { key: "note", label: "Note", className: "md:whitespace-normal", cell: (t) => t.note },
+  { key: "channel", label: w.fields.channel, phone: "meta", cell: (t) => t.channel },
+  { key: "note", label: w.fields.note, className: "md:whitespace-normal", cell: (t) => t.note },
 ];
 
 export default async function ProspectPage({ params, searchParams }: Props) {
@@ -172,6 +179,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
     headers(),
   ]);
   const kit = kitIn(languageOf(user, h.get("accept-language")));
+  const w = words(await wordsLanguage(user));
 
   const write = canWrite(p, user);
   const moves = nextMoves(p, user);
@@ -201,20 +209,20 @@ export default async function ProspectPage({ params, searchParams }: Props) {
       <PageHeader
         user={user}
         title={p.company}
-        back={{ href: "/pool", label: "Pool" }}
-        meta={`sourced by ${p.sourced_by} · added ${p.added} · updated ${p.updated}`}
-        actions={<PoolTrack status={p.status} track />}
+        back={{ href: "/pool", label: w.pool.title, said: w.back(w.pool.title) }}
+        meta={w.row.meta(p.sourced_by, p.added, p.updated)}
+        actions={<PoolTrack status={p.status} track unit={w.status} of={w.of} />}
       />
       {!write && (
         <p className="mb-4 max-w-reading text-body text-foreground-2">
-          {p.status === "handed off"
-            ? "Handed off: the client folder is the record now, so this row is read-only."
-            : `Read-only: only the sourcer, ${p.sourced_by}, and Jamie write this row.`}
+          {p.status === "handed off" ? w.row.handedOff : w.row.readOnly(p.sourced_by)}
         </p>
       )}
       {lesson?.next && (
         <p className="mb-4 flex max-w-reading flex-wrap items-center gap-x-2 text-body text-foreground-2">
-          <span>Next: {lesson.next}</span>
+          <span>
+            {w.row.next} {lesson.next}
+          </span>
           <Link
             href={`/sell/${lesson.key}`}
             className="inline-flex min-h-row items-center text-foreground underline underline-offset-3"
@@ -228,20 +236,20 @@ export default async function ProspectPage({ params, searchParams }: Props) {
         <dl className="mb-6 flex flex-wrap items-baseline gap-x-6 gap-y-1 text-ui">
           {p.next_action && (
             <div className="flex items-baseline gap-2">
-              <dt className="text-muted-foreground">Next action</dt>
+              <dt className="text-muted-foreground">{w.fields.nextAction}</dt>
               <dd>
-                <Due date={p.next_action} today={today()} flag={open} />
+                <Due date={p.next_action} today={today()} flag={open} words={w.due} />
               </dd>
             </div>
           )}
           {showMeeting && meeting && (
             <div className="flex flex-wrap items-baseline gap-x-2">
-              <dt className="text-muted-foreground">Meeting</dt>
+              <dt className="text-muted-foreground">{w.row.meeting}</dt>
               <dd className="flex flex-wrap items-baseline gap-x-2">
                 <span className="font-mono text-meta tabular-nums">
-                  {meeting.date} {meeting.time} Lisbon
+                  {meeting.date} {meeting.time} {w.row.lisbon}
                 </span>
-                <span>with {meetingWho(meeting, p)}</span>
+                <span>{w.row.with(meetingWho(meeting, p))}</span>
                 {meetingLink ? (
                   <a
                     href={meetingLink}
@@ -257,7 +265,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           )}
           {p.pr_url && (
             <div className="flex items-baseline gap-2">
-              <dt className="text-muted-foreground">Handoff PR</dt>
+              <dt className="text-muted-foreground">{w.row.handoffPr}</dt>
               <dd>
                 <a
                   href={p.pr_url}
@@ -270,13 +278,13 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           )}
           {p.record && (
             <div className="flex items-baseline gap-2">
-              <dt className="text-muted-foreground">Record</dt>
+              <dt className="text-muted-foreground">{w.row.record}</dt>
               <dd className="font-mono text-meta break-all">{p.record}</dd>
             </div>
           )}
           {p.lost_reason && (
             <div className="flex items-baseline gap-2">
-              <dt className="text-muted-foreground">Lost</dt>
+              <dt className="text-muted-foreground">{w.row.lost}</dt>
               <dd>{p.lost_reason}</dd>
             </div>
           )}
@@ -284,22 +292,16 @@ export default async function ProspectPage({ params, searchParams }: Props) {
       )}
 
       <div className="grid gap-10">
-        <Section id="facts" title="Facts">
+        <Section id="facts" title={w.row.facts}>
           <form action={saveProspect} className="grid gap-6">
             <input type="hidden" name="id" value={p.id} />
-            <FieldGroup legend="Company" disabled={!write}>
-              <Field label="Company">
+            <FieldGroup legend={w.row.legends.company} disabled={!write}>
+              <Field label={w.fields.company}>
                 <Input name="company" defaultValue={p.company} required enterKeyHint="next" />
               </Field>
               <Field
-                label="Slug"
-                hint={
-                  slugLocked
-                    ? "Fixed: the handoff names it."
-                    : slugLinked
-                      ? "Fixed: a sent link names it."
-                      : "Lowercase words joined by hyphens."
-                }
+                label={w.fields.slug}
+                hint={slugLocked ? w.row.slugHint.handoff : slugLinked ? w.row.slugHint.link : w.row.slugHint.free}
               >
                 <Input
                   name="slug"
@@ -313,10 +315,10 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                   spellCheck={false}
                 />
               </Field>
-              <Field label="Website">
+              <Field label={w.fields.website}>
                 <Input type="url" name="website" defaultValue={p.website} inputMode="url" enterKeyHint="next" />
               </Field>
-              <Field label="Country">
+              <Field label={w.fields.country}>
                 <Input
                   name="country"
                   defaultValue={p.country}
@@ -326,27 +328,27 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                   enterKeyHint="next"
                 />
               </Field>
-              <Field label="Language">
+              <Field label={w.fields.language}>
                 <NativeSelect name="language" defaultValue={p.language}>
                   <Options list={LANGUAGES} />
                 </NativeSelect>
               </Field>
             </FieldGroup>
 
-            <FieldGroup legend="Contact" disabled={!write}>
-              <Field label="Contact">
+            <FieldGroup legend={w.row.legends.contact} disabled={!write}>
+              <Field label={w.fields.contact}>
                 <Input name="contact_name" defaultValue={p.contact_name} enterKeyHint="next" />
               </Field>
-              <Field label="Role">
+              <Field label={w.fields.role}>
                 <Input name="role" defaultValue={p.role} enterKeyHint="next" />
               </Field>
-              <Field label="Email">
+              <Field label={w.fields.email}>
                 <Input type="email" name="email" defaultValue={p.email} inputMode="email" enterKeyHint="next" />
               </Field>
-              <Field label="Phone">
+              <Field label={w.fields.phone}>
                 <Input name="phone" defaultValue={p.phone} placeholder="+351 …" inputMode="tel" enterKeyHint="next" />
               </Field>
-              <Field label="WhatsApp" hint={wa && <OutLink href={wa} label={wa.replace("https://", "")} />}>
+              <Field label={w.fields.whatsapp} hint={wa && <OutLink href={wa} label={wa.replace("https://", "")} />}>
                 <Input
                   name="whatsapp"
                   defaultValue={p.whatsapp}
@@ -355,11 +357,11 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                   enterKeyHint="next"
                 />
               </Field>
-              <Field label="Instagram" hint={ig && <OutLink href={ig} label={ig.replace("https://www.", "")} />}>
+              <Field label={w.fields.instagram} hint={ig && <OutLink href={ig} label={ig.replace("https://www.", "")} />}>
                 <Input
                   name="instagram"
                   defaultValue={p.instagram}
-                  placeholder="@handle"
+                  placeholder={w.placeholders.handle}
                   autoCapitalize="none"
                   spellCheck={false}
                   enterKeyHint="next"
@@ -367,80 +369,78 @@ export default async function ProspectPage({ params, searchParams }: Props) {
               </Field>
             </FieldGroup>
 
-            <FieldGroup legend="Fit" disabled={!write}>
-              <Field label="Line">
+            <FieldGroup legend={w.row.legends.fit} disabled={!write}>
+              <Field label={w.fields.line}>
                 <NativeSelect name="line" defaultValue={p.line}>
                   <Options list={LINES} />
                 </NativeSelect>
               </Field>
-              <Field label="Size">
+              <Field label={w.fields.size}>
                 <NativeSelect name="size" defaultValue={p.size}>
                   <Options list={SIZES} />
                 </NativeSelect>
               </Field>
-              <Field label="Service">
+              <Field label={w.fields.service}>
                 <NativeSelect name="service" defaultValue={p.service}>
                   <Options list={SERVICES} />
                 </NativeSelect>
               </Field>
-              <Field label="Deal size">
+              <Field label={w.fields.dealSize}>
                 <NativeSelect name="deal_size" defaultValue={p.deal_size}>
                   <Options list={DEAL_SIZES} />
                 </NativeSelect>
               </Field>
-              <Field label="Source">
+              <Field label={w.fields.source}>
                 <Input name="source" defaultValue={p.source} required enterKeyHint="next" />
               </Field>
             </FieldGroup>
 
-            <FieldGroup legend="Ask" disabled={!write}>
-              <Field label="Ask" full>
-                <Textarea name="ask" rows={3} defaultValue={p.ask} placeholder="what they asked for, in your words" />
+            <FieldGroup legend={w.row.legends.ask} disabled={!write}>
+              <Field label={w.fields.ask} full>
+                <Textarea name="ask" rows={3} defaultValue={p.ask} placeholder={w.placeholders.ask} />
               </Field>
-              <Field label="Notes" full>
+              <Field label={w.fields.notes} full>
                 <Textarea name="notes" rows={3} defaultValue={p.notes} />
               </Field>
-              <Field label="Next action">
+              <Field label={w.fields.nextAction}>
                 <Input type="date" name="next_action" defaultValue={p.next_action ?? ""} />
               </Field>
             </FieldGroup>
 
             {meetingGroup && (
-              <FieldGroup legend="Meeting" disabled={!write}>
+              <FieldGroup legend={w.row.legends.meeting} disabled={!write}>
                 <input type="hidden" name="meeting_group" value="1" />
-                <MeetingFields p={p} />
+                <MeetingFields p={p} w={w} />
               </FieldGroup>
             )}
 
             {write && (
               <FieldActions>
-                <Button type="submit">Save</Button>
+                <Button type="submit">{w.save}</Button>
               </FieldActions>
             )}
           </form>
         </Section>
 
-        <Section id="touches" title="Touches">
-          <p className="-mt-2 text-ui font-normal text-muted-foreground">
-            Three touches over three weeks; a reply stops the cadence.
-          </p>
+        <Section id="touches" title={w.row.touches}>
+          <p className="-mt-2 text-ui font-normal text-muted-foreground">{w.row.touchesWhat}</p>
           <DataTable
-            columns={touchColumns}
+            columns={touchColumns(w)}
             rows={touches}
             rowKey={(t) => t.id}
-            empty={canTouch ? "No touch logged yet. Log each one below when you send it." : "No touch logged."}
+            empty={canTouch ? w.row.noTouchYet : w.row.noTouch}
           />
           {canTouch && (
             <form action={logTouch}>
               <input type="hidden" name="id" value={p.id} />
               <FieldGroup
-                legend="Log a touch"
+                legend={w.row.logTouch}
                 className="sm:grid-cols-1 lg:grid-cols-[10rem_10rem_minmax(0,1fr)_auto] lg:items-end"
               >
-                <Field label="Date">
+                <Field label={w.fields.date}>
                   <Input type="date" name="touched_on" defaultValue={today()} required />
                 </Field>
-                <Field label="Channel">
+                <Field label={w.fields.channel}>
                   <NativeSelect name="channel">
                     {CHANNELS.map((c) => (
                       <NativeSelectOption key={c} value={c}>
@@ -449,12 +449,12 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                     ))}
                   </NativeSelect>
                 </Field>
-                <Field label="Note">
-                  <Input name="note" placeholder="what was said" enterKeyHint="done" />
+                <Field label={w.fields.note}>
+                  <Input name="note" placeholder={w.placeholders.note} enterKeyHint="done" />
                 </Field>
                 <div className="max-sm:*:w-full">
                   <Button type="submit" variant="secondary">
-                    Log a touch
+                    {w.row.logTouch}
                   </Button>
                 </div>
               </FieldGroup>
@@ -462,7 +462,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           )}
         </Section>
 
-        {canTouch && <NextTouch p={p} kit={kit} />}
+        {canTouch && <NextTouch p={p} kit={kit} w={w} />}
 
         {sent && (
           <SendForm
@@ -478,21 +478,23 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           <div className="grid items-start gap-4 md:grid-cols-2">
             {moves.length > 0 && (
               <Action
-                title="Move"
-                what={[
-                  p.status === "new" && p.touches === 0 && user.role !== "jamie"
-                    ? "contacted needs one logged touch."
-                    : "",
-                  toMeeting ? "meeting needs its date, its time and with whom." : "",
-                  "lost needs its reason.",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
+                title={w.row.move.title}
+                what={
+                  <Phrase
+                    text={[
+                      p.status === "new" && p.touches === 0 && user.role !== "jamie" ? w.row.move.needsTouch : "",
+                      toMeeting ? w.errors.meetingNeeded : "",
+                      w.errors.lostReason,
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                  />
+                }
               >
                 <form action={moveStatus}>
                   <input type="hidden" name="id" value={p.id} />
                   <FieldGroup className="sm:grid-cols-2 lg:grid-cols-2">
-                    <Field label="To">
+                    <Field label={w.row.move.to}>
                       <NativeSelect name="status">
                         {moves.map((s) => (
                           <NativeSelectOption key={s} value={s}>
@@ -501,13 +503,13 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                         ))}
                       </NativeSelect>
                     </Field>
-                    <Field label="Reason, when lost">
+                    <Field label={<Phrase text={w.row.move.reason} />}>
                       <Input name="lost_reason" />
                     </Field>
-                    {toMeeting && <MeetingFields p={p} when=", when meeting" />}
+                    {toMeeting && <MeetingFields p={p} w={w} when={w.row.whenMeeting} />}
                     <FieldActions>
                       <Button type="submit" variant="secondary">
-                        Move
+                        {w.row.move.submit}
                       </Button>
                     </FieldActions>
                   </FieldGroup>
@@ -517,20 +519,22 @@ export default async function ProspectPage({ params, searchParams }: Props) {
 
             {ready && (
               <Action
-                title="Ready for Jamie"
+                title={w.row.ready.title}
                 what={
                   <>
-                    Opens one PR on legible-consulting/house that creates{" "}
-                    <code className="font-mono text-meta">clients/{slug}/record.md</code> at stage prospect from this
-                    row. Jamie merges; &quot;Check the PR&quot; then moves the row to handed off.
+                    {w.row.ready.before} <code className="font-mono text-meta">clients/{slug}/record.md</code>{" "}
+                    <Phrase text={w.row.ready.after} />
                   </>
                 }
               >
-                <Flash note={missing.length > 0 ? `Fill first: ${missing.join(", ")}.` : undefined} className="mb-0" />
+                <Flash
+                  note={missing.length > 0 ? w.row.fillFirst(missing.map((m) => w.row.missing[m])) : undefined}
+                  className="mb-0"
+                />
                 <form action={readyForJamie} className="max-sm:*:w-full">
                   <input type="hidden" name="id" value={p.id} />
                   <Button type="submit" disabled={missing.length > 0}>
-                    Ready for Jamie
+                    {w.row.ready.title}
                   </Button>
                 </form>
               </Action>
@@ -538,33 +542,24 @@ export default async function ProspectPage({ params, searchParams }: Props) {
 
             {handoff && (
               <Action
-                title="Handoff"
-                what={`Merged: the row moves to handed off and names its record. Closed without a merge: the row returns to ${p.previous_status ?? "replied"}.`}
+                title={w.row.handoff.title}
+                what={<Phrase text={w.row.handoff.what(p.previous_status ?? "replied")} />}
               >
                 <form action={checkHandoffPr} className="max-sm:*:w-full">
                   <input type="hidden" name="id" value={p.id} />
                   <Button type="submit" variant="secondary">
-                    Check the PR
+                    {w.row.handoff.check}
                   </Button>
                 </form>
               </Action>
             )}
 
             {noContact && (
-              <Action
-                title="No contact"
-                what={
-                  <>
-                    When they say no, on any channel. The row goes to lost with the reason {NO_CONTACT}, the next action
-                    is cleared, and the row&apos;s email, phone and WhatsApp number go on the no-contact list for good: the
-                    pool takes no new row for them, from any salesman or from the site.
-                  </>
-                }
-              >
+              <Action title={w.row.noContact.title} what={<Phrase text={w.row.noContact.what} />}>
                 <form action={askedNotToBeContacted} className="max-sm:*:w-full">
                   <input type="hidden" name="id" value={p.id} />
                   <Button type="submit" variant="destructive">
-                    They asked not to be contacted
+                    {w.row.noContact.submit}
                   </Button>
                 </form>
               </Action>

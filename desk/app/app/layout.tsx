@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
+import { pageLanguage } from "@/lib/user";
 import { cn } from "@/lib/utils";
 import { Motion } from "./_motion";
 import { ServiceWorker } from "./_sw";
@@ -40,14 +41,18 @@ export const viewport: Viewport = {
   interactiveWidget: "resizes-content",
 };
 
-// The root layout stays static: it loads the faces and the motion config and reads nothing.
-// app/(desk)/layout.tsx reads the session and draws the shell; app/(auth)/layout.tsx is the
+// The root layout loads the faces and the motion config, and names the page's language: the
+// signed-in user's words language (lib/user.ts pageLanguage), so a salesman's page in the shell
+// is `<html lang="fr-BE">` when they read in French; en-GB for Jamie and for a page without a
+// session. It reads the session cookie for it, so every page renders per request, as every page
+// in the shell did already. app/(desk)/layout.tsx draws the shell; app/(auth)/layout.tsx is the
 // frame of the pages without one. Motion follows the user's reduced-motion setting from here
 // (app/_motion.tsx). The one client island registers the service worker (public/sw.js) after
 // load.
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const lang = await pageLanguage();
   return (
-    <html lang="en" className={cn("font-sans", sans.variable, mono.variable)}>
+    <html lang={lang} className={cn("font-sans", sans.variable, mono.variable)}>
       <body className="min-h-dvh bg-background text-foreground antialiased">
         <Motion>{children}</Motion>
         <ServiceWorker />

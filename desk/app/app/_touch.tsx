@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { Phrase } from "@/components/desk/phrase";
 import { buttonVariants } from "@/components/ui/button";
 import { sell } from "@/lib/house";
 import type { Kit } from "@/lib/kit";
 import { CADENCE, whatsappUrl, type Prospect } from "@/lib/pool";
+import type { Words } from "@/lib/words";
 import { CopyButton } from "./_copy";
 
 // A pitch draft as a document block: the words as written, the lines kept, and each placeholder
@@ -30,8 +32,9 @@ export function Draft({ text }: { text: string }) {
 // number, or its phone when it has none), adapts it and sends it from their own account, then
 // logs the touch. The desk sends nothing (cadence.md). Shown while the cadence runs: at new or
 // contacted, under three touches. The draft reads as a document in the reading width; Copy comes first, the two ways out after it.
-// The eyebrow links to the kit's lesson that shows this touch, in `kit`, the user's language.
-export function NextTouch({ p, kit }: { p: Prospect; kit: Kit }) {
+// The eyebrow links to the kit's lesson that shows this touch, in `kit`, the user's language. The
+// section's own words are the user's (`w`, lib/words.ts); the draft is in the row's language.
+export function NextTouch({ p, kit, w }: { p: Prospect; kit: Kit; w: Words }) {
   if (!(p.status === "new" || p.status === "contacted") || p.touches >= 3) return null;
   const touch = p.touches + 1;
   const step = CADENCE.find((c) => c.touch === touch);
@@ -40,7 +43,7 @@ export function NextTouch({ p, kit }: { p: Prospect; kit: Kit }) {
   const text = draft ? (firstName ? draft.body.replaceAll("<first name>", firstName) : draft.body) : "";
   const wa = whatsappUrl(p.whatsapp || p.phone);
   const lesson = kit.lessons.find((l) => l.touches.includes(touch));
-  const eyebrow = `Touch ${touch} of 3${step ? ` · the ${step.angle}` : ""}`;
+  const eyebrow = `${w.touch.eyebrow(touch)}${step ? ` · ${w.touch.angles[step.angle]}` : ""}`;
   return (
     <section aria-labelledby="next-touch" className="grid max-w-reading gap-4">
       <header>
@@ -51,37 +54,34 @@ export function NextTouch({ p, kit }: { p: Prospect; kit: Kit }) {
               className="inline-flex min-h-row items-center underline underline-offset-3 hover:text-foreground"
             >
               {eyebrow}
-              <span className="sr-only">: the lesson {lesson.title}</span>
+              <span className="sr-only">{w.touch.lesson(lesson.title)}</span>
             </Link>
           ) : (
             eyebrow
           )}
         </p>
         <h2 id="next-touch" className="text-heading">
-          Next touch
+          {w.touch.title}
         </h2>
-        <p className="mt-1 text-ui font-normal text-muted-foreground">
-          The draft for this touch in the prospect&apos;s language, from 01-prospecting/pitch/. Adapt it in your own
-          words, send it from your own account, then log the touch above.
-        </p>
+        <p className="mt-1 text-ui font-normal text-muted-foreground">{w.touch.what}</p>
       </header>
       {!p.language ? (
-        <p className="text-body text-muted-foreground">Set the language in Facts to get the draft.</p>
+        <p className="text-body text-muted-foreground">{w.touch.setLanguage}</p>
       ) : !draft ? (
         <p className="text-body text-muted-foreground">
-          No draft for touch {touch} in {p.language} in 01-prospecting/pitch/.
+          <Phrase text={w.touch.noDraft(touch, p.language)} />
         </p>
       ) : (
         <>
           <Draft text={text} />
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
-            <CopyButton text={text} label="Copy the draft" size="default" variant="default" />
+            <CopyButton text={text} label={w.touch.copyDraft} size="default" variant="default" words={w.copy} />
             {p.email && (
               <a
                 href={`mailto:${p.email}?body=${encodeURIComponent(text)}`}
                 className={buttonVariants({ variant: "outline" })}
               >
-                Open in mail
+                {w.touch.openMail}
               </a>
             )}
             {wa && (
@@ -89,7 +89,7 @@ export function NextTouch({ p, kit }: { p: Prospect; kit: Kit }) {
                 href={`${wa}?text=${encodeURIComponent(text)}`}
                 className={buttonVariants({ variant: "outline" })}
               >
-                Open in WhatsApp
+                {w.touch.openWhatsApp}
               </a>
             )}
           </div>
