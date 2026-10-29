@@ -30,6 +30,6 @@ After the messy-play conformance pull request merges, Jamie does the setup stubs
 
 ## Notes
 
-- blocked: the messy-play conformance pull request to the new blueprint tag is not merged.
+- blocked: the conformance pull request, for the setup stubs only. The first acts, Preview and Development off production's Neon project, wait on no tag: `main` has no workflow that reads them (Jamie, 2026-10-29).
 - Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - Why `main` has no workflow after the v1.0.3 answers: the conformance session reads it first.

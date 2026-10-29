@@ -2,8 +2,8 @@
 
 - feature-slug: emdash-leaves
 - epic: goose-worktrees
-- sequence: 4 of 5
-- depends-on: goose-task-script
+- sequence: 4 of 6
+- depends-on: goose-loop-walk
 - complexity: low
 - priority: P2
 

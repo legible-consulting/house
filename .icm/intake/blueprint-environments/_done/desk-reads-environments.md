@@ -1,8 +1,10 @@
+> Dropped: the table leaves `README.md`, a file copier writes once, for a copier-owned file. Jamie's answer of 2026-10-29: no hand edit across pull requests. The stub `desk-environments-file` carries the same work for the new file · 2026-10-29
+
 # Stub: The desk shows where a build runs from the build's own README
 
 - feature-slug: desk-reads-environments
 - epic: blueprint-environments
-- sequence: 5 of 5
+- sequence: 5 of 9
 - depends-on: estate-environments
 - complexity: medium
 - priority: P2

@@ -2,9 +2,9 @@
 
 - feature-slug: plugin-router-and-board
 - epic: goose-worktrees
-- sequence: 2 of 5
+- sequence: 2 of 6
 - depends-on: none
-- complexity: medium
+- complexity: research
 - priority: P2
 
 ## Problem
