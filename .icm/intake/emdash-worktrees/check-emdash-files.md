@@ -19,7 +19,7 @@
 
 - [ ] `conventions/README.md` has an `Emdash` row after the `Goose hints` row. It names the file and the script, says that they are the blueprint's, says what each holds, and says that a workspace has neither. The row carries its why and the date 2026-10-29.
 - [ ] In each build answer set (`defaults`, `all`, `minimal`, `neon-nouat`, `mongodb-uat`), `jq` parses `.emdash.json`, and the step fails when it does not parse.
-- [ ] The step checks the install script key from the breakdown's question 1, and `preservePatterns` with `.env` and `.env.local` and nothing else.
+- [ ] The step checks `scripts.prepare` with `bash .icm/scripts/worktree-setup.sh` (the breakdown's decisions of record), and `preservePatterns` with `.env` and `.env.local` and nothing else.
 - [ ] The step checks that each entry of `preservePatterns` is a literal path that `git check-ignore` ignores in the render.
 - [ ] In the `workspace` answer set, the step fails when `.emdash.json` or the setup script exists.
 - [ ] `shellcheck` reads the setup script with the other rendered scripts.
