@@ -32,6 +32,6 @@ After the berceo conformance pull request to the new blueprint tag merges, Jamie
 ## Notes
 
 - blocked: the berceo conformance pull request to the new blueprint tag is not merged. A deletion before the merge makes the old `preview-db.yml` fail.
-- Depends on `env-check-neon-preview-branching`.
+- Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The integration also serves Development from `uat-berceo`. A local session then reads UAT data. Keep it, or give Development a branch of its own? Default: keep.
 - The Neon project `berceo` (production) shows no compute activity since 2026-09-29. Read that Production's `DATABASE_URL` comes from it.

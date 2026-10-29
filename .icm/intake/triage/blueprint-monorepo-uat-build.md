@@ -25,8 +25,10 @@ The database contract's setup act 2, `neon-vercel-integration`, puts the integra
 
 1. Jamie turns on "Create database branch for deployment" for Preview on the remi-ai Vercel projects `app` and `admin`, with the Vercel-managed integration, both connected to `uat-remi-ai`.
 2. Jamie pushes one test branch that changes the two apps, and the two preview builds start.
-3. A session reads the branches of the Neon project `uat-remi-ai` and the two build logs. It records the answer (1, 2 or 3) in `env-check-neon-preview-branching` § Notes, because `env-cleanup-remi-ai` reads the answer there.
+3. A session reads the branches of the Neon project `uat-remi-ai` and the two build logs. It records the answer (1, 2 or 3) in `triage/_done/env-check-neon-preview-branching.md` § Notes, because `env-cleanup-remi-ai` reads the answer there.
 4. Jamie closes the pull request and deletes the test branch. The session reads that each preview branch is gone.
+
+Steps 1 to 3 are done on 2026-10-29: answer 1. Step 4 is in `env-cleanup-remi-ai`.
 
 Then the blueprint follows the answer:
 
@@ -35,8 +37,7 @@ Then the blueprint follows the answer:
 
 ## Acceptance criteria
 
-- [ ] `env-check-neon-preview-branching` § Notes records the answer: the two apps of one remi-ai pull request use one Neon branch, one branch each, or the second build fails.
-- [ ] The test branch and its Neon branches are deleted.
+- [ ] `triage/_done/env-check-neon-preview-branching.md` § Notes records the answer: the two apps of one remi-ai pull request use one Neon branch, one branch each, or the second build fails.
 - [ ] `.icm/database/CONTEXT.md` in the blueprint and its setup act `neon-vercel-integration` say how the apps of a monorepo get the database of a preview, and the statement agrees with the answer.
 - [ ] `check.yml` renders the answer set `all` with the changed contract and lints the result.
 
@@ -45,12 +46,14 @@ Then the blueprint follows the answer:
 - Repo `legible-consulting/blueprint`. Commits: `feat:` or `fix:`.
 - Files: `template/{% if not workspace %}.icm{% endif %}/{% if database == 'neon' %}database{% endif %}/CONTEXT.md`, `template/{% if not workspace %}.icm{% endif %}/intake/{% if uat or database == 'neon' %}setup{% endif %}/{% if database == 'neon' %}neon-vercel-integration.md{% endif %}.jinja`, `check.yml`.
 - The Vercel projects of remi-ai are on the team `remi21`. The Vercel connector does not read `remi21`. The Vercel CLI does.
-- On 2026-10-29 the Neon projects `remi-ai` and `uat-remi-ai` have only the branch `main`, and no deleted branch. No preview branch was made there before.
+- On 2026-10-29 the test made one Neon branch, `preview/test/shared-preview-branch`, in `uat-remi-ai`. `env-cleanup-remi-ai` checks that it is deleted.
+- The integration gives the branch's variables to each deployment only. No variable is scoped to the git branch on a Vercel project. The branch's `DATABASE_URL` wins over a Preview `DATABASE_URL` for all branches (remi-ai, 2026-10-29).
+- Turbo's strict environment mode gives a build only the names in `turbo.json`. The builds warn that `PG*` and `POSTGRES_*` do not reach them. `DATABASE_URL` and `DATABASE_URL_UNPOOLED` must stay in `turbo.json` (remi-ai, 2026-10-29).
 - Sources: [Neon: Vercel-managed integration](https://neon.com/docs/guides/vercel-managed-integration), [Neon: Neon-managed integration](https://neon.com/docs/guides/neon-managed-vercel-integration), [Neon Discord: "Script to set Vercel preview branch env vars?"](https://www.answeroverflow.com/m/1359642662445121627).
-- Related: `env-check-neon-preview-branching` tests one app on agorasim. This stub tests two apps on remi-ai. `env-cleanup-remi-ai` waits on both.
+- Related: the answer and its evidence are in `triage/_done/env-check-neon-preview-branching.md` § Notes. `env-cleanup-remi-ai` holds the deletion check.
 - The blueprint is public: no client name in the blueprint's files or its pull request.
 - Out of scope: a change in a client repo. Each client gets the change through `copier update`.
 
 ## Prompt
 
-Repo legible-consulting/blueprint, desktop or cloud. Attach legible-consulting/house read-only. The ticket is .icm/intake/triage/blueprint-monorepo-uat-build.md in the house: read it first, then `env-check-neon-preview-branching` § Notes for the remi-ai answer, then the blueprint's CLAUDE.md. Stop when the answer is not recorded. Cut the branch `monorepo-preview-database` from `main`. Conventional Commits, technical text in Simplified Technical English. Do not run checks locally. Do not merge.
+Repo legible-consulting/blueprint, desktop or cloud. Attach legible-consulting/house read-only. The ticket is .icm/intake/triage/blueprint-monorepo-uat-build.md in the house: read it first, then `triage/_done/env-check-neon-preview-branching.md` § Notes for the remi-ai answer, then the blueprint's CLAUDE.md. Stop when the answer is not recorded. Cut the branch `monorepo-preview-database` from `main`. Conventional Commits, technical text in Simplified Technical English. Do not run checks locally. Do not merge.

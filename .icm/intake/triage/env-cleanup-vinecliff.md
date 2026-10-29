@@ -31,6 +31,6 @@ After the vinecliff conformance pull request merges, Jamie does the setup stubs 
 ## Notes
 
 - blocked: the vinecliff conformance pull request to the new blueprint tag is not merged.
-- Depends on `env-check-neon-preview-branching`.
+- Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The slug is `vinecliff-vineyard`, so the setup stubs name `uat-vinecliff-vineyard`. The production project is `vinecliff`. The names are a convention only: no script reads them. Name the UAT project `uat-vinecliff`? Default: yes.
 - Session work, not an operator act: vinecliff's `db-migrate.yml` migrates production on each push to `main`, before the sign-off. The conformance triage stub removes it.
