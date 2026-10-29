@@ -9,8 +9,8 @@ The epics, and what each holds. A finished epic sits whole in `_done/`:
 | `triage/` | one-off chores: the estate's env cleanup, the blueprint's stale answer and its monorepo preview rule, the agent map for the two repos without one, the project register, and the adoptions of 2026-10-29: frontmatter schemas, the title check, conformance against the platform, the conventions' validation row, the home of a tool's why, kickoff's stale lines, the stub's Prompt section, the `AGENTS.md` pointer every agent reads |
 | `blueprint-environments/` | the concept of a repo's own manifest, applied to the one fact the blueprint has no home for: where each build runs, as a table in a copier-owned file that the blueprint renders, CI checks and the desk reads, in five pull requests (re-cut 2026-10-29: the table left `README.md`) |
 | `goose-worktrees/` | one ticket, one worktree, one session of the lane's agent, with no second application: a house script makes the worktree, copies the env files, runs the install and starts the agent; `new-run.sh` keeps the worktree's branch; goose and Emdash leave the stack, the blueprint and the machine, and Hermes Agent takes the lane and walks the whole loop once as its trial; each live repo gets the setup script, in seven pull requests |
-| `salesman-writes-main/` | a salesman's structured action lands on `main` with no pull request: one table names every write the desk makes to `main` and the app refuses a write outside it, then the handoff is one commit, in two pull requests |
 | `google-service-account/` | one Google service account with a key every runner reads, so `place.sh` and each Google read a contract owns run from the laptop, the cloud and CI without a connector, in three pull requests |
+| `_done/salesman-writes-main/` | a salesman's structured action lands on `main` with no pull request: one table names every write the desk makes to `main` and the app refuses a write outside it, then the handoff is one commit and the row is handed off in the same request, in two pull requests. Closed 2026-10-29 |
 | `_done/salesman-desk/` | the salesman's desk: one language set in preferences, the kit as one document with a grammar in two parts and a reference, `/sell` as a course of lessons on a track, the pool row that draws its track and names the next step, the meeting as facts on the row, and every word of the salesman's pages in their language, in six pull requests. Closed 2026-10-29, before a salesman wrote a row |
 | `_done/emdash-worktrees/` | the blueprint rendered `.emdash.json` and the setup script, CI parsed them, and the stack named Goose and Emdash. Emdash left on 2026-10-29, and `goose-worktrees` keeps the script |
 | `_done/house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
@@ -24,13 +24,12 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 
 ## Order
 
-Set by Jamie on 2026-10-29. Lines 4 and 5 were the session's default from the classification in the pull request that cut them, and Jamie kept them in the session the same day. A finished epic carries no line.
+Set by Jamie on 2026-10-29. Line 4 was the session's default from the classification in the pull request that cut it, and Jamie kept it in the session the same day. A finished epic carries no line.
 
 1. triage
 2. blueprint-environments
 3. goose-worktrees
 4. google-service-account
-5. salesman-writes-main
 
 ## Jamie's hand
 

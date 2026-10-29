@@ -12,7 +12,7 @@ export type WriteOp = "create" | "delete";
 export interface Write {
   role: string; // who triggers it: a role of users.role, or the words of the table's cell
   globs: readonly string[]; // the paths it may write. `*` is one path segment, or part of one
-  branch: string; // "main", or a branch glob such as "pool/*"
+  branch: string; // "main", or a branch glob such as "intake/*"
   identity: string; // the token the commit uses
   ops: readonly WriteOp[]; // what the app does to a path. Empty: the app never commits it
   app: boolean; // false: a workflow commits it, and commitToHouse refuses the action
@@ -54,7 +54,7 @@ export const WRITES = {
   handoff: {
     role: "salesman, jamie",
     globs: ["clients/*/record.md", "clients/*/*/*.md", "01-prospecting/leads/*/*.md"],
-    branch: "pool/*",
+    branch: "main",
     identity: "DESK_PAT",
     ops: ["create", "delete"],
     app: true,
@@ -102,15 +102,37 @@ export type Change =
   | { path: string; content: string; message: string; branch?: string }
   | { path: string; delete: true; message: string; branch?: string };
 
+// Many files in one commit: the handoff's record, and its lead's answers created in the folder
+// and deleted from the lead.
+export type FileChange = { path: string; content: string } | { path: string; delete: true };
+export interface Batch {
+  files: readonly FileChange[];
+  message: string;
+  branch?: string;
+}
+
+const opOf = (c: FileChange | Change): WriteOp => ("delete" in c ? "delete" : "create");
+
 // The one function that commits to the house. It refuses, in words, a write that the list does
-// not allow, and nothing is written. Then it writes the one file with the Contents API (lib/github.ts).
-// A create answers "created", or "exists" when a file is at the path already: the desk never
-// updates. A conflict (409) is tried once more from the branch's new head; a second one fails.
-export async function commitToHouse(action: WriteAction, change: Change): Promise<"created" | "exists" | "deleted"> {
+// not allow, and nothing is written. One change writes one file with the Contents API, and a
+// batch writes its files as one commit with the Git Data API (lib/github.ts). A create answers
+// "created", or "exists" when a file is at the path already: the desk never updates. A batch
+// answers "committed", and throws, with nothing written, when a file it creates exists. A
+// conflict (409) is tried once more from the branch's new head; a second one fails.
+export async function commitToHouse(action: WriteAction, change: Change): Promise<"created" | "exists" | "deleted">;
+export async function commitToHouse(action: WriteAction, change: Batch): Promise<"committed">;
+export async function commitToHouse(
+  action: WriteAction,
+  change: Change | Batch,
+): Promise<"created" | "exists" | "deleted" | "committed"> {
   const branch = change.branch ?? "main";
-  const op: WriteOp = "delete" in change ? "delete" : "create";
-  const refused = refusal(action, op, change.path, branch);
-  if (refused) throw new Error(refused);
-  const { putContents } = await import("./github");
-  return putContents(op, change.path, branch, change.message, "content" in change ? change.content : "");
+  const files = "files" in change ? change.files : [change];
+  if (files.length === 0) throw new Error(`The desk has nothing to commit for ${action}.`);
+  for (const f of files) {
+    const refused = refusal(action, opOf(f), f.path, branch);
+    if (refused) throw new Error(refused);
+  }
+  const { commitFiles, putContents } = await import("./github");
+  if ("files" in change) return commitFiles(change.files, branch, change.message);
+  return putContents(opOf(change), change.path, branch, change.message, "content" in change ? change.content : "");
 }

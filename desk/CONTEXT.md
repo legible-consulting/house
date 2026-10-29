@@ -74,10 +74,12 @@ variable. The Process says what a session does with them.
   `meeting_with` (`sourcer` or `jamie`) and `meeting_where`, in Jamie's time zone
   (`01-prospecting/prospect.md`, Fields). A meeting with Jamie shows on his `/` until its day
   has passed, and the handoff carries it into the record (why: Jamie learns of a meeting booked
-  for him from the desk, not from a note · 2026-10-28). At `ready for Jamie` the desk opens a pull request on the house that
-  creates `clients/<slug>/record.md` and moves the lead's answers into the folder
-  (`01-prospecting/CONTEXT.md`, The handoff; Outputs, the row `handoff`). Jamie merges it (why: a lead copied by hand from a
-  mail is a lead lost · 2026-10-22).
+  for him from the desk, not from a note · 2026-10-28). At `ready for Jamie` the desk commits to `main`, as one commit, the
+  new `clients/<slug>/record.md` and the move of the lead's answers into the folder, and the row
+  goes to `handed off` with `record` set, in one request (`01-prospecting/CONTEXT.md`, The
+  handoff; Outputs, the row `handoff`). The commit is the handoff. The handed-off row links its
+  record to `/clients/<slug>` for Jamie (why: a lead copied by hand from a mail is a lead lost
+  · 2026-10-22; the commit needs no merge · Jamie, 2026-10-29).
 - The sync pill. It says up to date, running, deploying, out of sync or unknown. Read it
   before you trust a page: only up to date means the page shows `main`'s head. Out of sync is
   fixed from the laptop. Its panel starts `rhythms.yml` for the glance or the close (why:
@@ -105,7 +107,7 @@ one.
 | `link-answers` | visitor, no session | `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `main` | `DESK_PAT` | a sent link's answers, create only, in the folder when the record is on `main`, else with the lead · 2026-10-25 |
 | `share` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a shared link, create only: a link that waits in a chat is a link lost · 2026-10-25 |
 | `queue-name` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a share that no route read, named (a new file with the name, then the old file deleted) or dropped (deleted): a share waits for one word from the phone, not a verdict with no item · 2026-10-29 |
-| `handoff` | salesman, jamie | `clients/*/record.md`, `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `pool/*` | `DESK_PAT` | the record and the lead's answers, created in the folder and deleted from the lead, on a branch with a pull request: a lead copied by hand from a mail is a lead lost · 2026-10-22 |
+| `handoff` | salesman, jamie | `clients/*/record.md`, `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `main` | `DESK_PAT` | the record and the lead's answers, created in the folder and deleted from the lead, as one commit with no pull request, `prospecting: <slug> handed off by <handle>`: the account that owns `DESK_PAT` moves `main`, and the message names the salesman. The commit is the handoff: a constrained and structured salesman action goes straight to `main` · Jamie, 2026-10-29 |
 | `rhythms` | none: the morning and monthly runs | `desk/glance/*.md`, `desk/close/*.md` | `main` | `GITHUB_TOKEN (rhythms.yml)` | the glance and the close, written by the workflow, never by the app: one set of rules for every reader · 2026-10-22 |
 
 The files:

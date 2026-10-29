@@ -3,7 +3,7 @@ title: "Kit do vendedor · pt-PT"
 kind: kit
 language: pt-PT
 owner: jamie
-date: 2026-10-28
+date: 2026-10-29
 ---
 # Kit do vendedor — como me fazes chegar um contacto
 
@@ -271,7 +271,7 @@ não precisas de lá estar.
 - key: hand-it-to-jamie
 - part: system
 - status: ready for Jamie
-- next: Espera que eu pegue nele, e depois carrega em "Verificar o PR" na linha.
+- next: Nada a fazer na linha quando mostra `handed off`. Se ficar aqui, carrega outra vez em Pronto para o Jamie.
 
 Depois de responderem, ou de se encontrarem, passa-me o contacto. A linha precisa de:
 
@@ -284,11 +284,12 @@ Depois de responderem, ou de se encontrarem, passa-me o contacto. A linha precis
 Também precisas de um identificador, o nome curto pelo qual o desk te conhece. Se não tens
 um, pede-mo.
 
-Marca `ready for Jamie`. O desk abre então um pull request: o meu pedido para abrir a pasta
-do cliente a partir da tua linha. Eu leio-o e aceito-o. Essa é a passagem.
+Marca `ready for Jamie`. O desk abre então logo a pasta do cliente a partir da tua linha, e a
+linha passa a `handed off`. Essa é a passagem. Eu leio a pasta depois.
 
-Depois carrega em "Verificar o PR" na linha. Se peguei no contacto, a linha passa a
-`handed off`. Se não, volta para onde estava, e eu escrevo porquê nas notas.
+Se o desk não conseguir escrever a pasta, diz porquê, e a linha fica em `ready for Jamie`.
+Corrige o que ele indica, ou tenta outra vez mais tarde. Se eu não pegar no contacto, escrevo
+porquê na pasta do cliente.
 
 ## Depois da passagem
 

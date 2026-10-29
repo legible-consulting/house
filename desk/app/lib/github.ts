@@ -1,19 +1,18 @@
 import { parse } from "yaml";
 import { env, maybeEnv } from "./env";
 import { limitReason } from "./limits";
-import { meetingOf, meetingWho, type Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
-import { commitToHouse } from "./writes";
+import type { FileChange } from "./writes";
 
 // The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
 // only: Contents, Pull requests and Actions, read and write). Every commit goes through
 // commitToHouse (lib/writes.ts), which checks the action against the table "The desk's writes
-// to main" in desk/CONTEXT.md, then calls putContents here. Five uses:
-// - "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
-//   at stage prospect, and moves the lead's answers from 01-prospecting/leads/<slug>/ into
-//   clients/<slug>/<folder>/. The commits carry the desk's identity; the PR is opened by the
-//   account that owns DESK_PAT. The folder is the record from the merge on; "Check the PR"
-//   moves the row to handed off.
+// to main" in desk/CONTEXT.md, then calls putContents or commitFiles here. Five uses:
+// - "Ready for Jamie": one commit on main of legible-consulting/house that creates
+//   clients/<slug>/record.md at stage prospect, and moves the lead's answers from
+//   01-prospecting/leads/<slug>/ into clients/<slug>/<folder>/ (planHandoff, then commitToHouse
+//   "handoff", which calls commitFiles). The commit carries the desk's identity; the account
+//   that owns DESK_PAT moves main. The commit is the handoff.
 // - The research queue: one file per link Jamie shares to the desk, written to main
 //   (commitToHouse "share"), and the folder as it stands for /research (listFolder, then readOnMain for
 //   each file). A file the intake marks unresolved is named or dropped (commitToHouse
@@ -61,8 +60,6 @@ function fail(step: string, r: GhResponse): never {
   throw new Error(`GitHub ${step} failed (${r.status}): ${msg}`);
 }
 
-const cell = (s: string) => s.replace(/\|/g, "\\|").replace(/\n+/g, " ");
-
 const LEADS = "01-prospecting/leads";
 // A client subfolder: the `folder:` of an answers file names one (01-prospecting/CONTEXT.md).
 const FOLDER = /^[a-z0-9][a-z0-9-]*$/;
@@ -75,8 +72,8 @@ interface Move {
 
 // The lead's answers on main, each with the path the handoff moves it to:
 // clients/<slug>/<folder>/<name>, where <folder> is the file's frontmatter. A lead without a
-// folder has none. Read before the branch exists, so a file that names no folder stops the
-// handoff with nothing made.
+// folder has none. Read before any write, so a file that names no folder stops the handoff
+// with nothing made.
 async function leadMoves(slug: string): Promise<Move[]> {
   const dir = `${LEADS}/${slug}`;
   const list = await listFolder(dir);
@@ -102,85 +99,18 @@ async function leadMoves(slug: string): Promise<Move[]> {
   return moves;
 }
 
-export async function openHandoffPr(p: Prospect, slug: string, record: string, touches: number): Promise<string> {
-  const path = `clients/${slug}/record.md`;
-  const branch = `pool/${slug}`;
-
-  const main = await gh("GET", "/git/ref/heads/main");
-  if (main.status !== 200) fail("read main", main);
-  const sha = (main.body.object as { sha: string }).sha;
-
-  const existing = await gh("GET", `/contents/${path}?ref=main`);
-  if (existing.status === 200) throw new Error(`clients/${slug}/ already exists on main.`);
-
+// The files of the handoff's one commit: the record, and each of the lead's answers created
+// at its new path and deleted at the old one. Reads only: a file that names no folder throws
+// here, before the row or main changes.
+export async function planHandoff(slug: string, record: string): Promise<FileChange[]> {
   const moves = await leadMoves(slug);
-
-  const ref = await gh("POST", "/git/refs", { ref: `refs/heads/${branch}`, sha });
-  if (ref.status === 422) throw new Error(`Branch ${branch} already exists: an earlier handoff is open, or its branch was kept.`);
-  if (ref.status !== 201) fail("create branch", ref);
-
-  const created = await commitToHouse("handoff", {
-    path,
-    content: record,
-    message: `Pool: open clients/${slug} at prospect\n\n${p.company}, handed off by ${p.sourced_by}.`,
-    branch,
-  });
-  if (created !== "created") throw new Error(`clients/${slug}/record.md already exists on ${branch}.`);
-
-  // Each answer moves on the branch: written at its new path, then deleted at the old one.
-  // Main keeps the lead's folder until Jamie merges.
-  for (const m of moves) {
-    const add = await commitToHouse("handoff", {
-      path: m.to,
-      content: Buffer.from(m.content, "base64").toString("utf8"),
-      message: `Pool: move ${m.from} to ${m.to}`,
-      branch,
-    });
-    if (add !== "created") throw new Error(`${m.to} already exists on ${branch}.`);
-    await commitToHouse("handoff", { path: m.from, delete: true, message: `Pool: remove ${m.from}, moved to ${m.to}`, branch });
-  }
-
-  const m = meetingOf(p);
-  const rows: [string, string][] = [
-    ["Company", p.company],
-    ["Contact", [p.contact_name, p.role].filter(Boolean).join(", ")],
-    ["Email", p.email],
-    ["Phone", p.phone],
-    ["WhatsApp", p.whatsapp],
-    ["Instagram", p.instagram ? `@${p.instagram}` : ""],
-    ["Website", p.website],
-    ["Country", p.country],
-    ["Language", p.language],
-    ["Line", p.line],
-    ["Size", p.size],
-    ["Service", p.service],
-    ["Deal size", p.deal_size],
-    ["Source", p.source],
-    ["Sourced by", p.sourced_by],
-    ["Touches", String(touches)],
-    ["Next action", p.next_action ?? ""],
-    ["Meeting", m ? `with ${meetingWho(m, p)}, ${m.date} ${m.time} Lisbon${m.where ? `, ${m.where}` : ""}` : ""],
+  return [
+    { path: `clients/${slug}/record.md`, content: record },
+    ...moves.flatMap((m): FileChange[] => [
+      { path: m.to, content: Buffer.from(m.content, "base64").toString("utf8") },
+      { path: m.from, delete: true },
+    ]),
   ];
-  const body = [
-    `Pool handoff from the desk. Merge opens \`clients/${slug}/\` at \`prospect\`; the row then moves to \`handed off\` when its sourcer or Jamie checks the PR from the desk.`,
-    "",
-    "| Field | Value |",
-    "|---|---|",
-    ...rows.map(([k, v]) => `| ${k} | ${cell(v)} |`),
-    "",
-    moves.length ? `The lead's answers move into the folder:\n\n${moves.map((m) => `- \`${m.from}\` → \`${m.to}\``).join("\n")}\n` : "",
-    p.ask ? `Ask:\n\n${p.ask}` : "",
-    p.notes ? `\nNotes:\n\n${p.notes}` : "",
-  ].join("\n");
-
-  const pr = await gh("POST", "/pulls", {
-    title: `Pool: ${p.company} is ready for Jamie`,
-    head: branch,
-    base: "main",
-    body,
-  });
-  if (pr.status !== 201) fail("open PR", pr);
-  return pr.body.html_url as string;
 }
 
 // The two runs Jamie starts from the desk, each a workflow_dispatch of rhythms.yml on main
@@ -223,16 +153,6 @@ export async function dispatchWorkflow(file: WorkflowFile, inputs: Record<string
     );
   }
   fail(`start ${file}`, r);
-}
-
-// The handoff PR's state: open, merged, or closed without a merge.
-export async function handoffPrState(prUrl: string): Promise<"open" | "merged" | "closed"> {
-  const number = /\/pull\/(\d+)$/.exec(prUrl)?.[1];
-  if (!number) throw new Error("The PR link does not name a pull request.");
-  const r = await gh("GET", `/pulls/${number}`);
-  if (r.status !== 200) fail("read PR", r);
-  if (r.body.merged === true) return "merged";
-  return r.body.state === "closed" ? "closed" : "open";
 }
 
 // --- The reads for the page: the house's runs and the distance to main --------------------
@@ -443,6 +363,52 @@ export async function putContents(
     if (r.status !== 409) fail(`${op === "create" ? "write" : "delete"} ${path}`, r);
   }
   throw new Error(`${path} changed on ${branch} twice while the desk wrote it. Nothing was written. Try again.`);
+}
+
+// The Git Data API write of many files as one commit, for commitToHouse (lib/writes.ts) only:
+// no other code makes a tree, a commit or moves a ref. It reads the branch's head, checks that
+// each file it creates is absent and each file it deletes is present there, makes one tree on
+// the head's tree and one commit on the head, then moves the branch to it without force. A head
+// that moved in between answers 409 or 422 (not a fast-forward): the call reads again and tries
+// once more, and a second one fails in words. Until the branch moves, nothing is written (why:
+// the handoff is one commit or none · 2026-10-29).
+export async function commitFiles(files: readonly FileChange[], branch: string, message: string): Promise<"committed"> {
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    const ref = await gh("GET", `/git/ref/heads/${branch}`);
+    if (ref.status !== 200) fail(`read ${branch}`, ref);
+    const head = (ref.body.object as { sha: string }).sha;
+    const commit = await gh("GET", `/git/commits/${head}`);
+    if (commit.status !== 200) fail(`read the head of ${branch}`, commit);
+    const base = (commit.body.tree as { sha: string }).sha;
+    for (const f of files) {
+      const r = await gh("GET", `/contents/${f.path}?ref=${head}`);
+      const present = r.status === 200;
+      if (r.status !== 200 && r.status !== 404) fail(`read ${f.path}`, r);
+      if ("delete" in f && !present) throw new Error(`${f.path} is not on ${branch}. Nothing was written.`);
+      if (!("delete" in f) && present) throw new Error(`${f.path} already exists on ${branch}. Nothing was written.`);
+    }
+    const tree = await gh("POST", "/git/trees", {
+      base_tree: base,
+      tree: files.map((f) =>
+        "delete" in f
+          ? { path: f.path, mode: "100644", type: "blob", sha: null }
+          : { path: f.path, mode: "100644", type: "blob", content: f.content },
+      ),
+    });
+    if (tree.status !== 201) fail("make the tree", tree);
+    const made = await gh("POST", "/git/commits", {
+      message,
+      tree: String(tree.body.sha),
+      parents: [head],
+      author: COMMITTER,
+      committer: COMMITTER,
+    });
+    if (made.status !== 201) fail("make the commit", made);
+    const moved = await gh("PATCH", `/git/refs/heads/${branch}`, { sha: String(made.body.sha), force: false });
+    if (moved.status === 200) return "committed";
+    if (moved.status !== 409 && moved.status !== 422) fail(`move ${branch}`, moved);
+  }
+  throw new Error(`${branch} moved twice while the desk wrote to it. Nothing was written. Try again.`);
 }
 
 // Whether a file is on main: /f/<id> asks for clients/<slug>/record.md. Throws with the words of

@@ -45,13 +45,13 @@ import { words, type Words } from "@/lib/words";
 import { kitIn } from "@/app/(desk)/sell/_course";
 import { readLinks, SendForm } from "@/app/_send";
 import { NextTouch } from "@/app/_touch";
-import { askedNotToBeContacted, checkHandoffPr, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
+import { askedNotToBeContacted, logTouch, moveStatus, readyForJamie, saveProspect } from "./actions";
 
 // One prospect: the status on its track in the header (pool-track.tsx), the facts in four field
 // groups, the touches, the next touch's draft (app/_touch.tsx), and the actions as cards: the
-// move, "They asked not to be contacted", and "Ready for Jamie", which opens the handoff PR on
-// the house and keeps its link here. Read-only for every salesman but the sourcer, and for
-// everyone once handed off: one sentence under the header says so. On an open row the user
+// move, "They asked not to be contacted", and "Ready for Jamie", which commits the client folder
+// to the house's main and hands the row off at once; the handed-off row links its record.
+// Read-only for every salesman but the sourcer, and for everyone once handed off: one sentence under the header says so. On an open row the user
 // writes, one line under the header names the next step and links its lesson, from the kit's
 // lesson for the row's status in the user's language (DESIGN.md, rule 9). Jamie also sends a
 // form from here (app/_send.tsx); the answer is collected only, with no user. The meeting
@@ -185,7 +185,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const moves = nextMoves(p, user);
   const missing = missingForReady(p);
   const slug = p.slug ?? slugOf(p.company);
-  const slugLocked = Boolean(p.pr_url) || p.status === "ready for Jamie" || p.status === "handed off";
+  const slugLocked = p.status === "ready for Jamie" || p.status === "handed off";
   // A sent link names the slug, so the slug stays once one is sent. Read-only, not disabled: the
   // action still gets the slug and refuses a change (app/pool/[id]/actions.ts).
   const slugLinked = Boolean(sent?.links.length);
@@ -193,7 +193,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
   const open = p.status !== "handed off" && p.status !== "lost";
   const noContact = write && p.lost_reason !== NO_CONTACT;
   const ready = write && canGoReady(p);
-  const handoff = p.status === "ready for Jamie" && Boolean(p.pr_url);
+  const recordSlug = p.record ? /^clients\/([^/]+)\/record\.md$/.exec(p.record)?.[1] : undefined;
   const wa = whatsappUrl(p.whatsapp);
   const ig = instagramUrl(p.instagram);
   const meeting = meetingOf(p);
@@ -232,7 +232,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
         </p>
       )}
       <Flash error={error} note={note} />
-      {(p.next_action || showMeeting || p.pr_url || p.record || p.lost_reason) && (
+      {(p.next_action || showMeeting || p.record || p.lost_reason) && (
         <dl className="mb-6 flex flex-wrap items-baseline gap-x-6 gap-y-1 text-ui">
           {p.next_action && (
             <div className="flex items-baseline gap-2">
@@ -263,23 +263,22 @@ export default async function ProspectPage({ params, searchParams }: Props) {
               </dd>
             </div>
           )}
-          {p.pr_url && (
-            <div className="flex items-baseline gap-2">
-              <dt className="text-muted-foreground">{w.row.handoffPr}</dt>
-              <dd>
-                <a
-                  href={p.pr_url}
-                  className="inline-flex min-h-row items-center font-mono text-meta underline underline-offset-3"
-                >
-                  {p.pr_url.replace("https://github.com/", "")}
-                </a>
-              </dd>
-            </div>
-          )}
           {p.record && (
             <div className="flex items-baseline gap-2">
               <dt className="text-muted-foreground">{w.row.record}</dt>
-              <dd className="font-mono text-meta break-all">{p.record}</dd>
+              <dd className="font-mono text-meta break-all">
+                {/* Jamie reads the folder on the desk; a salesman sees the stage on this row. */}
+                {jamie && recordSlug ? (
+                  <Link
+                    href={`/clients/${recordSlug}`}
+                    className="inline-flex min-h-row items-center underline underline-offset-3"
+                  >
+                    {p.record}
+                  </Link>
+                ) : (
+                  p.record
+                )}
+              </dd>
             </div>
           )}
           {p.lost_reason && (
@@ -474,7 +473,7 @@ export default async function ProspectPage({ params, searchParams }: Props) {
           />
         )}
 
-        {(moves.length > 0 || noContact || ready || handoff) && (
+        {(moves.length > 0 || noContact || ready) && (
           <div className="grid items-start gap-4 md:grid-cols-2">
             {moves.length > 0 && (
               <Action
@@ -528,27 +527,19 @@ export default async function ProspectPage({ params, searchParams }: Props) {
                 }
               >
                 <Flash
-                  note={missing.length > 0 ? w.row.fillFirst(missing.map((m) => w.row.missing[m])) : undefined}
+                  note={
+                    missing.length > 0
+                      ? w.row.fillFirst(missing.map((m) => w.row.missing[m]))
+                      : p.status === "ready for Jamie"
+                        ? w.row.ready.again
+                        : undefined
+                  }
                   className="mb-0"
                 />
                 <form action={readyForJamie} className="max-sm:*:w-full">
                   <input type="hidden" name="id" value={p.id} />
                   <Button type="submit" disabled={missing.length > 0}>
                     {w.row.ready.title}
-                  </Button>
-                </form>
-              </Action>
-            )}
-
-            {handoff && (
-              <Action
-                title={w.row.handoff.title}
-                what={<Phrase text={w.row.handoff.what(p.previous_status ?? "replied")} />}
-              >
-                <form action={checkHandoffPr} className="max-sm:*:w-full">
-                  <input type="hidden" name="id" value={p.id} />
-                  <Button type="submit" variant="secondary">
-                    {w.row.handoff.check}
                   </Button>
                 </form>
               </Action>

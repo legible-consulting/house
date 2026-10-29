@@ -45,7 +45,7 @@ create table if not exists prospects (
   next_action date,
   notes text not null default '',
   lost_reason text not null default '',
-  pr_url text,
+  pr_url text, -- read by nothing since 2026-10-29: the handoff is a commit on main, not a PR
   record text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()

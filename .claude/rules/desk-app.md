@@ -69,8 +69,8 @@ card on a client's page) reads `.icm/intake/` and the pull requests per request 
 `lib/work.ts` with the same tokens, and `lib/gates.ts` writes Jamie's tick on a gate and
 returns to the page that the form binds. A ticket shows as `components/desk/ticket-card.tsx`
 and its steps as `components/desk/track.tsx` (`DESIGN.md`).
-`DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
-(`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
+`DESK_PAT` reaches the house only: Contents for the pool handoff, one commit on `main` by the
+Git Data API (`lib/github.ts planHandoff` and `commitFiles`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
 Actions for the sync pill's runs that start `rhythms.yml` on `main` by
 `workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). Every commit to the house goes
 through `commitToHouse` in `lib/writes.ts`: it takes an action of the typed list `WRITES`
