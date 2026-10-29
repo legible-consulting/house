@@ -2,10 +2,11 @@
 
 - feature-slug: plugin-router-and-board
 - epic: goose-worktrees
-- sequence: 2 of 6
+- sequence: 2 of 7
 - depends-on: none
 - complexity: research
 - priority: P2
+- blocked: the Hermes trial, stub `hermes-loop-walk`, decides the agent of the lane. A goose plugin is built only if goose stays (Jamie, 2026-10-29).
 
 ## Problem
 

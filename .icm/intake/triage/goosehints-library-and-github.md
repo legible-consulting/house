@@ -1,4 +1,4 @@
-# Stub: A goose task on library or .github starts with a map
+# Stub: An agent session on library or .github starts with a map
 
 - lane: chore
 - found-by: the alignment read of the open stubs against goose and Emdash · 2026-10-29
@@ -11,12 +11,12 @@ Goose reads `.goosehints`, not `CLAUDE.md`. The house and the blueprint have `.g
 
 ## Proposed change
 
-Each of the two repos gets `.goosehints` with the words of the house's file. `.github` also gets a `CLAUDE.md` of a few lines that says what the repo is and routes to `check-client.yml`. One pull request per repo, then the move of this stub.
+Each of the two repos gets `.goosehints` with the words of the house's file, and a one-line `AGENTS.md` that points at `CLAUDE.md` (triage stub `agents-md-pointer`). `.github` also gets a `CLAUDE.md` of a few lines that says what the repo is and routes to `check-client.yml`. One pull request per repo, then the move of this stub.
 
 ## Acceptance criteria
 
-- [ ] `legible-consulting/library` has `.goosehints` at the root that sends goose to `CLAUDE.md` first.
-- [ ] `legible-consulting/.github` has `.goosehints` at the root and a `CLAUDE.md` under 30 lines that names the repo's job and its reusable workflows.
+- [ ] `legible-consulting/library` has `.goosehints` and `AGENTS.md` at the root, each one that sends the agent to `CLAUDE.md` first.
+- [ ] `legible-consulting/.github` has `.goosehints`, `AGENTS.md` and a `CLAUDE.md` under 30 lines that names the repo's job and its reusable workflows.
 - [ ] Neither file names a client, a secret or a path on one machine.
 
 ## Notes

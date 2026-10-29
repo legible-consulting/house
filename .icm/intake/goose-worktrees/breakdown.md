@@ -17,9 +17,13 @@ The three guards run in goose since 2026-10-29 through the plugin `legible-guard
 
 The review also asked whether the blueprint should carry files for the agent Jamie runs locally. Jamie: yes. `.goosehints` and `worktree-setup.sh` stay in the template. `.emdash.json` leaves with Emdash.
 
+Re-cut the same evening. Jamie did not enjoy the interface of goose or of OpenCode. A spike read twenty-one open-source agents against the lane's eight requirements: the `CLAUDE.md` map, the three guards with block and ask, the board and router whose output reaches the model, the two skills folders, the allow list, any provider, CLI plus desktop plus worktrees, and open source with a steward and no account. Hermes Agent (Nous Research, MIT) meets the most of them together: shell hooks with an `approve` that escalates to the human gate, `command_allowlist` globs and `approvals.deny`, `CLAUDE.md` read per folder, every provider including local models, a Linux desktop built from the same repository, and telemetry that is off by default and opt-in in source. Its costs: the memory and skill writers run freely by default, worktrees land inside the repo, keys live in a plaintext `~/.hermes/.env`, and the project is very large with one dominant author. Jamie leans to Hermes and asked for two things first: assurance that it is open source in full, and whether its writers could serve the house if left on. The assessment of 2026-10-29 answers both: the licence, the code and the telemetry are open and clean, with paid services beside them that the lane does not use; the writers stay on with approval, with a scratch target for skills and one line in the system prompt that names the folder as the record. The trial is stub `hermes-loop-walk`. Goose stays until it passes.
+
+The spike also found that nine of eleven agents read `AGENTS.md` by default. Jamie: the blueprint renders a one-line `AGENTS.md` that points at `CLAUDE.md`, beside `.goosehints` (triage stub `agents-md-pointer`).
+
 ### Questions for Jamie
 
-Answered by Jamie in the session on 2026-10-29: the seven defaults stand, and they are written into the decisions below. Answered again on 2026-10-29 in the review (Q4 to Q6): the why of goose, the loop as the condition, the blueprint carries local-agent files. None is open.
+Answered by Jamie in the session on 2026-10-29: the seven defaults stand, and they are written into the decisions below. Answered again on 2026-10-29 in the review (Q4 to Q6): the why of goose, the loop as the condition, the blueprint carries local-agent files. Answered a third time the same evening, after the spike: the dislike was the feel of the interface, not a feature; the trial is Hermes Agent alone; the writers stay on with approval; the blueprint renders `AGENTS.md`. None is open.
 
 1. Where does the epic go in `README.md` § Order? Default: fourth, after `blueprint-environments`, where `emdash-worktrees` was.
 2. Where do the worktrees live? Default: `~/goose/worktrees/<repo>/<slug>/`, one folder per repo, one worktree per ticket.
@@ -41,7 +45,11 @@ Classification of the open epics, for question 1 (2026-10-29, first cut):
 
 - **One application per lane.** Goose is the agent of the local lane. Claude Code keeps the cloud and phone lane (why: goose has no hosted session, and every module runs from anywhere · Jamie, 2026-10-29).
 - **Goose is the provider-independent agent.** It runs on Jamie's machine on the model he chooses, today Claude through the API on a 200-dollar credit. It is the replacement for Claude Code when the weekly usage runs out or the subscription ends (why: Jamie's words, 2026-10-29. One agent bound to one vendor's subscription is one point of failure for the whole lane).
-- **The lane completes the loop, or the agent changes.** Stub `goose-loop-walk` proves step 0 to step 7 of `.icm/intake/CONTEXT.md` in goose, on a live repo and on the house. A gap with no fix names the next agent to test, and Emdash stays until then (why: Jamie's answer to Q5, 2026-10-29. A lane that stops one step short is two lanes).
+- **The lane completes the loop, or the agent changes.** A loop walk proves step 0 to step 7 of `.icm/intake/CONTEXT.md` in the lane's agent, on a live repo and on the house. A gap with no fix names the next agent to test, and Emdash stays until then (why: Jamie's answer to Q5, 2026-10-29. A lane that stops one step short is two lanes).
+- **The agent under trial is Hermes Agent, and goose holds the lane until the trial passes.** Stub `hermes-loop-walk` is the trial. Qwen Code is the next to try if Hermes fails a requirement with no shim (why: Jamie did not enjoy goose's or OpenCode's interface, and the spike of 2026-10-29 put Hermes first on the eight requirements · Jamie, 2026-10-29).
+- **Hermes's writers stay on, with approval.** `memory.write_approval` and `skills.write_approval` are true, new skills land in a scratch folder outside every repo, and the system prompt says that a client's facts are never saved to memory (why: `USER.md` is the same gain as Claude Code's auto-memory, and an unreviewed note or skill is a second home that drifts, against one home per fact · Jamie, 2026-10-29).
+- **The lane's worktrees are the lane script's, never the agent's.** Hermes's `.worktrees/` inside the repo is not used (why: a worktree never sits beside or inside a repo, `~/.claude/CLAUDE.md` § Worktrees · 2026-10-29).
+- **The lane script is agent-agnostic.** One variable names the agent. Its name `goose-task` changes with the winner (why: one script for the folder, whatever runs in it · 2026-10-29).
 - **The blueprint carries the local agent's files.** `.goosehints` and `.icm/scripts/worktree-setup.sh` stay in the template. `.emdash.json` leaves with Emdash (why: Jamie's answer to Q6, 2026-10-29. A client's build opens in the agent Jamie runs, and the file that maps it travels with the build).
 - **Emdash leaves.** The worktree per ticket stays (why: Jamie runs tickets on one repo in parallel, and two applications for one lane is what he does not want · Jamie, 2026-10-29).
 - **Goose Desktop stays installed and closed** (why: Jamie's word, 2026-10-29. The stack row stays until he removes it).
@@ -59,13 +67,13 @@ Classification of the open epics, for question 1 (2026-10-29, first cut):
 ## Build order
 
 1. goose-task-script — the house gets `core/setup/goose-task.sh`, `local.sh` installs it, and `core/stack.md` names the script and the worktree folder — depends-on: none
-2. plugin-router-and-board — the plugin `legible-guards` runs the repo's router and board in a goose session, or says what goose cannot do — depends-on: none
+2. plugin-router-and-board — the plugin `legible-guards` runs the repo's router and board in a goose session, or says what goose cannot do — depends-on: none — blocked on the trial
 3. blueprint-new-run-in-worktree — `new-run.sh` keeps the worktree's branch, and `.emdash.json` leaves the blueprint — depends-on: goose-task-script
 4. emdash-leaves — the stack drops Emdash, and Jamie removes it from the machine — depends-on: goose-loop-walk
 5. estate-worktree-files — each live repo loses `.emdash.json` and keeps the setup script, in the conformance to the new tag — depends-on: blueprint-new-run-in-worktree
-6. goose-loop-walk — a goose session takes one live repo ticket and one house ticket to the merge, and each gap gets a fix or a stub — depends-on: plugin-router-and-board, blueprint-new-run-in-worktree
+7. hermes-loop-walk — a Hermes session takes one live repo ticket and one house ticket to the merge, scored on the eight requirements, with the writers' pass mark — depends-on: blueprint-new-run-in-worktree
 
-Stub 6 was cut on the re-cut and runs before stub 4. A dropped or re-cut stub keeps its number (`.icm/intake/CONTEXT.md`).
+Stub 7 runs before stub 4, and stub 2 waits on it. Stub 6, `goose-loop-walk`, is dropped in `_done/`: the agent under trial changed. A dropped or re-cut stub keeps its number (`.icm/intake/CONTEXT.md`).
 
 ## Out of scope
 
@@ -73,5 +81,6 @@ Stub 6 was cut on the re-cut and runs before stub 4. A dropped or re-cut stub ke
 - The cloud and phone lane. Claude Code keeps it as today.
 - A view of several sessions at once. Terminal tabs and `goose session list` are the view.
 - A goose recipe or skill that starts a ticket. The script is enough this round.
-- `.goosehints` in `library` and `.github`: the triage stub `goosehints-library-and-github`.
+- `.goosehints` and `AGENTS.md` in `library` and `.github`: the triage stub `goosehints-library-and-github`. `AGENTS.md` in the blueprint and the house: the triage stub `agents-md-pointer`.
+- Hermes's gateway, cron, dashboard, Cloud and Portal. The lane uses none.
 - The goose verdict and the stack row's why: the triage stub `tool-why-home`.
