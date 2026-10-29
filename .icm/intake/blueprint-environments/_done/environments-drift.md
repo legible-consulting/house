@@ -1,8 +1,10 @@
+> Dropped: the comparison of a declared table with the platform moves to conformance, one run for the estate with Jamie's tokens, as the triage stub `conformance-answers`. Jamie's answer of 2026-10-29: a drift line in `promote.sh status` changes no decision that the conformance report does not · 2026-10-29
+
 # Stub: The UAT status names each difference between the README's table and Vercel
 
 - feature-slug: environments-drift
 - epic: blueprint-environments
-- sequence: 2 of 5
+- sequence: 2 of 9
 - depends-on: environments-table
 - complexity: medium
 - priority: P2

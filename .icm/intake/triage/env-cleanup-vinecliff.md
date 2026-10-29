@@ -30,7 +30,8 @@ After the vinecliff conformance pull request merges, Jamie does the setup stubs 
 
 ## Notes
 
-- blocked: the vinecliff conformance pull request to the new blueprint tag is not merged.
+- blocked: the conformance pull request, for the setup stubs only. The first act, Preview off the Neon project `vinecliff`, waits on no tag: it is a Vercel setting that no workflow of `main` reads (Jamie, 2026-10-29).
 - Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The slug is `vinecliff-vineyard`, so the setup stubs name `uat-vinecliff-vineyard`. The production project is `vinecliff`. The names are a convention only: no script reads them. Name the UAT project `uat-vinecliff`? Default: yes.
 - Session work, not an operator act: vinecliff's `db-migrate.yml` migrates production on each push to `main`, before the sign-off. The conformance triage stub removes it.
+- This stub stays in the house until the vinecliff conformance pull request. That pull request moves each act that is still open into the repo's `.icm/intake/setup/`, one setup stub per act, and moves this stub to `_done/` (why: the blueprint built `setup/` for the acts a person does in a repo, and the house is a second home for them · Jamie, 2026-10-29).

@@ -38,3 +38,4 @@ After the remi-ai conformance pull request to the new blueprint tag merges, Jami
 - The shared branch answer is 1: the two apps of one pull request use one Neon branch. The evidence is in `triage/_done/env-check-neon-preview-branching.md` § Notes.
 - The Vercel CLI and the house session read `remi21`. The Vercel connector does not.
 - The deletion check: the other `env-cleanup-<repo>` stubs read its answer here. A free Neon project allows 10 branches.
+- This stub stays in the house until the remi-ai conformance pull request. That pull request moves each act that is still open into the repo's `.icm/intake/setup/`, one setup stub per act, and moves this stub to `_done/` (why: the blueprint built `setup/` for the acts a person does in a repo, and the house is a second home for them · Jamie, 2026-10-29).

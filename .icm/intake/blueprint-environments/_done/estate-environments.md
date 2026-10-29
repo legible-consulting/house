@@ -1,8 +1,10 @@
+> Dropped: the table leaves `README.md`, a file copier writes once, for a copier-owned file. Jamie's answer of 2026-10-29: no hand edit across pull requests. The stub `estate-environments-file` carries the same work for the new file · 2026-10-29
+
 # Stub: Each live repo says where it runs
 
 - feature-slug: estate-environments
 - epic: blueprint-environments
-- sequence: 4 of 5
+- sequence: 4 of 9
 - depends-on: check-environments-table
 - complexity: low
 - priority: P2

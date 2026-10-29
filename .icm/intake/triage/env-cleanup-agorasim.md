@@ -34,3 +34,4 @@ After the agorasim conformance pull request to the new blueprint tag merges, Jam
 - blocked: the agorasim conformance pull request to the new blueprint tag is not merged. A deletion before the merge makes the old `preview-db.yml` fail.
 - Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The `uat` variables of the app (`ADMIN_SESSION_SECRET`, `BOOKING_*`, `STRIPE_*`, `RESEND_API_KEY`, `NEXT_PUBLIC_SITE_URL`) stay.
+- This stub stays in the house until the agorasim conformance pull request. That pull request moves each act that is still open into the repo's `.icm/intake/setup/`, one setup stub per act, and moves this stub to `_done/` (why: the blueprint built `setup/` for the acts a person does in a repo, and the house is a second home for them · Jamie, 2026-10-29).

@@ -2,7 +2,7 @@
 
 - feature-slug: estate-worktree-files
 - epic: goose-worktrees
-- sequence: 5 of 5
+- sequence: 5 of 6
 - depends-on: blueprint-new-run-in-worktree
 - complexity: low
 - priority: P2

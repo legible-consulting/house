@@ -2,7 +2,7 @@
 
 - feature-slug: goose-task-script
 - epic: goose-worktrees
-- sequence: 1 of 5
+- sequence: 1 of 6
 - depends-on: none
 - complexity: medium
 - priority: P2

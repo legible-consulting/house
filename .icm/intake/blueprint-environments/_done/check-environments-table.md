@@ -1,8 +1,10 @@
+> Dropped: the table leaves `README.md`, a file copier writes once, for a copier-owned file. Jamie's answer of 2026-10-29: no hand edit across pull requests. The stub `check-environments-file` carries the same work for the new file · 2026-10-29
+
 # Stub: CI fails a build whose README does not say where it runs
 
 - feature-slug: check-environments-table
 - epic: blueprint-environments
-- sequence: 3 of 5
+- sequence: 3 of 9
 - depends-on: environments-table
 - complexity: low
 - priority: P2
