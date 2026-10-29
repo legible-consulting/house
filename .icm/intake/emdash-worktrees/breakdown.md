@@ -20,7 +20,10 @@ The live repos use two package managers: npm (`package-lock.json`) in berceo, vi
 1. **Which script runs the install.** Default: `scripts.prepare: bash .icm/scripts/worktree-setup.sh` (why: prepare blocks the activation, so the agent finds `node_modules` on its first command; `setup` runs only when auto-run is on, which is a person's setting). The other answer: `scripts.setup`, and the agent can start before the install ends.
 2. **A `scripts.run` line for the dev server.** Default: no (why: a dev server is not the agent's job, and the guard `block-local-checks.sh` refuses it; Jamie starts one himself when he needs one).
 
-Both are open. A session builds stub 1 only after Jamie answers here.
+Both are answered. Jamie said in the session on 2026-10-29: use the default for each question.
+
+1. Answer: `scripts.prepare: bash .icm/scripts/worktree-setup.sh`.
+2. Answer: no `scripts.run` line.
 
 ## Decisions of record
 
