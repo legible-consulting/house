@@ -24,7 +24,7 @@ The trial of `goose-worktrees/hermes-loop-walk` installed Hermes Agent v0.22.5 a
 - [ ] `core/setup/local.sh` installs them and prints `ok` or `MISSING` for the profile.
 - [ ] `~/.hermes/.env` does not exist, or `core/stack.md` names it as an exception with the why.
 - [ ] The lane script writes and removes the worktree's `skills.external_dirs` line.
-- [ ] `core/stack.md` § Local machine names the profile folder, the four files and the keyring helper (`secrets.command` reads the goose keyring item, service `goose`, username `secrets`).
+- [ ] `core/stack.md` § Local machine names the profile folder, the four files and the keyring helper (`secrets.command` reads the keyring item with service `hermes` and username `anthropic`, which holds the Anthropic key alone). Changed 2026-10-29: the goose keyring item left the machine with goose.
 - [ ] An issue in the Hermes Agent repo reports the `Path.cwd()` bug, and the stub links it. When a Hermes release fixes it, the `state.db` lookup leaves both scripts.
 
 ## Out of scope

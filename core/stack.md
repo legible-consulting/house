@@ -66,9 +66,11 @@ Ubuntu 24.04 with Homebrew. A fresh machine, in order:
    the agent into `~/.hermes/hermes-agent/` and puts `hermes` in `~/.local/bin/`.
 2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo`
    (org settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
-   - Hermes: the profile `legible` reads the Anthropic key from the system keyring, never from a
-     file (why: a key in a file is plain text that every process can read and a commit can copy ·
-     2026-10-29). The profile's files and the keyring item are triage stub
+   - Hermes: the profile `legible` reads the Anthropic key from the system keyring item with
+     service `hermes` and username `anthropic`, never from a file. Store it with
+     `secret-tool store --label='Hermes Anthropic key' service hermes username anthropic`, which
+     reads the key from the prompt (why: a key in a file is plain text that every process can read
+     and a commit can copy · 2026-10-29). The profile's files and the keyring item are triage stub
      `hermes-profile-files`.
 3. Clone the org's working repos side by side:
    ```bash
