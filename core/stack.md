@@ -67,7 +67,7 @@ Ubuntu 24.04 with Homebrew. A fresh machine, in order:
    - Goose desktop: download the `.deb` from the Linux tab of
      https://goose-docs.ai/docs/getting-started/installation, then `sudo dpkg -i <file>.deb`.
      The package is `goose`.
-   - Emdash: download the `.deb` from https://emdash.sh, then `sudo dpkg -i <file>.deb`. The
+   - Emdash: download the `.deb` from https://emdash.com/download, then `sudo dpkg -i <file>.deb`. The
      package is `emdash`. It installs in `/opt/Emdash/`.
 2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo`
    (org settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
@@ -100,7 +100,7 @@ Layout:
 | `~/.config/emdash/` | Emdash's store: an Electron profile and SQLite files. It holds the projects, the tasks, the worktree records and the settings that a person sets in the Emdash UI: the worktree directory, the default branch (`origin/main` for house), telemetry, and a person's own scripts and preserve patterns. `emdash4.db` also holds the Emdash account token and the GitHub token. Do not read the store into a session, copy it or commit it. Change a setting in the Emdash UI only. The shared settings of a build are its `.emdash.json` (the blueprint), not this store. |
 | `~/.agents/plugins/legible-guards/` | the three guards for Goose: `block-local-checks.sh`, `confirm-git-writes.sh` and `guard-plaintext-secrets.sh`. It holds no copy of them. `hooks/hooks.json` registers one adapter, `scripts/guard.sh`, on Goose's `PreToolUse`. The adapter runs the same three scripts as Claude Code: the repo's `.claude/hooks/` copy when the working directory has one (the repo copy wins), else `~/.claude/hooks/`. Shell calls get the three guards. File writes get `guard-plaintext-secrets.sh`. It does not carry `reap-worktrees.sh`. The Goose paragraph after the hooks table gives the rules. |
 | `~/.agents/plugins/emdash/` | Emdash's hooks for Goose. They post each session event to Emdash's local port, only when Emdash started the session (the `EMDASH_HOOK_*` variables are set). They guard nothing. |
-| `~/emdash/worktrees/` | Emdash's task worktrees: one folder per project (`house-<id>/`), and in it one worktree per task, on the branch `emdash/<task-name>`. This is Emdash's default worktree directory, and no project changes it. Emdash makes and removes the worktrees here. No person and no hook makes, moves or removes one by hand (why: Emdash tracks them in its own store, and a worktree removed behind it shows as an orphan · 2026-10-29). |
+| `~/emdash/worktrees/` | Emdash's task worktrees: one folder per project (`house-<id>/`), and in it one worktree per task, on the branch `emdash/<task-name>`. This is Emdash's default worktree directory, and no project changes it. Emdash makes and removes the worktrees here. To remove one, delete its task in Emdash: delete removes a worktree that Emdash made, and archive keeps it so that Restore can resume the task. Delete the task when its pull request merges. No person and no hook makes, moves or removes one by hand (why: Emdash tracks them in its own store, and a worktree removed behind it shows as an orphan · 2026-10-29). |
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
 `~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
