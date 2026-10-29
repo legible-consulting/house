@@ -43,6 +43,14 @@ export const WRITES = {
     ops: ["create"],
     app: true,
   },
+  "queue-name": {
+    role: "jamie",
+    globs: ["research/queue/*.md"],
+    branch: "main",
+    identity: "DESK_PAT",
+    ops: ["create", "delete"],
+    app: true,
+  },
   handoff: {
     role: "salesman, jamie",
     globs: ["clients/*/record.md", "clients/*/*/*.md", "01-prospecting/leads/*/*.md"],

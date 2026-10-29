@@ -61,7 +61,12 @@ variable. The Process says what a session does with them.
   it. At the computer, Jamie pastes it in the form on `/research`. Both write
   `research/queue/<date>-<host>-<hash>.md` to `main` with `DESK_PAT` (Outputs, the row `share`). The desk judges nothing.
   The daily intake writes the verdict (`research/CONTEXT.md`) (why: the share sheet is the one
-  tap Jamie takes on the phone · 2026-10-25).
+  tap Jamie takes on the phone · 2026-10-25). A LinkedIn link with no text opens the form on
+  `/research` and asks for the post's text, because no route reads a LinkedIn post. A queue
+  file with a `Pointer unresolved:` line shows under "Needs a name" on `/research`: Jamie types
+  the name, and the desk writes the file again with the name in `text` and without the line, or
+  he drops the file (Outputs, the row `queue-name`) (why: a share that no route reads waits for one word from the phone, not a
+  verdict with no item · 2026-10-29).
 - A lead. The portfolio's contact form posts to `/api/pool` with `POOL_TOKEN`. The free look
   posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
   email is open. A salesman or Jamie moves the row through the pool's statuses
@@ -99,6 +104,7 @@ one.
 | `free-look` | visitor, no session | `01-prospecting/leads/*/free-look-*.md` | `main` | `DESK_PAT` | the free look's answers, create only: nothing is thanked that is not in the house · 2026-10-26 |
 | `link-answers` | visitor, no session | `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `main` | `DESK_PAT` | a sent link's answers, create only, in the folder when the record is on `main`, else with the lead · 2026-10-25 |
 | `share` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a shared link, create only: a link that waits in a chat is a link lost · 2026-10-25 |
+| `queue-name` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a share that no route read, named (a new file with the name, then the old file deleted) or dropped (deleted): a share waits for one word from the phone, not a verdict with no item · 2026-10-29 |
 | `handoff` | salesman, jamie | `clients/*/record.md`, `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `pool/*` | `DESK_PAT` | the record and the lead's answers, created in the folder and deleted from the lead, on a branch with a pull request: a lead copied by hand from a mail is a lead lost · 2026-10-22 |
 | `rhythms` | none: the morning and monthly runs | `desk/glance/*.md`, `desk/close/*.md` | `main` | `GITHUB_TOKEN (rhythms.yml)` | the glance and the close, written by the workflow, never by the app: one set of rules for every reader · 2026-10-22 |
 

@@ -25,6 +25,10 @@ Watch (why: its one fit is testing an Android build of an App line client (`core
 - A client build that ships an Android app, through Capacitor or otherwise: then try it on an emulator in that build's tests.
 - A cloud route that runs it against an emulator without a device on Jamie's desk.
 
+## Update 2026-10-29
+
+The reel of the former `verdicts/facebook-reel-21a24c.md` (Roshan Krishna, https://www.facebook.com/share/r/19ZWg32Df4/, shared 2026-10-27) names ARTEMIS in its audio: "Google just open sourced a tool called Artemis", and Claude can use a real Android phone, install an app on it and send screenshots of each bug. It adds nothing to the verdict. The verdict stands. The reel's file leaves, and this note keeps its link. Caption read with yt-dlp 2026.10.26; the audio transcribed with faster-whisper (model small) on Jamie's desktop, on 2026-10-29.
+
 ## Source
 
 https://github.com/google/artemis · fetched 2026-10-28 · "ARTEMIS". The post names the tool and "Google's GitHub" without a link. Found by search. The caption asks for a comment ("GOOGLE") to get the tool; that is not information. README and LICENSE read from raw.githubusercontent.com. The reel of `verdicts/facebook-reel-21a24c.md` (2026-10-27, unresolved) probably pointed at the same tool.

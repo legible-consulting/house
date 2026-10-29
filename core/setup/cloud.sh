@@ -38,10 +38,13 @@ if ! have trafilatura && ! have html2text; then
   fi
 fi
 
-# yt-dlp: the research intake reads a video's description and captions with it (intake.md,
-# step 4c). The same route as trafilatura. Without it, the intake works from the page text.
+# yt-dlp: the research intake reads a video's description and captions with it, and the caption
+# of a Facebook or Instagram reel (intake.md, step 4c). The same route as trafilatura. Without
+# it, the intake works from the page text. The pin follows the current release: the social
+# hosts change their pages, and an old yt-dlp fails on them first (why: the route test of
+# research-social-fetch, 2026-10-29).
 if ! have yt-dlp && have uv; then
-  UV_TOOL_DIR=/opt/uv-tools UV_TOOL_BIN_DIR=/usr/local/bin uv tool install -q yt-dlp==2026.8.19 \
+  UV_TOOL_DIR=/opt/uv-tools UV_TOOL_BIN_DIR=/usr/local/bin uv tool install -q yt-dlp==2026.10.26 \
     >>/tmp/setup-uv.log 2>&1 || log "yt-dlp install failed, see /tmp/setup-uv.log"
 fi
 
