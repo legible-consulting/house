@@ -56,4 +56,4 @@ Then the blueprint follows the answer:
 
 ## Prompt
 
-Repo legible-consulting/blueprint, desktop or cloud. Attach legible-consulting/house read-only. The ticket is .icm/intake/triage/blueprint-monorepo-uat-build.md in the house: read it first, then `triage/_done/env-check-neon-preview-branching.md` § Notes for the remi-ai answer, then the blueprint's CLAUDE.md. Stop when the answer is not recorded. Cut the branch `monorepo-preview-database` from `main`. Conventional Commits, technical text in Simplified Technical English. Do not run checks locally. Do not merge.
+An Emdash task on legible-consulting/blueprint, with goose. The task's worktree is on its own branch: cut no branch. The ticket is .icm/intake/triage/blueprint-monorepo-uat-build.md in the house clone at ~/Desktop/legible-consulting/house: read it first, then `triage/_done/env-check-neon-preview-branching.md` § Notes in the same clone for the remi-ai answer, then the blueprint's CLAUDE.md. Stop when the answer is not recorded. Conventional Commits, technical text in Simplified Technical English. Do not run checks locally. Do not merge.
