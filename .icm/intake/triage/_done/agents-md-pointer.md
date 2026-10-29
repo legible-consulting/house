@@ -26,3 +26,11 @@ The blueprint renders `AGENTS.md` at the root of every build and every workspace
 
 - `library` and `.github`: the triage stub `goosehints-library-and-github` carries the file for those two repos.
 - The live repos: they get the file at the next conformance tag, with `estate-worktree-files`.
+
+## Answers
+
+Jamie, 2026-10-29: the house's three criteria (`AGENTS.md`, `check.yml`'s `placement` job,
+`core/stack.md`'s Agent map row) merged in pull request #192. The blueprint half
+(`template/AGENTS.md`, its render job, `_skip_if_exists`, `conventions/README.md`) is a
+separate pull request on `legible-consulting/blueprint`. This stub moves to `_done` on the
+house's own completion; the blueprint work is tracked there, not here.
