@@ -1,4 +1,4 @@
-# Stub: new-run.sh starts a ticket inside its worktree, and the blueprint renders no Emdash file
+# Stub: new-run.sh starts a ticket inside its worktree, and the blueprint renders no Emdash or goose file
 
 - feature-slug: blueprint-new-run-in-worktree
 - epic: goose-worktrees
@@ -9,11 +9,11 @@
 
 ## Problem
 
-The intake contract's loop, step 2, says that the session cuts the branch: `.icm/scripts/new-run.sh <epic>/<slug>` runs `git switch -c <slug> origin/main` and refuses a tree that is not clean. `goose-task` makes the worktree on the branch `<slug>` before goose starts. Inside that worktree the script would cut a second branch or refuse. The blueprint also renders `.emdash.json` (pull requests 38 and 40), `check.yml` proves it, and `conventions/README.md` has an Emdash row. No tool reads the file once Emdash leaves.
+The intake contract's loop, step 2, says that the session cuts the branch: `.icm/scripts/new-run.sh <epic>/<slug>` runs `git switch -c <slug> origin/main` and refuses a tree that is not clean. `goose-task` makes the worktree on the branch `<slug>` before goose starts. Inside that worktree the script would cut a second branch or refuse. The blueprint also renders `.emdash.json` (pull requests 38 and 40), `check.yml` proves it, and `conventions/README.md` has an Emdash row. No tool reads the file once Emdash leaves. The blueprint also renders `.goosehints` in the root and in `template/`, and goose left the lane on 2026-10-29.
 
 ## Proposed change
 
-`new-run.sh` keeps the branch of the worktree it runs in when that branch is not `main` and not detached. It moves the stub, commits, pushes that branch and opens the pull request from it. On `main` it cuts the branch as today. The intake contract's step 2 says both cases. `.emdash.json` leaves the template, `check.yml` and the conventions. `worktree-setup.sh` stays, and its comment names `goose-task` as its caller. The conventions get a `Worktree setup` row in place of the Emdash row. One pull request on `legible-consulting/blueprint`, then the move of this stub.
+`new-run.sh` keeps the branch of the worktree it runs in when that branch is not `main` and not detached. It moves the stub, commits, pushes that branch and opens the pull request from it. On `main` it cuts the branch as today. The intake contract's step 2 says both cases. `.emdash.json` and `.goosehints` leave the root, the template, `copier.yml`, `check.yml` and the conventions. `worktree-setup.sh` stays, and its comment names `goose-task` as its caller. The conventions get a `Worktree setup` row in place of the Emdash row. One pull request on `legible-consulting/blueprint`, then the move of this stub.
 
 ## Acceptance criteria
 
@@ -24,10 +24,12 @@ The intake contract's loop, step 2, says that the session cuts the branch: `.icm
 - [ ] `.icm/intake/CONTEXT.md` § The loop, step 2, says that a worktree's branch is the ticket's branch, and that the script cuts a branch only from `main`.
 - [ ] No render has `.emdash.json`. `copier.yml`'s comment above `_skip_if_exists` does not name it. `check.yml` has no step that parses it, and the `render` job's comment does not name it.
 - [ ] `conventions/README.md` has a `Worktree setup` row and no `Emdash` row. The row names `.icm/scripts/worktree-setup.sh` as the blueprint's, says that `goose-task` runs it in a new worktree, and says that a workspace has no script.
-- [ ] `worktree-setup.sh`'s header comment names `goose-task` and not Emdash. The script's behaviour does not change.
+- [ ] No render has `.goosehints`, and the blueprint's root has none. `copier.yml`, `check.yml` and `conventions/README.md` do not name goose or Emdash.
+- [ ] `worktree-setup.sh`'s header comment names `goose-task` and not Emdash or goose. The script's behaviour does not change.
 
 ## Notes
 
 - The branch name `<slug>` and the removal of `.emdash.json` in this stub are the breakdown's decisions of record (Jamie, 2026-10-29).
+- The removal of `.goosehints` joined this stub on 2026-10-29: Jamie's answer 8 in the spec of `goose-task-script`. The agent map is `AGENTS.md` (triage stub `agents-md-pointer`).
 - `.icm/scripts/merge.sh` and `checks.sh` read the pull request by number, so they do not depend on the branch name.
 - After the merge, Jamie cuts the blueprint tag that stub `estate-worktree-files` waits on.
