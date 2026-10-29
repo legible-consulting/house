@@ -104,3 +104,14 @@ Five files. The house owns each one, in `core/setup/`.
 - Staged and not decided: 21 batches. All patch or create general skills: `github` and `software-development:github` (12), `hermes-agent` (5), `blocked-page-recovery`, `copier-template-change`, `vercel-api`. Jamie decides.
 - `MEMORY.md` is unchanged since 14:24. It holds the importer's copy of the old `~/.claude/CLAUDE.md`, paths included. No client fact. The criterion "no path" is not met until it is cleared.
 - The background review staged 26 batches in one day and created a copy of the loop eight times. The memory writer staged nothing.
+
+### Jamie's answers after the walks (2026-10-29)
+
+- R2 ask: Jamie ran `git push origin main` in a new `hermes -p legible` session after the `plugin_rule:` line left the allow list. The guard asked. Met (Jamie's word in the session).
+- The staged skills: all rejected (why: the repo skills and contracts are the home of the house's mechanics). 22 batches, one more than the count above, because a batch arrived before the rejection. The pending lists are empty.
+- `MEMORY.md` is cleared (why: it repeated `SOUL.md`, paths included). It holds no client fact and no path.
+- The background skill review stays on with approval for one more week: triage stub `hermes-skill-review` (Jamie, 2026-10-29).
+
+### Result (2026-10-29)
+
+Hermes meets R1, R2, R3, R4, R5 and R7 with five shims. R6 is in triage stub `hermes-cheap-models`. The stack keeps Hermes. No next agent is named.
