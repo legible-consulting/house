@@ -41,7 +41,6 @@ command_allowlist:
   - node --version*
   - npm --version*
   - nvm --version*
-  - plugin_rule:legible:confirm-git-writes
 memory:
   write_approval: true
   memory_enabled: true
@@ -51,8 +50,8 @@ skills:
   create_dir: ~/.hermes/profiles/legible/scratch-skills
   # Shim: Hermes reads .hermes/skills and .agents/skills by itself; the house keeps its skills in
   # .claude/skills, so each repo's folder is named here. ~/.claude/skills holds asd-ste100.
-  # goose-task adds a worktree's .claude/skills here when it makes the worktree, and removes the
-  # line with goose-task done. The house copy holds ~/.claude/skills only.
+  # ticket adds a worktree's .claude/skills here when it makes the worktree, and removes the
+  # line with ticket done. The house copy holds ~/.claude/skills only.
   external_dirs:
     - ~/.claude/skills
 display:

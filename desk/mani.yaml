@@ -2,34 +2,49 @@
 # governs (jamienisbet, adopted 2026-10-22). tags: live (a build the blueprint governs, checked
 # against the blueprint tag), dormant (archived, nothing changes in it). Jamie's other projects
 # on k0d0minio, which the blueprint does not govern, are not estate and are not listed
-# (2026-10-21).
+# (2026-10-21). vercel: the Vercel team that holds the repo's projects; neon: the Neon
+# organisation that holds its database projects, a label or an `org-…` id. Each one names the
+# token that conformance/drift.sh reads from the shell: VERCEL_TOKEN_<TEAM>, NEON_API_KEY_<ORG>
+# (conformance/CONTEXT.md, 2026-10-29).
 projects:
   berceo:
     path: ~/Desktop/legible-consulting/projects/berceo
     url: https://github.com/k0d0minio/berceo.git
     tags: [live]
+    vercel: kodominio
+    neon: kodominio
 
   vinecliff:
     path: ~/Desktop/legible-consulting/projects/vinecliff
     url: https://github.com/k0d0minio/vinecliff.git
     tags: [live]
+    vercel: kodominio
+    neon: kodominio
 
   agorasim:
     path: ~/Desktop/legible-consulting/projects/agorasim
     url: https://github.com/k0d0minio/agorasim.git
     tags: [live]
+    vercel: kodominio
+    neon: kodominio
 
   remi-ai:
     path: ~/Desktop/legible-consulting/projects/remi-ai
     url: https://github.com/k0d0minio/remi-ai.git
     tags: [live]
+    vercel: remi21
+    neon: remi21
 
   jamienisbet:
     path: ~/Desktop/legible-consulting/projects/jamienisbet
     url: https://github.com/k0d0minio/jamienisbet.git
     tags: [live]
+    vercel: kodominio
+    neon: kodominio
 
   messy-play:
     path: ~/Desktop/legible-consulting/projects/messy-play
     url: https://github.com/k0d0minio/messy-play.git
     tags: [live]
+    vercel: kodominio
+    neon: kodominio

@@ -66,3 +66,41 @@ A Hermes session on the profile `legible` (desktop app, Hermes v0.22.5, model `c
 - `~/.hermes/.env` and the profile's `.env` stay. `core/stack.md` § Local machine names them as an exception with the why. The key criterion is met by that record.
 - The live repo ticket waits on Jamie's choice of repo.
 - `local.sh` ran from `main` on Jamie's word (2026-10-29). Homebrew was not on the session's `PATH`, so the session loaded `brew shellenv` first. Every tool reports `ok`, `yq` v4.54.1 included, and the link `~/.local/bin/goose-task` exists. The R4 shim can now run. `config.yaml` differs from the house copy until this pull request merges.
+
+### The live repo walk (2026-10-29)
+
+`jamienisbet` ticket `triage/drop-desk-tailwind-merge-config`, pull request k0d0minio/jamienisbet#212, merged at 22:34 as `12becc7`. Jamie started the session in a terminal with `ticket ~/Desktop/legible-consulting/projects/jamienisbet triage/drop-desk-tailwind-merge-config`. Hermes session `local-…269e128f`, model `claude-sonnet-5`, 46 tool calls. The first prompt was "take the next ticket".
+
+| Requirement | Result | Evidence |
+|---|---|---|
+| R1 | Met, through `CLAUDE.md` | The first call read `.icm/intake/CONTEXT.md`. The repo has no `AGENTS.md` yet, so Hermes read `CLAUDE.md` itself. The `AGENTS.md` route is not proven. |
+| R2 | Met for the two blocks. Not met for the ask | In this session on the same profile: `npm test` was blocked, and a write of a key-shaped string was blocked. `git push origin main` to a local scratch remote ran with no prompt. `guard-adapter.sh` returns `approve` for it. The cause is `plugin_rule:legible:confirm-git-writes` in `command_allowlist`: an earlier "always" answer wrote it, and it approves every ask of that guard. The line is removed from the profile and from `core/setup/hermes/config.yaml`. A running session keeps the old list, so the ask is read again in a new session. |
+| R3 | Met, by inference | The session went straight to the resume case for the slug, which only the board printed ("Started tickets"). `board-context.sh` run by hand on the same repo prints that board. The router printed no line for "take the next ticket". |
+| R4 | Met for `pr-conventions` | The session loaded `pr-conventions` from the worktree's `.claude/skills` through `skills.external_dirs`. It did not load `ticket-craft` or `asd-ste100`. Both folders were on the list. |
+| R5 | Met for `merge.sh` | After the tick, `merge.sh 212` ran with no prompt and merged. The first run refused, because the pull request was still a draft. `release.sh`: not run. `jamienisbet` has no release pull request, and the merge is the release. |
+| R6 | Moved | Triage stub `hermes-cheap-models`. |
+| R7 | Met | `ticket` made `~/worktrees/jamienisbet/triage-drop-desk-tailwind-merge-config/`. No `.worktrees/` folder appeared in the repo. |
+
+Findings of the walk:
+
+- The flip from draft to ready failed. `PATCH pulls/212 draft=false` returns 200 and changes nothing, and `POST …/ready_for_review` returns 404. Jamie flipped it on GitHub. The blueprint's `pr-conventions` names the call that fails: triage stub `blueprint-pr-ready-flip`.
+- `ticket` reused a local branch of an earlier session. The branch was three commits behind `main` and had no `worktree-setup.sh`, so the worktree got no `node_modules`. The board also showed the ticket as started: triage stub `ticket-stale-branch`.
+- The session removed its worktree with `git worktree remove`, not `ticket done`. The worktree's line stayed in `skills.external_dirs`. This session removed it by hand.
+- The session wrote two files in `/tmp`, outside the scratch folder.
+
+### The shims (2026-10-29)
+
+Five files. The house owns each one, in `core/setup/`.
+
+1. `core/setup/hermes/guard-adapter.sh`: the three Claude Code guards as `pre_tool_call` hooks (R2).
+2. `core/setup/hermes/board-context.sh`: the board and the router as a `pre_llm_call` hook, with the `state.db` read for upstream issue 146570 (R3).
+3. `core/setup/ticket.sh`: the worktree per ticket, and the worktree's `.claude/skills` in `skills.external_dirs` (R4, R7).
+4. `core/setup/hermes/config.yaml`: the hooks, the allow list for the scripts, the deny list and the writers (R2, R5).
+5. `core/setup/hermes/SOUL.md`: the words of `~/.claude/CLAUDE.md`, which Hermes does not read.
+
+### The writers after both walks (2026-10-29)
+
+- Rejected: 5 more staged batches that restate the loop (`icm-ticket-runs`, `icm-ticket-sessions-in-hermes` with a `hermes-agent` patch in the same batch, `legible-estate-hermes-sessions`, `legible-estate-tickets`), and a patch of the repo skill `pr-conventions` (why: the blueprint is its home, triage stub `blueprint-pr-ready-flip`). 20 rejected in all.
+- Staged and not decided: 21 batches. All patch or create general skills: `github` and `software-development:github` (12), `hermes-agent` (5), `blocked-page-recovery`, `copier-template-change`, `vercel-api`. Jamie decides.
+- `MEMORY.md` is unchanged since 14:24. It holds the importer's copy of the old `~/.claude/CLAUDE.md`, paths included. No client fact. The criterion "no path" is not met until it is cleared.
+- The background review staged 26 batches in one day and created a copy of the loop eight times. The memory writer staged nothing.
