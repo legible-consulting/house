@@ -7,7 +7,7 @@
 
 ## Problem
 
-On 2026-10-29 the background skill review of the profile `legible` staged 48 batches in one day. Jamie rejected all of them. Twenty restated the loop of `.icm/intake/CONTEXT.md` as Hermes skills. Jamie kept the review on with approval for one week (2026-10-29).
+On 2026-10-29 the background skill review of the profile `legible` staged 42 batches in one day. Jamie rejected all of them. Twenty restated the loop of `.icm/intake/CONTEXT.md` as Hermes skills. Jamie kept the review on with approval for one week (2026-10-29).
 
 ## Proposed change
 
