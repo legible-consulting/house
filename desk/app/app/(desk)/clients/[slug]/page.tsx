@@ -9,7 +9,7 @@ import { Due } from "@/components/desk/status-tag";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { flash, type Search } from "@/lib/guard";
-import { clientBySlug, day } from "@/lib/house";
+import { clientBySlug, day, unbacked } from "@/lib/house";
 import { today } from "@/lib/pool";
 import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
@@ -87,6 +87,7 @@ export default async function Client({
                   : "",
               className: drifted ? "text-destructive" : undefined,
             },
+            { label: "Platform", value: c.blueprint?.platform, className: unbacked(c.blueprint) ? "text-destructive" : undefined },
             { label: "Salesman", value: c.salesman },
           ]
         : []),

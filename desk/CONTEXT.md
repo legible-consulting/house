@@ -120,8 +120,8 @@ The files:
   closes, because `/close?month=` reads them (why: one set of rules for the page and the
   file, so every reader gets the same words, and a push to `main` reaches the desk without
   waiting for the morning run · 2026-10-22).
-- `estate/drift-<date>.md`: conformance's report, the latest only. The desk reads each repo's line
-  into its client's row at build (why: a drifted repo is a fact about the client, not a page
+- `estate/drift-<date>.md`: conformance's report, the latest only. The desk reads each repo's line,
+  its Drift and its Platform cell, into its client's row at build (why: a drifted repo is a fact about the client, not a page
   of its own · 2026-10-22).
 - `mani.yaml`: hand-written. Every client build, with its tags
   (`conformance/CONTEXT.md`).
@@ -235,8 +235,9 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   a client action until the handoff, so `lib/actions.ts` does not read it; then
   one row per step of Jamie's hand (`.icm/intake/README.md`): the step's bold title, with
   Copy prompt on the row; the row opens on the step and its check; the prompt is the words that start a session on the house to prepare the step, `lib/hand.ts`; no ticket),
-  `/clients` (the clients table: each client's stage, its repo's blueprint drift, latest
-  release and `check.yml` run, one row linked to the client's page), `/work` (three sections across every client repo and the house: On your desk, the ticket
+  `/clients` (the clients table: each client's stage, its repo's blueprint drift and, beside
+  it, the Platform cell when an answer is not backed, latest release and `check.yml` run, one
+  row linked to the client's page), `/work` (three sections across every client repo and the house: On your desk, the ticket
   cards whose next act is Jamie's, each with the act; Running, the other cards in flight,
   newest first; Projects, one row per repo, the house last, with its counts, its next ticket
   with the prompt to copy, and its board as the row's link; `?repo=<client>` redirects to the
