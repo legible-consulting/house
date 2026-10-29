@@ -15,7 +15,8 @@ import type { FileChange } from "./writes";
 //   that owns DESK_PAT moves main. The commit is the handoff.
 // - The research queue: one file per link Jamie shares to the desk, written to main
 //   (commitToHouse "share"), and the folder as it stands for /research (listFolder, then readOnMain for
-//   each file). lib/research.ts.
+//   each file). A file the intake marks unresolved is named or dropped (commitToHouse
+//   "queue-name"). lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 // - The latest run of each house workflow, any status (houseRun): the sync pill says
 //   queued, running or done.

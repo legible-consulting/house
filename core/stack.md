@@ -31,7 +31,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | mani | run a command across the estate's clones (the build, from the local lane) | 0.32.1 | `setup/local.sh` | — |
 | copier | render a client repo from the blueprint (kickoff) | 9.19.1 | `setup/local.sh` | — |
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
-| yt-dlp | a video's description and captions as text (the research intake) | 2026.8.19 | — | `setup/cloud.sh`, by `uv tool` |
+| yt-dlp | a video's description and captions, and a reel's caption, as text (the research intake) | 2026.10.26 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 | hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29) | as installed | by hand, once (§ Local machine) | — |
 | goose-task | the lane script: one ticket, one worktree, one agent session (from 2026-10-29) | the house's | `setup/local.sh` links `setup/goose-task.sh` | — |
@@ -121,6 +121,22 @@ The house carries the three guards only. The blueprint renders the router and th
 a build, never into a workspace, and registers them in the build's `.claude/settings.json`
 (why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
 2026-10-27). The router and the board are repo copies only, never global hooks.
+
+Hermes Agent does not read `.claude/settings.json`. The profile `legible` runs the same repo
+hooks from two files in `~/.hermes/profiles/legible/`, registered under `hooks:` in its
+`config.yaml`. Neither file holds a copy of a hook (why: the blueprint's script is the one
+home, and a Hermes session on a build gets the same board, router and guards as Claude Code ·
+`goose-worktrees/_done/plugin-router-and-board.md`, 2026-10-29). The triage stub
+`hermes-profile-files` gives the files their home in `core/setup/hermes/`.
+
+| Profile file | Hermes event | Runs | Claude Code event |
+|---|---|---|---|
+| `guard-adapter.sh` | `pre_tool_call` (`terminal`, `write_file`, `patch`) | the three guards, the repo copy first. A guard `deny` is `block`, a guard `ask` is `approve` | PreToolUse |
+| `board-context.sh` | `pre_llm_call`, first turn | the build's `.claude/hooks/session-start.sh`. Its output reaches the model as context | SessionStart |
+| `board-context.sh` | `pre_llm_call`, each turn | the build's `.claude/hooks/route-request.sh` with the prompt. Its `[router]` line reaches the model as context | UserPromptSubmit |
+
+`board-context.sh` prints nothing where the session's folder has no `.claude/hooks/`, or has
+neither script.
 
 `reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes them. The app removes only its own session worktrees (why: house had 46 worktrees and blueprint 11 · 2026-10-27).
 
