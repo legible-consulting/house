@@ -9,6 +9,9 @@
 #
 # The worktree is ~/worktrees/<repo>/<slug>/ (triage: triage-<slug>/) on the branch <slug>
 # (triage: triage/<slug>), from origin/<branch> when it exists on origin, else from origin/main.
+# A local branch that is not on origin and carries no commit of its own is stale from an
+# earlier session: it moves to origin/main before the worktree is made. A local branch with
+# its own commits is used as it is, with a warning line (triage/ticket-stale-branch, 2026-10-29).
 # The script copies .env and .env.local from the primary clone, runs
 # .icm/scripts/worktree-setup.sh when the repo has it, writes the worktree's .claude/skills into
 # the Hermes profile's skills.external_dirs (done removes it), and runs no build, lint, typecheck, test,
@@ -88,6 +91,15 @@ cmd_start() {
     git -C "$main" fetch --quiet origin
     mkdir -p "$ROOT/$repo"
     if git -C "$main" show-ref --verify --quiet "refs/heads/$branch"; then
+      if ! git -C "$main" show-ref --verify --quiet "refs/remotes/origin/$branch" \
+        && git -C "$main" merge-base --is-ancestor "$branch" origin/main; then
+        # The branch is not on origin and has no commit origin/main lacks: it is stale
+        # from an earlier session, so it starts fresh at origin/main.
+        git -C "$main" branch -f "$branch" origin/main
+        echo "ticket: $branch had no commit of its own; moved to origin/main"
+      elif ! git -C "$main" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+        echo "ticket: warning: $branch is local-only and carries its own commits; using it as is"
+      fi
       git -C "$main" worktree add "$wt" "$branch"
     elif git -C "$main" show-ref --verify --quiet "refs/remotes/origin/$branch"; then
       git -C "$main" worktree add --track -b "$branch" "$wt" "origin/$branch"
