@@ -7,7 +7,7 @@
 
 ## Problem
 
-`06-kickoff/CONTEXT.md` Inputs name `.icm/project.json` "when it exists": the manifest was retired (`blueprint-environments/breakdown.md`). Step 6 passes `--data migrations_path=<folder>` to copier: the question left `copier.yml` in blueprint pull request 34. Step 10 and the Inputs name `vercel_project`: the field leaves with `desk-environments-file`. The first run of this Process is Vinecliff's, cold. It reads three stale lines.
+`06-kickoff/CONTEXT.md` Inputs name `.icm/project.json` "when it exists": the manifest was retired (`_done/blueprint-environments/breakdown.md`). Step 6 passes `--data migrations_path=<folder>` to copier: the question left `copier.yml` in blueprint pull request 34. Step 10 and the Inputs name `vercel_project`: the field leaves with `desk-environments-file`. The first run of this Process is Vinecliff's, cold. It reads three stale lines.
 
 ## Proposed change
 
