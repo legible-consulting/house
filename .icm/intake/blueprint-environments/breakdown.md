@@ -20,7 +20,7 @@ The research mapped each key of the last manifest to the blueprint of today:
 
 Thus the blueprint has the concept already, in three parts: the answers hold the shape, `.env.example` holds the names, and the scripts find the resources. One fact has no home: where the build runs, in a form that a reader with no platform token can read. That reader is a session in the cloud, the stop report, the desk, kickoff, handover and the client.
 
-The first cut put the table in `README.md` (stub `environments-table`, done, blueprint v1.1.0). The review of 2026-10-29 found the flaw: `README.md` is written once, so `copier update` never gives the table to a repo rendered before it. The six live repos would get it by a hand edit each, against `conformance/CONTEXT.md` ("a repo conforms only through `copier update`"). Jamie's answer: no hand edit across pull requests, the table goes into a copier-owned file. The second cut does that.
+The first cut put the table in `README.md` (stub `environments-table`, done, blueprint#39 at `57d9e94`, after `v1.1.0` and in no tag). The review of 2026-10-29 found the flaw: `README.md` is written once, so `copier update` never gives the table to a repo rendered before it. The six live repos would get it by a hand edit each, against `conformance/CONTEXT.md` ("a repo conforms only through `copier update`"). Jamie's answer: no hand edit across pull requests, the table goes into a copier-owned file. The second cut does that.
 
 The first cut also compared the table with Vercel in `promote.sh status` (stub `environments-drift`). The review asked what decision changes when that line prints. Jamie's answer: none that the conformance report does not give. The comparison moves to conformance, which runs once for the estate with Jamie's tokens (triage stub `conformance-answers`).
 
@@ -50,7 +50,7 @@ None is open.
 ## Build order
 
 1. environments-table — done: the blueprint renders the table from the answers, into `README.md` — depends-on: none
-2. environments-file — the table moves to `.icm/environments.md`, and the blueprint's files read it there — depends-on: environments-table
+2. environments-file — done: the table moves to `.icm/environments.md`, and the blueprint's files read it there (blueprint#41) — depends-on: environments-table
 3. check-environments-file — `check-client.yml` checks the file and its columns — depends-on: environments-file
 4. estate-environments-file — each live repo gets the file by `copier update`, and the two hand-written tables leave — depends-on: check-environments-file
 5. desk-environments-file — the desk reads the file, and `vercel_project` leaves the house record — depends-on: estate-environments-file
