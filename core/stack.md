@@ -33,7 +33,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | yt-dlp | a video's description and captions, and a reel's caption, as text (the research intake) | 2026.10.26 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
-| hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29) | as installed | by hand, once (§ Local machine) | — |
+| hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29) | as installed | by hand, once (§ Local machine); the profile's four files by `setup/local.sh` from `setup/hermes/` | — |
 | goose-task | the lane script: one ticket, one worktree, one agent session (from 2026-10-29) | the house's | `setup/local.sh` links `setup/goose-task.sh` | — |
 
 ## The desk app
@@ -79,14 +79,17 @@ Ubuntu 24.04 with Homebrew. A fresh machine, in order:
      service `hermes` and username `anthropic`, never from a file. Store it with
      `secret-tool store --label='Hermes Anthropic key' service hermes username anthropic`, which
      reads the key from the prompt (why: a key in a file is plain text that every process can read
-     and a commit can copy · 2026-10-29). The profile's files and the keyring item are triage stub
-     `hermes-profile-files`.
+     and a commit can copy · 2026-10-29). The item holds the Anthropic key alone. The profile's
+     `config.yaml` reads it with `secrets.command`: `secret-tool lookup service hermes username
+     anthropic`, printed as the one line `ANTHROPIC_API_KEY=<key>` at startup. Check:
+     `hermes -p legible doctor` reports "Command helper: applied 1 secret" and "✓ Anthropic API".
 3. Clone the org's working repos side by side:
    ```bash
    mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library .github; do gh repo clone legible-consulting/$r; done
    ```
 4. Install the toolbox: `bash ~/Desktop/legible-consulting/house/core/setup/local.sh`.
-   Re-run it any time; it installs only what is missing and prints `ok` or `MISSING` per tool.
+   Re-run it any time; it installs only what is missing and prints `ok` or `MISSING` per tool,
+   and `ok` or `MISSING` for the Hermes profile `legible` (§ The Hermes profile).
 
 Layout:
 
@@ -97,7 +100,8 @@ Layout:
 | `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 | `~/goose/worktrees/` | the local lane's worktrees: `<repo>/<slug>/` on the branch `<slug>`, and `<repo>/triage-<slug>/` on `triage/<slug>`, one per ticket. `goose-task` makes them and removes them with `goose-task done`, and `reap-worktrees.sh` removes the ones left behind at 24 hours. No person and no agent makes a worktree here by hand, and the agent's own worktree option is not used (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29). |
-| `~/.local/bin/goose-task` | a link to `core/setup/goose-task.sh`, made by `setup/local.sh`. `goose-task <repo-path> <slug>` makes or reuses the ticket's worktree, copies `.env` and `.env.local` from the primary clone, runs `.icm/scripts/worktree-setup.sh` when the repo has it, and starts the lane's agent in the worktree. `goose-task done <repo-path> <slug>` removes a clean, pushed worktree and keeps the branch. `goose-task list` shows each worktree and its state. It runs no build, lint, typecheck, test, format or dev command (why: it does the four steps a person did by hand for each parallel ticket, deterministic and reviewed in the house · Jamie, 2026-10-29). |
+| `~/.hermes/profiles/legible/` | the Hermes profile `legible`. Four of its files have their home in `core/setup/hermes/` (§ The Hermes profile). The rest is Hermes's own state: sessions, `state.db`, the hook allowlist, caches. No `.env` (why: the key is in the keyring · 2026-10-29). |
+| `~/.local/bin/goose-task` | a link to `core/setup/goose-task.sh`, made by `setup/local.sh`. `goose-task <repo-path> <slug>` makes or reuses the ticket's worktree, copies `.env` and `.env.local` from the primary clone, runs `.icm/scripts/worktree-setup.sh` when the repo has it, writes the worktree's `.claude/skills` into the profile's `skills.external_dirs` when the folder exists, and starts the lane's agent in the worktree. `goose-task done <repo-path> <slug>` removes that line, then removes a clean, pushed worktree and keeps the branch. `goose-task list` shows each worktree and its state. It runs no build, lint, typecheck, test, format or dev command (why: it does the four steps a person did by hand for each parallel ticket, deterministic and reviewed in the house · Jamie, 2026-10-29). |
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
 `~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
@@ -126,8 +130,8 @@ Hermes Agent does not read `.claude/settings.json`. The profile `legible` runs t
 hooks from two files in `~/.hermes/profiles/legible/`, registered under `hooks:` in its
 `config.yaml`. Neither file holds a copy of a hook (why: the blueprint's script is the one
 home, and a Hermes session on a build gets the same board, router and guards as Claude Code ·
-`goose-worktrees/_done/plugin-router-and-board.md`, 2026-10-29). The triage stub
-`hermes-profile-files` gives the files their home in `core/setup/hermes/`.
+`goose-worktrees/_done/plugin-router-and-board.md`, 2026-10-29). Both files have their home in
+`core/setup/hermes/` (§ The Hermes profile).
 
 | Profile file | Hermes event | Runs | Claude Code event |
 |---|---|---|---|
@@ -161,6 +165,35 @@ writes; a linter that drifts from the skill reports rules the writer never saw �
 Connectors (Gmail, Calendar, Drive, Docs, Sheets, Slides, Slack, Vercel, Neon, Supabase,
 Resend, Sentry and the rest) belong to the claude.ai account, not this machine: change them in
 claude.ai settings.
+
+### The Hermes profile
+
+`core/setup/hermes/` is the home of the four files of `~/.hermes/profiles/legible/` that no
+install writes. `setup/local.sh` copies a missing file into the profile, and all four into a
+profile that it creates. It never overwrites a file that is present, and it names a file that
+differs (why: Hermes writes `config.yaml` itself, an "always" approval among others, and an
+overwrite drops it · 2026-10-29). Carry a change made on the machine into the house by hand.
+
+| File | Holds |
+|---|---|
+| `config.yaml` | the provider and model, `secrets.command` (the keyring helper above), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible` and `~/.claude/skills`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
+| `SOUL.md` | the profile's standing prompt: Jamie's global working standards |
+| `guard-adapter.sh` | the three guards for Hermes (the profile file table above) |
+| `board-context.sh` | the board and the router for Hermes (the profile file table above) |
+
+`skills.external_dirs` in the house copy holds `~/.claude/skills` only. `goose-task` adds and
+removes each worktree's line on the machine, so the profile's copy differs while a worktree
+lives (why: Hermes reads `.agents/skills` and `.hermes/skills` by itself, and the estate keeps
+its skills in `.claude/skills` · 2026-10-29).
+
+A new or changed hook command or script is not allowlisted: Hermes asks once per hook at the
+next session's prompt, and the hook does not fire until Jamie approves it. `hermes -p legible
+hooks doctor` shows the state.
+
+Both scripts read the session's `cwd` from the profile's `state.db` (`sessions.cwd` by
+`session_id`), and the payload's `cwd` is the fallback (why: under the gateway, Hermes v0.22.5
+sends the gateway process's own folder, `~/.hermes`, as the payload's `cwd` · 2026-10-29). The
+upstream issue is https://github.com/NousResearch/hermes-agent/issues/146570. When a Hermes release fixes it, the lookup leaves both scripts.
 
 ## Cloud environment
 

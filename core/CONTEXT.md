@@ -4,6 +4,11 @@ holds:
   - lexicon.md
   - stack.md
   - "setup/*.sh"
+  # The Hermes profile legible's four files that no install writes: config.yaml, SOUL.md and its
+  # two hook scripts. setup/local.sh installs them. SOUL.md carries no frontmatter, because Hermes
+  # reads it whole as the profile's prompt (why: a file only on one machine is lost with it, and
+  # the setup scripts are its installer · 2026-10-29).
+  - "setup/hermes/*"
   - identity.md
   - services.md
   - voice.md
@@ -112,6 +117,12 @@ Built (2026-10-26):
     `gio` cannot mount it from a script. A file of the same
     name is replaced in place, so its Drive link stays. Jamie runs it, or a desktop session
     after it asked Jamie. CI never places (why: no secret in the render path · 2026-10-22).
+
+Built (2026-10-29):
+
+- `setup/hermes/`: the Hermes profile `legible`'s `config.yaml`, `SOUL.md`, `guard-adapter.sh` and
+  `board-context.sh`, installed by `setup/local.sh`. `stack.md` § The Hermes profile says what each
+  holds and when the machine's copy differs.
 
 Not yet written:
 
