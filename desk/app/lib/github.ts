@@ -13,7 +13,8 @@ import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
 //   moves the row to handed off.
 // - The research queue: one file per link Jamie shares to the desk, written to main
 //   (writeFile), and the folder as it stands for /research (listFolder, then readOnMain for
-//   each file). lib/research.ts.
+//   each file). A file the intake marks unresolved is named (readWithSha, replaceFile) or
+//   dropped (deleteFile) from /research. lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 // - The latest run of each house workflow, any status (houseRun): the sync pill says
 //   queued, running or done.
@@ -422,6 +423,34 @@ export async function writeFile(path: string, content: string, message: string):
   if (r.status === 201) return "created";
   if (r.status === 422) return "exists";
   fail(`write ${path}`, r);
+}
+
+// A file on main with its blob sha: the Contents API wants the sha to replace or delete a file,
+// so a write over a file changed in between fails with 409 and changes nothing.
+export async function readWithSha(path: string): Promise<{ text: string; sha: string }> {
+  const r = await read(`/contents/${path}?ref=main`);
+  if (r.status !== 200) fail(`read ${path}`, r);
+  const content = typeof r.body.content === "string" ? r.body.content : "";
+  return { text: Buffer.from(content, "base64").toString("utf8"), sha: String(r.body.sha ?? "") };
+}
+
+// Replace one file on main. The research queue only: Jamie names a share that no route read.
+export async function replaceFile(path: string, content: string, sha: string, message: string): Promise<void> {
+  const r = await gh("PUT", `/contents/${path}`, {
+    message,
+    content: Buffer.from(content, "utf8").toString("base64"),
+    sha,
+    branch: "main",
+    committer: COMMITTER,
+    author: COMMITTER,
+  });
+  if (r.status !== 200) fail(`write ${path}`, r);
+}
+
+// Delete one file on main. The research queue only: Jamie drops a share that no route read.
+export async function deleteFile(path: string, sha: string, message: string): Promise<void> {
+  const r = await gh("DELETE", `/contents/${path}`, { message, sha, branch: "main", committer: COMMITTER, author: COMMITTER });
+  if (r.status !== 200) fail(`delete ${path}`, r);
 }
 
 // Whether a file is on main: /f/<id> asks for clients/<slug>/record.md. Throws with the words of

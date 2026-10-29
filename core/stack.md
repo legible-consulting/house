@@ -22,7 +22,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | mani | run a command across the estate's clones (the build, from the local lane) | 0.32.1 | `setup/local.sh` | — |
 | copier | render a client repo from the blueprint (kickoff) | 9.19.1 | `setup/local.sh` | — |
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
-| yt-dlp | a video's description and captions as text (the research intake) | 2026.8.19 | — | `setup/cloud.sh`, by `uv tool` |
+| yt-dlp | a video's description and captions, and a reel's caption, as text (the research intake) | 2026.10.26 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 | goose, Emdash | the agent of the local lane, and the app that gives each of its tasks a git worktree (from 2026-10-29) | as installed | by hand, once (§ Local machine) | — |
 

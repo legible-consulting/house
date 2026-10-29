@@ -61,7 +61,12 @@ variable. The Process says what a session does with them.
   it. At the computer, Jamie pastes it in the form on `/research`. Both write
   `research/queue/<date>-<host>-<hash>.md` to `main` with `DESK_PAT`. The desk judges nothing.
   The daily intake writes the verdict (`research/CONTEXT.md`) (why: the share sheet is the one
-  tap Jamie takes on the phone · 2026-10-25).
+  tap Jamie takes on the phone · 2026-10-25). A LinkedIn link with no text opens the form on
+  `/research` and asks for the post's text, because no route reads a LinkedIn post. A queue
+  file with a `Pointer unresolved:` line shows under "Needs a name" on `/research`: Jamie types
+  the name, and the desk writes it to the file's `text` and removes the line on `main`, or he
+  deletes the file (why: a share that no route reads waits for one word from the phone, not a
+  verdict with no item · 2026-10-29).
 - A lead. The portfolio's contact form posts to `/api/pool` with `POOL_TOKEN`. The free look
   posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
   email is open. A salesman or Jamie moves the row through the pool's statuses
