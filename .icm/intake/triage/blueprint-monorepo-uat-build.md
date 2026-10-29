@@ -4,7 +4,6 @@
 - found-by: Jamie, `k0d0minio/remi-ai` pull request 148 · 2026-10-28
 - complexity: medium
 - priority: P2
-- blocked: the remi-ai test is not done. Two apps of one pull request must show that they use one Neon branch `preview/<git branch>`, or one branch each.
 
 ## Problem
 
