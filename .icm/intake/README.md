@@ -46,7 +46,6 @@ The steps of the house's own build that no session takes, because each reaches a
   `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
   Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
 - **Invite GPardas to the org.** GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
-- **Split the gh logins.** The `gh` login sessions use carries `repo` and `workflow` only; a second login holds `admin:org` for runbook steps. Check: `gh auth status` shows no `admin:org` on the active login.
 - **Confirm the tax calendar with the contabilista.** The contabilista confirms the calendar in `core/accountant/02-trabalhador-independente-obligations.md`
   §5. Each confirmed date is written into §5 in place. Check: no ⚠️ remains in §5.
 - **Check the first cold batch against the opt-out list.** Before the first batch of cold emails: check its role addresses against the Direção-Geral
