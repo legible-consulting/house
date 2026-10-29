@@ -19,9 +19,10 @@ The blueprint renders `orca.yaml`, `.worktreeinclude` and the setup script into 
 
 - [ ] A render with `workspace` no has `orca.yaml` and `.worktreeinclude` at the root. A render with `workspace` yes has neither.
 - [ ] No path of the three files is in `_skip_if_exists` in `copier.yml`. The comment above `_skip_if_exists` names them as blueprint files.
-- [ ] `orca.yaml` has `scripts.setup` and `setupAgentStartupPolicy` as breakdown questions 2 and 3 decide. It has `worktree.sharedDirectories` as question 1 decides for a single-app render and for a `monorepo` render. It has no `defaultTabs` unless question 4 says yes.
-- [ ] `.worktreeinclude` lists the env files that question 5 decides, one literal path for each line, with no glob.
-- [ ] The setup script selects the install command from the lockfile that it finds at the root. It runs no build, lint, typecheck, test, format or dev command.
+- [ ] `orca.yaml` has `scripts.setup: bash .icm/scripts/worktree-setup.sh` and `setupAgentStartupPolicy: wait-for-setup`. It has no `defaultTabs`.
+- [ ] A single-app render's `orca.yaml` has no `worktree` key. A `monorepo` render's `orca.yaml` has `worktree.sharedDirectories` with `.turbo` only.
+- [ ] `.worktreeinclude` lists `.env` and `.env.local`, one literal path for each line, with no glob.
+- [ ] The setup script selects the install command from the lockfile that it finds at the root: `pnpm install --frozen-lockfile`, `npm ci`, `yarn install --immutable` or `bun install --frozen-lockfile`. It runs no build, lint, typecheck, test, format or dev command.
 - [ ] With no lockfile, the script prints one line and exits 0. With two lockfiles, or with the package manager not installed, it names the cause and exits 1.
 - [ ] Each path in `sharedDirectories` and `.worktreeinclude` is a path that the rendered `.gitignore` ignores.
 

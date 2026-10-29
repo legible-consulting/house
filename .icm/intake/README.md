@@ -26,6 +26,7 @@ Set by Jamie on 2026-10-29. A finished epic carries no line.
 1. salesman-desk
 2. triage
 3. blueprint-environments
+4. orca-worktrees
 
 ## Milestones
 

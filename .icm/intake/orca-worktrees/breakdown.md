@@ -23,11 +23,19 @@ The live repos use two package managers: npm (`package-lock.json`) in berceo, vi
 5. **`.env.local` in `.worktreeinclude`.** Default: yes. The file lists `.env` and `.env.local` (why: `vercel env pull` writes `.env.local` by default, Next.js reads both files, and Orca skips a path that does not exist).
 6. **The place of `orca-worktrees` in `README.md` § Order.** Default: fourth, after `blueprint-environments` (why: the two epics touch `check.yml` and `conventions/README.md` in different rows, so the order between them is Jamie's choice only).
 
-None is answered.
+Answered by Jamie in the session on 2026-10-29: the six defaults stand, and they are written into the decisions below.
+
+None is open.
 
 ## Decisions of record
 
 - **The ticket lives in the house. The change lives in the blueprint**, as for `blueprint-pipeline` and `blueprint-environments`. Each stub is one pull request on the repo it names, then the move of the stub to `_done/` in the house (why: the desk reads tickets from the house, and the blueprint holds no tickets · Jamie, 2026-10-27).
+- **Each worktree installs its own `node_modules`.** A single-app render has no `worktree` key in `orca.yaml`. A `monorepo` render shares `.turbo` only (why: `npm ci` deletes `node_modules` through a link, and an install in one worktree changes the install of all worktrees · Jamie, 2026-10-29).
+- **The setup script is the blueprint's `.icm/scripts/worktree-setup.sh`.** `orca.yaml` has `scripts.setup: bash .icm/scripts/worktree-setup.sh`. The script runs one install command from the lockfile at the root: `pnpm install --frozen-lockfile`, `npm ci`, `yarn install --immutable` or `bun install --frozen-lockfile`. With no lockfile it prints one line and exits 0. With two lockfiles, or with the tool not installed, it names the cause and exits 1. It runs no build, lint, typecheck, test, format or dev command (why: a script file gets the `shellcheck` pass, and CI is truth · Jamie, 2026-10-29).
+- **The agent waits for the setup.** `setupAgentStartupPolicy: wait-for-setup` (why: a hook or a script that the agent runs can need `node_modules` · Jamie, 2026-10-29).
+- **No default tab.** `orca.yaml` has no `defaultTabs` (why: the Orca create dialog launches the agent that Jamie selects, and a blueprint file that names one agent binds each client repo to it · Jamie, 2026-10-29).
+- **`.worktreeinclude` lists `.env` and `.env.local`**, one literal path for each line (why: `vercel env pull` writes `.env.local`, Next.js reads both files, and Orca skips a missing path · Jamie, 2026-10-29).
+- **The epic is fourth in `README.md` § Order**, after `blueprint-environments` (Jamie, 2026-10-29).
 
 ## Build order
 

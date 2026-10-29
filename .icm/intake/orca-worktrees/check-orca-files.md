@@ -19,7 +19,7 @@
 
 - [ ] `conventions/README.md` has an `Orca` row after the `Goose hints` row. It names the two files, says that they are the blueprint's, says what each holds, and says that a workspace has neither. The row carries its why and the date 2026-10-29.
 - [ ] In each build answer set (`defaults`, `all`, `minimal`, `neon-nouat`, `mongodb-uat`), `yq` parses `orca.yaml`, and the step fails when it does not parse.
-- [ ] The step checks the keys that breakdown questions 1 to 4 decide. It checks that the `monorepo` set (`all`) has the shared directories of a monorepo render, and that the other build sets have the single-app list.
+- [ ] The step checks `scripts.setup`, `setupAgentStartupPolicy: wait-for-setup` and no `defaultTabs`. It checks that the `monorepo` set (`all`) shares `.turbo` only, and that the other build sets have no `worktree` key.
 - [ ] The step checks that each line of `.worktreeinclude` is a literal path that `git check-ignore` ignores in the render.
 - [ ] In the `workspace` answer set, the step fails when `orca.yaml` or `.worktreeinclude` exists.
 - [ ] `shellcheck` reads the setup script with the other rendered scripts.
