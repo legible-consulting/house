@@ -2,7 +2,7 @@
 
 - feature-slug: blueprint-new-run-in-worktree
 - epic: goose-worktrees
-- sequence: 3 of 6
+- sequence: 3 of 7
 - depends-on: goose-task-script
 - complexity: medium
 - priority: P2

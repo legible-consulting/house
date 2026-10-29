@@ -1,8 +1,10 @@
+> Dropped: the agent under trial changed from goose to Hermes Agent after the open-source agent spike of 2026-10-29. The stub `hermes-loop-walk` carries the same walk for Hermes · 2026-10-29
+
 # Stub: A goose session takes one ticket from the board to the merge, and each gap gets a fix or a stub
 
 - feature-slug: goose-loop-walk
 - epic: goose-worktrees
-- sequence: 6 of 6
+- sequence: 6 of 7
 - depends-on: plugin-router-and-board, blueprint-new-run-in-worktree
 - complexity: research
 - priority: P1
