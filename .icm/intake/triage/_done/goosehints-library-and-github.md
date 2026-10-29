@@ -22,3 +22,9 @@ Each of the two repos gets a one-line `AGENTS.md` that points at `CLAUDE.md` (tr
 ## Notes
 
 - Questions for Jamie. 1. Does `.github` get a `CLAUDE.md`? Default: yes, a short one, because `AGENTS.md` has nothing to point at without it.
+
+## Answers
+
+Session, 2026-10-29: question 1 takes the default. `.github` gets a `CLAUDE.md` of 23 lines.
+The work is in legible-consulting/library#3 (`AGENTS.md`) and legible-consulting/.github#13
+(`AGENTS.md`, `CLAUDE.md`). This stub moves to `_done` when Jamie merges the two pull requests.
