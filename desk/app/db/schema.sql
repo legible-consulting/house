@@ -150,8 +150,7 @@ alter table prospects
   add column if not exists instagram text not null default '';
 -- The meeting of a row (meeting-on-the-row of .icm/intake/salesman-desk): when, with whom and
 -- where, required at `meeting` (01-prospecting/prospect.md, Fields). `meeting_at` keeps its zone;
--- the desk reads and writes it as Jamie's time, Europe/Lisbon. Until this runs, the desk reads a
--- row as having no meeting (lib/db.ts).
+-- the desk reads and writes it as Jamie's time, Europe/Lisbon. Applied 2026-10-29.
 alter table prospects
   add column if not exists meeting_at timestamptz,
   add column if not exists meeting_with text not null default ''
