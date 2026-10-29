@@ -10,7 +10,8 @@
 # The worktree is ~/goose/worktrees/<repo>/<slug>/ (triage: triage-<slug>/) on the branch <slug>
 # (triage: triage/<slug>), from origin/<branch> when it exists on origin, else from origin/main.
 # The script copies .env and .env.local from the primary clone, runs
-# .icm/scripts/worktree-setup.sh when the repo has it, and runs no build, lint, typecheck, test,
+# .icm/scripts/worktree-setup.sh when the repo has it, writes the worktree's .claude/skills into
+# the Hermes profile's skills.external_dirs (done removes it), and runs no build, lint, typecheck, test,
 # format or dev command (CI is truth). It makes nothing on GitHub and decides nothing about the
 # ticket. The name stays goose-task (Jamie, 2026-10-29).
 set -euo pipefail
@@ -23,11 +24,36 @@ agent_start() {
 }
 
 ROOT="${GOOSE_TASK_ROOT:-$HOME/goose/worktrees}"
+# The Hermes profile's config: its skills.external_dirs gets each worktree's .claude/skills
+# (why: Hermes reads .agents/skills and .hermes/skills by itself, and the estate keeps its skills
+# in .claude/skills · triage/hermes-profile-files, 2026-10-29).
+HERMES_CONFIG="${GOOSE_TASK_HERMES_CONFIG:-$HOME/.hermes/profiles/legible/config.yaml}"
 
 die()  { echo "goose-task: $*" >&2; exit 1; }
 usage() {
   sed -n '5,8s/^# \{0,1\}//p' "$0" >&2
   exit 2
+}
+
+# skills_dir add|remove <worktree>: write or remove the worktree's .claude/skills line in
+# skills.external_dirs. A missing yq or config is a warning, never a stop: the agent still runs,
+# without the repo's skills.
+skills_dir() {
+  local dir="$2/.claude/skills"
+  if ! command -v yq >/dev/null 2>&1 || [ ! -f "$HERMES_CONFIG" ]; then
+    echo "goose-task: warning: no yq or no $HERMES_CONFIG; skills.external_dirs not changed" >&2
+    return 0
+  fi
+  case "$1" in
+    add)
+      [ -d "$dir" ] || return 0
+      DIR="$dir" yq -i '.skills.external_dirs = ((.skills.external_dirs // []) + [strenv(DIR)] | unique)' "$HERMES_CONFIG" \
+        && echo "goose-task: skills.external_dirs + $dir" ;;
+    remove)
+      DIR="$dir" yq -e '(.skills.external_dirs // []) | contains([strenv(DIR)])' "$HERMES_CONFIG" >/dev/null 2>&1 || return 0
+      DIR="$dir" yq -i 'del(.skills.external_dirs[] | select(. == strenv(DIR)))' "$HERMES_CONFIG" \
+        && echo "goose-task: skills.external_dirs - $dir" ;;
+  esac
 }
 
 # The primary clone of a repo path, and the repo's name: the folder name of that clone.
@@ -79,6 +105,7 @@ cmd_start() {
     fi
   fi
 
+  skills_dir add "$wt"
   cd "$wt"
   agent_start "$repo/$branch"
 }
@@ -97,6 +124,7 @@ cmd_done() {
   ahead="$(git -C "$wt" rev-list --count HEAD --not --remotes=origin)"
   [ "$ahead" -eq 0 ] || die "unpushed: $ahead commits of $branch are not on origin. Nothing removed"
 
+  skills_dir remove "$wt"
   git -C "$main" worktree remove "$wt"
   rmdir "$ROOT/$repo" 2>/dev/null || true
   echo "goose-task: removed $wt. The branch $branch stays"

@@ -41,3 +41,10 @@ The trial of `goose-worktrees/hermes-loop-walk` installed Hermes Agent v0.22.5 a
   - `board-context.sh` also runs the repo's `.claude/hooks/route-request.sh` on each turn, with the user's prompt (`extra.user_message`). It passes the router's `[router] Route:` or `Suggest:` line as context. Why: this is Claude Code's `UserPromptSubmit` router, and Hermes did not run it.
   - The first-turn board context starts with one line: "the board" is the repo's `.icm/intake/`, not the Hermes kanban.
   - The edits changed the scripts' mtime. `hermes -p legible hooks doctor` shows "script modified since approval" until Jamie runs `hooks revoke` for each hook and approves it again at the next session's prompt.
+- Done 2026-10-29, in the pull request that moves this stub:
+  - `core/setup/hermes/` holds the four files, byte-equal to the profile's. `config.yaml` is in the form that `yq` writes, so a `goose-task` add and remove gives back the same bytes. The hook commands start with `~/.hermes/profiles/legible/`, because Hermes expands only a leading `~` and runs the hook with no shell. The four hooks are not allowlisted now (Jamie's hand).
+  - `core/setup/local.sh` copies a missing file into the profile, names a file that differs, and prints `ok` or `MISSING hermes profile legible`.
+  - `goose-task` writes the worktree's `.claude/skills` into `skills.external_dirs` when the folder exists, and `goose-task done` removes the line.
+  - `core/stack.md` § Local machine names the profile folder, the four files and the keyring helper, in § The Hermes profile.
+  - The upstream issue is https://github.com/NousResearch/hermes-agent/issues/146570. Both scripts and `core/stack.md` link it.
+  - `~/.hermes/.env` still exists. Its removal is a line in `.icm/intake/README.md` § Jamie's hand.
