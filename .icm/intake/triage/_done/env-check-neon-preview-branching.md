@@ -1,3 +1,5 @@
+> Dropped: the remi-ai test answered it, and the deletion check moved to `env-cleanup-remi-ai`, 2026-10-29
+
 # Stub: Check how the Neon integration serves Preview when it makes a branch for each preview
 
 - lane: chore
@@ -35,3 +37,4 @@ Jamie checks the integration on agorasim, one time, before any cleanup:
 - The Neon organisations are on the free plan. A free project has a limit on the count of branches. Read the limit in the Neon console during the check.
 - remi-ai, two apps, 2026-10-29: answer 1. The two apps of one pull request use one Neon branch. `uat-remi-ai` holds `main` (`br-shy-star-b9nndrh4`) and one preview branch, `preview/test/shared-preview-branch` (`br-morning-recipe-b9tnmtzc`, `creation_source: vercel`, created 2026-10-29T02:09:44Z). The project shows one `create_branch` operation. The test pull request is `k0d0minio/remi-ai` #150. The previews of commit `b1b0c95` are `app` `dpl_8yAS51xsYdcFu24dmPMVaz5u5w16` READY and `admin` `dpl_DHUkDiyGZB1Nm1FUAHvK11h8GPx6` READY. The previews of commit `3275bf7` are `app` `dpl_4RDS9BrCe9YBeUTsowZUDBcCCF7R` READY and `admin` `dpl_9eWKLZE1V37jKtnUsxyRaE9i4krr` READY. The build log of each one shows that its `DATABASE_URL` names the endpoint `ep-aged-water-b9z1kq6n` of the preview branch, not the endpoint `ep-lively-sunset-b93pzbxy` of `main`. No variable on `app` or `admin` is scoped to the git branch: the integration gives the branch's variables to the deployment only. Each project also keeps a `DATABASE_URL` on Preview for all branches that the integration does not own.
 - The Neon Free plan allows 10 branches per project ([Neon plans](https://neon.com/docs/introduction/plans), read on 2026-10-29). This value is from the docs, not from the console.
+- The Neon branch exists before the build starts (remi-ai, 2026-10-29). Neon made `br-morning-recipe-b9tnmtzc` at 02:09:44. Vercel made the deployments at 02:09:43, the integration step ended at 02:09:49, and the build cloned at 02:09:50.
