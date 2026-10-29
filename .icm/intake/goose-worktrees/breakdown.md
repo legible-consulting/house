@@ -73,7 +73,7 @@ Classification of the open epics, for question 1 (2026-10-29, first cut):
 2. plugin-router-and-board — the board and the router reach the model in a Hermes session on a build, or the stub says what Hermes cannot do — depends-on: none
 3. blueprint-new-run-in-worktree — done: `new-run.sh` keeps the worktree's branch, and `.emdash.json` and `.goosehints` leave the blueprint (blueprint#43, in `v1.3.0`) — depends-on: goose-task-script
 4. emdash-leaves — dropped 2026-10-29: `goose-task-script` removed goose and Emdash from the stack, and the machine acts are in `README.md` § Jamie's hand — depends-on: none
-5. estate-worktree-files — each live repo loses `.emdash.json` and keeps the setup script, in the conformance to the new tag — depends-on: blueprint-new-run-in-worktree
+5. estate-worktree-files — done: each live repo loses `.emdash.json` and keeps the setup script, in the conformance to the new tag — depends-on: blueprint-new-run-in-worktree
 7. hermes-loop-walk — a Hermes session takes one live repo ticket and one house ticket to the merge, scored on the eight requirements, with the writers' pass mark — depends-on: blueprint-new-run-in-worktree
 
 Stub 4, `emdash-leaves`, and stub 6, `goose-loop-walk`, are dropped in `_done/`. A dropped or re-cut stub keeps its number (`.icm/intake/CONTEXT.md`).

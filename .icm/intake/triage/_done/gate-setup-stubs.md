@@ -35,3 +35,4 @@ The blueprint is correct. Its `template/.icm/intake/CONTEXT.md` § The setup stu
 - The defect blocks `.icm/scripts/merge.sh`, which refuses a failed check. On 2026-10-29 it refused berceo#125, vinecliff#39, agorasim#243 and remi-ai#153 after Jamie's tick.
 
 - Seen on the run of 2026-10-29: `gate / contract` on berceo#124 named `actions-production-database` and `actions-vercel` first. jamienisbet#211 was green, because a build with `database: none` and no `uat` gets no setup stub.
+- Shipped 2026-10-29 in two pull requests on `legible-consulting/.github`: #14 (§ Order neither counts nor lists `setup/`) and #15 (`setup/` is read as setup stubs, not an epic or a ticket). After #15, `gate / contract` was green on berceo#125, vinecliff#39, agorasim#243 and remi-ai#153, and `merge.sh` merged them.

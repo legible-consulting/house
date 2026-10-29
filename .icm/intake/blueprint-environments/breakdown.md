@@ -52,7 +52,7 @@ None is open.
 1. environments-table — done: the blueprint renders the table from the answers, into `README.md` — depends-on: none
 2. environments-file — done: the table moves to `.icm/environments.md`, and the blueprint's files read it there (blueprint#41) — depends-on: environments-table
 3. check-environments-file — done: `check-client.yml` checks the file and its columns, on a build from blueprint `v1.2.0` or later (.github#12) — depends-on: environments-file
-4. estate-environments-file — each live repo gets the file by `copier update`, and the two hand-written tables leave — depends-on: check-environments-file
+4. estate-environments-file — done: each live repo gets the file by `copier update`, and the two hand-written tables leave — depends-on: check-environments-file
 5. desk-environments-file — the desk reads the file, and `vercel_project` leaves the house record — depends-on: estate-environments-file
 
 Dropped, in `_done/`: environments-drift (2), check-environments-table (3), estate-environments (4), desk-reads-environments (5).

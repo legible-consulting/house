@@ -26,3 +26,5 @@ The conformance to `v1.3.0`, the tag after `blueprint-new-run-in-worktree`, adds
 
 - One conformance pull request per repo. It can run with the conformance of stub `estate-environments` and the `env-cleanup-*` triage stubs.
 - Lockfiles on 2026-10-29: npm in berceo, vinecliff and messy-play. pnpm in agorasim, remi-ai and jamienisbet. Agorasim and remi-ai are monorepos.
+- Shipped 2026-10-29: berceo#124, vinecliff#38, agorasim#242 (with the `.gitignore` line, on Jamie's default answer), remi-ai#151, jamienisbet#211, messy-play#10 (the five conflicts resolved by the default answer of house #202). Jamie ran `ticket` on one live ticket in a separate session the same day.
+- The exception: messy-play has no CI, so `check-client` did not run on messy-play#10. Jamie: not a priority, later (2026-10-29).
