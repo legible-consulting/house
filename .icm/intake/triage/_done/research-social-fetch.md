@@ -15,10 +15,10 @@ The intake gets a second fetch route for each social host, and a share that no r
 
 ## Acceptance criteria
 
-- [ ] `core/setup/cloud.sh` installs the chosen tool, pinned, and the setup log ends with its `ok` line. `core/stack.md` has its row.
+- [ ] `core/setup/cloud.sh` installs the chosen tool, pinned, and the setup log ends with its `ok` line. `core/stack.md` has its row. With Agent Reach declined, the tool is yt-dlp at the current release (Jamie, 2026-10-29).
 - [ ] `intake.md` step 4c names the route per host: YouTube, Facebook, Instagram, LinkedIn. Each route runs with no login and no cookie in the cloud environment, or the step says that the host has no such route.
 - [ ] An item that no route can read is not written as a verdict. Its queue file stays, with one line `Pointer unresolved: <reason>` under its frontmatter. The desk's `/research` lists it under "Needs a name", and Jamie types the name or deletes the file from the phone.
-- [ ] The 13 unresolved reel files in `research/verdicts/` are deleted in the same pull request. The queue holds nothing for them: their links are in the files' Source lines, and Jamie decides which to share again.
+- [ ] The unresolved reel files in `research/verdicts/` are read again with the new routes, not deleted (Jamie, 2026-10-29). Each one that a route reads becomes the verdict of its item, or an update note when the item has a file. Each one that no route reads moves to `research/queue/` with its `Pointer unresolved:` line.
 - [ ] `research/verdicts/agent-reach.md` gets an update note with the verdict after the test: adopt for the routes that pass with no login, or decline with the reason.
 
 ## Questions
@@ -31,3 +31,13 @@ The intake gets a second fetch route for each social host, and a share that no r
 
 - A login channel of any kind. The boundary stands.
 - The `/research` page's redesign. One list under one heading.
+
+## Answers
+
+Jamie, 2026-10-29, on the spec of pull request #188:
+
+1. Decline Agent Reach, add no tool, keep yt-dlp with the `og:url` fallback: yes.
+2. Build on the desktop test: yes.
+3. Do not delete the reel files: read them again with the routes that now work.
+4. The desk changes go in the same pull request: yes.
+5. LinkedIn from `text`, and every cloud session uses the same routes: yes.
