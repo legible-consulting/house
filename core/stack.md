@@ -24,6 +24,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | yt-dlp | a video's description and captions as text (the research intake) | 2026.8.19 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
+| goose, Emdash | the agent of the local lane, and the app that gives each of its tasks a git worktree (from 2026-10-29) | as installed | by hand, once (§ Local machine) | — |
 
 ## The desk app
 
@@ -59,9 +60,27 @@ is Jamie's hand over the GNOME mount, so no Drive key exists anywhere · 2026-10
 
 Ubuntu 24.04 with Homebrew. A fresh machine, in order:
 
-1. Install Homebrew, Claude Code, the Vercel CLI and uv by their own installers.
+1. Install Homebrew, Claude Code, the Vercel CLI and uv by their own installers. Then install
+   Goose and Emdash:
+   - Goose CLI: `curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh | CONFIGURE=false bash`.
+     It puts `goose` in `~/.local/bin/`. Step 2 configures it.
+   - Goose desktop: download the `.deb` from the Linux tab of
+     https://goose-docs.ai/docs/getting-started/installation, then `sudo dpkg -i <file>.deb`.
+     The package is `goose`.
+   - Emdash: download the `.deb` from https://emdash.sh, then `sudo dpkg -i <file>.deb`. The
+     package is `emdash`. It installs in `/opt/Emdash/`.
 2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo`
    (org settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
+   - Goose: `goose configure`, then Configure Providers, then Anthropic. Paste the Anthropic key
+     and keep it in the system keyring. The CLI and the desktop use the same config and the same
+     key. The key is never in a file: not in `~/.config/goose/secrets.yaml`, not in
+     `config.yaml`, not in a shell profile. Check: `~/.config/goose/secrets.yaml` does not
+     exist. (Why: a key in a file is plain text that every process can read and a commit can
+     copy, and Goose writes `secrets.yaml` only when it cannot use the keyring · 2026-10-29.)
+   - Emdash: open Emdash, sign in to the Emdash account, and connect GitHub. Emdash keeps both
+     tokens in its own store (`~/.config/emdash/`, below).
+   - Copy `~/.config/goose/.goosehints` and `~/.agents/plugins/legible-guards/` from the old
+     machine, as for `~/.claude/`. No repo holds them.
 3. Clone the org's working repos side by side:
    ```bash
    mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library .github; do gh repo clone legible-consulting/$r; done
@@ -77,6 +96,11 @@ Layout:
 | `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, copier, gh). Every clone `desk/mani.yaml` names is here (2026-10-27). |
 | `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
+| `~/.config/goose/` | Goose's settings, for the CLI and the desktop. `config.yaml`: provider `anthropic`, `GOOSE_MODE: auto`, telemetry off, the extensions developer, skills and scheduler on, and `plugins:` turns on `emdash` and `legible-guards`. `.goosehints`: the global hints. They send Goose to `~/.claude/CLAUDE.md` first, then to the `.goosehints` and `CLAUDE.md` of the repo, and the repo wins. No key is here: the Anthropic key is in the keyring (step 2), and `secrets.yaml` must not exist. Goose writes the other folders (`*_oauth`, `tls`, `mcp-apps-cache`). Do not copy or commit them. |
+| `~/.config/emdash/` | Emdash's store: an Electron profile and SQLite files. It holds the projects, the tasks, the worktree records and the settings that a person sets in the Emdash UI: the worktree directory, the default branch (`origin/main` for house), telemetry, and a person's own scripts and preserve patterns. `emdash4.db` also holds the Emdash account token and the GitHub token. Do not read the store into a session, copy it or commit it. Change a setting in the Emdash UI only. The shared settings of a build are its `.emdash.json` (the blueprint), not this store. |
+| `~/.agents/plugins/legible-guards/` | the three guards for Goose: `block-local-checks.sh`, `confirm-git-writes.sh` and `guard-plaintext-secrets.sh`. It holds no copy of them. `hooks/hooks.json` registers one adapter, `scripts/guard.sh`, on Goose's `PreToolUse`. The adapter runs the same three scripts as Claude Code: the repo's `.claude/hooks/` copy when the working directory has one (the repo copy wins), else `~/.claude/hooks/`. Shell calls get the three guards. File writes get `guard-plaintext-secrets.sh`. It does not carry `reap-worktrees.sh`. The Goose paragraph after the hooks table gives the rules. |
+| `~/.agents/plugins/emdash/` | Emdash's hooks for Goose. They post each session event to Emdash's local port, only when Emdash started the session (the `EMDASH_HOOK_*` variables are set). They guard nothing. |
+| `~/emdash/worktrees/` | Emdash's task worktrees: one folder per project (`house-<id>/`), and in it one worktree per task, on the branch `emdash/<task-name>`. This is Emdash's default worktree directory, and no project changes it. Emdash makes and removes the worktrees here. No person and no hook makes, moves or removes one by hand (why: Emdash tracks them in its own store, and a worktree removed behind it shows as an orphan · 2026-10-29). |
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
 `~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
@@ -100,6 +124,15 @@ The house carries the three guards only. The blueprint renders the router and th
 a build, never into a workspace, and registers them in the build's `.claude/settings.json`
 (why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
 2026-10-27). The router and the board are repo copies only, never global hooks.
+
+Goose runs the three guards through the plugin `~/.agents/plugins/legible-guards/`: one
+adapter, the same three scripts, and the repo copy wins (why: one home per guard; a second copy
+for Goose drifts from the copy Claude Code runs · 2026-10-29). The adapter turns a guard's deny
+into a Goose block. It turns an ask into a block too, because Goose has no ask step: Jamie runs
+the command himself or says yes in the chat. The matchers in `hooks.json` name the tools as
+Goose sends them: `shell`, `write` and `edit`, with no `developer__` prefix (why: Goose does not
+run a hook whose matcher names a different tool, and that guard then guards nothing ·
+2026-10-29).
 
 `reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes them. The app removes only its own session worktrees (why: house had 46 worktrees and blueprint 11 · 2026-10-27).
 
