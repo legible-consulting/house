@@ -83,6 +83,9 @@ if (drift) {
     blueprintOf.set(repo, {
       tracks: (c[col("tracks")] ?? "").replace(/`/g, ""),
       drift: (c[col("drift")] ?? "").replace(/`/g, ""),
+      // "backed", or the answers the platform does not back, "; " between them. A report from
+      // before the column has none, and an empty cell or "—" is not read (conformance/CONTEXT.md).
+      platform: (c[col("platform")] ?? "").replace(/`|\*\*/g, "").replace(/^—$/, ""),
     });
   }
 }
