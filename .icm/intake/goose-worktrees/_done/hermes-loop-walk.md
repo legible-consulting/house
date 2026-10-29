@@ -34,7 +34,7 @@ Jamie installs Hermes Agent on a profile `legible` and walks one open ticket of 
 
 - Hermes's messaging gateway, cron, dashboard, Hermes Cloud and Nous Portal. None is installed or signed in to.
 - The cloud and phone lane. Claude Code keeps it.
-- A rename of `goose-task`. Its name and its folder stay (Jamie, 2026-10-29).
+- The rename of the lane script to `ticket` and its folder to `~/worktrees/`: triage stub `ticket-command` (Jamie, 2026-10-29).
 - A second provider and R6: triage stub `hermes-cheap-models` (Jamie, 2026-10-29).
 
 ## Notes
@@ -65,3 +65,4 @@ A Hermes session on the profile `legible` (desktop app, Hermes v0.22.5, model `c
 - The 15 staged `icm-*` and `legible-house-tickets` batches are rejected (why: `.icm/intake/CONTEXT.md` is the one home of the loop). 18 batches stay staged for the read after the walks.
 - `~/.hermes/.env` and the profile's `.env` stay. `core/stack.md` § Local machine names them as an exception with the why. The key criterion is met by that record.
 - The live repo ticket waits on Jamie's choice of repo.
+- `local.sh` ran from `main` on Jamie's word (2026-10-29). Homebrew was not on the session's `PATH`, so the session loaded `brew shellenv` first. Every tool reports `ok`, `yq` v4.54.1 included, and the link `~/.local/bin/goose-task` exists. The R4 shim can now run. `config.yaml` differs from the house copy until this pull request merges.
