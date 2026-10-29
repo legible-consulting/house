@@ -6,6 +6,15 @@ says what is installed where. A change to the tool set edits this file and `setu
 same commit (why: one home per fact; a script that drifts from its list installs the wrong
 toolbox · 2026-10-16).
 
+## Agent map
+
+Every repo carries `AGENTS.md` at the root, one line that sends any agent to `CLAUDE.md`
+first, then to the contract it routes to. Hermes Agent, Claude Code and most of the other
+agents the open-source agent spike read default to `AGENTS.md`; `CLAUDE.md` is a fallback
+name in some and absent in others (`.icm/intake/triage/agents-md-pointer.md`). The house
+carries its own, hand-written; the blueprint renders one into every build and workspace
+(why: `.goosehints` carried this job until Goose left the stack, 2026-10-29).
+
 ## Tools
 
 Each machine carries only what a contract, hook, workflow or checklist item calls today; a tool
