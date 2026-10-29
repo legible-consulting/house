@@ -103,7 +103,7 @@ jobs:
         run: |
           yq --version | grep -q mikefarah || { echo "::error::runner yq is not mikefarah's"; exit 1; }
           held="$(mktemp)"
-          git ls-files -- ':(glob)CLAUDE.md' ':(glob).goosehints' ':(glob)README.md' ':(glob).gitignore' ':(glob).gitleaksignore' \
+          git ls-files -- ':(glob)CLAUDE.md' ':(glob)README.md' ':(glob).gitignore' ':(glob).gitleaksignore' \
             ':(glob).github/**' ':(glob).claude/**' ':(glob)**/CONTEXT.md' >> "$held"
           while IFS= read -r c; do
             [ "$(head -n1 "$c")" = "---" ] || continue

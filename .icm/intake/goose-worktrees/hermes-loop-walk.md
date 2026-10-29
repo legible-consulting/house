@@ -28,17 +28,16 @@ Jamie installs Hermes Agent on a profile `legible` and walks one open ticket of 
 - [ ] R7: the session ran in a worktree made by the lane script, not by `hermes -w`. If Hermes made a `.worktrees/` folder anyway, the stub says so and the blueprint ignores it.
 - [ ] The writers: after both walks, `MEMORY.md` holds no client fact and no path, every staged memory line was approved or rejected, and every staged skill was promoted by a pull request or rejected with a reason. The pending lists are empty.
 - [ ] The record lists each shim as a file with its path and its owner, and the count of shims.
-- [ ] `core/stack.md` § Tools and § Local machine name the lane's agent, the profile, the writers' settings, the key's home and the why, dated. If Hermes fails a requirement with no shim, the stub names the next agent to try (Qwen Code is the spike's second) and the stack keeps goose until then.
+- [ ] `core/stack.md` § Tools and § Local machine name the lane's agent, the profile, the writers' settings, the key's home and the why, dated. If Hermes fails a requirement with no shim, the stub names the next agent to try (Qwen Code is the spike's second). Goose and Emdash left the stack on 2026-10-29 (`goose-task-script`), so the stack keeps Hermes until the next agent passes.
 
 ## Out of scope
 
 - Hermes's messaging gateway, cron, dashboard, Hermes Cloud and Nous Portal. None is installed or signed in to.
 - The cloud and phone lane. Claude Code keeps it.
-- A rename of `goose-task`. The stub that ships the winner does it.
+- A rename of `goose-task`. Its name and its folder stay (Jamie, 2026-10-29).
 
 ## Notes
 
 - The spike and the Hermes assessment of 2026-10-29 are session reports in the scratchpad, linked from the pull request that cut this stub. Their distillation is `research/verdicts/hermes-agent.md`, `opencode.md` and `qwen-code.md`.
 - Open-source assurance, checked in source on 2026-10-29: MIT licence, contributions MIT, no CLA file, the desktop app is in the same repository and builds on Linux with `hermes desktop`, shared metrics default to `enabled: false, send: false` with an opt-in offer whose default answer is no. The paid parts (Nous Portal, Tool Gateway, Hermes Cloud) are services the lane does not use.
-- The `ask` to `block` rule of goose does not apply: Hermes's `approve` from a hook escalates to the human gate.
-- Stub `plugin-router-and-board` waits on this stub. Stub `emdash-leaves` depends on it.
+- Stub `plugin-router-and-board` reads the same result as R3. Stub `emdash-leaves` is dropped (2026-10-29).
