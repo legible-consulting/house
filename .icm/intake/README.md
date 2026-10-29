@@ -46,3 +46,4 @@ The steps of the house's own build that no session takes, because each reaches a
 - **Check the first cold batch against the opt-out list.** Before the first batch of cold emails: check its role addresses against the Direção-Geral
   do Consumidor's opt-out list (`01-prospecting/legitimate-interest.md` §3). Check:
   the batch's rows carry a touch note that says so.
+- **Test the shared preview branch on remi-ai.** Vercel team `remi21`: turn on "Create database branch for deployment" for Preview on `app` and `admin`, both connected to `uat-remi-ai`. Then push one test branch that changes the two apps, and tell a session. The session reads the Neon branches and records the answer, as `triage/blueprint-monorepo-uat-build.md` § Proposed change says. Check: `triage/env-check-neon-preview-branching.md` § Notes says one Neon branch, one branch each, or a failed build.
