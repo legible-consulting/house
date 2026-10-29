@@ -25,3 +25,7 @@ Adopt (why: Paper text online; the PDF is at `jake-van-clief/00_reference-materi
 ## Source
 
 https://arxiv.org/html/2603.16021v2 · audited 2026-10-14 · from the library's ledger, section "ICM references". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-29
+
+New source: https://www.facebook.com/share/v/19yRdAi1ET/ · fetched 2026-10-29 · a video by Jake Van Clief, the paper's author. The caption says only that a comment gets you the place to find "my paper"; it holds no link and no new claim. The comment request is a call to act, not information. The item is this paper, so the verdict stands: adopt.
