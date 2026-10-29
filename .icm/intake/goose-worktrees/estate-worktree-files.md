@@ -13,7 +13,7 @@ The six live repos are on blueprint `v1.0.3` and have no `worktree-setup.sh`, so
 
 ## Proposed change
 
-The conformance to the tag after `blueprint-new-run-in-worktree` adds `.icm/scripts/worktree-setup.sh` and the new `new-run.sh` to each live repo, and renders no `.emdash.json` and no `.goosehints` (`conformance/CONTEXT.md`).
+The conformance to `v1.3.0`, the tag after `blueprint-new-run-in-worktree`, adds `.icm/scripts/worktree-setup.sh` and the new `new-run.sh` to each live repo, and renders no `.emdash.json` and no `.goosehints` (`conformance/CONTEXT.md`).
 
 ## Acceptance criteria
 
