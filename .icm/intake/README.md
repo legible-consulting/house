@@ -38,9 +38,6 @@ The steps of the house's own build that no session takes, because each reaches a
 
 - **Activate a client user.** Neon, project `legible-desk`: one client user activated from its folder's Users card. Check: the person opens the mailed link and lands on the folder's page.
 - **Close Berceo #68, promote, and walk Agorasim's go-live.** Berceo #68 merged as changelog and tag, or closed; then the next promotion through `promote.sh`. Agorasim's `go-live` epic through the loop.
-- **Set THROTTLE_SALT on legible-desk.** `THROTTLE_SALT` on the Vercel project `legible-desk`, production and preview: the output of
-  `openssl rand -hex 32`. Until it is set, `/start` answers every submission with an error.
-  Check: `vercel env ls --scope kodominio` on `legible-desk` lists it for both.
 - **Invite GPardas to the org.** GPardas invited as a member once 2FA is on. Check: listed by `gh api orgs/legible-consulting/members`.
 - **Confirm the tax calendar with the contabilista.** The contabilista confirms the calendar in `core/accountant/02-trabalhador-independente-obligations.md`
   §5. Each confirmed date is written into §5 in place. Check: no ⚠️ remains in §5.
