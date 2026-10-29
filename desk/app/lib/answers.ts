@@ -1,6 +1,6 @@
 import { stringify } from "yaml";
 import type { FormSnapshot } from "./forms";
-import { writeFile } from "./github";
+import { commitToHouse } from "./writes";
 
 // A form's answers: checked against the snapshot the visitor saw, then written to the house as
 // one markdown file on main (decision 1 of .icm/intake/desk-forms): frontmatter `kind: answers`,
@@ -73,12 +73,20 @@ export function answersFile(
 }
 
 // Writes the file to `<dir>/<form>-<YYYY-MM-DD>.md` on main. A second file on the same day gets
-// `-2`, then `-3`, up to `-9`. Returns the path written.
-export async function writeAnswers(dir: string, form: string, content: string, at: Date, message: string) {
+// `-2`, then `-3`, up to `-9`. Returns the path written. The action is the row of "The desk's
+// writes to main" (desk/CONTEXT.md): `free-look` for /start, `link-answers` for /f/<token>.
+export async function writeAnswers(
+  action: "free-look" | "link-answers",
+  dir: string,
+  form: string,
+  content: string,
+  at: Date,
+  message: string,
+) {
   const base = `${dir}/${form}-${at.toISOString().slice(0, 10)}`;
   for (let n = 1; n <= 9; n++) {
     const path = n === 1 ? `${base}.md` : `${base}-${n}.md`;
-    if ((await writeFile(path, content, message)) === "created") return path;
+    if ((await commitToHouse(action, { path, content, message })) === "created") return path;
   }
   throw new Error(`${base}.md and -2 to -9 exist already.`);
 }

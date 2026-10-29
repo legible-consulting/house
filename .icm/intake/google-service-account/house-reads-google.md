@@ -9,7 +9,7 @@
 
 ## Problem
 
-The contracts that read Google do it through a connector a person is signed in to: client research reads a thread and a Drive folder, kickoff reads the answers from a Google Doc for a training client, the desk's Inputs name the business email. A module that runs in the cloud routine, in CI or in a goose session has no connector.
+The contracts that read Google do it through a connector a person is signed in to: client research reads a thread and a Drive folder, kickoff reads the answers from a Google Doc for a training client, the desk's Inputs name the business email. A module that runs in the cloud routine, in CI or in a session of the local lane's agent has no connector.
 
 ## Proposed change
 

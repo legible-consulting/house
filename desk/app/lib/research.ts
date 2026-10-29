@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { parse, stringify } from "yaml";
-import { deleteFile, listFolder, readOnMain, readWithSha, replaceFile, writeFile } from "./github";
+import { listFolder, readOnMain } from "./github";
+import { commitToHouse } from "./writes";
 
 // The research queue (research/CONTEXT.md, research): one file per link Jamie shares to
 // the desk, written to main in research/queue/. The daily intake reads the folder,
@@ -88,7 +89,11 @@ export async function queueLink(s: Shared, now = new Date()): Promise<{ note: st
   if (!found) throw new Error("No link in what was shared.");
   if (needsText(s)) throw new Error("LinkedIn shows the post to a signed-in reader only. Paste the post's text with the link.");
   const path = `${QUEUE}/${queueName(found.link, now)}`;
-  const result = await writeFile(path, queueFile(found, s, now), `research: queue ${new URL(found.link).hostname}`);
+  const result = await commitToHouse("share", {
+    path,
+    content: queueFile(found, s, now),
+    message: `research: queue ${new URL(found.link).hostname}`,
+  });
   return { note: result === "created" ? `Queued ${found.link}` : `Already queued today: ${found.link}` };
 }
 
@@ -153,27 +158,37 @@ function queuePath(name: string): string {
   return `${QUEUE}/${name}`;
 }
 
-// Name a share that no route read: the name goes first in `text`, where the intake reads a tool
-// named without a link (research/intake.md, step 4b), and the `Pointer unresolved:` line leaves,
-// so the next intake takes the file.
-export async function nameLink(name: string, typed: string): Promise<{ note: string }> {
+// Name a share that no route read. The desk never updates a file (lib/writes.ts), so the name
+// is a new queue file for the same link, with the name first in `text`, where the intake reads
+// a tool named without a link (research/intake.md, step 4b), and with no `Pointer unresolved:`
+// line. Then the old file leaves. A new file that lands on the old name (the same day) is
+// written after the delete.
+export async function nameLink(name: string, typed: string, now = new Date()): Promise<{ note: string }> {
   const words = oneLine(typed, 200);
   if (!words) throw new Error("Type a name.");
   const path = queuePath(name);
-  const { text, sha } = await readWithSha(path);
-  const head = FRONT_RE.exec(text)?.[1];
+  const head = FRONT_RE.exec(await readOnMain(path))?.[1];
   if (head === undefined) throw new Error(`${name} has no frontmatter.`);
   const front = (parse(head) ?? {}) as Record<string, unknown>;
+  const link = typeof front.url === "string" ? front.url : "";
+  if (!link) throw new Error(`${name} has no url.`);
   const was = typeof front.text === "string" ? front.text : "";
   front.text = oneLine(`${words} ${was}`, 1000);
-  await replaceFile(path, `---\n${stringify(front)}---\n`, sha, `research: name ${name}`);
+  const next = `${QUEUE}/${queueName(link, now)}`;
+  const file = { path: next, content: `---\n${stringify(front)}---\n`, message: `research: name ${name}: ${words}` };
+  const drop = { path, delete: true as const, message: `research: ${name} named, as ${next}` };
+  if (next === path) {
+    await commitToHouse("queue-name", drop);
+    await commitToHouse("queue-name", file);
+  } else {
+    if ((await commitToHouse("queue-name", file)) !== "created") throw new Error(`${next} exists already. Nothing was changed.`);
+    await commitToHouse("queue-name", drop);
+  }
   return { note: `Named: ${words}. The next intake takes it.` };
 }
 
 // Drop a share that no route read: the file leaves main.
 export async function dropLink(name: string): Promise<{ note: string }> {
-  const path = queuePath(name);
-  const { sha } = await readWithSha(path);
-  await deleteFile(path, sha, `research: drop ${name}`);
+  await commitToHouse("queue-name", { path: queuePath(name), delete: true, message: `research: drop ${name}` });
   return { note: `Dropped ${name}.` };
 }

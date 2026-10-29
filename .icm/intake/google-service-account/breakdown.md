@@ -5,7 +5,7 @@
 
 ## What I understood
 
-Today the house reaches Google two ways. A session on the desktop or the phone reads mail, calendar and Drive through the claude.ai connectors, which belong to the account and not to any repo. `place.sh` copies a PDF into the client's Drive folder over the GNOME mount, on the laptop, by Jamie's hand, because no Drive key exists anywhere (`core/CONTEXT.md`). Kickoff for `kind: training` places `questions.md` in Drive as a Google Doc. Neither route works from CI, from the `legible` cloud environment, or from a goose session. "Every module runs from anywhere" is not true for any step that touches Drive.
+Today the house reaches Google two ways. A session on the desktop or the phone reads mail, calendar and Drive through the claude.ai connectors, which belong to the account and not to any repo. `place.sh` copies a PDF into the client's Drive folder over the GNOME mount, on the laptop, by Jamie's hand, because no Drive key exists anywhere (`core/CONTEXT.md`). Kickoff for `kind: training` places `questions.md` in Drive as a Google Doc. Neither route works from CI, from the `legible` cloud environment, or from a session of the local lane's agent. "Every module runs from anywhere" is not true for any step that touches Drive.
 
 Jamie wants one service account with its own key, so that a script does the Google step wherever it runs, and a session does not depend on a connector. The concept of 2026-10-14 says how: a service account owns nothing on Drive, so it impersonates `contact@jamienisbet.com` through domain-wide delegation on the Workspace tenant; the files stay Jamie's; one key as a secret works from any runner. It also says the risk: a key is a credential, and the house keeps no credential in git (`CLAUDE.md`).
 

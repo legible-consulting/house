@@ -55,6 +55,9 @@ Jamie's automation boundary (goal interview R7 · 2026-10-14); each line carries
   research intake, which only opens a PR (why: the first two are deterministic reads with
   nothing to send; the intake reads what Jamie shared, writes a draft and opens a PR, and
   sends nothing to anyone; anything that acts waits for Jamie · 2026-10-19).
+- The desk writes to the house only what the table "The desk's writes to main" in
+  `desk/CONTEXT.md` names (why: a constraint that lives in prose is no constraint, and the
+  review of 2026-10-29 found no one place that names the set · Jamie, 2026-10-29).
 - Never in git: credentials and identity documents. Client words, negotiation positions and
   contact details may live here (why: this repo is private; a secret in git outlives every
   rotation).

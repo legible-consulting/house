@@ -1,3 +1,5 @@
+> Dropped: absorbed by goose-task-script, which removed goose and Emdash from the stack. The machine acts are in `README.md` § Jamie's hand · 2026-10-29
+
 # Stub: Emdash leaves the stack and the machine
 
 - feature-slug: emdash-leaves

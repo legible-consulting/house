@@ -59,13 +59,13 @@ variable. The Process says what a session does with them.
   ticked from the phone is still Jamie's own tick · 2026-10-21).
 - A shared link. On the phone, Jamie shares a link to the installed desk, and `/share` writes
   it. At the computer, Jamie pastes it in the form on `/research`. Both write
-  `research/queue/<date>-<host>-<hash>.md` to `main` with `DESK_PAT`. The desk judges nothing.
+  `research/queue/<date>-<host>-<hash>.md` to `main` with `DESK_PAT` (Outputs, the row `share`). The desk judges nothing.
   The daily intake writes the verdict (`research/CONTEXT.md`) (why: the share sheet is the one
   tap Jamie takes on the phone · 2026-10-25). A LinkedIn link with no text opens the form on
   `/research` and asks for the post's text, because no route reads a LinkedIn post. A queue
   file with a `Pointer unresolved:` line shows under "Needs a name" on `/research`: Jamie types
-  the name, and the desk writes it to the file's `text` and removes the line on `main`, or he
-  deletes the file (why: a share that no route reads waits for one word from the phone, not a
+  the name, and the desk writes the file again with the name in `text` and without the line, or
+  he drops the file (Outputs, the row `queue-name`) (why: a share that no route reads waits for one word from the phone, not a
   verdict with no item · 2026-10-29).
 - A lead. The portfolio's contact form posts to `/api/pool` with `POOL_TOKEN`. The free look
   posts through `/start`. Both put a row in the pool at `new`, or no row when one with that
@@ -76,7 +76,7 @@ variable. The Process says what a session does with them.
   has passed, and the handoff carries it into the record (why: Jamie learns of a meeting booked
   for him from the desk, not from a note · 2026-10-28). At `ready for Jamie` the desk opens a pull request on the house that
   creates `clients/<slug>/record.md` and moves the lead's answers into the folder
-  (`01-prospecting/CONTEXT.md`, The handoff). Jamie merges it (why: a lead copied by hand from a
+  (`01-prospecting/CONTEXT.md`, The handoff; Outputs, the row `handoff`). Jamie merges it (why: a lead copied by hand from a
   mail is a lead lost · 2026-10-22).
 - The sync pill. It says up to date, running, deploying, out of sync or unknown. Read it
   before you trust a page: only up to date means the page shows `main`'s head. Out of sync is
@@ -89,6 +89,24 @@ variable. The Process says what a session does with them.
   says. It sends nothing to a client. The desk's one mail goes to Jamie (`CLAUDE.md`, Boundaries).
 
 ## Outputs
+
+The desk's writes to main: every commit the desk makes to the house, one row per action.
+`commitToHouse` in `app/lib/writes.ts` makes each commit of the app. It refuses, in words, a
+path, a branch or an operation that the row does not name, and writes nothing. The typed list
+`WRITES` in the same file holds the same rows, and `app/scripts/read-house.mjs` fails the build
+when the two differ. A new write is a new row here and a new entry there, in one pull request
+(why: a constraint that lives in prose is no constraint, and the review of 2026-10-29 found no
+one place that names the set · Jamie, 2026-10-29). A `*` matches one path segment, or part of
+one.
+
+| Action | Role | Globs | Branch | Identity | Why |
+|---|---|---|---|---|---|
+| `free-look` | visitor, no session | `01-prospecting/leads/*/free-look-*.md` | `main` | `DESK_PAT` | the free look's answers, create only: nothing is thanked that is not in the house · 2026-10-26 |
+| `link-answers` | visitor, no session | `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `main` | `DESK_PAT` | a sent link's answers, create only, in the folder when the record is on `main`, else with the lead · 2026-10-25 |
+| `share` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a shared link, create only: a link that waits in a chat is a link lost · 2026-10-25 |
+| `queue-name` | jamie | `research/queue/*.md` | `main` | `DESK_PAT` | a share that no route read, named (a new file with the name, then the old file deleted) or dropped (deleted): a share waits for one word from the phone, not a verdict with no item · 2026-10-29 |
+| `handoff` | salesman, jamie | `clients/*/record.md`, `clients/*/*/*.md`, `01-prospecting/leads/*/*.md` | `pool/*` | `DESK_PAT` | the record and the lead's answers, created in the folder and deleted from the lead, on a branch with a pull request: a lead copied by hand from a mail is a lead lost · 2026-10-22 |
+| `rhythms` | none: the morning and monthly runs | `desk/glance/*.md`, `desk/close/*.md` | `main` | `GITHUB_TOKEN (rhythms.yml)` | the glance and the close, written by the workflow, never by the app: one set of rules for every reader · 2026-10-22 |
 
 The files:
 
@@ -194,7 +212,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   valid submission inserts a pool row by the pool API's code (`lib/lead.ts`): at `new`,
   `source: free look`, Jamie as salesman, or no row when one with that email is open. It
   writes the answers to `01-prospecting/leads/<slug>/free-look-<date>.md` on `main` with
-  `DESK_PAT` (`lib/answers.ts`), mails Jamie (`Free look: <name>`, reply-to the visitor) and
+  `DESK_PAT` (`lib/answers.ts`, the row `free-look`), mails Jamie (`Free look: <name>`, reply-to the visitor) and
   shows the visitor a confirmation. The visitor gets no mail. A filled honeypot, or a sixth
   submission from one IP in one hour (table `throttle`: the IP hashed with `THROTTLE_SALT`,
   the hour, the count, kept one day), is thanked and stores nothing (why: the portfolio's
@@ -270,7 +288,7 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   update that matches no row is the answered dead end, so a double submit lands once. It then
   writes the answers to `clients/<slug>/<folder>/<form>-<date>.md` when
   `clients/<slug>/record.md` is on `main`, else to `01-prospecting/leads/<slug>/<form>-<date>.md`,
-  with `source: link`, and mails Jamie (`<form title>: <name>`, the answers as text, reply-to
+  with `source: link` (the row `link-answers`), and mails Jamie (`<form title>: <name>`, the answers as text, reply-to
   the row's email). The desk marks the row before it writes the file (why: a second submit must
   see the row spent · 2026-10-25). A failed write is in the Vercel log with the row id, and the
   mail says so and carries the answers. The person gets no mail.

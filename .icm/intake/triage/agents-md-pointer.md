@@ -11,18 +11,18 @@ Nine of the eleven agents the spike read take `AGENTS.md` as the instruction fil
 
 ## Proposed change
 
-The blueprint renders `AGENTS.md` at the root of every build and every workspace, beside `.goosehints`: one line that sends the agent to `CLAUDE.md` first, then to the routed contract. The house gets the same file. `conventions/README.md` gets the row. The live repos get it at the next tag. One pull request on `legible-consulting/blueprint`, one on the house, then the move of this stub.
+The blueprint renders `AGENTS.md` at the root of every build and every workspace: one line that sends the agent to `CLAUDE.md` first, then to the routed contract. The house gets the same file. `conventions/README.md` gets the row. The live repos get it at the next tag. One pull request on `legible-consulting/blueprint`, one on the house, then the move of this stub.
 
 ## Acceptance criteria
 
-- [ ] `template/AGENTS.md` exists, under five lines, with no client name and no path on one machine. It says: read `CLAUDE.md` first, then only the contract it routes to; gates are human checkboxes; never build an orchestrator. The same words as `.goosehints`, so the two files say one thing.
+- [ ] `template/AGENTS.md` exists, under five lines, with no client name and no path on one machine. It says: read `CLAUDE.md` first, then only the contract it routes to; gates are human checkboxes; never build an orchestrator. The same words as the house's `.goosehints` had (removed 2026-10-29, `goose-worktrees/goose-task-script`).
 - [ ] It renders for a build and for a workspace. `check.yml`'s render job checks that it exists in each proof answer set.
 - [ ] `AGENTS.md` is not in `_skip_if_exists`: it is the blueprint's file.
-- [ ] `conventions/README.md` has the row `Agent map`: `.goosehints` and `AGENTS.md` are the blueprint's, each one line that points at `CLAUDE.md`, and why.
-- [ ] The house has `AGENTS.md` at the root with the same words, and `check.yml`'s `placement` job holds it as it holds `.goosehints`.
-- [ ] `core/stack.md` names `AGENTS.md` where it names `.goosehints`.
+- [ ] `conventions/README.md` has the row `Agent map`: `AGENTS.md` is the blueprint's, one line that points at `CLAUDE.md`, and why.
+- [ ] The house has `AGENTS.md` at the root with the same words, and `check.yml`'s `placement` job holds it as it holds `CLAUDE.md`.
+- [ ] `core/stack.md` names `AGENTS.md` as the agent map of every repo.
 
 ## Out of scope
 
-- `library` and `.github`: the triage stub `goosehints-library-and-github` carries both files for those two repos.
+- `library` and `.github`: the triage stub `goosehints-library-and-github` carries the file for those two repos.
 - The live repos: they get the file at the next conformance tag, with `estate-worktree-files`.

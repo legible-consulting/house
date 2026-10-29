@@ -24,3 +24,10 @@ fi
 for cmd in $(printf '%s\n' "${!formula[@]}" | sort); do
   have "$cmd" && log "ok $cmd" || log "MISSING $cmd"
 done
+
+# The lane script: ~/.local/bin/goose-task links to core/setup/goose-task.sh, so a pull of the
+# house updates the command (why: one home for the script · Jamie, 2026-10-29).
+src="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/goose-task.sh"
+mkdir -p "$HOME/.local/bin"
+[ -f "$src" ] && ln -sf "$src" "$HOME/.local/bin/goose-task"
+[ -x "$HOME/.local/bin/goose-task" ] && log "ok goose-task" || log "MISSING goose-task"
