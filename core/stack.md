@@ -122,6 +122,22 @@ a build, never into a workspace, and registers them in the build's `.claude/sett
 (why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
 2026-10-27). The router and the board are repo copies only, never global hooks.
 
+Hermes Agent does not read `.claude/settings.json`. The profile `legible` runs the same repo
+hooks from two files in `~/.hermes/profiles/legible/`, registered under `hooks:` in its
+`config.yaml`. Neither file holds a copy of a hook (why: the blueprint's script is the one
+home, and a Hermes session on a build gets the same board, router and guards as Claude Code ·
+`goose-worktrees/_done/plugin-router-and-board.md`, 2026-10-29). The triage stub
+`hermes-profile-files` gives the files their home in `core/setup/hermes/`.
+
+| Profile file | Hermes event | Runs | Claude Code event |
+|---|---|---|---|
+| `guard-adapter.sh` | `pre_tool_call` (`terminal`, `write_file`, `patch`) | the three guards, the repo copy first. A guard `deny` is `block`, a guard `ask` is `approve` | PreToolUse |
+| `board-context.sh` | `pre_llm_call`, first turn | the build's `.claude/hooks/session-start.sh`. Its output reaches the model as context | SessionStart |
+| `board-context.sh` | `pre_llm_call`, each turn | the build's `.claude/hooks/route-request.sh` with the prompt. Its `[router]` line reaches the model as context | UserPromptSubmit |
+
+`board-context.sh` prints nothing where the session's folder has no `.claude/hooks/`, or has
+neither script.
+
 `reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes them. The app removes only its own session worktrees (why: house had 46 worktrees and blueprint 11 · 2026-10-27).
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
