@@ -100,7 +100,7 @@ Five files. The house owns each one, in `core/setup/`.
 
 ### The writers after both walks (2026-10-29)
 
-- Rejected: 5 more staged batches that restate the loop (`icm-ticket-runs`, `icm-ticket-sessions-in-hermes` with a `hermes-agent` patch in the same batch, `legible-estate-hermes-sessions`, `legible-estate-tickets`), and a patch of the repo skill `pr-conventions` (why: the blueprint is its home, triage stub `blueprint-pr-ready-flip`). 20 rejected in all.
+- Rejected: 4 more staged batches that restate the loop (`icm-ticket-runs`, `icm-ticket-sessions-in-hermes` with a `hermes-agent` patch in the same batch, `legible-estate-hermes-sessions`, `legible-estate-tickets`), and a patch of the repo skill `pr-conventions` (why: the blueprint is its home, triage stub `blueprint-pr-ready-flip`). 20 rejected in all.
 - Staged and not decided: 21 batches. All patch or create general skills: `github` and `software-development:github` (12), `hermes-agent` (5), `blocked-page-recovery`, `copier-template-change`, `vercel-api`. Jamie decides.
 - `MEMORY.md` is unchanged since 14:24. It holds the importer's copy of the old `~/.claude/CLAUDE.md`, paths included. No client fact. The criterion "no path" is not met until it is cleared.
 - The background review staged 26 batches in one day and created a copy of the loop eight times. The memory writer staged nothing.
