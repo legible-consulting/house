@@ -24,7 +24,7 @@ Jamie installs Hermes Agent on a profile `legible` and walks one open ticket of 
 - [ ] R3: the board's text reaches the model on the first turn, through a `pre_llm_call` hook's `context` or another route, and the router names the case of a prompt. Or the stub records that it cannot, and what replaces it.
 - [ ] R4: the three skills of a build load from `.claude/skills` through `skills.external_dirs`, and `asd-ste100` from `~/.claude/skills`.
 - [ ] R5: `merge.sh` ran from the Hermes session after Jamie's tick with no prompt. `release.sh` the same shape.
-- [ ] R6: `/model` switched to a second provider mid-session and the ticket continued.
+- R6 moved to triage stub `hermes-cheap-models` (Jamie, 2026-10-29). The walk does not wait on a second provider (why: the second provider is the same choice as the cheapest models that can do the lane's work, and a key Jamie has not chosen blocked the walk).
 - [ ] R7: the session ran in a worktree made by the lane script, not by `hermes -w`. If Hermes made a `.worktrees/` folder anyway, the stub says so and the blueprint ignores it.
 - [ ] The writers: after both walks, `MEMORY.md` holds no client fact and no path, every staged memory line was approved or rejected, and every staged skill was promoted by a pull request or rejected with a reason. The pending lists are empty.
 - [ ] The record lists each shim as a file with its path and its owner, and the count of shims.
@@ -35,6 +35,7 @@ Jamie installs Hermes Agent on a profile `legible` and walks one open ticket of 
 - Hermes's messaging gateway, cron, dashboard, Hermes Cloud and Nous Portal. None is installed or signed in to.
 - The cloud and phone lane. Claude Code keeps it.
 - A rename of `goose-task`. Its name and its folder stay (Jamie, 2026-10-29).
+- A second provider and R6: triage stub `hermes-cheap-models` (Jamie, 2026-10-29).
 
 ## Notes
 
