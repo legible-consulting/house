@@ -14,8 +14,6 @@ commission:
   owed:
 repo: k0d0minio/agorasim
 owner: jamie
-vercel_project:
-  - kodominio/agorasim
 collaborators: []
 drive: https://drive.google.com/drive/folders/1A4J_ye0pH6_aQz-m5vYgCDiM-xjn4y2K
 ---

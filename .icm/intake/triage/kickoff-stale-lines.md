@@ -19,3 +19,7 @@ The three lines leave, and step 6's command matches `copier.yml`'s bank on the d
 - [ ] Step 6's command carries each question of `copier.yml` and no other, and the list under it has one line per question.
 - [ ] The line on `vercel_project` in step 10 and in Inputs says that `.icm/environments.md` holds the projects, when `desk-environments-file` is done, or stays until then and this stub says so.
 - [ ] The paragraph on a repo that exists before kickoff reads the access table from `.env.example` and the workflows only.
+
+## Notes
+
+- The pull request of `desk-environments-file` did the `vercel_project` criterion: Inputs name no `vercel_project`, and step 10 says that the new repo's `.icm/environments.md` holds the projects · 2026-10-29.

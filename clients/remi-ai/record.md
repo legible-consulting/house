@@ -13,13 +13,6 @@ commission:
   owed:
 repo: k0d0minio/remi-ai
 owner: jamie
-vercel_project:
-  - remi21/app
-  - remi21/admin
-  - remi21/marketing
-  - remi21/documentation
-  - remi21/support
-  - remi21/demo
 collaborators: []
 drive: https://drive.google.com/drive/folders/1dp1iNJ70ZuSwdrwyQMYGQUq-RVhF1vcT
 ---

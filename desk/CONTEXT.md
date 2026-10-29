@@ -282,6 +282,12 @@ The app, `app/` (the code map: `.claude/rules/desk-app.md`):
   page says the link is on its way. "Send again" asks for a new link for an active user. A
   link that Neon Auth does not send leaves the user active, and the page says so
   (`app/_users-actions.ts`).
+- The Environments card (`app/_environments.tsx`), Jamie only, on `/clients/<slug>` when
+  `repo:` is set: each row of the repo's own `.icm/environments.md` on its default branch,
+  read per request with the owner's token by `lib/environments.ts`, the five columns with each
+  address as a link. A repo with no file, a file with no table and a failed read are one line
+  each. The record holds no copy (why: one home per fact, `blueprint-environments` · Jamie,
+  2026-10-29). A client does not see it: a cell may name a triage stub.
 - A sent link answered, `/f/<token>` (`app/f/[token]/`), another page without a session,
   outside the shell and `noindex`; `/robots.txt` disallows `/f/`. It renders the row's frozen
   title, intro and questions, never `forms/` or `house.json`, with the page's own words in the

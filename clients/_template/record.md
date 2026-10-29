@@ -15,7 +15,6 @@ commission:
 repo:
 drive_folder:
 owner: jamie
-vercel_project: []
 collaborators: []
 ---
 
