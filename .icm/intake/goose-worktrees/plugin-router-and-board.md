@@ -1,13 +1,15 @@
 # Stub: The router and the board run in a goose session on a build
 
-- lane: chore
-- found-by: the alignment read of the open stubs against goose and Emdash · 2026-10-29
+- feature-slug: plugin-router-and-board
+- epic: goose-worktrees
+- sequence: 2 of 5
+- depends-on: none
 - complexity: medium
 - priority: P2
 
 ## Problem
 
-A build registers the router `route-request.sh` (UserPromptSubmit) and the board `session-start.sh` (SessionStart) in `.claude/settings.json`. Claude Code reads that file. Goose does not. The goose plugin `~/.agents/plugins/legible-guards/` carries the three guards only. In an Emdash task with goose on a build, no board prints the open tickets at the start, and no router names the case of a prompt. The loop in `.icm/intake/CONTEXT.md` names both as the first things a session gets.
+A build registers the router `route-request.sh` (UserPromptSubmit) and the board `session-start.sh` (SessionStart) in `.claude/settings.json`. Claude Code reads that file. Goose does not. The goose plugin `~/.agents/plugins/legible-guards/` carries the three guards only. In a goose session on a build, no board prints the open tickets at the start, and no router names the case of a prompt. The loop in `.icm/intake/CONTEXT.md` names both as the first things a session gets.
 
 ## Proposed change
 
@@ -23,5 +25,5 @@ The plugin `legible-guards` gets two more rules: on SessionStart it runs the rep
 
 ## Notes
 
-- Goose supports the two events: the `emdash` plugin registers SessionStart and UserPromptSubmit in its `hooks.json`.
+- Goose supports the two events. Its hooks guide lists SessionStart and UserPromptSubmit, and says that most events are observation only. Whether a hook's stdout reaches the model is not documented. Test it first: a board that prints to a log nobody reads is not a board.
 - The guards' matchers name the tools as goose 1.57 sends them: `shell`, `write` and `edit`, as `core/stack.md` says. The adapter maps `write {path, content}` to Write and `edit {path, before, after}` to Edit. The two new rules go into the same `hooks.json`.

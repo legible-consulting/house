@@ -9,7 +9,8 @@ The epics, and what each holds. A finished epic sits whole in `_done/`:
 | `triage/` | one-off chores: a rule, a walk, a stale path, a licence, the tiers leaving the org repo, the pool's no and purge |
 | `salesman-desk/` | the salesman's desk: one language set in preferences, the kit as one document with a grammar in two parts and a reference, `/sell` as a course of lessons on a track, the pool row that draws its track and names the next step, the meeting as facts on the row, and every word of the salesman's pages in their language, in six pull requests |
 | `blueprint-environments/` | the concept of a repo's own manifest, applied to the one fact the blueprint has no home for: where each build runs, as a table in its `README.md` that the blueprint renders, CI checks, the UAT status compares with Vercel and the desk reads, in five pull requests |
-| `emdash-worktrees/` | a new Emdash task worktree of a build ready to work in: the blueprint renders `.emdash.json` and a setup script that installs from the lockfile, CI parses them, the house stack names Goose and Emdash, and each live repo gets them at the next conformance |
+| `goose-worktrees/` | one ticket, one worktree, one goose session, with no second application: a house script makes the worktree, copies the env files, runs the install and starts goose; the plugin runs the router and the board; `new-run.sh` keeps the worktree's branch; Emdash leaves the stack, the blueprint and the machine; each live repo gets the setup script, in five pull requests |
+| `_done/emdash-worktrees/` | the blueprint rendered `.emdash.json` and the setup script, CI parsed them, and the stack named Goose and Emdash. Emdash left on 2026-10-29, and `goose-worktrees` keeps the script |
 | `_done/house-modules/` | the stage renumber, then the eight module contracts the goal interview named and the house does not have yet, each written from a real walk |
 | `_done/render-and-publish/` | a client document becomes a branded PDF on its pull request; a ready case becomes a page on jamienisbet.com |
 | `_done/desk-restyle/` | the desk's design system, its components and patterns, its app shell, the phone app, and every route restyled, in eleven pull requests |
@@ -26,7 +27,7 @@ Set by Jamie on 2026-10-29. A finished epic carries no line.
 1. salesman-desk
 2. triage
 3. blueprint-environments
-4. emdash-worktrees
+4. goose-worktrees (the default of its breakdown, question 1, until Jamie's answer · 2026-10-29)
 
 ## Milestones
 

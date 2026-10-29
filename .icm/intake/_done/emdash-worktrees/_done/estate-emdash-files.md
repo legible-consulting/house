@@ -1,3 +1,5 @@
+> Dropped: Emdash leaves the stack, and the epic `goose-worktrees` carries the setup script to the estate as `estate-worktree-files` · 2026-10-29
+
 # Stub: Each live repo is ready for Emdash task worktrees
 
 - feature-slug: estate-emdash-files
