@@ -28,7 +28,8 @@ The proposal applies the concept to that one fact. It adds no file and no format
 1. `README.md` § Environments is the home of where the build runs. The blueprint renders the table from the answers, one row per environment, with the rows that berceo and agorasim found by hand. The setup stubs fill the addresses as a person does each act.
 2. The blueprint's files read the table and never repeat it: the loop's step 7 and the stop report name the address from it.
 3. `check-client.yml` checks that the table exists, with its columns. The check is the blueprint's file that the repo's file calls (the blueprint's rule of 2026-10-28). A conformance run then adds the table to the live repos.
-4. The desk reads the table from each repo on `main`. The field `vercel_project` leaves the house record.
+4. `promote.sh status` compares the table with the Vercel projects and domains that it finds, and names each difference.
+5. The desk reads the table from each repo on `main`. The field `vercel_project` leaves the house record.
 
 Rejected:
 
@@ -38,32 +39,26 @@ Rejected:
 
 ### Questions for Jamie
 
-1. Does the concept go into the blueprint as the `README.md` § Environments table, with no manifest file? Default: yes.
-2. Are the columns `Environment`, `Address`, `Vercel project`, `Database`, `Moves on`? Default: yes. The column `Vercel project` is new. It replaces the house field `vercel_project` (question 4).
-3. Does `check-client.yml` fail a build whose `README.md` has no § Environments table with those columns? Default: yes.
-4. Does the field `vercel_project` leave the house record, so that the desk reads the table from the repo? Default: yes.
-5. Does `promote.sh status` compare the table with the Vercel projects that it finds, and name each difference? Default: no, not in this epic.
-6. Where does this epic go in `README.md` § Order? Default: 3, after `salesman-desk` and `triage`.
+Answered on 2026-10-29, and written into the decisions below: the table in `README.md` with no manifest file, the five columns, the check in `check-client.yml`, `vercel_project` out of the house record, and the epic third in `README.md` § Order. `promote.sh status` compares the table with what it finds, in this epic (stub `environments-drift`).
 
-| Epic | Open | P0 | Serves | Links | Files |
-|---|---|---|---|---|---|
-| `salesman-desk` | 0 | 0 | the salesman's desk. Its close-out is not done | none | the desk |
-| `triage` | 8 | 0 | the environment cleanup of each client, the monorepo UAT build | `env-cleanup-*` wait on the conformance to the new blueprint tag. Stub 3 here is a conformance run too | none |
-| `blueprint-environments` | 4 | 0 | one home for where each build runs | stub 3 runs with the conformance that `env-cleanup-*` wait on | `README.md.jinja`, `check-client.yml`, the house record and the desk's client page |
+None is open.
 
 ## Decisions of record
 
 - **The ticket lives in the house. The change lives in the blueprint**, as for `blueprint-pipeline`. Each stub is one pull request on the repo it names, then the move of the stub to `_done/` in the house (why: the desk reads tickets from the house, and the blueprint holds no tickets · Jamie, 2026-10-27).
+- **Where the build runs is `README.md` § Environments.** One table, five columns: `Environment`, `Address`, `Vercel project`, `Database`, `Moves on`. The blueprint renders it, `check-client.yml` checks it, and the blueprint's files and the desk read it. No other file repeats it (why: a reader with no platform token needs the fact, and one home does not drift · Jamie, 2026-10-29).
+- **The house record has no `vercel_project`.** The desk reads the repo's table (why: one home per fact · Jamie, 2026-10-29).
+- **The table is compared with the platform.** `promote.sh status` names each difference and changes nothing (why: a declared fact beside a found fact drifts, and the comparison shows the drift · Jamie, 2026-10-29).
 - **The blueprint renders no manifest.** The facts of shape stay in the answers, the names in `.env.example`, and the resources are found at run time (why: one home per fact. A declared copy of a found fact drifts · 2026-10-29).
 
 ## Build order
 
 1. environments-table — the blueprint renders `README.md` § Environments from the answers, and its files read it — depends-on: none
-2. check-environments-table — `check-client.yml` checks the table and its columns — depends-on: environments-table
-3. estate-environments — each live repo gets its table in the conformance to the new tag — depends-on: check-environments-table
-4. desk-reads-environments — the desk reads the table, and `vercel_project` leaves the house record — depends-on: estate-environments
+2. environments-drift — `promote.sh status` compares the table with the Vercel projects and domains that it finds — depends-on: environments-table
+3. check-environments-table — `check-client.yml` checks the table and its columns — depends-on: environments-table
+4. estate-environments — each live repo gets its table in the conformance to the new tag — depends-on: check-environments-table
+5. desk-reads-environments — the desk reads the table, and `vercel_project` leaves the house record — depends-on: estate-environments
 
 ## Out of scope
 
-- A comparison of the table with the platform (question 5).
 - The removal of the stale answer `migrations_path` from five repos' `.copier-answers.yml`. It is the triage stub `blueprint-stale-migrations-path-answer`.

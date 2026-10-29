@@ -2,7 +2,7 @@
 
 - feature-slug: check-environments-table
 - epic: blueprint-environments
-- sequence: 2 of 4
+- sequence: 3 of 5
 - depends-on: environments-table
 - complexity: low
 - priority: P2
