@@ -27,9 +27,14 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 
 - Start cold from this folder. Read only what Inputs names.
 - A folder opens at `prospect` when Jamie takes the lead. That is his own contact, or a
-  salesman's handoff from the desk's pool that Jamie merged. Before that, a lead lives in the
-  desk's pool, not here (why: the pool changes many times a day and the folder is the record
-  · 2026-10-19).
+  salesman's handoff from the desk's pool. Before that, a lead lives in the desk's pool, not
+  here (why: the pool changes many times a day and the folder is the record · 2026-10-19).
+- The handoff is the desk's one commit on `main` that opens the folder
+  (`01-prospecting/CONTEXT.md`, The handoff). The commit is the handoff: no pull request
+  waits on Jamie. He reads the folder afterwards, and `stage` stays `prospect` until he
+  decides to research. A handoff he does not take is a revert, or `lost` by his call (why:
+  Jamie's word, a constrained and structured salesman action goes straight to `main`, and a
+  revert undoes the commit · Jamie, 2026-10-29).
 - `stage` says what is true about the relationship today. A session moves `stage` when the
   artefact that ends the current stage exists (the right column of the table below):
   - The session that writes the artefact moves `stage` in the same pull request, so that the

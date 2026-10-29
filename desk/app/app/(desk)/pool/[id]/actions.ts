@@ -4,7 +4,6 @@ import {
   insertTouch,
   linksOf,
   prospectById,
-  revertReady,
   setHandedOff,
   setNextAction,
   setMeeting,
@@ -16,7 +15,7 @@ import {
   touchesOf,
   updateProspect,
 } from "@/lib/db";
-import { handoffPrState, openHandoffPr } from "@/lib/github";
+import { existsOnMain, planHandoff } from "@/lib/github";
 import { attempt, back } from "@/lib/guard";
 import { clientSlugs } from "@/lib/house";
 import {
@@ -42,6 +41,7 @@ import {
 } from "@/lib/pool";
 import { renderRecord } from "@/lib/record";
 import { currentUser, wordsLanguage } from "@/lib/user";
+import { commitToHouse } from "@/lib/writes";
 import { words, type Words } from "@/lib/words";
 
 // Every refusal and every note of a row's action is in the words of the user who acts
@@ -83,7 +83,7 @@ export async function saveProspect(form: FormData) {
     const hits = await suppressed(contactPoints(f).filter((c) => !had.includes(`${c.kind}:${c.value}`)));
     if (hits.length) throw new Error(e.noContact(hits.map((c) => c.value)));
     let slug = p.slug ?? slugOf(f.company);
-    if (!p.pr_url && p.status !== "ready for Jamie") {
+    if (p.status !== "ready for Jamie") {
       slug = String(form.get("slug") ?? "").trim() || slugOf(f.company);
       if (!SLUG_RE.test(slug) || slug.length > 40) {
         throw new Error(e.slug);
@@ -168,11 +168,17 @@ export async function askedNotToBeContacted(form: FormData) {
   back(`/pool/${id}`, { error, note });
 }
 
-// Opens the handoff PR and moves the row to `ready for Jamie`.
+// The handoff: the row goes to `ready for Jamie`, the desk commits clients/<slug>/record.md and
+// the move of the lead's answers to main as one commit, and the row goes to `handed off` with its
+// record, in one request (01-prospecting/CONTEXT.md, The handoff). Every check is made before
+// any write: a missing field, a slug that exists in clients/, or an answer that names no folder
+// stops the action, and the row stays where it was. A commit that fails leaves the row at
+// `ready for Jamie` with nothing on main, and the sourcer hands off again from there.
 export async function readyForJamie(form: FormData) {
   const w = await actWords();
   const e = w.errors;
   const id = idOf(form, e);
+  let note = "";
   const error = await attempt(async () => {
     const { p } = await owned(id, e);
     if (!canGoReady(p)) throw new Error(e.readyFrom);
@@ -184,37 +190,14 @@ export async function readyForJamie(form: FormData) {
       throw new Error(e.noHandle(p.salesman_email));
     }
     const slug = p.slug ?? slugOf(p.company);
-    if (clientSlugs.has(slug)) throw new Error(e.exists(slug));
+    const record = `clients/${slug}/record.md`;
+    if (clientSlugs.has(slug) || (await existsOnMain(`clients/${slug}`))) throw new Error(e.exists(slug));
     const touches = await touchesOf(id);
-    const record = renderRecord(p, slug, touches, today());
-    const prUrl = await openHandoffPr(p, slug, record, touches.length);
-    await setReady(id, slug, prUrl);
-  });
-  back(`/pool/${id}`, { error });
-}
-
-// Reads the handoff PR. Merged: the row moves to handed off and names its record. Closed
-// without a merge: the row returns to where it was. Anyone who reads the pool may check.
-export async function checkHandoffPr(form: FormData) {
-  const e = (await actWords()).errors;
-  const id = idOf(form, e);
-  let note = "";
-  const error = await attempt(async () => {
-    const user = await currentUser();
-    if (!user || user.role === "client") throw new Error(e.signIn);
-    const p = await prospectById(id);
-    if (!p) throw new Error(e.noProspect);
-    if (p.status !== "ready for Jamie" || !p.pr_url) throw new Error(e.noPr);
-    const state = await handoffPrState(p.pr_url);
-    if (state === "merged") {
-      await setHandedOff(id, `clients/${p.slug ?? slugOf(p.company)}/record.md`);
-      note = e.merged;
-    } else if (state === "closed") {
-      await revertReady(id);
-      note = e.closed;
-    } else {
-      note = e.stillOpen;
-    }
+    const files = await planHandoff(slug, renderRecord(p, slug, touches, today()));
+    await setReady(id, slug);
+    await commitToHouse("handoff", { files, message: `prospecting: ${slug} handed off by ${p.sourced_by}` });
+    await setHandedOff(id, record);
+    note = e.handedOff(slug);
   });
   back(`/pool/${id}`, { error, note });
 }

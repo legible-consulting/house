@@ -3,7 +3,7 @@ title: "Kit du vendeur · fr-BE"
 kind: kit
 language: fr-BE
 owner: jamie
-date: 2026-10-28
+date: 2026-10-29
 ---
 # Kit du vendeur — comment me faire parvenir une piste
 
@@ -281,7 +281,7 @@ deux options. Tu es le bienvenu à l'appel, et tu n'as pas besoin d'y être.
 - key: hand-it-to-jamie
 - part: system
 - status: ready for Jamie
-- next: Attends que je la prenne, puis appuie sur « Vérifier la PR » sur la ligne.
+- next: Rien à faire sur la ligne quand elle montre `handed off`. Si elle reste ici, appuie de nouveau sur Prêt pour Jamie.
 
 Une fois qu'ils ont répondu, ou que vous vous êtes rencontrés, passe-moi la piste. La ligne
 a besoin de :
@@ -295,11 +295,12 @@ a besoin de :
 Il te faut aussi un identifiant, le nom court sous lequel le desk te connaît. Si tu n'en as
 pas, demande-le-moi.
 
-Mets `ready for Jamie`. Le desk ouvre alors une pull request : ma demande d'ouvrir le
-dossier du client à partir de ta ligne. Je la lis et je l'accepte. C'est la passation.
+Mets `ready for Jamie`. Le desk ouvre alors tout de suite le dossier du client à partir de ta
+ligne, et la ligne passe à `handed off`. C'est la passation. Je lis le dossier ensuite.
 
-Puis appuie sur « Vérifier la PR » sur la ligne. Si j'ai pris la piste, la ligne passe à
-`handed off`. Sinon, elle revient là où elle était, et j'écris pourquoi dans les notes.
+Si le desk ne peut pas écrire le dossier, il dit pourquoi, et la ligne reste à
+`ready for Jamie`. Corrige ce qu'il nomme, ou réessaie plus tard. Si je ne prends pas la piste,
+j'écris pourquoi dans le dossier du client.
 
 ## Après la passation
 
