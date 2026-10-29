@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
-# goose-task: one ticket, one worktree, one session of the local lane's agent
-# (core/stack.md, "Local machine"). Installed as ~/.local/bin/goose-task by local.sh.
+# ticket: one ticket, one worktree, one session of the local lane's agent
+# (core/stack.md, "Local machine"). Installed as ~/.local/bin/ticket by local.sh.
 #
-#   goose-task <repo-path> <slug>          make or reuse the ticket's worktree, then start the agent in it
-#   goose-task <repo-path> triage/<slug>   the same for a triage stub
-#   goose-task done <repo-path> <slug>     remove the worktree when it is clean and pushed. The branch stays
-#   goose-task list                        each worktree under ~/goose/worktrees/: repo, branch, state
+#   ticket <repo-path> <slug>          make or reuse the ticket's worktree, then start the agent in it
+#   ticket <repo-path> triage/<slug>   the same for a triage stub
+#   ticket done <repo-path> <slug>     remove the worktree when it is clean and pushed. The branch stays
+#   ticket list                        each worktree under ~/worktrees/: repo, branch, state
 #
-# The worktree is ~/goose/worktrees/<repo>/<slug>/ (triage: triage-<slug>/) on the branch <slug>
+# The worktree is ~/worktrees/<repo>/<slug>/ (triage: triage-<slug>/) on the branch <slug>
 # (triage: triage/<slug>), from origin/<branch> when it exists on origin, else from origin/main.
 # The script copies .env and .env.local from the primary clone, runs
 # .icm/scripts/worktree-setup.sh when the repo has it, writes the worktree's .claude/skills into
 # the Hermes profile's skills.external_dirs (done removes it), and runs no build, lint, typecheck, test,
 # format or dev command (CI is truth). It makes nothing on GitHub and decides nothing about the
-# ticket. The name stays goose-task (Jamie, 2026-10-29).
+# ticket. It was goose-task until 2026-10-29 (Jamie: a name that says what it does).
 set -euo pipefail
 
 # The agent of the lane. This is the one place to change it (why: the script is agent-agnostic,
@@ -23,13 +23,13 @@ agent_start() {
   exec hermes -p legible chat --continue "$1" --create-if-missing
 }
 
-ROOT="${GOOSE_TASK_ROOT:-$HOME/goose/worktrees}"
+ROOT="${TICKET_ROOT:-$HOME/worktrees}"
 # The Hermes profile's config: its skills.external_dirs gets each worktree's .claude/skills
 # (why: Hermes reads .agents/skills and .hermes/skills by itself, and the estate keeps its skills
 # in .claude/skills · triage/hermes-profile-files, 2026-10-29).
-HERMES_CONFIG="${GOOSE_TASK_HERMES_CONFIG:-$HOME/.hermes/profiles/legible/config.yaml}"
+HERMES_CONFIG="${TICKET_HERMES_CONFIG:-$HOME/.hermes/profiles/legible/config.yaml}"
 
-die()  { echo "goose-task: $*" >&2; exit 1; }
+die()  { echo "ticket: $*" >&2; exit 1; }
 usage() {
   sed -n '5,8s/^# \{0,1\}//p' "$0" >&2
   exit 2
@@ -41,18 +41,18 @@ usage() {
 skills_dir() {
   local dir="$2/.claude/skills"
   if ! command -v yq >/dev/null 2>&1 || [ ! -f "$HERMES_CONFIG" ]; then
-    echo "goose-task: warning: no yq or no $HERMES_CONFIG; skills.external_dirs not changed" >&2
+    echo "ticket: warning: no yq or no $HERMES_CONFIG; skills.external_dirs not changed" >&2
     return 0
   fi
   case "$1" in
     add)
       [ -d "$dir" ] || return 0
       DIR="$dir" yq -i '.skills.external_dirs = ((.skills.external_dirs // []) + [strenv(DIR)] | unique)' "$HERMES_CONFIG" \
-        && echo "goose-task: skills.external_dirs + $dir" ;;
+        && echo "ticket: skills.external_dirs + $dir" ;;
     remove)
       DIR="$dir" yq -e '(.skills.external_dirs // []) | contains([strenv(DIR)])' "$HERMES_CONFIG" >/dev/null 2>&1 || return 0
       DIR="$dir" yq -i 'del(.skills.external_dirs[] | select(. == strenv(DIR)))' "$HERMES_CONFIG" \
-        && echo "goose-task: skills.external_dirs - $dir" ;;
+        && echo "ticket: skills.external_dirs - $dir" ;;
   esac
 }
 
@@ -83,7 +83,7 @@ cmd_start() {
   wt="$ROOT/$repo/$folder"
 
   if [ -d "$wt" ]; then
-    echo "goose-task: reuse $wt ($branch)"
+    echo "ticket: reuse $wt ($branch)"
   else
     git -C "$main" fetch --quiet origin
     mkdir -p "$ROOT/$repo"
@@ -97,7 +97,7 @@ cmd_start() {
     for f in .env .env.local; do
       if [ -f "$main/$f" ]; then
         cp -p "$main/$f" "$wt/$f"
-        echo "goose-task: copied $f"
+        echo "ticket: copied $f"
       fi
     done
     if [ -f "$wt/.icm/scripts/worktree-setup.sh" ]; then
@@ -127,12 +127,12 @@ cmd_done() {
   skills_dir remove "$wt"
   git -C "$main" worktree remove "$wt"
   rmdir "$ROOT/$repo" 2>/dev/null || true
-  echo "goose-task: removed $wt. The branch $branch stays"
+  echo "ticket: removed $wt. The branch $branch stays"
 }
 
 cmd_list() {
   local wt repo branch state ahead n=0
-  [ -d "$ROOT" ] || { echo "goose-task: no worktrees ($ROOT does not exist)"; return 0; }
+  [ -d "$ROOT" ] || { echo "ticket: no worktrees ($ROOT does not exist)"; return 0; }
   while IFS= read -r -d '' wt; do
     wt="$(dirname "$wt")"
     repo="$(basename "$(dirname "$wt")")"
@@ -150,7 +150,7 @@ cmd_list() {
     fi
     printf '%-14s %-44s %s\n' "$repo" "${branch:-detached}" "$state"
   done < <(find "$ROOT" -mindepth 3 -maxdepth 3 -name .git -print0 | sort -z)
-  [ "$n" -gt 0 ] || echo "goose-task: no worktrees under $ROOT"
+  [ "$n" -gt 0 ] || echo "ticket: no worktrees under $ROOT"
 }
 
 case "${1:-}" in
