@@ -37,4 +37,4 @@ A goose session runs in the folder it starts in. To run two tickets of one repo 
 
 - The script is the blueprint's `new-run.sh` for the folder, not for the ticket: it makes the worktree and nothing on GitHub. `new-run.sh` runs inside the worktree afterwards (stub `blueprint-new-run-in-worktree`).
 - The house, the blueprint, the library and `.github` have no `worktree-setup.sh` and no lockfile at the root. The script skips the install there.
-- Questions 2 to 5 of the breakdown decide the folder, the home, the branch and the removal. Build after Jamie's answers.
+- The folder, the home, the branch and the removal are the breakdown's decisions of record (Jamie, 2026-10-29).

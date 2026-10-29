@@ -27,7 +27,7 @@ Set by Jamie on 2026-10-29. A finished epic carries no line.
 1. salesman-desk
 2. triage
 3. blueprint-environments
-4. goose-worktrees (the default of its breakdown, question 1, until Jamie's answer · 2026-10-29)
+4. goose-worktrees
 
 ## Milestones
 

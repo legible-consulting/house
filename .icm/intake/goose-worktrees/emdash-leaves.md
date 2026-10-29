@@ -26,5 +26,5 @@ The stack rows are rewritten for `goose-task` and the Emdash rows leave. Jamie r
 ## Notes
 
 - Jamie's hand, in this order: delete the three tasks in Emdash, so that Emdash removes its own worktrees; `sudo dpkg -r emdash`; remove `~/.agents/plugins/emdash/` and the config line; remove `~/.config/emdash/` and `~/emdash/`. The session writes the stack and asks for each act.
-- Question 7 of the breakdown decides when: default after `goose-task` ran one house ticket and one live repo ticket to a merged pull request.
+- When: after `goose-task` ran one house ticket and one live repo ticket to a merged pull request, the breakdown's decision of record (Jamie, 2026-10-29).
 - The memory of Jamie's Claude sessions names the Emdash exception. The session that ships this stub rewrites it for `goose-task`.

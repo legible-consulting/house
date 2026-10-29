@@ -15,7 +15,9 @@ The three guards run in goose since 2026-10-29 through the plugin `legible-guard
 
 ### Questions for Jamie
 
-1. Where does the epic go in `README.md` § Order? Default: fourth, after `blueprint-environments`, where `emdash-worktrees` was. The README carries the default until Jamie's answer.
+Answered by Jamie in the session on 2026-10-29: the seven defaults stand, and they are written into the decisions below. None is open.
+
+1. Where does the epic go in `README.md` § Order? Default: fourth, after `blueprint-environments`, where `emdash-worktrees` was.
 2. Where do the worktrees live? Default: `~/goose/worktrees/<repo>/<slug>/`, one folder per repo, one worktree per ticket.
 3. Where does the script live? Default: `core/setup/goose-task.sh` in the house, installed to `~/.local/bin/goose-task` by `core/setup/local.sh`. The other answer: a goose recipe in `~/.config/goose/recipes/`, which no repo holds.
 4. What is the worktree's branch? Default: the ticket's branch, `<slug>` or `triage/<slug>`, the names `new-run.sh` uses. The script reuses the branch when it exists on `origin`.
@@ -39,6 +41,13 @@ Classification of the open epics, for question 1:
 - **One script does what Emdash did**, deterministic and in a repo: the worktree, the env copy, the install, the goose session, the removal. It decides nothing about the ticket (why: the goose maintainers put worktrees outside goose, and a script in the house is reviewed and reverted like any file · 2026-10-29).
 - **The worktree's branch is the ticket's branch.** `new-run.sh` makes no branch inside a worktree (why: one ticket is one branch, and the branch exists before the session · 2026-10-29).
 - **CI is truth is unchanged.** The script runs the install from the lockfile and nothing else.
+- **The epic is fourth in `README.md` § Order**, after `blueprint-environments` (Jamie, 2026-10-29).
+- **The worktrees live in `~/goose/worktrees/<repo>/<slug>/`**, one folder per repo, one worktree per ticket (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29).
+- **The script is `core/setup/goose-task.sh`**, installed to `~/.local/bin/goose-task` by `core/setup/local.sh` (why: a repo holds it, reviews it and reverts it, and a fresh machine gets it from the stack · Jamie, 2026-10-29).
+- **The worktree's branch is `<slug>` or `triage/<slug>`**, the names `new-run.sh` uses. The script reuses the branch when it exists on `origin` (why: the worktree's branch and the ticket's branch are one name · Jamie, 2026-10-29).
+- **`goose-task done <slug>` removes a worktree** when it is clean and pushed, after the pull request merges. `~/.claude/hooks/reap-worktrees.sh` is the backstop at 24 hours (why: the person who finished the ticket removes its folder, and the reaper catches what was forgotten · Jamie, 2026-10-29).
+- **`.emdash.json` leaves the blueprint in stub `blueprint-new-run-in-worktree`.** `worktree-setup.sh` stays (why: no tool reads the file once Emdash leaves, and `goose-task` calls the script · Jamie, 2026-10-29).
+- **Emdash leaves the machine after `goose-task` ran one house ticket and one live repo ticket** to a merged pull request (why: the replacement is proved before the old tool goes · Jamie, 2026-10-29).
 
 ## Build order
 

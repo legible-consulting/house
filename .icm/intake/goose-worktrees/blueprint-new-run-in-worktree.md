@@ -28,7 +28,6 @@ The intake contract's loop, step 2, says that the session cuts the branch: `.icm
 
 ## Notes
 
-- Question 4 of the breakdown decides the branch name. Default: `<slug>`, so the worktree's branch and the script's branch are the same name.
-- Question 6 decides the removal of `.emdash.json`. Default: yes, in this stub.
+- The branch name `<slug>` and the removal of `.emdash.json` in this stub are the breakdown's decisions of record (Jamie, 2026-10-29).
 - `.icm/scripts/merge.sh` and `checks.sh` read the pull request by number, so they do not depend on the branch name.
 - After the merge, Jamie cuts the blueprint tag that stub `estate-worktree-files` waits on.
