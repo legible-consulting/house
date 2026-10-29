@@ -18,7 +18,7 @@ secrets:
     helper_timeout_seconds: 3
     override_existing: false
 approvals:
-  mode: smart
+  mode: manual
   deny:
     - "git push --force*"
     - "git push -f*"
@@ -44,7 +44,7 @@ command_allowlist:
   - plugin_rule:legible:confirm-git-writes
 memory:
   write_approval: true
-  memory_enabled: false
+  memory_enabled: true
   user_profile_enabled: false
 skills:
   write_approval: true

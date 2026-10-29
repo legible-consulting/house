@@ -56,4 +56,12 @@ A Hermes session on the profile `legible` (desktop app, Hermes v0.22.5, model `c
 - R4: `yq` is not installed. `goose-task` warned and did not write the worktree's `.claude/skills` into `skills.external_dirs`. The house has no `.claude/skills`, so the house walk loses nothing. A live repo walk loses its three skills. Not met until `yq` is installed.
 - R3: this session's folder has no `.claude/hooks`, so the board did not reach the first turn. Not read yet in a worktree session.
 - The writers: `MEMORY.md` holds the importer's copy of an older `~/.claude/CLAUDE.md` in 30 lines. It holds paths (`~/emdash/worktrees/`, `~/.claude/hooks/reap-worktrees.sh`) and the Emdash rule that left on 2026-10-29. No client fact. Not met: it holds paths.
-- The writers: `pending/skills/` holds 32 staged batches from `background_review`. Fourteen create or patch skills named `icm-ticket-loop`, `icm-intake-ticket`, `icm-ticket-session`, `icm-ticket-execution`, `icm-ticket-to-pr` and `legible-house-tickets`. These restate `.icm/intake/CONTEXT.md` and are a second home of the loop. The rest patch bundled skills (`github`, `hermes-agent`, `blocked-page-recovery`) or create `copier-template-change` and `vercel-api`. None is approved or rejected.
+- The writers: `pending/skills/` holds 32 staged batches from `background_review`. Fifteen create or patch skills named `icm-ticket-loop`, `icm-intake-ticket`, `icm-ticket-session`, `icm-ticket-execution`, `icm-ticket-to-pr` and `legible-house-tickets`. These restate `.icm/intake/CONTEXT.md` and are a second home of the loop. The rest patch bundled skills (`github`, `hermes-agent`, `blocked-page-recovery`) or create `copier-template-change` and `vercel-api`. None is approved or rejected.
+
+### Jamie's answers (2026-10-29)
+
+- `approvals.mode` is `manual` in `core/setup/hermes/config.yaml` and in the profile. Met.
+- `memory.memory_enabled` is `true`, with `write_approval: true`. The memory writer is on with approval. Met.
+- The 15 staged `icm-*` and `legible-house-tickets` batches are rejected (why: `.icm/intake/CONTEXT.md` is the one home of the loop). 18 batches stay staged for the read after the walks.
+- `~/.hermes/.env` and the profile's `.env` stay. `core/stack.md` § Local machine names them as an exception with the why. The key criterion is met by that record.
+- The live repo ticket waits on Jamie's choice of repo.
