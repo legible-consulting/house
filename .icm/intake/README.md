@@ -24,7 +24,7 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 
 ## Order
 
-Set by Jamie on 2026-10-29 for lines 1 to 3. Lines 4 and 5 are the session's default of 2026-10-29, from the classification in the pull request that cut them; Jamie confirms or moves them on the merge. A finished epic carries no line.
+Set by Jamie on 2026-10-29. Lines 4 and 5 were the session's default from the classification in the pull request that cut them, and Jamie kept them in the session the same day. A finished epic carries no line.
 
 1. triage
 2. blueprint-environments
