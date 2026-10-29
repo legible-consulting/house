@@ -34,7 +34,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | yt-dlp | a video's description and captions, and a reel's caption, as text (the research intake) | 2026.10.26 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 | hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29) | as installed | by hand, once (§ Local machine); the profile's four files by `setup/local.sh` from `setup/hermes/` | — |
-| goose-task | the lane script: one ticket, one worktree, one agent session (from 2026-10-29) | the house's | `setup/local.sh` links `setup/goose-task.sh` | — |
+| ticket | the lane script: one ticket, one worktree, one agent session (from 2026-10-29; named `goose-task` until the same day, renamed so the name says what it does · Jamie, 2026-10-29) | the house's | `setup/local.sh` links `setup/ticket.sh` | — |
 
 ## The desk app
 
@@ -99,9 +99,9 @@ Layout:
 | `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, copier, gh). Every clone `desk/mani.yaml` names is here (2026-10-27). |
 | `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
-| `~/goose/worktrees/` | the local lane's worktrees: `<repo>/<slug>/` on the branch `<slug>`, and `<repo>/triage-<slug>/` on `triage/<slug>`, one per ticket. `goose-task` makes them and removes them with `goose-task done`, and `reap-worktrees.sh` removes the ones left behind at 24 hours. No person and no agent makes a worktree here by hand, and the agent's own worktree option is not used (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29). |
+| `~/worktrees/` | the local lane's worktrees: `<repo>/<slug>/` on the branch `<slug>`, and `<repo>/triage-<slug>/` on `triage/<slug>`, one per ticket. `ticket` makes them and removes them with `ticket done`, and `reap-worktrees.sh` removes the ones left behind at 24 hours. No person and no agent makes a worktree here by hand, and the agent's own worktree option is not used (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29). |
 | `~/.hermes/profiles/legible/` | the Hermes profile `legible`. Four of its files have their home in `core/setup/hermes/` (§ The Hermes profile). The rest is Hermes's own state: sessions, `state.db`, the hook allowlist, caches. No `.env` (why: the key is in the keyring · 2026-10-29). |
-| `~/.local/bin/goose-task` | a link to `core/setup/goose-task.sh`, made by `setup/local.sh`. `goose-task <repo-path> <slug>` makes or reuses the ticket's worktree, copies `.env` and `.env.local` from the primary clone, runs `.icm/scripts/worktree-setup.sh` when the repo has it, writes the worktree's `.claude/skills` into the profile's `skills.external_dirs` when the folder exists, and starts the lane's agent in the worktree. `goose-task done <repo-path> <slug>` removes that line, then removes a clean, pushed worktree and keeps the branch. `goose-task list` shows each worktree and its state. It runs no build, lint, typecheck, test, format or dev command (why: it does the four steps a person did by hand for each parallel ticket, deterministic and reviewed in the house · Jamie, 2026-10-29). |
+| `~/.local/bin/ticket` | a link to `core/setup/ticket.sh`, made by `setup/local.sh`. `ticket <repo-path> <slug>` makes or reuses the ticket's worktree, copies `.env` and `.env.local` from the primary clone, runs `.icm/scripts/worktree-setup.sh` when the repo has it, writes the worktree's `.claude/skills` into the profile's `skills.external_dirs` when the folder exists, and starts the lane's agent in the worktree. `ticket done <repo-path> <slug>` removes that line, then removes a clean, pushed worktree and keeps the branch. `ticket list` shows each worktree and its state. It runs no build, lint, typecheck, test, format or dev command (why: it does the four steps a person did by hand for each parallel ticket, deterministic and reviewed in the house · Jamie, 2026-10-29). |
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
 `~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
@@ -117,7 +117,7 @@ hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 | `block-local-checks.sh` | PreToolUse (Bash) | refuses local build, lint, typecheck, test, format, dev | yes |
 | `confirm-git-writes.sh` | PreToolUse (Bash) | asks before history rewrites, force pushes, pushes to the default branch, `gh pr merge`, `gh release create` and repo or release deletes | yes |
 | `guard-plaintext-secrets.sh` | PreToolUse (Write, Edit, Bash) | refuses plaintext secrets in files outside an ignored `.env`; on Bash it reads the whole command, heredoc included | yes |
-| `reap-worktrees.sh` | SessionStart, SessionEnd | removes the worktrees that earlier sessions left in the repo of the session, `~/goose/worktrees/<repo>/` included. It removes a worktree only when it is clean, all its commits are on a remote, it had no commit or checkout for 24 h, no process uses it and the app does not own it. The branch stays. Log: `~/.cache/claude-reap-worktrees.log` | no |
+| `reap-worktrees.sh` | SessionStart, SessionEnd | removes the worktrees that earlier sessions left in the repo of the session, `~/worktrees/<repo>/` included. It removes a worktree only when it is clean, all its commits are on a remote, it had no commit or checkout for 24 h, no process uses it and the app does not own it. The branch stays. Log: `~/.cache/claude-reap-worktrees.log` | no |
 | `route-request.sh` | UserPromptSubmit | the router: names the contract or the lane for each prompt. Build-only, with its test `route-request.test.sh` | no |
 | `session-start.sh` | SessionStart | the board: prints the open tickets at session start, read-only. Build-only | no |
 
@@ -181,7 +181,7 @@ overwrite drops it · 2026-10-29). Carry a change made on the machine into the h
 | `guard-adapter.sh` | the three guards for Hermes (the profile file table above) |
 | `board-context.sh` | the board and the router for Hermes (the profile file table above) |
 
-`skills.external_dirs` in the house copy holds `~/.claude/skills` only. `goose-task` adds and
+`skills.external_dirs` in the house copy holds `~/.claude/skills` only. `ticket` adds and
 removes each worktree's line on the machine, so the profile's copy differs while a worktree
 lives (why: Hermes reads `.agents/skills` and `.hermes/skills` by itself, and the estate keeps
 its skills in `.claude/skills` · 2026-10-29).

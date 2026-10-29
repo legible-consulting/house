@@ -9,7 +9,7 @@
 
 ## Problem
 
-The six live repos are on blueprint `v1.0.3` and have no `worktree-setup.sh`, so `goose-task` installs nothing in their worktrees. A conformance to a tag between `v1.0.3` and stub `blueprint-new-run-in-worktree` would also give them `.emdash.json`, a file no tool reads afterwards.
+The six live repos are on blueprint `v1.0.3` and have no `worktree-setup.sh`, so `ticket` installs nothing in their worktrees. A conformance to a tag between `v1.0.3` and stub `blueprint-new-run-in-worktree` would also give them `.emdash.json`, a file no tool reads afterwards.
 
 ## Proposed change
 
@@ -19,7 +19,7 @@ The conformance to `v1.3.0`, the tag after `blueprint-new-run-in-worktree`, adds
 
 - [ ] Each repo of `desk/mani.yaml` tagged `live` has `.icm/scripts/worktree-setup.sh` and the `new-run.sh` of the new tag from `copier update`, with no hand edit, no `.emdash.json` and no `.goosehints`.
 - [ ] Each repo's own `.gitignore` ignores `.env` and `.env.local`. Where it does not, the conformance pull request adds the line.
-- [ ] Jamie runs `goose-task` on one ticket of one live repo: `node_modules` and the env files are in the worktree, `new-run.sh` makes no branch, and the pull request opens from the worktree's branch. The pull request records the result.
+- [ ] Jamie runs `ticket` on one ticket of one live repo: `node_modules` and the env files are in the worktree, `new-run.sh` makes no branch, and the pull request opens from the worktree's branch. The pull request records the result.
 - [ ] The `check-client` check is green on each conformance pull request.
 
 ## Notes

@@ -51,7 +51,8 @@ Classification of the open epics, for question 1 (2026-10-29, first cut):
 - **Goose and Emdash leave the lane now, and Hermes Agent takes it.** Every reference to goose and Emdash leaves `~/.claude/CLAUDE.md`, the lane script, `core/stack.md` and the blueprint. The trial `hermes-loop-walk` still proves the loop. Qwen Code is the next to try if Hermes fails a requirement with no shim (why: Jamie's answer in the spec of `goose-task-script`, 2026-10-29. Jamie did not enjoy goose's or OpenCode's interface, and the spike of 2026-10-29 put Hermes first on the eight requirements). This replaces "goose holds the lane until the trial passes".
 - **Hermes's writers stay on, with approval.** `memory.write_approval` and `skills.write_approval` are true, new skills land in a scratch folder outside every repo, and the system prompt says that a client's facts are never saved to memory (why: `USER.md` is the same gain as Claude Code's auto-memory, and an unreviewed note or skill is a second home that drifts, against one home per fact · Jamie, 2026-10-29).
 - **The lane's worktrees are the lane script's, never the agent's.** Hermes's `.worktrees/` inside the repo is not used (why: a worktree never sits beside or inside a repo, `~/.claude/CLAUDE.md` § Worktrees · 2026-10-29).
-- **The lane script is agent-agnostic.** One function at the top names the agent. Its name `goose-task` and its folder `~/goose/worktrees/` stay (why: one script for the folder, whatever runs in it · Jamie, 2026-10-29).
+- **The lane script is agent-agnostic.** One function at the top names the agent (why: one script for the folder, whatever runs in it · Jamie, 2026-10-29).
+- **The lane script is `ticket`, and its folder is `~/worktrees/`.** This replaces "its name `goose-task` and its folder `~/goose/worktrees/` stay" (why: goose left the machine, and a name that says what it does needs no explanation · Jamie, 2026-10-29, triage stub `ticket-command`).
 - **The blueprint carries the local agent's files.** `.icm/scripts/worktree-setup.sh` stays in the template. `.goosehints` and `.emdash.json` leave in stub `blueprint-new-run-in-worktree`, and `AGENTS.md` is the agent map (triage stub `agents-md-pointer`) (why: Jamie's answer to Q6 and to the spec of `goose-task-script`, 2026-10-29. A client's build opens in the agent Jamie runs, and the file that maps it travels with the build).
 - **Emdash leaves.** The worktree per ticket stays (why: Jamie runs tickets on one repo in parallel, and two applications for one lane is what he does not want · Jamie, 2026-10-29).
 - **Goose and Goose Desktop leave the machine** with Emdash, by Jamie's hand (`README.md` § Jamie's hand) (why: Jamie's answer in the spec of `goose-task-script`, 2026-10-29).
@@ -59,10 +60,10 @@ Classification of the open epics, for question 1 (2026-10-29, first cut):
 - **The worktree's branch is the ticket's branch.** `new-run.sh` makes no branch inside a worktree (why: one ticket is one branch, and the branch exists before the session · 2026-10-29).
 - **CI is truth is unchanged.** The script runs the install from the lockfile and nothing else.
 - **The epic is fourth in `README.md` § Order**, after `blueprint-environments` (Jamie, 2026-10-29).
-- **The worktrees live in `~/goose/worktrees/<repo>/<slug>/`**, one folder per repo, one worktree per ticket (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29).
-- **The script is `core/setup/goose-task.sh`**, installed to `~/.local/bin/goose-task` by `core/setup/local.sh` (why: a repo holds it, reviews it and reverts it, and a fresh machine gets it from the stack · Jamie, 2026-10-29).
+- **The worktrees live in `~/worktrees/<repo>/<slug>/`**, one folder per repo, one worktree per ticket (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29).
+- **The script is `core/setup/ticket.sh`**, installed to `~/.local/bin/ticket` by `core/setup/local.sh` (why: a repo holds it, reviews it and reverts it, and a fresh machine gets it from the stack · Jamie, 2026-10-29).
 - **The worktree's branch is `<slug>` or `triage/<slug>`**, the names `new-run.sh` uses. The script reuses the branch when it exists on `origin` (why: the worktree's branch and the ticket's branch are one name · Jamie, 2026-10-29).
-- **`goose-task done <slug>` removes a worktree** when it is clean and pushed, after the pull request merges. `~/.claude/hooks/reap-worktrees.sh` is the backstop at 24 hours (why: the person who finished the ticket removes its folder, and the reaper catches what was forgotten · Jamie, 2026-10-29).
+- **`ticket done <repo-path> <slug>` removes a worktree** when it is clean and pushed, after the pull request merges. `~/.claude/hooks/reap-worktrees.sh` is the backstop at 24 hours (why: the person who finished the ticket removes its folder, and the reaper catches what was forgotten · Jamie, 2026-10-29).
 - **`.emdash.json` leaves the blueprint in stub `blueprint-new-run-in-worktree`.** `worktree-setup.sh` stays (why: no tool reads the file once Emdash leaves, and `goose-task` calls the script · Jamie, 2026-10-29).
 - **Emdash leaves the machine now**, with goose, by Jamie's hand. This replaces "after `goose-loop-walk` is green" (why: Jamie's answer in the spec of `goose-task-script`, 2026-10-29).
 
@@ -81,7 +82,7 @@ Stub 4, `emdash-leaves`, and stub 6, `goose-loop-walk`, are dropped in `_done/`.
 
 - Hermes's own desktop app. The lane opens it or the CLI, as Jamie likes.
 - The cloud and phone lane. Claude Code keeps it as today.
-- A view of several sessions at once. Terminal tabs and `goose-task list` are the view.
+- A view of several sessions at once. Terminal tabs and `ticket list` are the view.
 - A recipe or skill of the agent that starts a ticket. The script is enough this round.
 - `AGENTS.md` in `library` and `.github`: the triage stub `goosehints-library-and-github`. `AGENTS.md` in the blueprint and the house: the triage stub `agents-md-pointer`.
 - Hermes's gateway, cron, dashboard, Cloud and Portal. The lane uses none.
