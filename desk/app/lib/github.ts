@@ -3,16 +3,19 @@ import { env, maybeEnv } from "./env";
 import { limitReason } from "./limits";
 import { meetingOf, meetingWho, type Prospect } from "./pool";
 import { FLIGHT_MS, inFlight, runOf, type Run } from "./repos";
+import { commitToHouse } from "./writes";
 
 // The desk's client for the house itself, with DESK_PAT (a fine-grained token on this repo
-// only: Contents, Pull requests and Actions, read and write). Five uses:
+// only: Contents, Pull requests and Actions, read and write). Every commit goes through
+// commitToHouse (lib/writes.ts), which checks the action against the table "The desk's writes
+// to main" in desk/CONTEXT.md, then calls putContents here. Five uses:
 // - "Ready for Jamie": one PR on legible-consulting/house that creates clients/<slug>/record.md
 //   at stage prospect, and moves the lead's answers from 01-prospecting/leads/<slug>/ into
 //   clients/<slug>/<folder>/. The commits carry the desk's identity; the PR is opened by the
 //   account that owns DESK_PAT. The folder is the record from the merge on; "Check the PR"
 //   moves the row to handed off.
 // - The research queue: one file per link Jamie shares to the desk, written to main
-//   (writeFile), and the folder as it stands for /research (listFolder, then readOnMain for
+//   (commitToHouse "share"), and the folder as it stands for /research (listFolder, then readOnMain for
 //   each file). lib/research.ts.
 // - Refresh: a manual run of a house workflow on main (dispatchWorkflow, lib/refresh.ts).
 // - The latest run of each house workflow, any status (houseRun): the sync pill says
@@ -66,7 +69,6 @@ const FOLDER = /^[a-z0-9][a-z0-9-]*$/;
 interface Move {
   from: string;
   to: string;
-  sha: string; // the file's blob on main: the DELETE names it
   content: string; // base64, as the Contents API gives it and takes it
 }
 
@@ -94,7 +96,7 @@ async function leadMoves(slug: string): Promise<Move[]> {
     if (typeof folder !== "string" || !FOLDER.test(folder)) {
       throw new Error(`${from} names no folder in its frontmatter. Move it by hand, then hand off again.`);
     }
-    moves.push({ from, to: `clients/${slug}/${folder}/${name}`, sha: String(r.body.sha), content });
+    moves.push({ from, to: `clients/${slug}/${folder}/${name}`, content });
   }
   return moves;
 }
@@ -116,34 +118,25 @@ export async function openHandoffPr(p: Prospect, slug: string, record: string, t
   if (ref.status === 422) throw new Error(`Branch ${branch} already exists: an earlier handoff is open, or its branch was kept.`);
   if (ref.status !== 201) fail("create branch", ref);
 
-  const put = await gh("PUT", `/contents/${path}`, {
+  const created = await commitToHouse("handoff", {
+    path,
+    content: record,
     message: `Pool: open clients/${slug} at prospect\n\n${p.company}, handed off by ${p.sourced_by}.`,
-    content: Buffer.from(record, "utf8").toString("base64"),
     branch,
-    committer: COMMITTER,
-    author: COMMITTER,
   });
-  if (put.status !== 201) fail("write record.md", put);
+  if (created !== "created") throw new Error(`clients/${slug}/record.md already exists on ${branch}.`);
 
   // Each answer moves on the branch: written at its new path, then deleted at the old one.
   // Main keeps the lead's folder until Jamie merges.
   for (const m of moves) {
-    const add = await gh("PUT", `/contents/${m.to}`, {
+    const add = await commitToHouse("handoff", {
+      path: m.to,
+      content: Buffer.from(m.content, "base64").toString("utf8"),
       message: `Pool: move ${m.from} to ${m.to}`,
-      content: m.content,
       branch,
-      committer: COMMITTER,
-      author: COMMITTER,
     });
-    if (add.status !== 201) fail(`write ${m.to}`, add);
-    const del = await gh("DELETE", `/contents/${m.from}`, {
-      message: `Pool: remove ${m.from}, moved to ${m.to}`,
-      sha: m.sha,
-      branch,
-      committer: COMMITTER,
-      author: COMMITTER,
-    });
-    if (del.status !== 200) fail(`delete ${m.from}`, del);
+    if (add !== "created") throw new Error(`${m.to} already exists on ${branch}.`);
+    await commitToHouse("handoff", { path: m.from, delete: true, message: `Pool: remove ${m.from}, moved to ${m.to}`, branch });
   }
 
   const m = meetingOf(p);
@@ -409,19 +402,46 @@ export const deployInFlight = (): Promise<boolean> =>
 
 // --- The research queue: a file on main, and a folder's files ------------------------------
 
-// Write one new file on main. 201 is the file created. 422 is a file already at that path:
-// the Contents API wants its sha for an update, and the caller never updates.
-export async function writeFile(path: string, content: string, message: string): Promise<"created" | "exists"> {
-  const r = await gh("PUT", `/contents/${path}`, {
-    message,
-    content: Buffer.from(content, "utf8").toString("base64"),
-    branch: "main",
-    committer: COMMITTER,
-    author: COMMITTER,
-  });
-  if (r.status === 201) return "created";
-  if (r.status === 422) return "exists";
-  fail(`write ${path}`, r);
+// The Contents API write of one file, for commitToHouse (lib/writes.ts) only: no other code
+// calls PUT or DELETE on /contents. A create sends no sha: 201 is the file created, and 422 is a
+// file already at the path, because the desk never updates. A delete reads the file's sha on the
+// branch first. A 409 is the branch's head moved during the write: the call reads again and
+// tries once more, and a second 409 fails in words (why: two writers on one branch is rare, and
+// one retry ends it · 2026-10-29).
+export async function putContents(
+  op: "create" | "delete",
+  path: string,
+  branch: string,
+  message: string,
+  content: string,
+): Promise<"created" | "exists" | "deleted"> {
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    let r: GhResponse;
+    if (op === "create") {
+      r = await gh("PUT", `/contents/${path}`, {
+        message,
+        content: Buffer.from(content, "utf8").toString("base64"),
+        branch,
+        committer: COMMITTER,
+        author: COMMITTER,
+      });
+      if (r.status === 201) return "created";
+      if (r.status === 422) return "exists";
+    } else {
+      const cur = await gh("GET", `/contents/${path}?ref=${encodeURIComponent(branch)}`);
+      if (cur.status !== 200) fail(`read ${path} on ${branch}`, cur);
+      r = await gh("DELETE", `/contents/${path}`, {
+        message,
+        sha: String(cur.body.sha),
+        branch,
+        committer: COMMITTER,
+        author: COMMITTER,
+      });
+      if (r.status === 200) return "deleted";
+    }
+    if (r.status !== 409) fail(`${op === "create" ? "write" : "delete"} ${path}`, r);
+  }
+  throw new Error(`${path} changed on ${branch} twice while the desk wrote it. Nothing was written. Try again.`);
 }
 
 // Whether a file is on main: /f/<id> asks for clients/<slug>/record.md. Throws with the words of

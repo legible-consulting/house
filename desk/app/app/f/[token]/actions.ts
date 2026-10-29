@@ -61,6 +61,7 @@ export async function submitLink(_prev: LinkState, data: FormData): Promise<Link
   try {
     const client = await existsOnMain(`clients/${link.slug}/record.md`);
     file = await writeAnswers(
+      "link-answers",
       client ? `clients/${link.slug}/${link.folder}` : `01-prospecting/leads/${link.slug}`,
       link.form,
       answersFile(form, { name: link.name, email: link.email, phone: "" }, answers, "link", at),

@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { parse, stringify } from "yaml";
-import { listFolder, readOnMain, writeFile } from "./github";
+import { listFolder, readOnMain } from "./github";
+import { commitToHouse } from "./writes";
 
 // The research queue (research/CONTEXT.md, research): one file per link Jamie shares to
 // the desk, written to main in research/queue/. The daily intake reads the folder,
@@ -73,7 +74,11 @@ export async function queueLink(s: Shared, now = new Date()): Promise<{ note: st
   const found = linkOf(s);
   if (!found) throw new Error("No link in what was shared.");
   const path = `${QUEUE}/${queueName(found.link, now)}`;
-  const result = await writeFile(path, queueFile(found, s, now), `research: queue ${new URL(found.link).hostname}`);
+  const result = await commitToHouse("share", {
+    path,
+    content: queueFile(found, s, now),
+    message: `research: queue ${new URL(found.link).hostname}`,
+  });
   return { note: result === "created" ? `Queued ${found.link}` : `Already queued today: ${found.link}` };
 }
 

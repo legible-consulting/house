@@ -72,7 +72,11 @@ and its steps as `components/desk/track.tsx` (`DESIGN.md`).
 `DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
 (`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
 Actions for the sync pill's runs that start `rhythms.yml` on `main` by
-`workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). `lib/github.ts` reads the house
+`workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). Every commit to the house goes
+through `commitToHouse` in `lib/writes.ts`: it takes an action of the typed list `WRITES`
+and refuses a path, a branch or an operation that the list does not name. `WRITES` and the
+table "The desk's writes to main" in `desk/CONTEXT.md` hold the same rows, and
+`scripts/read-house.mjs` fails the build when they differ. `lib/github.ts` reads the house
 workflow's latest run and the distance from the build's commit to `main`. `lib/limits.ts`
 reads each token's GitHub rate limit for the sync pill's panel, and gives the three GitHub
 clients the sentence, with the reset time, for a read that the limit refused.
