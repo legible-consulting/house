@@ -24,4 +24,4 @@ The plugin `legible-guards` gets two more rules: on SessionStart it runs the rep
 ## Notes
 
 - Goose supports the two events: the `emdash` plugin registers SessionStart and UserPromptSubmit in its `hooks.json`.
-- The guards' matchers must name the tools as goose 1.57 sends them: `shell`, `write` and `edit`, as `core/stack.md` says. The plugin files on the machine on 2026-10-29 still name `developer__shell` and `developer__text_editor`, and the goose logs of that day show no run of the guards. Fix the matchers and the adapter in the same hand act.
+- The guards' matchers name the tools as goose 1.57 sends them: `shell`, `write` and `edit`, as `core/stack.md` says. The adapter maps `write {path, content}` to Write and `edit {path, before, after}` to Edit. The two new rules go into the same `hooks.json`.
