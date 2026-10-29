@@ -149,8 +149,8 @@ platform() {
 
   # .icm/environments.md: its Vercel project cells and the linked projects are one set.
   if [ -n "$envrows" ] && [ "$want_vercel" = 1 ]; then
-    local env cell dbcell tnames="" n
-    while IFS="$us" read -r env cell dbcell; do
+    local env cell tnames="" n
+    while IFS="$us" read -r env cell _; do
       cell="${cell//\`/}"
       case "$cell" in
         "" | *"<"*">"*) lines+=("\`.icm/environments.md\` names no Vercel project on its ${env} row") ;;
