@@ -16,7 +16,7 @@ The trial of `goose-worktrees/hermes-loop-walk` installed Hermes Agent v0.22.5 a
 
 ## Proposed change
 
-`core/setup/hermes/` carries the four files, and `core/setup/local.sh` installs them into the profile, as it does for `~/.agents/plugins/legible-guards/`. Jamie reads the key names of `~/.hermes/.env` with `grep -oE '^[A-Za-z_]+=' ~/.hermes/.env` and deletes the file when no line is a key he set. The lane script (`goose-task`, or its Hermes successor) appends the worktree's `.claude/skills` to `skills.external_dirs` when it makes the worktree, and removes the line when it removes the worktree. The second provider waits on Jamie's decision.
+`core/setup/hermes/` carries the four files, and `core/setup/local.sh` installs them into the profile. Jamie reads the key names of `~/.hermes/.env` with `grep -oE '^[A-Za-z_]+=' ~/.hermes/.env` and deletes the file when no line is a key he set. The lane script `goose-task` appends the worktree's `.claude/skills` to `skills.external_dirs` when it makes the worktree, and removes the line when it removes the worktree. The second provider waits on Jamie's decision.
 
 ## Acceptance criteria
 

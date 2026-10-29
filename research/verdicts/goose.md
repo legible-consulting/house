@@ -43,3 +43,7 @@ Second source: https://goose-docs.ai/docs/guides/recipes/ · fetched 2026-10-29 
 ## Update 2026-10-29
 
 Third source: https://goose-docs.ai/docs/guides/context-engineering/using-goosehints/ · fetched 2026-10-29 · "Providing Hints to goose". `.goosehints` is goose's `CLAUDE.md`: a global file in `~/.config/goose/` and local files per directory, the local one wins on a conflict, and `CONTEXT_FILE_NAMES` lets goose read other agents' rule files. It needs the Developer extension. The verdict stands; this page is what the To try line rests on.
+
+## Update 2026-10-29
+
+Goose held the local lane for one day and left it on 2026-10-29, with Emdash (`.icm/intake/goose-worktrees/_done/goose-task-script.md`). Hermes Agent is the lane's agent (`research/verdicts/hermes-agent.md`, `core/stack.md`). Jamie's why for the lane's agent stays: an agent on his own machine on the model he chooses. The verdict stays `watch`, for the workshop only.

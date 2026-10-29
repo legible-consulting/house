@@ -1,4 +1,4 @@
-# Stub: The router and the board run in a goose session on a build
+# Stub: The router and the board reach the model in a Hermes session on a build
 
 - feature-slug: plugin-router-and-board
 - epic: goose-worktrees
@@ -6,25 +6,24 @@
 - depends-on: none
 - complexity: research
 - priority: P2
-- blocked: the Hermes trial, stub `hermes-loop-walk`, decides the agent of the lane. A goose plugin is built only if goose stays (Jamie, 2026-10-29).
 
 ## Problem
 
-A build registers the router `route-request.sh` (UserPromptSubmit) and the board `session-start.sh` (SessionStart) in `.claude/settings.json`. Claude Code reads that file. Goose does not. The goose plugin `~/.agents/plugins/legible-guards/` carries the three guards only. In a goose session on a build, no board prints the open tickets at the start, and no router names the case of a prompt. The loop in `.icm/intake/CONTEXT.md` names both as the first things a session gets.
+A build registers the router `route-request.sh` (UserPromptSubmit) and the board `session-start.sh` (SessionStart) in `.claude/settings.json`. Claude Code reads that file. Hermes Agent, the agent of the local lane from 2026-10-29, does not. The loop in `.icm/intake/CONTEXT.md` names both as the first things a session gets.
 
 ## Proposed change
 
-The plugin `legible-guards` gets two more rules: on SessionStart it runs the repo's `.claude/hooks/session-start.sh`, and on UserPromptSubmit it runs the repo's `.claude/hooks/route-request.sh`, each only when the working directory has the file. The scripts stay the blueprint's, with no second copy. `core/stack.md` § Local machine, the `legible-guards` row, says so. One pull request on the house for the stack row. The plugin files are machine files, as the row says.
+The profile `legible` runs the repo's `.claude/hooks/session-start.sh` before the first turn and the repo's `.claude/hooks/route-request.sh` on each prompt, each only when the working directory has the file, and passes the output to the model as context. The scripts stay the blueprint's, with no second copy. The hook file is `board-context.sh` of triage stub `hermes-profile-files`. This stub proves it on a build and records the result. One pull request on the house.
 
 ## Acceptance criteria
 
-- [ ] In a goose session on a build with `.claude/hooks/session-start.sh`, the open tickets print at the start, as in Claude Code.
-- [ ] In the same session, a prompt gets the router's line, as in Claude Code. The output of each hook reaches the model as context, or the stub says that goose cannot do that and what the plugin does instead.
-- [ ] In a goose session on a repo with no `.claude/hooks/`, nothing runs and nothing prints.
-- [ ] `core/stack.md`, the `legible-guards` row, names the two rules and the two events.
+- [ ] In a Hermes session on a build with `.claude/hooks/session-start.sh`, the open tickets reach the model on the first turn, as in Claude Code.
+- [ ] In the same session, a prompt gets the router's line as context, as in Claude Code. Or the stub says that Hermes cannot do that and what the profile does instead.
+- [ ] In a Hermes session on a repo with no `.claude/hooks/`, nothing runs and nothing prints.
+- [ ] `core/stack.md` names the two hooks and the two events, in the rows of `hermes-profile-files`.
 - [ ] The three guards still run in the same session: a `npm test` in a shell call is refused.
 
 ## Notes
 
-- Goose supports the two events. Its hooks guide lists SessionStart and UserPromptSubmit, and says that most events are observation only. Whether a hook's stdout reaches the model is not documented. Test it first: a board that prints to a log nobody reads is not a board.
-- The guards' matchers name the tools as goose 1.57 sends them: `shell`, `write` and `edit`, as `core/stack.md` says. The adapter maps `write {path, content}` to Write and `edit {path, before, after}` to Edit. The two new rules go into the same `hooks.json`.
+- Re-cut 2026-10-29: goose left the lane in `goose-task-script`, so the goose plugin `legible-guards` is not built. The block on the trial is lifted.
+- R3 of `hermes-loop-walk` reads the same result. One walk can record both.
