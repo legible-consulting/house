@@ -1,0 +1,6 @@
+---
+url: https://www.facebook.com/share/r/1DybZYTFNh/
+title: ""
+text: ""
+captured: 2026-10-30T16:58:11Z
+---
