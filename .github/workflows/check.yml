@@ -73,9 +73,12 @@ jobs:
           exit "$fail"
 
   frontmatter:
-    # Frontmatter is what the desk, the manifest and the dashboard read; it must parse.
+    # Frontmatter is what the desk, the manifest and the dashboard read; it must parse, and
+    # nine kinds of it must keep their shape (.github/schemas/, research/verdicts/check-jsonschema.md).
     # clients/_template/ is skipped: its {{PLACEHOLDERS}} are filled at first touch.
     runs-on: ubuntu-latest
+    env:
+      CHECK_JSONSCHEMA_VERSION: 0.38.2
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -89,6 +92,38 @@ jobs:
             yq --front-matter=extract '.' "$f" >/dev/null 2>err.txt \
               || { echo "::error file=${f}::frontmatter does not parse: $(head -n1 err.txt)"; fail=1; }
           done < <(git ls-files '*.md' ':!:clients/_template/*')
+          exit "$fail"
+      - name: Install check-jsonschema
+        run: pip install "check-jsonschema==${CHECK_JSONSCHEMA_VERSION}"
+      - name: Validate each frontmatter kind against its schema
+        run: |
+          fail=0
+          check_glob() {
+            schema=".github/schemas/${1}.schema.json"
+            shift
+            while IFS= read -r f; do
+              [ -z "$f" ] && continue
+              [ "$f" = "clients/_template/record.md" ] && continue
+              case "$f" in
+                *.yaml|*.yml) doc="$f" ;;
+                *)
+                  doc="$(mktemp)"
+                  yq --front-matter=extract '.' "$f" > "$doc" 2>/dev/null || continue
+                  ;;
+              esac
+              out="$(check-jsonschema --schemafile "$schema" "$doc" 2>&1)" \
+                || { echo "::error file=${f}::fails ${schema}: $(echo "$out" | tail -n 1)"; fail=1; }
+            done < <(git ls-files -- "$@")
+          }
+          check_glob record ':(glob)clients/*/record.md'
+          check_glob economics ':(glob)clients/*/quote/economics.yaml'
+          check_glob form ':(glob)01-prospecting/forms/*.md' ':(glob)06-kickoff/forms/*.md'
+          check_glob kit ':(glob)01-prospecting/kit.*.md'
+          check_glob verdict ':(glob)research/verdicts/*.md'
+          check_glob concept ':(glob)research/concepts/*.md'
+          check_glob glance ':(glob)desk/glance/*.md'
+          check_glob close ':(glob)desk/close/*.md'
+          check_glob estate ':(glob)desk/estate/*.md'
           exit "$fail"
 
   placement:

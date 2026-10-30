@@ -37,3 +37,6 @@ Research produces a dated verdict per tool (adopt · watch · decline, with a re
 
 - `queue/<date>-<host>-<hash>.md`: a shared link, until the intake takes it. With a `Pointer unresolved:` line, a link that waits for Jamie's name.
 - `verdicts/<tool>.md` and `concepts/<concept>.md`: frontmatter `kind`, `verdict`, `tier`, `use`, `tags`, `recheck`, `source`, `date`.
+- `.github/schemas/verdict.schema.json` and `concept.schema.json` check `kind`, `verdict`,
+  `tier`, `use`, `recheck` and `date` against the values above (`check.yml`'s `frontmatter`
+  job).

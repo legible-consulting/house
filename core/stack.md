@@ -35,6 +35,7 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
 | hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29). Approvals are `manual`. The memory and skill writers stay on with approval, and a new skill lands in the profile's `scratch-skills/` (why: an unreviewed note or skill is a second home that drifts · Jamie, 2026-10-29). The loop walk of 2026-10-29 took one house ticket and one `jamienisbet` ticket to the merge: `goose-worktrees/_done/hermes-loop-walk.md` | as installed | by hand, once (§ Local machine); the profile's four files by `setup/local.sh` from `setup/hermes/` | — |
 | ticket | the lane script: one ticket, one worktree, one agent session (from 2026-10-29; named `goose-task` until the same day, renamed so the name says what it does · Jamie, 2026-10-29) | the house's | `setup/local.sh` links `setup/ticket.sh` | — |
+| check-jsonschema | validates frontmatter against `.github/schemas/` (`check.yml`'s `frontmatter` job; `research/verdicts/check-jsonschema.md`) | 0.38.2 | — | `check.yml`, by `pip install` |
 
 ## The desk app
 

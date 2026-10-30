@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/legible-consulting/house/.github/schemas/close.schema.json",
+  "title": "desk/close/<YYYY-MM>.md frontmatter",
+  "description": "desk/CONTEXT.md owns this shape.",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "kind": { "const": "close" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "month": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" }
+  },
+  "required": ["title", "kind", "date", "month"]
+}

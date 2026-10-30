@@ -125,6 +125,8 @@ The files:
   of its own · 2026-10-22).
 - `mani.yaml`: hand-written. Every client build, with its tags
   (`conformance/CONTEXT.md`).
+- `.github/schemas/glance.schema.json` and `close.schema.json` check `title`, `kind` and
+  `date` (and `close`'s `month`) (`check.yml`'s `frontmatter` job).
 
 The app, `app/` (the code map: `.claude/rules/desk-app.md`):
 

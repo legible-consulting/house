@@ -118,3 +118,5 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   outside the house · 2026-10-22).
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is
   submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).
+- `.github/schemas/record.schema.json` checks `stage`, `kind`, `public`, `deadline` and `repo`
+  against the values above (`check.yml`'s `frontmatter` job).
