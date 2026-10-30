@@ -138,3 +138,7 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
 
 - 2026-10-27. Sam did not come back on 26 Oct. The proposal is not sent. Jamie reworks it and
   sends it on 28 Oct.
+- 2026-10-30. The proposal reworked and dated 30 Oct, valid until 13 Nov. The start moves to
+  Mon 16 Nov 2026 and the evaluation's end to Sun 14 Feb 2027, in the proposal, the quote and
+  the agreement. The checkpoints: Fri 11 Dec 2026, Fri 15 Jan 2027 and Fri 12 Feb 2027. The
+  price does not change. Jamie sends it to Sam alone on 30 Oct.

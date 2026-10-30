@@ -47,11 +47,11 @@ hours worked. The hours of my own attention a month are the ones the proposal's 
 section names, under "What the rate covers". Hours do not carry over from one month to the
 next. A change outside the written scope is a new proposal.
 
-Month 1 starts on Monday 9 November 2026, or on the Monday after the first invoice is paid
+Month 1 starts on Monday 16 November 2026, or on the Monday after the first invoice is paid
 and I have access to the repositories, the design files and the environments, whichever is
 later. As the proposal says, every date after the start moves by the same number of days.
 
-<!-- The start: Jamie's answer, 2026-10-26. The proposal's timeline says the same. -->
+<!-- The start: Jamie's answer, 2026-10-26, moved to 16 Nov by Jamie's answer of 2026-10-30. The proposal's timeline says the same. -->
 
 ## 03 The price
 
@@ -109,7 +109,7 @@ not on payment, and the portfolio starts on day 1. The quote says the same. -->
 
 <!-- terms: terms.md § Ending an engagement; the evaluation's end from quote.md § Ending -->
 
-- The evaluation is three months. It ends on 7 February 2027 unless we both decide to
+- The evaluation is three months. It ends on 14 February 2027 unless we both decide to
   continue at the month 3 checkpoint. From month 4 the retainer continues month to month, at
   the price in the proposal's last section.
 - Within the evaluation and after it, either side may end this agreement with 30 days'
