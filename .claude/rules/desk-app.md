@@ -63,16 +63,24 @@ API with `RESEND_API_KEY`, to the business email that `read-house.mjs` reads fro
 `core/identity.md`.
 The client repos' release and `check.yml` status are read per request over the GitHub REST
 API with one token per owner, `ESTATE_PAT` and `ESTATE_PAT_<OWNER>` (`lib/repos.ts`).
+A client repo's `.icm/environments.md` is read per request with the same tokens and parsed
+by `lib/environments.ts`; the Environments card (`app/_environments.tsx`) shows it to Jamie on
+`/clients/<slug>`. The other reader of its grammar is `check-client.yml` in
+`legible-consulting/.github`.
 The work view (`/work`, a project's board `app/(desk)/work/[client]/`, which the shell draws
 with no sidebar and no tab bar, a ticket's page `app/(desk)/work/[client]/[...path]/`, and the Work
 card on a client's page) reads `.icm/intake/` and the pull requests per request through
 `lib/work.ts` with the same tokens, and `lib/gates.ts` writes Jamie's tick on a gate and
 returns to the page that the form binds. A ticket shows as `components/desk/ticket-card.tsx`
 and its steps as `components/desk/track.tsx` (`DESIGN.md`).
-`DESK_PAT` reaches the house only: Contents and Pull requests for the pool handoff
-(`lib/github.ts`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
+`DESK_PAT` reaches the house only: Contents for the pool handoff, one commit on `main` by the
+Git Data API (`lib/github.ts planHandoff` and `commitFiles`), Contents for the research queue (`lib/research.ts`, `/share` and `/research`) and for the answers (`lib/answers.ts`, `/start` and `/f/<token>`, which also reads whether `clients/<slug>/record.md` is on `main`) and for the house's own tickets on `/work` (`lib/work.ts`),
 Actions for the sync pill's runs that start `rhythms.yml` on `main` by
-`workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). `lib/github.ts` reads the house
+`workflow_dispatch` (`lib/refresh.ts`, `app/_sync.tsx`). Every commit to the house goes
+through `commitToHouse` in `lib/writes.ts`: it takes an action of the typed list `WRITES`
+and refuses a path, a branch or an operation that the list does not name. `WRITES` and the
+table "The desk's writes to main" in `desk/CONTEXT.md` hold the same rows, and
+`scripts/read-house.mjs` fails the build when they differ. `lib/github.ts` reads the house
 workflow's latest run and the distance from the build's commit to `main`. `lib/limits.ts`
 reads each token's GitHub rate limit for the sync pill's panel, and gives the three GitHub
 clients the sentence, with the reset time, for a read that the limit refused.

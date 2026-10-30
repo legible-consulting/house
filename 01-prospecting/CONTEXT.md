@@ -51,26 +51,35 @@ How a salesman works the pool, in the desk:
 
 The handoff:
 
-- `ready for Jamie` opens one PR against `main`. The commits carry the desk's identity. The
-  account that owns `DESK_PAT` opens the PR (why: a fine-grained token acts as its owner, and
-  the desk has no bot account · 2026-10-26). The PR creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff mapping in
-  `prospect.md`. One prospect, one PR. The desk opens nothing else (why: the folder is the
-  record, and a PR is the one door into it · 2026-10-19).
-- The same PR moves the lead's folder, `leads/<slug>/`. Each file goes to
-  `clients/<slug>/<folder>/`, where `<folder>` is the file's `folder:` frontmatter. On the
-  branch, the lead's folder is gone. A lead without a folder gets the same PR, with no move. A
-  file that names no folder stops the handoff before the branch exists, and the desk names the
-  file (why: the answers are documents of the relationship, and the client folder is its one
-  home · 2026-10-26).
+- `ready for Jamie` commits to `main` once, through `commitToHouse` (`desk/CONTEXT.md`, the row
+  `handoff`). The commit is the handoff. The row goes to `ready for Jamie`, the commit lands,
+  and the row goes to `handed off` with `record` set, in the same request. Jamie does not read
+  the handoff before it lands (why: a constrained and structured salesman action goes straight
+  to `main`, and the pull request gated nothing that a revert does not undo · Jamie,
+  2026-10-29).
+- The commit creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff
+  mapping in `prospect.md`. Its message is `prospecting: <slug> handed off by <sourced_by>`.
+  It carries the desk's identity, and the account that owns `DESK_PAT` moves `main` (why: a
+  fine-grained token acts as its owner, the desk has no bot account, and the message names the
+  salesman · 2026-10-29). One prospect, one commit. The desk writes nothing else for it (why:
+  the folder is the record, and the commit is the one door into it · 2026-10-29).
+- The same commit moves the lead's folder, `leads/<slug>/`. Each file goes to
+  `clients/<slug>/<folder>/`, where `<folder>` is the file's `folder:` frontmatter, and the
+  lead's folder is gone. A lead without a folder gets the same commit, with no move (why: the
+  answers are documents of the relationship, and the client folder is its one home ·
+  2026-10-26).
+- Before any write, the desk stops the handoff in words, and the row stays where it was, when:
+  a `ready` field is empty; the slug exists in `clients/`; or a lead file names no folder (the
+  desk names the file) (why: a handoff is one commit or none · 2026-10-29).
+- A conflict on `main` is tried once more from the new `main`. A second one fails in words:
+  nothing is on `main`, the row stays at `ready for Jamie`, and the sourcer hands off again
+  from there (why: two writers on `main` at one moment is rare, and one retry ends it ·
+  2026-10-29).
 - A slug that changed after the answers landed: the desk finds no folder under the new slug,
   and the old folder stays in `leads/`. Jamie moves it by hand.
-- Jamie reads the PR and merges it. The merge is the handoff. Then "Check the PR" on the row's
-  page sets the row to `handed off`, sets `record`, and makes the row read-only. The desk does
-  not watch the PR (`prospect.md`, Statuses). From then on the client folder is
-  the home, and `clients/CONTEXT.md` says what is true at each stage.
-- A PR Jamie closes without a merge returns the row to its previous status at "Check the PR".
-  Jamie writes his reason in `notes`. `main` does not change: the record and the move are on the branch only.
-- Never: the desk or a session merges the PR (boundary). `stage` moves as `clients/CONTEXT.md` says.
+- Jamie reads the folder on the desk after the commit. A handoff he does not take is his call:
+  he reverts the commit, or moves the folder to `lost` (`clients/CONTEXT.md`), and writes his
+  reason in the record. `stage` moves as `clients/CONTEXT.md` says.
 
 Jamie's own leads: Jamie may add a row to the pool like a salesman, with `sourced_by: jamie`
 and no commission, or open the client folder directly as `clients/CONTEXT.md` allows. Either
@@ -99,7 +108,7 @@ A session in this folder produces the stage-level material, never a pool row:
 
 ## Outputs
 
-- `clients/<slug>/record.md` opened at `stage: prospect` by the handoff PR, with `salesman`
+- `clients/<slug>/record.md` opened at `stage: prospect` by the handoff commit, with `salesman`
   and `commission.sourced_by` set. `commission.owed` is set at the agreement (`prospect.md`).
 - `target-profile.md` · `cadence.md` · `prospect.md`: the model (built 2026-10-19).
 - `legitimate-interest.md`: the GDPR legitimate-interest assessment for cold outreach from the
@@ -134,6 +143,8 @@ A session in this folder produces the stage-level material, never a pool row:
     position. The words change per language. The position does not · 2026-10-25).
   - No question and no option shows a price, a band or the floor (why: a form is a public
     page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
+  - `.github/schemas/form.schema.json` checks `kind`, `title`, `intro`, `language` and
+    `folder` against this grammar (`check.yml`'s `frontmatter` job).
 - The kit grammar. The desk parses every kit with it (`desk/app/lib/kit.ts`), and a kit that
   does not parse fails the build:
   - One kit per language, `kit.<language>.md`. Frontmatter: `kind: kit`, `title`, `language`
@@ -156,6 +167,8 @@ A session in this folder produces the stage-level material, never a pool row:
     desk maps a lesson to a status and a touch by its key · 2026-10-28).
   - No lesson shows a price, a band or the floor (`core/services.md`, Never public). The
     commission examples of 2026-10-22 stay: they show the salesman's 10%, not a price.
+  - `.github/schemas/kit.schema.json` checks `kind`, `title`, `language`, `owner` and `date`
+    against this grammar (`check.yml`'s `frontmatter` job).
   - The pool's statuses and the deal's stages stay as the model writes them, in every
     language.
 - The pool rows live in the desk, never here. The monthly close reads commission from

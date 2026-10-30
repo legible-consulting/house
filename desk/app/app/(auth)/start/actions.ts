@@ -83,6 +83,7 @@ export async function submitStart(_prev: StartState, data: FormData): Promise<St
       deal_size: DEAL_SIZE[optionAt(form, "budget", answers.budget)] ?? "",
     });
     file = await writeAnswers(
+      "free-look",
       `01-prospecting/leads/${lead.slug}`,
       FORM,
       answersFile(form, who, answers, "start", at),

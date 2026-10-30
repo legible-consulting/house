@@ -9,11 +9,12 @@ import { Due } from "@/components/desk/status-tag";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { flash, type Search } from "@/lib/guard";
-import { clientBySlug, day } from "@/lib/house";
+import { clientBySlug, day, unbacked } from "@/lib/house";
 import { today } from "@/lib/pool";
 import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
 import { workInFlight } from "@/lib/work";
+import { Environments } from "@/app/_environments";
 import { RepoFacts } from "@/app/_repo";
 import { readLinks, SendForm } from "@/app/_send";
 import { ClientUsers, readUsers } from "@/app/_users";
@@ -33,7 +34,8 @@ import { ClientWork, ProjectWork } from "@/app/_work";
 // here (app/_send.tsx): the answer saves the person as a user of this folder, and the Users card
 // (app/_users.tsx) lists the folder's users with their state, where Jamie activates one and
 // Neon Auth mails them a sign-in link. The cards, for Jamie: where it stands, the work, the
-// release and checks, the documents, Send a form, the users. For a client: where it stands,
+// release and checks, where the build runs (the repo's own .icm/environments.md,
+// lib/environments.ts), the documents, Send a form, the users. For a client: where it stands,
 // the release and checks, the work, the documents. No paragraph explains the page
 // (desk/app/DESIGN.md, rule 9).
 export const dynamic = "force-dynamic";
@@ -75,7 +77,6 @@ export default async function Client({
         ),
         mono: true,
       },
-      { label: "Vercel", value: (c.vercel_project ?? []).join(", "), mono: true },
       ...(jamie
         ? [
             {
@@ -87,6 +88,7 @@ export default async function Client({
                   : "",
               className: drifted ? "text-destructive" : undefined,
             },
+            { label: "Platform", value: c.blueprint?.platform, className: unbacked(c.blueprint) ? "text-destructive" : undefined },
             { label: "Salesman", value: c.salesman },
           ]
         : []),
@@ -109,6 +111,19 @@ export default async function Client({
       </CardHeader>
       <CardContent>
         <RepoFacts repo={c.repo} jamie={jamie} />
+      </CardContent>
+    </Card>
+  );
+  // Where the build runs: the repo's own .icm/environments.md, Jamie only (app/_environments.tsx).
+  const environments = jamie && c.repo && (
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          <h2>Environments</h2>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Environments repo={c.repo} />
       </CardContent>
     </Card>
   );
@@ -165,6 +180,7 @@ export default async function Client({
           <>
             {work}
             {release}
+            {environments}
             {documents}
             {sent && (
               // record.md carries no contact fields, so the name and the email start empty.

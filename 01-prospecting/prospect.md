@@ -2,14 +2,14 @@
 title: Prospect
 kind: schema
 owner: jamie
-date: 2026-10-28
+date: 2026-10-29
 ---
 # Prospect — the pool row
 
 One home for the fields of a prospect, the pool statuses, the handoff mapping into
 `clients/<slug>/record.md`, and the salesman's deal. The desk implements this schema.
-A prospect lives in the desk's pool until Jamie merges its handoff PR. From then on the client
-folder is the record (`clients/CONTEXT.md`). From Jamie's answers of 2026-10-19 (wave step E1).
+A prospect lives in the desk's pool until its handoff commit lands on `main`. From then on the
+client folder is the record (`clients/CONTEXT.md`). From Jamie's answers of 2026-10-19 (wave step E1).
 
 ## Fields
 
@@ -45,7 +45,7 @@ when the status is set to `lost`, or `no`.
 | `meeting_with` | `sourcer` or `jamie`: who takes the meeting | meeting | the sourcer |
 | `meeting_where` | text: a place, a phone number or a link | no | the sourcer |
 | `lost_reason` | text | lost | the sourcer |
-| `record` | path, `clients/<slug>/record.md` | no | the desk, at "Check the PR" on the row's page after Jamie merges the handoff PR |
+| `record` | path, `clients/<slug>/record.md` | no | the desk, in the request that commits the handoff to `main` |
 | `added` | date | add | the desk |
 | `updated` | date | no | the desk, on every write |
 
@@ -64,8 +64,8 @@ The list is defined in `clients/CONTEXT.md` and copied here unchanged:
 | `contacted` | At least one touch is logged. No reply yet. | the sourcer |
 | `replied` | The prospect answered. | the sourcer |
 | `meeting` | A meeting is booked or held, with the sourcer or with Jamie. `meeting_at` and `meeting_with` are set. | the sourcer, with `meeting_at` and `meeting_with` |
-| `ready for Jamie` | Every `ready` field is filled. The handoff PR is open. | the sourcer, from `replied` or `meeting` only |
-| `handed off` | Jamie merged the handoff PR. The row is read-only. `record` is set. | the desk, at "Check the PR" on the row's page. The sourcer, Jamie or another salesman clicks it. The desk does not watch the PR (why: one read at a click, and no webhook to keep · 2026-10-26). |
+| `ready for Jamie` | Every `ready` field is filled. The handoff is being committed, or its commit failed and nothing is on `main`. | the sourcer, from `replied` or `meeting`, and again from `ready for Jamie` after a failed commit |
+| `handed off` | The handoff commit is on `main`. The commit is the handoff. The row is read-only. `record` is set. | the desk, in the same request as the commit (why: Jamie's word, a constrained and structured salesman action goes straight to `main`; the commit proves the handoff, so no click waits on it · Jamie, 2026-10-29). |
 | `lost` | The prospect said no, or went silent past the cadence. `lost_reason` is set. | the sourcer, from any status except `handed off` |
 
 A no is set with "They asked not to be contacted" on the row's page, by the sourcer or Jamie:
@@ -81,14 +81,15 @@ runs by hand: `contact`, `email`, `phone`, `whatsapp`, `instagram`, `website`, `
 stay (why: the data of a row nobody works is the data the row no longer needs ·
 `legitimate-interest.md` §5 · 2026-10-26).
 
-A row at `ready for Jamie` whose PR Jamie closes without a merge returns to its previous
-status at "Check the PR". Jamie writes his reason in `notes` by hand: the desk does not copy it
-from the PR.
+A handoff Jamie does not take stays `handed off` in the pool: he reverts the commit, or moves
+the folder to `lost`, and writes his reason in the record (`01-prospecting/CONTEXT.md`, The
+handoff) (why: the folder is the record from the commit on · 2026-10-29).
 
 ## Handoff mapping
 
-`ready for Jamie` opens one PR that creates `clients/<slug>/record.md` from
-`clients/_template/record.md`. The PR fills the template as follows. Every field not named
+`ready for Jamie` makes one commit on `main` that creates `clients/<slug>/record.md` from
+`clients/_template/record.md` (`01-prospecting/CONTEXT.md`, The handoff). The commit fills the
+template as follows. Every field not named
 here keeps the template's value.
 
 | `record.md` | From the row |
@@ -97,7 +98,7 @@ here keeps the template's value.
 | `name` | `company` |
 | `language` | `language` |
 | `stage` | `prospect` |
-| `opened` | the date the PR is opened |
+| `opened` | the date of the handoff commit |
 | `next_action` | `meeting_at`'s date when `meeting_with` is `jamie` and the date is ahead, else `next_action` |
 | `salesman` | `sourced_by`, or empty when it is `jamie` |
 | `commission.sourced_by` | `sourced_by` |
@@ -114,7 +115,7 @@ When `meeting_at` is set, paragraph 2 ends with `Meeting with Jamie on <date> at
 when `meeting_with` is `jamie`, or `Meeting with <sourced_by> on <date> at <time>, <where>.` when
 it is `sourcer`. `<date>` and `<time>` are in Jamie's time zone. An empty `<where>` is left out
 with its comma. When the meeting with Jamie is ahead, `next_action` is its date, so the glance
-shows it from the merge on (why: a meeting a salesman booked for Jamie is the client's first next
+shows it from the handoff on (why: a meeting a salesman booked for Jamie is the client's first next
 action · 2026-10-28).
 
 ## The salesman's deal

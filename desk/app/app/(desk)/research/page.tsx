@@ -14,12 +14,14 @@ import { flash, type Search } from "@/lib/guard";
 import { research, type Verdict } from "@/lib/house";
 import { queue } from "@/lib/research";
 import { currentUser } from "@/lib/user";
-import { addLink } from "./actions";
+import { addLink, dropShare, nameShare } from "./actions";
 
 // Jamie's research page (research, research/CONTEXT.md). Three parts: the queue, the links
 // the daily intake has not judged yet, read per request from main with each link's title and
 // time (lib/research.ts), with the form to paste a link from the computer under it (the
-// phone shares to /share instead); then every verdict and concept from main at build time (lib/house.ts) as a data table, under four
+// phone shares to /share instead; a LinkedIn share with no text lands on the form with ?link=,
+// and the form asks for the post's text). Above the queue, when any wait, the links no fetch
+// route read, under "Needs a name": a name or a drop each; then every verdict and concept from main at build time (lib/house.ts) as a data table, under four
 // filters in the query (?use=, ?kind=, ?verdict=, ?tier=), each row opening on
 // /research/<slug>. The filters' values come from the files, so a new kind or use appears
 // without a change here. Above FOLD rows, the table folds behind its count under the filters
@@ -70,6 +72,9 @@ export default async function Research({ searchParams }: { searchParams: Search 
     Filter,
     string
   >;
+  const asked = typeof q.link === "string" ? q.link : "";
+  const unnamed = waiting.ok ? waiting.links.filter((l) => l.unresolved) : [];
+  const queued = waiting.ok ? waiting.links.filter((l) => !l.unresolved) : [];
   const shown = research.filter((v) => FILTERS.every((f) => !active[f] || valuesOf(v, f).includes(active[f])));
   const href = (f: Filter, value: string) => {
     const p = new URLSearchParams();
@@ -83,7 +88,8 @@ export default async function Research({ searchParams }: { searchParams: Search 
   const meta = [
     `${verdicts} verdicts`,
     `${concepts} concepts`,
-    waiting.ok ? `${waiting.links.length} queued` : "queue not read",
+    waiting.ok ? `${queued.length} queued` : "queue not read",
+    ...(unnamed.length ? [`${unnamed.length} need a name`] : []),
   ].join(" · ");
   const table = (
     <DataTable
@@ -103,6 +109,43 @@ export default async function Research({ searchParams }: { searchParams: Search 
       <PageHeader user={user} title="Research" meta={meta} />
       <Flash error={error} note={note} />
 
+      {unnamed.length > 0 && (
+        <section aria-labelledby="unnamed" className="mb-10 grid gap-4">
+          <div>
+            <h2 id="unnamed" className="text-heading">
+              Needs a name
+            </h2>
+            <p className="mt-1 text-ui text-muted-foreground">No route read these. Name the tool, or drop the link.</p>
+          </div>
+          <ul className="divide-y border-y">
+            {unnamed.map((l) => (
+              <li key={l.name} className="grid gap-2 py-3 text-ui">
+                <a href={l.link || l.url} className="group flex flex-col gap-0.5">
+                  <span className="font-semibold group-hover:underline">{l.title || l.link || l.host}</span>
+                  <span className="font-mono text-meta tabular-nums text-muted-foreground">
+                    {[l.host, l.captured].filter(Boolean).join(" · ")}
+                  </span>
+                </a>
+                <span className="text-meta text-muted-foreground">{l.unresolved}</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <form action={nameShare} className="flex min-w-0 flex-1 gap-2">
+                    <input type="hidden" name="file" value={l.name} />
+                    <Input name="name" aria-label="Name" required enterKeyHint="send" placeholder="The tool's name" className="min-w-0 flex-1" />
+                    <Button type="submit">Name</Button>
+                  </form>
+                  <form action={dropShare}>
+                    <input type="hidden" name="file" value={l.name} />
+                    <Button type="submit" variant="outline">
+                      Drop
+                    </Button>
+                  </form>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section aria-labelledby="queue" className="mb-10 grid gap-4">
         <div>
           <h2 id="queue" className="text-heading">
@@ -112,11 +155,11 @@ export default async function Research({ searchParams }: { searchParams: Search 
         </div>
         {!waiting.ok ? (
           <p className="text-ui text-muted-foreground">{waiting.reason}</p>
-        ) : waiting.links.length === 0 ? (
+        ) : queued.length === 0 ? (
           <Empty className="py-4">Nothing waits. A link shared to Desk or pasted below lands here.</Empty>
         ) : (
           <ul className="divide-y border-y">
-            {waiting.links.map((l) => (
+            {queued.map((l) => (
               <li key={l.name}>
                 <a href={l.url} className="group flex min-h-row flex-col justify-center gap-0.5 py-2 text-ui">
                   <span className="font-semibold group-hover:underline">{l.title || l.host}</span>
@@ -128,7 +171,7 @@ export default async function Research({ searchParams }: { searchParams: Search 
             ))}
           </ul>
         )}
-        <Card>
+        <Card id="queue-a-link">
           <CardHeader>
             <CardTitle>
               <h3>Queue a link</h3>
@@ -139,11 +182,25 @@ export default async function Research({ searchParams }: { searchParams: Search 
             <form action={addLink}>
               <FieldGroup className="lg:grid-cols-2">
                 <Field label="Link">
-                  <Input name="url" type="url" inputMode="url" autoComplete="url" required placeholder="https://…" />
+                  <Input
+                    name="url"
+                    type="url"
+                    inputMode="url"
+                    autoComplete="url"
+                    required
+                    placeholder="https://…"
+                    defaultValue={asked}
+                  />
                 </Field>
-                <Field label="Note" hint="Why it caught your eye. Optional.">
-                  <Input name="text" enterKeyHint="send" />
-                </Field>
+                {asked ? (
+                  <Field label="Text" hint="LinkedIn shows the post to a signed-in reader only. Paste the post's text.">
+                    <Input name="text" required autoFocus enterKeyHint="send" />
+                  </Field>
+                ) : (
+                  <Field label="Note" hint="Why it caught your eye. Optional.">
+                    <Input name="text" enterKeyHint="send" />
+                  </Field>
+                )}
                 <FieldActions>
                   <Button type="submit">Queue</Button>
                 </FieldActions>

@@ -7,7 +7,7 @@
 //   clients/*/{proposal/proposal.md, agreement/*.md, handover/*.md}
 //                                   the client-facing documents, for the client's page. The
 //                                   quote is the proposal's last section, not a document of its own
-//   clients/_template/record.md     the handoff PR
+//   clients/_template/record.md     the handoff commit
 //   core/identity.md                the business email: lib/mail.ts sends the desk's mail to it;
 //                                   the booking link: the lesson for `meeting` shows it with Copy
 //   .icm/intake/README.md           the Jamie's hand list the glance prints
@@ -22,12 +22,15 @@
 //                                   body as prose, for /research
 //   */forms/*.md                    every form, parsed by lib/forms.ts into a snapshot, by form
 //                                   slug and language. A form that does not parse fails the build
+//   desk/CONTEXT.md                 the table "The desk's writes to main": each row against
+//                                   WRITES in lib/writes.ts. A difference fails the build
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import { checkLanguages, parseForm } from "../lib/forms.ts";
 import { checkKits, KIT_LANGUAGES, parseKit } from "../lib/kit.ts";
+import { WRITES } from "../lib/writes.ts";
 
 const app = fileURLToPath(new URL("..", import.meta.url));
 const house = join(app, "..", "..");
@@ -80,6 +83,9 @@ if (drift) {
     blueprintOf.set(repo, {
       tracks: (c[col("tracks")] ?? "").replace(/`/g, ""),
       drift: (c[col("drift")] ?? "").replace(/`/g, ""),
+      // "backed", or the answers the platform does not back, "; " between them. A report from
+      // before the column has none, and an empty cell or "—" is not read (conformance/CONTEXT.md).
+      platform: (c[col("platform")] ?? "").replace(/`|\*\*/g, "").replace(/^—$/, ""),
     });
   }
 }
@@ -277,6 +283,48 @@ if (!businessEmail) throw new Error("core/identity.md: the identity table has no
 const bookingRow = read(house, "core", "identity.md").match(/^\|\s*Booking link\s*\|([^|]*)\|/m)?.[1] ?? "";
 const booking = bookingRow.match(/https?:\/\/[^\s,)]+/)?.[0]?.replace(/[.;]+$/, "") ?? null;
 const identity = { email: businessEmail, booking };
+
+// The desk's writes to main: the table in desk/CONTEXT.md and the typed list WRITES in
+// lib/writes.ts hold the same rows. The build fails on any difference, and names each (why: one
+// home, two readers · 2026-10-29). Not written to house.json: the app reads WRITES itself.
+{
+  const HEAD = /^\|\s*Action\s*\|\s*Role\s*\|\s*Globs\s*\|\s*Branch\s*\|\s*Identity\s*\|\s*Why\s*\|\s*$/;
+  const lines = read(house, "desk", "CONTEXT.md").split("\n");
+  const at = lines.findIndex((l) => HEAD.test(l));
+  if (at < 0) throw new Error("desk/CONTEXT.md: no table \"The desk's writes to main\" (| Action | Role | Globs | Branch | Identity | Why |).");
+  const unquote = (c) => c.trim().replace(/^`|`$/g, "");
+  const table = {};
+  for (const line of lines.slice(at + 2)) {
+    if (!line.startsWith("|")) break;
+    const cells = line.split("|").slice(1, -1);
+    if (cells.length !== 6) throw new Error(`desk/CONTEXT.md, The desk's writes to main: a row without six cells: ${line}`);
+    const [action, role, globs, branch, identity] = cells;
+    table[unquote(action)] = {
+      role: role.trim(),
+      globs: globs.split(",").map(unquote).filter(Boolean),
+      branch: unquote(branch),
+      identity: unquote(identity),
+    };
+  }
+  const diff = [];
+  for (const key of new Set([...Object.keys(table), ...Object.keys(WRITES)])) {
+    const t = table[key];
+    const w = WRITES[key];
+    if (!t) diff.push(`${key}: in lib/writes.ts WRITES, not in the table`);
+    else if (!w) diff.push(`${key}: in the table, not in lib/writes.ts WRITES`);
+    else {
+      for (const field of ["role", "branch", "identity"]) {
+        if (t[field] !== w[field]) diff.push(`${key}: ${field} is "${t[field]}" in the table and "${w[field]}" in WRITES`);
+      }
+      if (t.globs.join(", ") !== w.globs.join(", ")) {
+        diff.push(`${key}: globs are "${t.globs.join(", ")}" in the table and "${w.globs.join(", ")}" in WRITES`);
+      }
+    }
+  }
+  if (diff.length) {
+    throw new Error(`desk/CONTEXT.md, The desk's writes to main, and lib/writes.ts WRITES differ:\n${diff.join("\n")}`);
+  }
+}
 
 const built = new Date().toISOString().slice(0, 10);
 writeFileSync(

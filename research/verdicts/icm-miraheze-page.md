@@ -22,6 +22,10 @@ Watch (why: Keeps the one named criticism online: ICM lacks programmatic validat
 
 - Not recorded at the audit. The recheck date stands.
 
+## Update 2026-10-29
+
+What the house took: an answer to the page's one criticism. The machine checks of a contract were in CI and written nowhere a reader looks: the house's `check.yml` (`contracts`: the three sections and `status`; `placement`: `holds:`), and `check-client.yml`'s `Contract sections` step for a workspace. The blueprint's `conventions/README.md` now has the row `Checked by a machine`, and the workshop kit has the slide "A contract a machine can check" (`legible-consulting/blueprint` #45). The verdict stands: watch.
+
 ## Source
 
 https://ai.miraheze.org/wiki/Interpretable_Context_Methodology · audited 2026-10-14 · from the library's ledger, section "ICM references". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.

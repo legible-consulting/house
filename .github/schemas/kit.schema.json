@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/legible-consulting/house/.github/schemas/kit.schema.json",
+  "title": "a kit.<language>.md file's frontmatter",
+  "description": "01-prospecting/CONTEXT.md owns the kit grammar, including the language enum.",
+  "type": "object",
+  "properties": {
+    "kind": { "const": "kit" },
+    "title": { "type": "string", "minLength": 1 },
+    "language": { "enum": ["en-GB", "fr-BE", "pt-PT"] },
+    "owner": { "type": "string", "minLength": 1 },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+  },
+  "required": ["kind", "title", "language", "owner", "date"]
+}

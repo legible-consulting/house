@@ -118,7 +118,6 @@ export interface Prospect {
   meeting_at: string | null; // the meeting's instant, ISO in UTC; shown as Jamie's time (meetingTime)
   meeting_with: MeetingWith | "";
   meeting_where: string; // a place, a phone number or a link
-  pr_url: string | null;
   record: string | null;
   added: string;
   updated: string;
@@ -290,7 +289,7 @@ export function canWrite(p: Prospect, u: DeskUser): boolean {
 // The statuses the user may move the row to from where it is. Jamie may set any other. The
 // sourcer follows the arrows: new → contacted (after one logged touch) → replied → meeting, and
 // lost from any status but handed off. `ready for Jamie` and `handed off` are not moves, for
-// Jamie too: the handoff sets them, with its PR and its record (prospect.md, Statuses).
+// Jamie too: the handoff sets them, with its commit and its record (prospect.md, Statuses).
 const HANDOFF: readonly Status[] = ["ready for Jamie", "handed off"];
 
 export function nextMoves(p: Prospect, u: DeskUser): Status[] {
@@ -327,9 +326,10 @@ export function missingForReady(p: Prospect): Missing[] {
   return missing;
 }
 
-// Ready goes from replied or meeting, once: a second PR for one row is a second folder.
+// Ready goes from replied or meeting, and again from `ready for Jamie` when the last handoff
+// wrote nothing. A handed-off row never goes again: a second handoff is a second folder.
 export const canGoReady = (p: Prospect): boolean =>
-  (p.status === "replied" || p.status === "meeting") && !p.pr_url;
+  p.status === "replied" || p.status === "meeting" || p.status === "ready for Jamie";
 
 // After each logged touch, before a reply, next_action is the cadence's next date, counted
 // from the first touch. From `replied` on the sourcer sets it by hand: null means keep.

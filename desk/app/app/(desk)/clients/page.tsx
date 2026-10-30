@@ -4,7 +4,7 @@ import { PageHeader } from "@/components/desk/page-header";
 import { StageTrack } from "@/components/desk/stage-track";
 import { startOf } from "@/lib/github";
 import type { Search } from "@/lib/guard";
-import { clients, estate, type ClientRow } from "@/lib/house";
+import { clients, estate, unbacked, type ClientRow } from "@/lib/house";
 import { repoInFlight } from "@/lib/repos";
 import { currentUser } from "@/lib/user";
 import { CheckCell, ReleaseCell } from "@/app/_repo";
@@ -18,7 +18,8 @@ import { CheckCell, ReleaseCell } from "@/app/_repo";
 export const dynamic = "force-dynamic";
 
 // Four columns (DESIGN.md, rule 7): the client, the stage, the release with the blueprint's
-// drift under it when the repo drifted, and check.yml. On the phone a client is the name and
+// drift under it when the repo drifted and the platform's lines beside it when an answer is not
+// backed (conformance/CONTEXT.md), and check.yml. On the phone a client is the name and
 // the stage.
 const columns: Column<ClientRow>[] = [
   { key: "client", label: "Client", phone: "title", className: "md:min-w-48", cell: (c) => c.name ?? c.slug },
@@ -32,6 +33,9 @@ const columns: Column<ClientRow>[] = [
         <ReleaseCell repo={c.repo} jamie />
         {c.blueprint && c.blueprint.drift !== "current" && (
           <span className="line-clamp-2 max-w-56 whitespace-normal text-destructive">{c.blueprint.drift}</span>
+        )}
+        {unbacked(c.blueprint) && (
+          <span className="line-clamp-3 max-w-56 whitespace-normal text-destructive">Platform: {c.blueprint?.platform}</span>
         )}
       </>
     ),
@@ -58,7 +62,7 @@ export default async function Clients({ searchParams }: { searchParams: Search }
       />
       <p className="mt-2 text-ui font-normal text-muted-foreground">
         {estate
-          ? `Blueprint from desk/estate/${estate.file}, read against ${estate.blueprint} on ${estate.date}; drift.sh writes a new one.`
+          ? `Blueprint and platform from desk/estate/${estate.file}, read against ${estate.blueprint} on ${estate.date}; drift.sh writes a new one.`
           : "No drift report in desk/estate/ yet: drift.sh writes one."}
       </p>
     </>

@@ -77,7 +77,6 @@ export interface Words {
     readOnly: (sourcer: string) => string;
     next: string;
     meeting: string;
-    handoffPr: string;
     record: string;
     lost: string;
     lisbon: string;
@@ -95,10 +94,9 @@ export interface Words {
     noTouch: string;
     logTouch: string;
     move: { title: string; needsTouch: string; to: string; reason: string; submit: string };
-    ready: { title: string; before: string; after: string };
+    ready: { title: string; before: string; after: string; again: string };
     fillFirst: (missing: string[]) => string;
     missing: Record<Missing, string>;
-    handoff: { title: string; what: (previous: string) => string; check: string };
     noContact: { title: string; what: string; submit: string };
   };
   touch: {
@@ -153,10 +151,7 @@ export interface Words {
     readyFrom: string;
     noHandle: (email: string) => string;
     exists: (slug: string) => string;
-    noPr: string;
-    merged: string;
-    closed: string;
-    stillOpen: string;
+    handedOff: (slug: string) => string;
     oneOf: (key: string, list: readonly string[]) => string;
     companyRequired: string;
     sourceRequired: string;
@@ -252,7 +247,6 @@ const EN: Words = {
     readOnly: (s) => `Read-only: only the sourcer, ${s}, and Jamie write this row.`,
     next: "Next:",
     meeting: "Meeting",
-    handoffPr: "Handoff PR",
     record: "Record",
     lost: "Lost",
     lisbon: "Lisbon",
@@ -282,8 +276,9 @@ const EN: Words = {
     },
     ready: {
       title: "Ready for Jamie",
-      before: "Opens one PR on legible-consulting/house that creates",
-      after: `at stage ${k("prospect")} from this row. Jamie merges; "Check the PR" then moves the row to ${k("handed off")}.`,
+      before: "Writes to main on legible-consulting/house, as one commit,",
+      after: `at stage ${k("prospect")} from this row, with the lead's answers. The row moves to ${k("handed off")} at once.`,
+      again: "The last handoff wrote nothing. Hand off again.",
     },
     fillFirst: (missing) => `Fill first: ${missing.join(", ")}.`,
     missing: {
@@ -294,12 +289,6 @@ const EN: Words = {
       ask: "ask",
       touch: "one logged touch",
       meeting: "the meeting's date, time and with whom",
-    },
-    handoff: {
-      title: "Handoff",
-      what: (previous) =>
-        `Merged: the row moves to ${k("handed off")} and names its record. Closed without a merge: the row returns to ${k(previous)}.`,
-      check: "Check the PR",
     },
     noContact: {
       title: "No contact",
@@ -362,13 +351,10 @@ const EN: Words = {
     closedAlready: "This row is closed already: they asked not to be contacted.",
     noContactNote: (values) => `Lost: ${k(NO_CONTACT)}. ${values.join(" and ")} get no new row, on any channel.`,
     noContactBare: `Lost: ${k(NO_CONTACT)}. The row has no email, phone or WhatsApp number, so search the pool for the company before each add.`,
-    readyFrom: `${k("ready for Jamie")} goes from ${k("replied")} or ${k("meeting")}, once.`,
+    readyFrom: `${k("ready for Jamie")} goes from ${k("replied")} or ${k("meeting")}.`,
     noHandle: (email) => `${email} has no handle. Jamie sets it in the Neon console (db/schema.sql), then hand off again.`,
     exists: (slug) => `${k(`clients/${slug}/`)} already exists.`,
-    noPr: "No handoff PR is open for this row.",
-    merged: `Merged: ${k("handed off")}.`,
-    closed: "Closed without a merge: the row is back where it was. Jamie's reason goes in notes.",
-    stillOpen: "The PR is still open.",
+    handedOff: (slug) => `Handed off: ${k(`clients/${slug}/`)} is on main.`,
     oneOf: (key, list) => `${k(key)} is one of ${keys(list)}.`,
     companyRequired: "Company is required.",
     sourceRequired: "Source is required: who referred, which event, which list.",
@@ -460,7 +446,6 @@ const FR: Words = {
     readOnly: (s) => `Lecture seule : seuls le vendeur qui l'a apportée, ${s}, et Jamie modifient cette ligne.`,
     next: "Ensuite :",
     meeting: "Rendez-vous",
-    handoffPr: "PR de passation",
     record: "Fiche",
     lost: "Perdu",
     lisbon: "Lisbonne",
@@ -490,8 +475,9 @@ const FR: Words = {
     },
     ready: {
       title: "Prêt pour Jamie",
-      before: "Ouvre une PR sur legible-consulting/house qui crée",
-      after: `à l'étape ${k("prospect")} à partir de cette ligne. Jamie l'accepte ; « Vérifier la PR » passe ensuite la ligne à ${k("handed off")}.`,
+      before: "Écrit sur main de legible-consulting/house, en un seul commit,",
+      after: `à l'étape ${k("prospect")} à partir de cette ligne, avec les réponses de la piste. La ligne passe à ${k("handed off")} tout de suite.`,
+      again: "La dernière passation n'a rien écrit. Refais la passation.",
     },
     fillFirst: (missing) => `Remplis d'abord : ${missing.join(", ")}.`,
     missing: {
@@ -502,12 +488,6 @@ const FR: Words = {
       ask: "demande",
       touch: "une prise de contact enregistrée",
       meeting: "la date et l'heure du rendez-vous, et avec qui",
-    },
-    handoff: {
-      title: "Passation",
-      what: (previous) =>
-        `Acceptée : la ligne passe à ${k("handed off")} et nomme sa fiche. Fermée sans être acceptée : la ligne revient à ${k(previous)}.`,
-      check: "Vérifier la PR",
     },
     noContact: {
       title: "Pas de contact",
@@ -572,14 +552,11 @@ const FR: Words = {
     noContactNote: (values) =>
       `Perdu : ${k(NO_CONTACT)}. ${values.join(" et ")} n'auront plus de nouvelle ligne, sur aucun canal.`,
     noContactBare: `Perdu : ${k(NO_CONTACT)}. La ligne n'a ni e-mail, ni téléphone, ni numéro WhatsApp, donc cherche l'entreprise dans le pool avant chaque ajout.`,
-    readyFrom: `${k("ready for Jamie")} se fait depuis ${k("replied")} ou ${k("meeting")}, une seule fois.`,
+    readyFrom: `${k("ready for Jamie")} se fait depuis ${k("replied")} ou ${k("meeting")}.`,
     noHandle: (email) =>
       `${email} n'a pas d'identifiant. Jamie le définit dans la console Neon (db/schema.sql), puis refais la passation.`,
     exists: (slug) => `${k(`clients/${slug}/`)} existe déjà.`,
-    noPr: "Aucune PR de passation n'est ouverte pour cette ligne.",
-    merged: `Acceptée : ${k("handed off")}.`,
-    closed: "Fermée sans être acceptée : la ligne est revenue là où elle était. La raison de Jamie va dans les notes.",
-    stillOpen: "La PR est toujours ouverte.",
+    handedOff: (slug) => `Passée : ${k(`clients/${slug}/`)} est sur main.`,
     oneOf: (key, list) => `${k(key)} est l'une de ces valeurs : ${keys(list)}.`,
     companyRequired: "L'entreprise est obligatoire.",
     sourceRequired: "La source est obligatoire : qui les a recommandés, quel événement, quelle liste.",
@@ -671,7 +648,6 @@ const PT: Words = {
     readOnly: (s) => `Só de leitura: só quem a trouxe, ${s}, e o Jamie escrevem nesta linha.`,
     next: "A seguir:",
     meeting: "Reunião",
-    handoffPr: "PR de passagem",
     record: "Registo",
     lost: "Perdido",
     lisbon: "Lisboa",
@@ -701,8 +677,9 @@ const PT: Words = {
     },
     ready: {
       title: "Pronto para o Jamie",
-      before: "Abre um PR em legible-consulting/house que cria",
-      after: `na etapa ${k("prospect")} a partir desta linha. O Jamie aceita-o; "Verificar o PR" passa depois a linha a ${k("handed off")}.`,
+      before: "Escreve em main de legible-consulting/house, num só commit,",
+      after: `na etapa ${k("prospect")} a partir desta linha, com as respostas do contacto. A linha passa logo a ${k("handed off")}.`,
+      again: "A última passagem não escreveu nada. Faz a passagem outra vez.",
     },
     fillFirst: (missing) => `Preenche primeiro: ${missing.join(", ")}.`,
     missing: {
@@ -713,12 +690,6 @@ const PT: Words = {
       ask: "pedido",
       touch: "um toque registado",
       meeting: "a data e a hora da reunião, e com quem",
-    },
-    handoff: {
-      title: "Passagem",
-      what: (previous) =>
-        `Aceite: a linha passa a ${k("handed off")} e indica o registo. Fechado sem ser aceite: a linha volta a ${k(previous)}.`,
-      check: "Verificar o PR",
     },
     noContact: {
       title: "Sem contacto",
@@ -782,14 +753,11 @@ const PT: Words = {
     noContactNote: (values) =>
       `Perdido: ${k(NO_CONTACT)}. ${values.join(" e ")} não voltam a ter linha nova, por nenhum canal.`,
     noContactBare: `Perdido: ${k(NO_CONTACT)}. A linha não tem email, telefone nem número de WhatsApp, por isso procura a empresa no pool antes de cada adição.`,
-    readyFrom: `${k("ready for Jamie")} faz-se a partir de ${k("replied")} ou ${k("meeting")}, uma só vez.`,
+    readyFrom: `${k("ready for Jamie")} faz-se a partir de ${k("replied")} ou ${k("meeting")}.`,
     noHandle: (email) =>
       `${email} não tem identificador. O Jamie define-o na consola Neon (db/schema.sql), e depois volta a passar o contacto.`,
     exists: (slug) => `${k(`clients/${slug}/`)} já existe.`,
-    noPr: "Não há nenhum PR de passagem aberto para esta linha.",
-    merged: `Aceite: ${k("handed off")}.`,
-    closed: "Fechado sem ser aceite: a linha voltou para onde estava. O motivo do Jamie fica nas notas.",
-    stillOpen: "O PR continua aberto.",
+    handedOff: (slug) => `Passado: ${k(`clients/${slug}/`)} está em main.`,
     oneOf: (key, list) => `${k(key)} é um destes valores: ${keys(list)}.`,
     companyRequired: "A empresa é obrigatória.",
     sourceRequired: "A origem é obrigatória: quem os indicou, que evento, que lista.",

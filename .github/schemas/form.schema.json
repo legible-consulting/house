@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/legible-consulting/house/.github/schemas/form.schema.json",
+  "title": "a form file's frontmatter",
+  "description": "01-prospecting/CONTEXT.md owns the form grammar, including the language enum.",
+  "type": "object",
+  "properties": {
+    "kind": { "const": "form" },
+    "title": { "type": "string", "minLength": 1 },
+    "intro": { "type": "string", "minLength": 1 },
+    "language": { "enum": ["en-GB", "fr-BE", "pt-PT"] },
+    "folder": { "type": "string", "minLength": 1 }
+  },
+  "required": ["kind", "title", "intro", "language", "folder"]
+}

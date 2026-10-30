@@ -45,7 +45,7 @@ create table if not exists prospects (
   next_action date,
   notes text not null default '',
   lost_reason text not null default '',
-  pr_url text,
+  pr_url text, -- read by nothing since 2026-10-29: the handoff is a commit on main, not a PR
   record text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -150,8 +150,7 @@ alter table prospects
   add column if not exists instagram text not null default '';
 -- The meeting of a row (meeting-on-the-row of .icm/intake/salesman-desk): when, with whom and
 -- where, required at `meeting` (01-prospecting/prospect.md, Fields). `meeting_at` keeps its zone;
--- the desk reads and writes it as Jamie's time, Europe/Lisbon. Until this runs, the desk reads a
--- row as having no meeting (lib/db.ts).
+-- the desk reads and writes it as Jamie's time, Europe/Lisbon. Applied 2026-10-29.
 alter table prospects
   add column if not exists meeting_at timestamptz,
   add column if not exists meeting_with text not null default ''

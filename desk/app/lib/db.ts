@@ -86,7 +86,7 @@ const prospectSelect = `
   select p.id, p.slug, p.company, p.contact_name, p.role, p.email, p.phone, p.whatsapp, p.instagram,
     p.website, p.country, p.language, p.line, p.size, p.service, p.deal_size, p.source, p.salesman,
     p.ask, p.status, p.previous_status, p.next_action::text as next_action, p.notes,
-    p.lost_reason, p.pr_url, p.record, p.created_at::date::text as added,
+    p.lost_reason, p.record, p.created_at::date::text as added,
     to_char(${meetingAt} at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') as meeting_at,
     coalesce(to_jsonb(p.*) ->> 'meeting_with', '') as meeting_with,
     coalesce(to_jsonb(p.*) ->> 'meeting_where', '') as meeting_where,
@@ -314,28 +314,21 @@ export async function insertTouch(
   await sql()`update prospects set updated_at = now() where id = ${prospect}`;
 }
 
-// The handoff PR is open: the row remembers where it was, for a PR closed without a merge.
-export async function setReady(id: string, slug: string, prUrl: string): Promise<void> {
+// The handoff starts: the row remembers where it was, and keeps it when a handoff that wrote
+// nothing is tried again.
+export async function setReady(id: string, slug: string): Promise<void> {
   await sql()`
-    update prospects set previous_status = status, status = 'ready for Jamie', slug = ${slug},
-      pr_url = ${prUrl}, updated_at = now()
+    update prospects set
+      previous_status = case when status = 'ready for Jamie' then previous_status else status end,
+      status = 'ready for Jamie', slug = ${slug}, updated_at = now()
     where id = ${id}
   `;
 }
 
-// Jamie merged: the row is read-only from here and names its record.
+// The handoff's commit is on main: the row is read-only from here and names its record.
 export async function setHandedOff(id: string, record: string): Promise<void> {
   await sql()`
     update prospects set status = 'handed off', record = ${record}, updated_at = now()
-    where id = ${id}
-  `;
-}
-
-// The PR was closed without a merge: back to where the row was, so a new handoff can open.
-export async function revertReady(id: string): Promise<void> {
-  await sql()`
-    update prospects set status = coalesce(previous_status, 'replied'), previous_status = null,
-      pr_url = null, updated_at = now()
     where id = ${id}
   `;
 }

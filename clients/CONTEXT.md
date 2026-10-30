@@ -27,9 +27,14 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 
 - Start cold from this folder. Read only what Inputs names.
 - A folder opens at `prospect` when Jamie takes the lead. That is his own contact, or a
-  salesman's handoff from the desk's pool that Jamie merged. Before that, a lead lives in the
-  desk's pool, not here (why: the pool changes many times a day and the folder is the record
-  · 2026-10-19).
+  salesman's handoff from the desk's pool. Before that, a lead lives in the desk's pool, not
+  here (why: the pool changes many times a day and the folder is the record · 2026-10-19).
+- The handoff is the desk's one commit on `main` that opens the folder
+  (`01-prospecting/CONTEXT.md`, The handoff). The commit is the handoff: no pull request
+  waits on Jamie. He reads the folder afterwards, and `stage` stays `prospect` until he
+  decides to research. A handoff he does not take is a revert, or `lost` by his call (why:
+  Jamie's word, a constrained and structured salesman action goes straight to `main`, and a
+  revert undoes the commit · Jamie, 2026-10-29).
 - `stage` says what is true about the relationship today. A session moves `stage` when the
   artefact that ends the current stage exists (the right column of the table below):
   - The session that writes the artefact moves `stage` in the same pull request, so that the
@@ -89,12 +94,14 @@ The client folder produces one folder per relationship, opened when Jamie takes 
 ## Outputs
 
 - `<slug>/record.md`: frontmatter `stage` (the table above), `kind`, `public`, `repo`, `owner`,
-  `vercel_project` (a list of `<vercel-team>/<project>`), `salesman`, `collaborators`,
+  `salesman`, `collaborators`,
   commission fields; `drive_folder`, the client's folder under `Clients/` in Google Drive, set
   only when it is not the slug (MotoArk's is `moto-ark`; why: the Drive folders were named
   before the house and Jamie keeps them · 2026-10-27); from the agreement on, `agreement_drive` (the Drive link of the rendered
   agreement, then of the signed copy) and `agreement_signed` (`true` once both sides signed)
-  (`05-agreement/CONTEXT.md`).
+  (`05-agreement/CONTEXT.md`). The record holds no Vercel project and no address: the build's
+  own `.icm/environments.md` holds where it runs, and the desk reads it there (why: one home
+  per fact · Jamie, 2026-10-29).
 - `next_action` and `deadline` in `record.md`: the one thing Jamie does next for or with the
   client, and the date he does it by. A send, a call, a walkthrough, a progress report, or the
   date the client tests on UAT. Work in the client repo is never a next action: its tickets live
@@ -111,3 +118,5 @@ The client folder produces one folder per relationship, opened when Jamie takes 
   outside the house · 2026-10-22).
 - The deal is the folder. The folder points (`repo:`), the client repo holds. Nothing is
   submoduled or vendored (why: a cloud session reaches only the repo it attached · 2026-10-15).
+- `.github/schemas/record.schema.json` checks `stage`, `kind`, `public`, `deadline` and `repo`
+  against the values above (`check.yml`'s `frontmatter` job).

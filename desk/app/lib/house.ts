@@ -32,7 +32,11 @@ export interface Economics {
 export interface Blueprint {
   tracks: string; // the blueprint tag the repo tracks, or "—"
   drift: string; // "current", "behind: copier update", "not adopted: …"
+  platform: string; // "backed", the answers the platform does not back ("; " between them), or "" when not read
 }
+
+// The repo's Platform cell says something other than backed: an answer the platform does not back.
+export const unbacked = (b: Blueprint | null): boolean => Boolean(b?.platform && b.platform !== "backed");
 
 export interface ClientRow {
   slug: string;
@@ -49,7 +53,6 @@ export interface ClientRow {
   owner?: string | null;
   drive?: string | null; // the client's folder in Google Drive
   agreement_drive?: string | null; // the rendered agreement, then the signed copy (05-agreement)
-  vercel_project?: string[] | null;
   economics: Economics | null;
   documents: ClientDoc[];
   blueprint: Blueprint | null;

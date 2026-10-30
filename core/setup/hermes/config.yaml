@@ -1,0 +1,217 @@
+# Profile legible — the local lane's Hermes profile. See house core/stack.md § Local machine.
+# The home of this file is house core/setup/hermes/config.yaml; core/setup/local.sh installs it.
+# Secrets never live in this folder: the Anthropic key comes from the system keyring through
+# secrets.command at startup. No .env exists in this profile.
+# A hook command starts with ~ because Hermes expands only a leading ~ and runs the script
+# itself, with no shell.
+
+model:
+  provider: anthropic
+  default: claude-sonnet-5
+  base_url: https://api.anthropic.com
+  api_mode: anthropic_messages
+secrets:
+  command:
+    enabled: true
+    # The keyring item service hermes, username anthropic; print one KEY=VALUE line.
+    command: "secret-tool lookup service hermes username anthropic | sed 's/^/ANTHROPIC_API_KEY=/'"
+    helper_timeout_seconds: 3
+    override_existing: false
+approvals:
+  mode: manual
+  deny:
+    - "git push --force*"
+    - "git push -f*"
+    - "git rebase*"
+    - "git reset --hard*"
+    - "git filter-repo*"
+    - "gh repo delete*"
+    - "gh release delete*"
+command_allowlist:
+  - "bash .icm/scripts/checks.sh *"
+  - "bash .icm/scripts/close-out.sh *"
+  - "bash .icm/scripts/merge.sh *"
+  - "bash .icm/scripts/new-run.sh *"
+  - "bash .icm/scripts/release.sh *"
+  - brew list*
+  - brew search*
+  - command -v *
+  - git force push short flag (rewrites remote history)
+  - gsettings get*
+  - node --version*
+  - npm --version*
+  - nvm --version*
+memory:
+  write_approval: true
+  memory_enabled: true
+  user_profile_enabled: false
+skills:
+  write_approval: true
+  create_dir: ~/.hermes/profiles/legible/scratch-skills
+  # Shim: Hermes reads .hermes/skills and .agents/skills by itself; the house keeps its skills in
+  # .claude/skills, so each repo's folder is named here. ~/.claude/skills holds asd-ste100.
+  # ticket adds a worktree's .claude/skills here when it makes the worktree, and removes the
+  # line with ticket done. The house copy holds ~/.claude/skills only.
+  external_dirs:
+    - ~/.claude/skills
+display:
+  memory_notifications: true
+  personality: 'concise'
+  pet:
+    enabled: true
+    slug: nukey
+    scale: 0.35
+  runtime_footer:
+    enabled: true
+hooks:
+  pre_tool_call:
+    - matcher: "terminal|write_file|patch"
+      command: "~/.hermes/profiles/legible/guard-adapter.sh block-local-checks.sh"
+      timeout: 10
+      fail_closed: true
+    - matcher: "terminal|write_file|patch"
+      command: "~/.hermes/profiles/legible/guard-adapter.sh confirm-git-writes.sh"
+      timeout: 10
+      fail_closed: true
+    - matcher: "terminal|write_file|patch"
+      command: "~/.hermes/profiles/legible/guard-adapter.sh guard-plaintext-secrets.sh"
+      timeout: 10
+      fail_closed: true
+  pre_llm_call:
+    - command: "~/.hermes/profiles/legible/board-context.sh"
+      timeout: 10
+plugins:
+  enabled:
+    - agent-importers
+    - disk-cleanup
+    - hermes-jev-routing
+    - security-guidance
+    - snyk
+    - tinyfish
+  disabled: []
+mcp_servers:
+  playwright:
+    command: npx
+    args:
+      - '@playwright/mcp@latest'
+  neon:
+    url: https://mcp.neon.tech/mcp
+    auth: oauth
+    enabled: false
+    tools:
+      exclude:
+        - search
+        - fetch
+        - list_docs_resources
+        - get_doc_resource
+        - query_logs
+        - list_log_fields
+        - list_log_field_values
+        - provision_neon_auth
+        - configure_neon_auth
+        - get_neon_auth_config
+  vercel:
+    url: https://mcp.vercel.com
+    auth: oauth
+    enabled: false
+_config_version: 51
+agent:
+  reasoning_effort: medium
+  max_turns: 90
+  disabled_toolsets:
+    - bot_room
+    - catalog
+    - connections
+    - desktop_ui
+    - discord
+    - discord_admin
+    - feishu_doc
+    - feishu_drive
+    - onboarding
+    - project
+    - search
+    - stt
+    - x_search
+    - yuanbao
+compression:
+  enabled: false
+platform_toolsets:
+  cli:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - hermes-jev-routing
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - tinyfish
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+smart_model_routing:
+  enabled: false
+browser:
+  cloud_provider: local
+  use_real_profile: true
+known_plugin_toolsets:
+  cli:
+    - a2a
+    - hermes-jev-routing
+    - tinyfish
+known_builtin_toolsets:
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+computer_use:
+  backend: cua
+_left_core_installed:
+  - agent-importers
+# Telemetry stays at the defaults: telemetry.shared_metrics.enabled false, send false.
+telemetry:
+  shared_metrics:
+    enabled: false
+    send: false
+    offer_version: 2
+platforms:
+  telegram:
+    enabled: true
+    home_channel:
+      platform: telegram
+      chat_id: '8011953467'
+      name: Jamie
+      user_id: '8011953467'

@@ -15,6 +15,7 @@ The blueprint stops using `preview-db.sh`, `NEON_API_KEY` and `MIGRATE_AT_BUILD`
 | Vercel `remi21/admin` | `ALLOW_NON_PRODUCTION_MIGRATIONS` | Preview | read: the build now migrates each preview's own branch. Delete it when `db:migrate` no longer reads it |
 | Vercel `remi21/admin` | no variable on `uat` | — | read: does `admin` have the custom environment `uat`? The UAT promotion needs it on each app that the client tests |
 | Vercel `remi21/marketing`, `remi21/documentation` | no variable | — | none: they read no database and follow `main` |
+| Vercel `remi21/app`, `remi21/admin` | `DATABASE_URL`, `PGHOST`, `NEON_PROJECT_ID` | Preview and Development, all branches | read: the API shows no integration that owns them (2026-10-29). Not owned: delete them, by the rule "No `DATABASE_URL` on Preview for all branches". Owned: a blueprint triage stub changes that rule |
 
 The integration's own variables stay: `DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `PG*`, `POSTGRES_*`, `NEON_PROJECT_ID`, `NEON_AUTH_BASE_URL`, `VITE_NEON_AUTH_URL` on `app` and `admin`.
 
@@ -24,15 +25,18 @@ After the remi-ai conformance pull request to the new blueprint tag merges, Jami
 
 ## Acceptance criteria
 
-- [ ] k0d0minio/remi-ai has the secrets `DATABASE_URL`, `SLACK_BOT_TOKEN` and `VERCEL_TOKEN`, its `SLACK_*` variables and `VERCEL_TEAM`, and no `NEON_API_KEY`.
+- [ ] k0d0minio/remi-ai has the secrets `DATABASE_URL`, `SLACK_BOT_TOKEN` and `VERCEL_TOKEN`, its `SLACK_*` variables and `VERCEL_TEAM`, and no `NEON_API_KEY` — `NEON_API_KEY` still reads as a secret on `k0d0minio/remi-ai`, 2026-10-30.
 - [ ] `remi21/admin` has the custom environment `uat` with the variables it needs, or this stub says why it has none.
 - [ ] `ALLOW_NON_PRODUCTION_MIGRATIONS` is gone, or this stub says what still reads it.
 - [ ] The integration of `uat-remi-ai` makes a branch for each preview on `app` and `admin`.
-- [ ] The open setup stubs in remi-ai's `.icm/intake/setup/` are done or have a date.
+- [ ] `uat-remi-ai` has no Neon branch of a closed pull request. The integration deleted `preview/test/shared-preview-branch` when the git branch `test/shared-preview-branch` was deleted, or this stub says that it did not — see Notes, 2026-10-30: inconclusive.
+- [x] The remi-ai conformance pull request to the new blueprint tag is merged (`k0d0minio/remi-ai` #151, "chore: conform to the blueprint v1.3.0", merged 2026-10-29), and the 8 setup stubs render into remi-ai's own `.icm/intake/setup/`. The remaining rows above are open there, each to be dated when done.
 
 ## Notes
 
-- blocked: the remi-ai conformance pull request to the new blueprint tag is not merged.
-- Depends on `env-check-neon-preview-branching`.
+- The remi-ai conformance pull request merged on 2026-10-29 (#151, to v1.3.0); the "blocked" line below is stale and corrected here, 2026-10-30.
+- The shared branch answer is 1: the two apps of one pull request use one Neon branch. The evidence is in `triage/_done/env-check-neon-preview-branching.md` § Notes.
 - The Vercel CLI and the house session read `remi21`. The Vercel connector does not.
-- remi-ai is the monorepo that proves the shared branch: `app` and `admin` of one pull request use one Neon branch, or one each. Record the answer in `env-check-neon-preview-branching`.
+- The deletion check: the other `env-cleanup-<repo>` stubs read its answer here. A free Neon project allows 10 branches.
+- The deletion check, run 2026-10-30: PR #150 ("chore: test the shared Neon preview branch (do not merge)") was closed, not merged, on 2026-10-29, so GitHub's "delete head branches" never fired and the git branch `test/shared-preview-branch` was still on `origin` a day later — the test was never completed as designed. This session deleted that stale branch directly (`git push origin --delete test/shared-preview-branch`, 2026-10-30) to let the Neon integration react. This session holds no `NEON_API_KEY` and no Neon CLI/console access, so whether `uat-remi-ai`'s branch `preview/test/shared-preview-branch` is now gone is **not yet checked — Jamie's hand**: open the Neon console for `uat-remi-ai` and confirm the branch is gone, then record the answer here. Every other `env-cleanup-*` stub's "Depends on the deletion check" line stays open until this answer lands.
+- This stub stays in the house until the remi-ai conformance pull request. That pull request moves each act that is still open into the repo's `.icm/intake/setup/`, one setup stub per act, and moves this stub to `_done/` (why: the blueprint built `setup/` for the acts a person does in a repo, and the house is a second home for them · Jamie, 2026-10-29). The conformance pull request has merged; this stub stays open in `triage/` rather than moving, because it still carries the shared deletion-check answer that `env-cleanup-vinecliff`, `env-cleanup-messy-play` and `env-cleanup-berceo` all point to — moving it to `_done/` happens once that answer is recorded.

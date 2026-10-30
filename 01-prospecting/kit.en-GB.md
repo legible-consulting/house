@@ -3,7 +3,7 @@ title: "Seller kit · en-GB"
 kind: kit
 language: en-GB
 owner: jamie
-date: 2026-10-28
+date: 2026-10-29
 ---
 # Seller kit — how to send me a lead
 
@@ -263,7 +263,7 @@ need to be there.
 - key: hand-it-to-jamie
 - part: system
 - status: ready for Jamie
-- next: Wait for me to take it, then press "Check the PR" on the row.
+- next: Nothing to do on the row once it shows `handed off`. If it stays here, press Ready for Jamie again.
 
 Once they have replied, or you have met, hand the lead to me. The row needs:
 
@@ -275,11 +275,12 @@ Once they have replied, or you have met, hand the lead to me. The row needs:
 
 You also need a handle, the short name the desk knows you by. If you have none, ask me.
 
-Set `ready for Jamie`. The desk then opens a pull request: my request to open the client's
-folder from your row. I read it and accept it. That is the handoff.
+Set `ready for Jamie`. The desk then opens the client's folder from your row, at once, and the
+row moves to `handed off`. That is the handoff. I read the folder afterwards.
 
-Then press "Check the PR" on the row. If I took the lead, the row moves to `handed off`. If I
-did not, it goes back to where it was, and I write why in the notes.
+If the desk cannot write the folder, it says why, and the row stays at `ready for Jamie`. Fix
+what it names, or try again later. If I do not take the lead, I write why in the client's
+folder.
 
 ## After the handoff
 

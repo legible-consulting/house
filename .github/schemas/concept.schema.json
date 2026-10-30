@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/legible-consulting/house/.github/schemas/concept.schema.json",
+  "title": "research/concepts/<concept>.md frontmatter",
+  "description": "research/CONTEXT.md owns verdict, tier and use.",
+  "type": "object",
+  "properties": {
+    "concept": { "type": "string", "minLength": 1 },
+    "kind": { "const": "concept" },
+    "verdict": { "enum": ["adopt", "watch", "decline"] },
+    "tier": { "enum": ["glance", "verdict", "deep"] },
+    "use": {
+      "type": "array",
+      "items": {
+        "enum": ["build", "proposal", "prospecting", "workshop", "content", "house"]
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "recheck": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+  },
+  "required": ["concept", "kind", "verdict", "tier", "recheck", "date"]
+}
