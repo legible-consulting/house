@@ -2,10 +2,10 @@
 # ticket: one ticket, one worktree, one session of the local lane's agent
 # (core/stack.md, "Local machine"). Installed as ~/.local/bin/ticket by local.sh.
 #
-#   ticket <repo-path> <slug>          make or reuse the ticket's worktree, then start the agent in it
-#   ticket <repo-path> triage/<slug>   the same for a triage stub
-#   ticket done <repo-path> <slug>     remove the worktree when it is clean and pushed. The branch stays
-#   ticket list                        each worktree under ~/worktrees/: repo, branch, state
+#   ticket <repo-path> <slug>                         make or reuse the ticket's worktree, then start the agent in it
+#   ticket <repo-path> triage/<slug>                  the same for a triage stub
+#   ticket done <repo-path> <slug>                    remove the worktree when it is clean and pushed. The branch stays
+#   ticket list                                       each worktree under ~/worktrees/: repo, branch, state
 #
 # The worktree is ~/worktrees/<repo>/<slug>/ (triage: triage-<slug>/) on the branch <slug>
 # (triage: triage/<slug>), from origin/<branch> when it exists on origin, else from origin/main.
@@ -21,9 +21,30 @@ set -euo pipefail
 
 # The agent of the lane. This is the one place to change it (why: the script is agent-agnostic,
 # goose-worktrees breakdown · 2026-10-29). agent_start runs in the worktree with the session
-# name <repo>/<branch>, and replaces this process.
+# name <repo>/<branch> and the first prompt, and replaces this process. The first prompt names
+# the ticket, its stub and its branch (why: in the trials of hermes-cheap-models, a session told
+# "take this ticket" did not know which ticket. The session name is not visible to the model ·
+# 2026-10-29). The model is chosen with /model in the session: Hermes refuses -m and --provider
+# together with --continue, also when --create-if-missing makes the session (v0.22.5).
+# --in pins the session's folder to the worktree (why: a new named session records no folder,
+# and the agent's terminal then started in the home folder, not the worktree · 2026-10-29).
 agent_start() {
-  exec hermes -p legible chat --continue "$1" --create-if-missing
+  exec hermes -p legible chat --in "$PWD" --continue "$1" --create-if-missing -q "$2"
+}
+
+# first_prompt <worktree> <slug-or-triage/slug> <branch>: the words of the first turn. The stub
+# is found under .icm/intake/, open or in a _done/ folder. A ticket with no stub found is named
+# by its branch only.
+first_prompt() {
+  local wt="$1" slug="${2#triage/}" branch="$3" stub=""
+  if [ -d "$wt/.icm/intake" ]; then
+    stub="$(cd "$wt" && find .icm/intake -name "$slug.md" -not -path '*/setup/*' 2>/dev/null | sort | head -n 1)"
+  fi
+  if [ -n "$stub" ]; then
+    printf 'Ticket %s. The stub is %s. This worktree is on the branch %s. Read AGENTS.md, then take or resume this ticket.' "$2" "$stub" "$branch"
+  else
+    printf 'Ticket %s. No stub was found under .icm/intake/. This worktree is on the branch %s. Read AGENTS.md, then ask which ticket this is.' "$2" "$branch"
+  fi
 }
 
 ROOT="${TICKET_ROOT:-$HOME/worktrees}"
@@ -119,7 +140,7 @@ cmd_start() {
 
   skills_dir add "$wt"
   cd "$wt"
-  agent_start "$repo/$branch"
+  agent_start "$repo/$branch" "$(first_prompt "$wt" "$2" "$branch")"
 }
 
 cmd_done() {
