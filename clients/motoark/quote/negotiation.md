@@ -142,3 +142,5 @@ Numbered, with a default. Answered in the pull request or by editing the quote.
   Mon 16 Nov 2026 and the evaluation's end to Sun 14 Feb 2027, in the proposal, the quote and
   the agreement. The checkpoints: Fri 11 Dec 2026, Fri 15 Jan 2027 and Fri 12 Feb 2027. The
   price does not change. Jamie sends it to Sam alone on 30 Oct.
+- 2026-10-30. Sent to Sam alone at 21:45 UTC, the proposal PDF with the quote as its last
+  section, both structures named in the mail. No reply yet. Jamie chases on Mon 9 Nov if none.
