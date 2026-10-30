@@ -26,7 +26,7 @@ After the berceo conformance pull request to the new blueprint tag merges, Jamie
 
 - [x] k0d0minio/berceo has the secrets `CRON_SECRET`, `DATABASE_URL` and `VERCEL_TOKEN`, the variable `VERCEL_TEAM`, and no other Actions name of the old design.
 - [x] Vercel `kodominio/berceo` has no variable scoped to a git branch.
-- [ ] `uat-berceo` has no Neon branch of a closed pull request.
+- [x] `uat-berceo` has no Neon branch of a closed pull request.
 - [ ] The open setup stubs in berceo's `.icm/intake/setup/` are done or have a date.
 
 ## Notes
@@ -34,8 +34,8 @@ After the berceo conformance pull request to the new blueprint tag merges, Jamie
 - Read 2026-10-30: the berceo conformance pull request `k0d0minio/berceo` #124 merged 2026-10-29, and #125 (the environments file) merged the same day. The blocker is gone.
 - Done 2026-10-30: `gh secret delete NEON_API_KEY`, `gh secret delete VERCEL_TOKEN_KODOMINIO` and `gh variable delete NEON_PROJECT_ID` on `k0d0minio/berceo`, checked first against `.github/workflows/` for a reader (none). GitHub Actions on `k0d0minio/berceo` now has only the secrets `CRON_SECRET`, `DATABASE_URL` and `VERCEL_TOKEN`, and the variable `VERCEL_TEAM`.
 - Read 2026-10-30: `vercel env ls --scope kodominio` on `berceo` shows no variable scoped to a git branch. The pull request `#107` (`triage/communes-bastogne-refnis`) merged and closed 2026-10-28; its branch-scoped `DATABASE_URL`, `DATABASE_URL_UNPOOLED` and `MIGRATE_AT_BUILD` are already gone.
-- Open, waits on Jamie: the Neon branch `preview/triage/communes-bastogne-refnis` in `uat-berceo`. The session has no Neon credential (no `NEON_API_KEY` in the shell, `neonctl` not signed in) and does not hold one by design. Jamie deletes the branch in the Neon console, or gives the session a key.
-- Open, waits on Jamie: all 8 setup stubs in berceo's `.icm/intake/setup/` are unchecked with no date (`actions-production-database`, `actions-vercel`, `github-delete-head-branches`, `neon-projects`, `neon-vercel-integration`, `uat-database`, `uat-variables`, `vercel-uat-environment`). Most are dashboard acts (Vercel Storage integration, custom environment `uat`, Pro-plan and domain checks) that need Jamie's hand in the Vercel and Neon consoles, not a credential the session is missing.
+- Read 2026-10-30, with `NEON_API_KEY_KODOMINIO`: `uat-berceo` (`dawn-scene-70949411`) holds only `main`. `preview/triage/communes-bastogne-refnis` is already gone; the integration deleted it with the git branch.
+- Open, waits on Jamie: all 8 setup stubs in berceo's `.icm/intake/setup/` are unchecked with no date (`actions-production-database`, `actions-vercel`, `github-delete-head-branches`, `neon-projects`, `neon-vercel-integration`, `uat-database`, `uat-variables`, `vercel-uat-environment`). A fresh session on `k0d0minio/berceo` runs the ones its tools can reach; the rest name Jamie's own act (a plan check, a domain record, a console toggle no CLI holds).
 - blocked (closed): the berceo conformance pull request to the new blueprint tag is not merged. A deletion before the merge makes the old `preview-db.yml` fail.
 - Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The integration also serves Development from `uat-berceo`. A local session then reads UAT data. Keep it, or give Development a branch of its own? Default: keep.
