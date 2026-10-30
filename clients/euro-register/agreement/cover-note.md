@@ -1,7 +1,13 @@
 <!-- Internal: the email Jamie sends with the revised agreement, the programme and the
 questions. Deleted when the send is done (03-proposal/CONTEXT.md, the note pattern).
-To: a.ruelle@aldes.com. Attach or link: the agreement (eSignature request), the programme,
-the questions (Google Doc, Drive › arnaud-ruelle). -->
+To: a.ruelle@aldes.com (the address of the 12 October send). Attach or link: the agreement
+(eSignature request, from the render of this folder), the programme and the questions, both
+Google Docs in Drive › arnaud-ruelle, shared with Arnaud before the send (on 2026-10-30
+neither is shared; the questions need edit access so he answers in place):
+programme https://docs.google.com/document/d/1tpecnU0v1BsxGF8PQhfFs7pFxvrkzAnPmM_A9Ul5u3U/edit
+questions https://docs.google.com/document/d/1qFckjufZzqGpcG7j5emTicb8zJcp-i4NQxm-07WKzs8/edit
+Revised 2026-10-30: the deadlines of 29 and 30 October passed before the send; the hotel is
+asked first, because nobody has confirmed it two days before the arrival. -->
 
 **Objet :** Euro Register — accord à signer, programme des matinées et questions
 
@@ -14,15 +20,19 @@ ne bouge pas : la semaine du 2 au 6 novembre, 6 500 € HT.
 
 La facture d'acompte suit la signature. Le vol est réservé.
 
+Une chose ne peut pas attendre : l'hôtel près de l'usine, pour les nuits du 1er au 7.
+Tu me dis lequel dès qu'il est réservé ?
+
 Avec l'accord, deux documents :
 
 - le programme des cinq matinées, pour que tu voies le fil de la semaine ;
 - une liste de questions pour préparer la semaine. Certaines sont pour toi, d'autres pour
   la personne qui gère l'informatique ou les RH. Tu peux répondre directement dans le
-  document. Si je les ai pour le jeudi 29 octobre, j'ajuste le programme et je cale le
-  planning des après-midi.
+  document. Si tu peux, réponds aux parties 1 et 6 (les participants et la logistique)
+  pour dimanche. Le reste, on le complète ensemble lundi matin.
 
-Et pour le vendredi 30 octobre, la tâche en deux lignes de chacun pour son après-midi.
+Et pour lundi midi, la tâche en deux lignes de chacun pour son après-midi : j'en tire le
+planning des après-midi.
 
 Bien à toi,
 Jamie

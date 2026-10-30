@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Check `kickoff/questions.md`. Then send Arnaud the agreement for eSignature, the programme and the questions.
-deadline: 2026-10-28
+next_action: Send Arnaud the agreement for eSignature, the programme and the questions, from `agreement/cover-note.md`, and share both Drive docs with him first.
+deadline: 2026-10-30
 salesman:
 commission:
   sourced_by:
@@ -34,6 +34,9 @@ This folder stands on its own: nothing here cites that one, and nothing there ci
 
 On 2026-10-27 the agreement is not sent and not signed, and the deposit invoice is not sent.
 Jamie booked the flight (Jamie, 2026-10-27). Arnaud's answers to `kickoff/questions.md` are not
-in, and Jamie has not checked that document yet. After the signature come the deposit invoice,
+in. On 2026-10-30 the questions were checked: their deadlines of 29 and 30 October had passed
+unsent, so the participants and the logistics now come by Sunday 1 November and the two lines
+by Monday 2 November at noon, in the folder and in the two Drive docs; the hotel is not yet
+confirmed by Euro Register. After the signature come the deposit invoice,
 once the accountant confirms the VAT treatment, and the A1 certificate (`quote/negotiation.md`,
 Open before the first invoice). The week starts on Monday 2 November 2026.

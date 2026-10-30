@@ -3,21 +3,27 @@ title: "Questions pour préparer la semaine"
 kind: questionnaire
 client: euro-register
 language: fr-BE
-date: 2026-10-22
+date: 2026-10-30
 status: draft
 ---
 
 <!-- Client-facing. Placed as a Google Doc in Drive › arnaud-ruelle so that Arnaud answers in
 place. Each table has a Réponse column. "Pour" says who answers: Arnaud, l'informatique, les
-RH. The answers update research/profile.md and the afternoon schedule. -->
+RH. The answers update research/profile.md and the afternoon schedule.
+Revised 2026-10-30: the deadlines of 29 and 30 October passed before the send, so the
+participants and the logistics come first, by Sunday 1 November, and the two lines by
+Monday 2 November at noon; the trajet question no longer asks for a transfer, which the
+agreement puts inside the price. -->
 
 # Questions pour préparer la semaine
 
 Arnaud, réponds en quelques mots, directement dans ce document. Certaines questions sont
 pour toi, d'autres pour la personne qui gère l'informatique ou les RH : la colonne « Pour »
 le dit. Les réponses servent à régler les matinées, à préparer les après-midi et à
-décider ce qui entre dans Mammouth. Elles restent entre nous. Si je les ai pour le
-jeudi 29 octobre, j'ajuste le programme avant de venir.
+décider ce qui entre dans Mammouth. Elles restent entre nous. La semaine commence lundi :
+si tu peux, réponds d'abord aux parties 1 et 6 (les participants et la logistique) pour
+le dimanche 1er novembre, et dis-moi l'hôtel dès qu'il est réservé. Le reste, on le
+complète ensemble lundi matin.
 
 ## 1. Les participants
 
@@ -72,7 +78,7 @@ jeudi 29 octobre, j'ajuste le programme avant de venir.
 
 | # | Question | Pour | Réponse |
 |---|---|---|---|
-| 30 | Pour chaque participant, en deux lignes : la tâche sur laquelle il veut travailler, et ce qu'elle doit produire. À me renvoyer pour le vendredi 30 octobre. | Chaque participant | |
+| 30 | Pour chaque participant, en deux lignes : la tâche sur laquelle il veut travailler, et ce qu'elle doit produire. Au plus tard le lundi 2 novembre à midi, avant le premier après-midi. | Chaque participant | |
 | 31 | Un cas commun à toute l'équipe, pour les exercices du matin ? Par exemple la réponse à une demande de devis, ou la préparation d'une fiche technique. | Arnaud | |
 | 32 | Pour ce cas, peux-tu me donner deux ou trois exemples réels, anonymisés si nécessaire : la demande du client, votre réponse, les fichiers utilisés ? | Arnaud | |
 
@@ -83,8 +89,8 @@ jeudi 29 octobre, j'ajuste le programme avant de venir.
 | 33 | Les horaires qui vous conviennent : 8 h 30 à 12 h 00 le matin, 13 h 30 à 17 h 30 l'après-midi ? | Arnaud | |
 | 34 | La salle : combien de places, un projecteur ou un écran, des prises ? | Arnaud | |
 | 35 | La pause et le repas de midi : sur place, à proximité ? | Arnaud | |
-| 36 | L'hôtel : lequel, et pour quelles nuits ? Je compte arriver le dimanche 1er et repartir le samedi 7, sauf si tu préfères le vendredi soir. | Arnaud | |
-| 37 | Le trajet : de l'aéroport de Bruxelles ou de la gare de Liège à l'usine, y a-t-il un transfert ou je prends le train et un taxi ? | Arnaud | |
+| 36 | L'hôtel : lequel, et pour quelles nuits ? Je compte arriver le dimanche 1er et repartir le samedi 7. | Arnaud | |
+| 37 | Le trajet jusqu'à l'usine est pour moi. Lundi matin, à quelle entrée me présenter, et qui m'accueille ? | Arnaud | |
 | 38 | Un badge ou une procédure d'accès au site, et un endroit où m'installer l'après-midi ? | Arnaud | |
 
 ## 7. L'objectif, la suite, les factures

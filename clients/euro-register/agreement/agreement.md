@@ -11,8 +11,9 @@ status: draft
 <!-- Replaces the agreement of 12 October 2026, sent as a PDF and never signed. What changed:
 the parties carry the registered address, the company number and Jamie's NIF; Arnaud's title
 is the register's; the deposit is 15 % with the 3 % escompte; invoices are due in 14 days; the
-monthly follow-up option is not taken. Cover: full logo, the eyebrow ACCORD, then: Pour
-Arnaud · 22 octobre 2026 · Total HT 6 500 €. Numbered clauses; the proposal attached; the
+monthly follow-up option is not taken; the afternoon schedule is set by the first day at the
+latest (2026-10-30: the send comes two days before the week). Cover: full logo, the eyebrow
+ACCORD, then: Pour Arnaud · 22 octobre 2026 · Total HT 6 500 €. Numbered clauses; the proposal attached; the
 signature block last (core/voice.md). -->
 
 # Accord — Une semaine de formation IA sur la méthode ICM
@@ -38,7 +39,8 @@ présent accord prévaut.
   présent accord. Il s'ajuste à vos réponses sur les participants et sur leurs cas de
   travail, sans changer la durée ni le prix.
 - **L'après-midi :** 20 heures de coaching individuel au total, réparties entre les
-  personnes selon les besoins, sur un planning établi ensemble avant la semaine.
+  personnes selon les besoins, sur un planning établi ensemble au plus tard le premier
+  jour.
 - **À garder :** les supports des ateliers, un kit de démarrage et une attestation de
   participation pour chaque personne.
 - **Les dates :** cinq jours consécutifs, du lundi 2 au vendredi 6 novembre 2026, sauf
