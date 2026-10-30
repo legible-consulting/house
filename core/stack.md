@@ -75,14 +75,24 @@ Ubuntu 24.04 with Homebrew. A fresh machine, in order:
    the agent into `~/.hermes/hermes-agent/` and puts `hermes` in `~/.local/bin/`.
 2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo`
    (org settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
-   - Hermes: the profile `legible` reads the Anthropic key from the system keyring item with
-     service `hermes` and username `anthropic`, never from a file. Store it with
-     `secret-tool store --label='Hermes Anthropic key' service hermes username anthropic`, which
-     reads the key from the prompt (why: a key in a file is plain text that every process can read
-     and a commit can copy · 2026-10-29). The item holds the Anthropic key alone. The profile's
-     `config.yaml` reads it with `secrets.command`: `secret-tool lookup service hermes username
-     anthropic`, printed as the one line `ANTHROPIC_API_KEY=<key>` at startup. Check:
-     `hermes -p legible doctor` reports "Command helper: applied 1 secret" and "✓ Anthropic API".
+   - Hermes: the profile `legible` reads each provider key from one system keyring item with
+     service `hermes` and the Hermes provider as username, never from a file (why: a key in a
+     file is plain text that every process can read and a commit can copy · 2026-10-29). Store
+     each key with `secret-tool store --label='Hermes <Provider> key' service hermes username
+     <provider>`, which reads the key from the prompt. The profile uses two providers
+     (`research/verdicts/hermes-models.md`, 2026-10-29):
+
+     | Provider | Keyring username | Variable |
+     |---|---|---|
+     | Anthropic | `anthropic` | `ANTHROPIC_API_KEY` |
+     | OpenCode Zen | `opencode-zen` | `OPENCODE_ZEN_API_KEY` |
+
+     The profile's `config.yaml` reads both with `secrets.command`, one `secret-tool lookup`
+     for each item, printed as one `KEY=VALUE` line each at startup. `override_existing` is
+     `true`, so the keyring value beats a value in a `.env` (why: with `false`, the plaintext
+     keys in the `.env` files won, and the profile did not run on the keyring keys · 2026-10-29).
+     Check: `hermes -p legible doctor` reports "Command helper: applied 2 secrets", "✓ Anthropic
+     API" and "✓ OpenCode Zen".
 3. Clone the org's working repos side by side:
    ```bash
    mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library .github; do gh repo clone legible-consulting/$r; done
@@ -100,7 +110,7 @@ Layout:
 | `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
 | `~/worktrees/` | the local lane's worktrees: `<repo>/<slug>/` on the branch `<slug>`, and `<repo>/triage-<slug>/` on `triage/<slug>`, one per ticket. `ticket` makes them and removes them with `ticket done`, and `reap-worktrees.sh` removes the ones left behind at 24 hours. No person and no agent makes a worktree here by hand, and the agent's own worktree option is not used (why: one folder that the script and the reaper both know, outside every repo and outside `~/Desktop` · Jamie, 2026-10-29). |
-| `~/.hermes/profiles/legible/` | the Hermes profile `legible`. Four of its files have their home in `core/setup/hermes/` (§ The Hermes profile). The rest is Hermes's own state: sessions, `state.db`, the hook allowlist, caches. `config.yaml` reads the Anthropic key from the keyring. The named exception: `~/.hermes/.env` and the profile's own `.env` stay on this machine with their plaintext keys (why: they are on Jamie's own machine, outside every repo, and Jamie keeps them · Jamie, 2026-10-29). |
+| `~/.hermes/profiles/legible/` | the Hermes profile `legible`. Four of its files have their home in `core/setup/hermes/` (§ The Hermes profile). The rest is Hermes's own state: sessions, `state.db`, the hook allowlist, caches. `config.yaml` reads each provider key from the keyring, and the keyring value wins. The named exception: `~/.hermes/.env` and the profile's own `.env` stay on this machine with their plaintext keys (why: they are on Jamie's own machine, outside every repo, and Jamie keeps them · Jamie, 2026-10-29). |
 | `~/.local/bin/ticket` | a link to `core/setup/ticket.sh`, made by `setup/local.sh`. `ticket <repo-path> <slug>` makes or reuses the ticket's worktree, copies `.env` and `.env.local` from the primary clone, runs `.icm/scripts/worktree-setup.sh` when the repo has it, writes the worktree's `.claude/skills` into the profile's `skills.external_dirs` when the folder exists, and starts the lane's agent in the worktree. `ticket done <repo-path> <slug>` removes that line, then removes a clean, pushed worktree and keeps the branch. `ticket list` shows each worktree and its state. It runs no build, lint, typecheck, test, format or dev command (why: it does the four steps a person did by hand for each parallel ticket, deterministic and reviewed in the house · Jamie, 2026-10-29). |
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
@@ -176,7 +186,7 @@ overwrite drops it · 2026-10-29). Carry a change made on the machine into the h
 
 | File | Holds |
 |---|---|
-| `config.yaml` | the provider and model, `secrets.command` (the keyring helper above), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, no `plugin_rule:` entry for a guard (why: an "always" answer to a guard's ask writes one, and it turns the human gate off for every later session · the loop walk, 2026-10-29), the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible` and `~/.claude/skills`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
+| `config.yaml` | the provider and model, `secrets.command` (the keyring helper in § Local machine: one keyring item for each provider, Anthropic and OpenCode Zen, with `override_existing: true`), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, no `plugin_rule:` entry for a guard (why: an "always" answer to a guard's ask writes one, and it turns the human gate off for every later session · the loop walk, 2026-10-29), the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible` and `~/.claude/skills`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
 | `SOUL.md` | the profile's standing prompt: Jamie's global working standards |
 | `guard-adapter.sh` | the three guards for Hermes (the profile file table above) |
 | `board-context.sh` | the board and the router for Hermes (the profile file table above) |

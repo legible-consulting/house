@@ -1,6 +1,6 @@
 # Profile legible — the local lane's Hermes profile. See house core/stack.md § Local machine.
 # The home of this file is house core/setup/hermes/config.yaml; core/setup/local.sh installs it.
-# Secrets never live in this folder: the Anthropic key comes from the system keyring through
+# Secrets never live in this folder: each provider key comes from the system keyring through
 # secrets.command at startup. No .env exists in this profile.
 # A hook command starts with ~ because Hermes expands only a leading ~ and runs the script
 # itself, with no shell.
@@ -13,10 +13,11 @@ model:
 secrets:
   command:
     enabled: true
-    # The keyring item service hermes, username anthropic; print one KEY=VALUE line.
-    command: "secret-tool lookup service hermes username anthropic | sed 's/^/ANTHROPIC_API_KEY=/'"
+    # One keyring item per provider: service hermes, username <provider>. Print one KEY=VALUE
+    # line per item. override_existing: true, so a key in a .env never beats the keyring.
+    command: "printf 'ANTHROPIC_API_KEY=%s\\nOPENCODE_ZEN_API_KEY=%s\\n' \"$(secret-tool lookup service hermes username anthropic)\" \"$(secret-tool lookup service hermes username opencode-zen)\""
     helper_timeout_seconds: 3
-    override_existing: false
+    override_existing: true
 approvals:
   mode: manual
   deny:
@@ -58,9 +59,9 @@ display:
   memory_notifications: true
   personality: 'concise'
   pet:
-    enabled: true
+    enabled: false
     slug: nukey
-    scale: 0.35
+    scale: 0.3
   runtime_footer:
     enabled: true
 hooks:
@@ -215,3 +216,41 @@ platforms:
       chat_id: '8011953467'
       name: Jamie
       user_id: '8011953467'
+onboarding:
+  seen:
+    tool_progress_prompt: true
+auxiliary:
+  approval:
+    provider: anthropic
+    model: claude-sonnet-5
+  triage_specifier:
+    provider: anthropic
+    model: claude-sonnet-5
+  kanban_decomposer:
+    provider: anthropic
+    model: claude-sonnet-5
+  profile_describer:
+    provider: anthropic
+    model: claude-sonnet-5
+  curator:
+    provider: anthropic
+    model: claude-sonnet-5
+  review:
+    provider: anthropic
+    model: claude-sonnet-5
+  title_generation:
+    provider: anthropic
+    model: claude-sonnet-5
+  mcp:
+    provider: anthropic
+    model: claude-sonnet-5
+  skills_hub:
+    provider: anthropic
+    model: claude-sonnet-5
+  compression:
+    provider: anthropic
+    model: claude-sonnet-5
+  vision:
+    provider: anthropic
+    model: claude-sonnet-5
+timezone: Europe/Lisbon
