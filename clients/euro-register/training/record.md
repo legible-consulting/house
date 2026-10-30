@@ -24,7 +24,7 @@ The plan is `plan.md`, open: the week's sessions are planned before the week
 ## The people
 
 Open. The participants, their roles and the jobs they bring come from the answers to
-`kickoff/questions.md` (questions 2, 4 and 30, due on 30 October 2026).
+`kickoff/questions.md` (questions 2, 4 and 30; no due date, Jamie, 2026-10-30).
 
 | Person | Role | Job they bring | Hours planned | Walk test |
 |---|---|---|---|---|
@@ -37,5 +37,5 @@ Open. The participants, their roles and the jobs they bring come from the answer
 ## The attendance
 
 - `attendance.md`: open. The session drafts it from this record after the week, with the
-  names as the client's HR gives them (`kickoff/questions.md`, question 41). Jamie signs and
+  names as the client's HR gives them (`kickoff/questions.md`, question 40). Jamie signs and
   sends it.
