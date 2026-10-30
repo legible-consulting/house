@@ -20,20 +20,13 @@ Prepared for Sam Cherry, COO and CTO, MotoArk · 30 October 2026 · This proposa
 
 ---
 
-## The problem, in your words
+## The problem
 
-Sam, on our two calls you described MotoArk in a few sentences. I will keep to them.
+Everything in MotoArk's technology runs through you. If you were hit by a bus, as you put it,
+MotoArk would not have a technology team. That is the risk you want gone.
 
-You took MotoArk to version one yourself, from design through to DevOps, in 10 to 15 days of
-build, on a technology burn of under 3,000 dollars a month for you and two developers. Version
-one went out on the night of 22 October. It
-does what it must: a catalogue, with search over the parts. Five thousand garages in the UAE
-are the buyers. Fifty people in the field count and list the sellers' stock.
+Three things make it harder to fix than hiring another developer.
 
-Four things are now true at once.
-
-- **Everything runs through you.** If you were hit by a bus, as you put it, MotoArk would not
-  have a technology team. That is the risk you want gone.
 - **The build should run AI-first.** Someone who plans, builds, tests and ships with agents
   from the start, not someone who writes the code by hand and asks an AI to test it at the end.
 - **When an agentic build goes wrong, it goes wrong badly.** You called it the 2 percent. The
