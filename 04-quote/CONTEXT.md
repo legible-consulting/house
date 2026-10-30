@@ -59,3 +59,5 @@ The quote produces the price, options and payment terms; the engagement's own ec
 ## Outputs
 
 - `clients/<slug>/quote/quote.md` · `economics.yaml` (the desk reads it) · `negotiation.md` (private). `clients/CONTEXT.md` holds them.
+- `.github/schemas/economics.schema.json` checks that `economics.yaml` carries a price
+  (`check.yml`'s `frontmatter` job).

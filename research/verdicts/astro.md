@@ -1,7 +1,7 @@
 ---
 tool: Astro
 kind: repo
-verdict: adopt
+verdict: watch
 tier: verdict
 use: [build, proposal, workshop]
 tags: [site, static, dashboard]
@@ -25,3 +25,7 @@ Adopt (why: Static dashboard built in CI from client folders; content collection
 ## Source
 
 https://astro.build · audited 2026-10-14 · from the library's ledger, section "B. Documents". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-30
+
+Verdict flipped from `adopt` to `watch`: no moment is left. The house chose Next.js on Vercel for its apps, over the Astro scaffold of 2026-10-15 (`core/stack.md`, § The desk app, 2026-10-19). The moment this verdict named, a static dashboard built in CI from client folders, is the desk, which is Next.js. The blueprint and the contracts name no Astro. The recheck date 2027-04-14 stands.

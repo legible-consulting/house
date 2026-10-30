@@ -87,5 +87,7 @@ Conformance produces a report that every live repo matches the blueprint, has it
 
 - `desk/estate/drift-<date>.md`: one row per repo, with the columns `Tracks`, `Drift`,
   `Platform` and the Claude and agent assets.
+- `.github/schemas/estate.schema.json` checks `title`, `kind`, `date`, `blueprint` and
+  `drifted` (`check.yml`'s `frontmatter` job).
 - One PR per repo behind the tag (`conform.sh` in a worktree, opened with `gh pr create`); the gate stays human.
 - Runs from the local lane (`~/Desktop/legible-consulting/projects/<slug>/`), Jamie's hand.

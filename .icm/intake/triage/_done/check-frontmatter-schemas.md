@@ -26,3 +26,12 @@ One JSON schema per frontmatter kind, in `.github/schemas/`: `record`, `economic
 
 - The body of a file. The schema reads frontmatter only.
 - A schema for `CONTEXT.md` frontmatter. The `contracts` and `placement` jobs read it already.
+
+## Notes
+
+- Done: `.github/schemas/record.schema.json`, `economics.schema.json`, `form.schema.json`,
+  `kit.schema.json`, `verdict.schema.json`, `concept.schema.json`, `glance.schema.json`,
+  `close.schema.json` and `estate.schema.json` exist. `check.yml`'s `frontmatter` job installs
+  `check-jsonschema` (pinned, `core/stack.md`) and validates each kind's files against its
+  schema after the existing parse step, with one `::error` line per failing file. Each owning
+  contract's Outputs names its schema file · 2026-10-30.

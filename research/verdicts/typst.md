@@ -1,7 +1,7 @@
 ---
 tool: Typst
 kind: repo
-verdict: adopt
+verdict: watch
 tier: verdict
 use: [build, proposal, workshop]
 tags: [pdf, typesetting]
@@ -25,3 +25,7 @@ Adopt (why: Single-binary typesetter that reads shared-core and client YAML in t
 ## Source
 
 https://typst.app · audited 2026-10-14 · from the library's ledger, section "B. Documents". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-30
+
+Verdict flipped from `adopt` to `watch`: no moment is left. The house renders client documents with pdfcn's components on Forme, under `core/render/` (`core/stack.md`, § The renderer, 2026-10-14 and 2026-10-26). Typst stays recorded as the data-driven alternative, for a later decision that reopens markdown-to-PDF. The recheck date 2027-04-14 stands.

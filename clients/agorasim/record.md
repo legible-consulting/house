@@ -31,7 +31,7 @@ full (Jamie, 2026-10-23), plus a commission on bookings. The commission is 4 % o
 (minimum €10, cap €50) and 6 % of a wedding or event, taken as Stripe Connect application fees
 on Agorasim's own Stripe account, from the first live booking. The commission instrument, the
 Commission & Payments Agreement of 27 July 2026, is **not signed**. Signing waits until after
-go-live (register D17 in the client repo, 2026-09-10). Both documents are adopted in `proposal/`
+go-live (Jamie, 2026-09-10). Both documents are adopted in `proposal/`
 and `agreement/`, in English as sent. The price is in `quote/economics.yaml`. There is no
 support contract: bug fixes are free, new requests are quoted (Jamie, 2026-10-23).
 
@@ -57,8 +57,8 @@ in `research/profile.md`, and a ticket asks the ones it needs.
 and have no date. Go-live follows their approval of UAT, as soon as possible, no date set (Jamie,
 2026-10-27).
 
-**Where things are.** Drive: the folder above. Code, tickets, runbook and register:
+**Where things are.** Drive: the folder above. Code, tickets, decisions and runbook:
 [k0d0minio/agorasim](https://github.com/k0d0minio/agorasim) (`.icm/intake/`,
-`.icm/docs/launch-runbook.md`, `.icm/project.md`). Hosting: Vercel team `kodominio`, Neon org
+`.icm/docs/launch-runbook.md`). Hosting: Vercel team `kodominio`, Neon org
 Kodominio (projects `agorasim` and `uat-agorasim`), Resend and Sentry, all Jamie's, paid by
 Jamie inside the commission (Jamie, 2026-10-23). Secret names in `kickoff/access-table.md`.
