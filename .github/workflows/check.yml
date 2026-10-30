@@ -107,7 +107,7 @@ jobs:
               case "$f" in
                 *.yaml|*.yml) doc="$f" ;;
                 *)
-                  doc="$(mktemp)"
+                  doc="$(mktemp --suffix=.yaml)"
                   yq --front-matter=extract '.' "$f" > "$doc" 2>/dev/null || continue
                   ;;
               esac
