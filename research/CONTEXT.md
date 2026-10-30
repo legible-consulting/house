@@ -19,6 +19,7 @@ Research produces a dated verdict per tool (adopt · watch · decline, with a re
 
 ## Process
 
+- `adopt` means approved for the moments in `use`. A tool joins `core/setup/` in the commit that builds the module that calls it (`core/stack.md`). `adopt` does not mean installed (why: the review of 2026-10-29 found 31 of the 46 `adopt` verdicts in no stack, CI or contract · Jamie, 2026-10-29).
 - Start cold from this folder. Read only what Inputs names.
 - The intake runs unattended, daily, in the `legible` cloud environment with the house attached. Its procedure is `intake.md` beside this file; the routine's stored prompt only points at that file (why: one home for the procedure, reviewed and reverted like any other file · 2026-10-19). The steps:
   1. The routine lists `queue/`. Empty: it stops.

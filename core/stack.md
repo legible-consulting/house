@@ -1,8 +1,7 @@
 # Stack — tools and machines
 
 One home for which tools Legible Consulting uses, where each runs, and how a machine gets
-them. Why a tool was chosen lives in its research verdict (`research/verdicts/`); this file
-says what is installed where. A change to the tool set edits this file and `setup/` in the
+them. Why a tool runs lives in § Tools below; this file says what is installed where. A change to the tool set edits this file and `setup/` in the
 same commit (why: one home per fact; a script that drifts from its list installs the wrong
 toolbox · 2026-10-16).
 
@@ -16,6 +15,11 @@ carries its own, hand-written; the blueprint renders one into every build and wo
 (why: `.goosehints` carried this job until Goose left the stack, 2026-10-29).
 
 ## Tools
+
+This file is the one home of why a tool runs. A verdict in `research/verdicts/` says what was
+judged and for which moment; it does not say what is installed (why: the review of 2026-10-29
+found 31 of the 46 `adopt` verdicts in no stack, CI or contract, and several saying the opposite
+of this file · Jamie, 2026-10-29).
 
 Each machine carries only what a contract, hook, workflow or checklist item calls today; a tool
 joins `setup/` in the commit that builds the module that calls it (why: the audit found seven
