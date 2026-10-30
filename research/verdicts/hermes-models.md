@@ -16,7 +16,7 @@ The providers and models that Hermes Agent v0.22.5 can run on, compared on the w
 
 ## Verdict: watch
 
-Watch, until the trials run (why: a price and a policy page do not prove that a model follows the guards and the router in a Hermes session. The stub declines a model that fails the guards or the tool calls, whatever its price · 2026-10-29). The shortlist below names the three finalists and the keys that they need.
+Watch, until the trials run (why: a price and a policy page do not prove that a model follows the guards and the router in a Hermes session. The stub declines a model that fails the guards or the tool calls, whatever its price · 2026-10-29). The shortlist below names the finalists and the keys that they need.
 
 ## The candidates
 
@@ -71,7 +71,7 @@ The finalists:
 
 1. **OpenCode Zen, `glm-5.3-flash`.** It is the cheapest tool-calling model on a provider that states no training and no retention. A key may already exist. It is the second provider for R6. `qwen3.8-flash` and `deepseek-v4.1-flash` are on the same key, as the second and third tries.
 2. **Anthropic, `claude-haiku-5-5`.** It costs 0.10 · 0.50 up to 100K tokens, with no training, on the key that the profile has now. It is the candidate for the light turns.
-3. **Google Gemini free tier, `gemini-3.8-flash`.** In the EEA the free tier has the paid terms, with no training. It needs no card. The free-tier rate limits are not published, so the trial reads them.
+Google Gemini's free tier, `gemini-3.8-flash`, was the third finalist. Jamie dropped it on 2026-10-29: "I don't want to use gemini, I want to use opencode zen".
 
 The reference stays `claude-sonnet-5-5` on Anthropic.
 
