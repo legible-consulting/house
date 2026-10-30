@@ -102,3 +102,9 @@ under it.
 - 2026-10-22: Jamie's answers: price unchanged, option not taken, deposit 15 % with the
   escompte, balance after the week, 14 days. Agreement revised in this folder. Arnaud's
   title set to the register's "délégué à la gestion journalière".
+- 2026-10-30: Jamie's answers: the agreement states the hours only, 15 h of training in the
+  mornings and 20 h of consultancy in the afternoons, split as the client needs. The
+  proposal is no longer part of it; the materials, the starter kit, the attendance records,
+  the clause on the materials and the exclusions are out; the course content lives in
+  `kickoff/programme.md`, outside the agreement. Price and payment unchanged. Accommodation
+  is handled separately and no deadline is set for the client's answers.
