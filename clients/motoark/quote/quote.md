@@ -3,8 +3,8 @@ title: "MotoArk: what it costs"
 kind: quote
 client: motoark
 language: en-GB
-date: 2026-10-23
-valid_until: 2026-11-05
+date: 2026-10-30
+valid_until: 2026-11-13
 currency: EUR
 standard_monthly: 3700
 evaluation_monthly: 3700
@@ -21,7 +21,7 @@ status: draft
 
 ### The retainer
 
-Two ways to engage for the three evaluation months, 9 November 2026 to 7 February 2027.
+Two ways to engage for the three evaluation months, 16 November 2026 to 14 February 2027.
 You choose one.
 
 | | A month | The three months |
@@ -62,7 +62,7 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Ending
 
-- The evaluation is three months. It ends on 7 February 2027 unless we both decide to
+- The evaluation is three months. It ends on 14 February 2027 unless we both decide to
   continue at the month 3 checkpoint.
 - Within it, and after it, either side may end with 30 days' written notice. The month in
   progress is not refunded.
@@ -81,7 +81,7 @@ developers' pay; travel, if you ask me to come to Sharjah, agreed per trip.
 
 ### Validity
 
-This proposal, and the price in it, hold until 5 November 2026. After that I set the number
+This proposal, and the price in it, hold until 13 November 2026. After that I set the number
 again.
 
 ### The parties, law and language

@@ -5,8 +5,8 @@ language: en-GB
 stage: proposal
 kind: retainer
 opened: 2026-10-19
-next_action: Rework `proposal/proposal.md`. Then send it to Sam, with the two payment structures from `quote/quote.md`.
-deadline: 2026-10-28
+next_action: Send the reworked proposal to Sam: attach the PDF to the Gmail draft "MotoArk: my proposal for the three months" (`proposal/cover-note.md`).
+deadline: 2026-10-30
 salesman:
 commission:
   sourced_by:
@@ -28,5 +28,6 @@ held 2026-10-23 (`research/profile.md`). On the follow-up Jamie pitched ICM and 
 a pull request live. The price said: €3,700 a month, month to month, or the three months as one
 job at €3,500, €3,500 and €3,700 with half up front and half at the end. Sam compared candidates
 over the weekend and did not come back on Mon 26 Oct (Jamie, 2026-10-27). The proposal, the quote
-and the agreement are drafted in `proposal/`, `quote/` and `agreement/`, not sent. Jamie reworks
-the proposal, then sends it, on 28 October 2026.
+and the agreement are drafted in `proposal/`, `quote/` and `agreement/`, not sent. The proposal
+was reworked on 30 October 2026: dated that day, valid until 13 November, start moved to Mon 16
+Nov 2026 (Jamie, 2026-10-30). Jamie sends it to Sam on 30 October 2026.
