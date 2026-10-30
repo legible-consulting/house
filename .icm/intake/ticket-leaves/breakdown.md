@@ -19,6 +19,8 @@ What stays from `goose-worktrees`: Hermes Agent is the agent of the local lane. 
 
 ### Questions for Jamie
 
+Answered by Jamie on 2026-10-30, in the session: the six defaults stand. They are written into the decisions below and into `README.md` § Order.
+
 1. Where does the epic go in `README.md` § Order? Default: second, after `triage`. It removes files and rows that `google-service-account` also edits in `core/stack.md`, so it goes first.
 2. Does `.icm/scripts/worktree-setup.sh` leave the blueprint too? Default: yes. Nothing calls it once `ticket` leaves.
 3. Does a session ever install dependencies in a worktree? Default: no. CI is truth, so no local command needs `node_modules`.
@@ -42,6 +44,11 @@ Classification of the open epics, for question 1 (2026-10-30):
 - **A worktree gets no install and no env copy** (why: CI is truth, and no command a session may run needs `node_modules` or a secret · 2026-10-30).
 - **The skills of a repo reach Hermes through a fixed list.** Hermes reads project skills only from `.hermes/skills` and `.agents/skills`, and only in a trusted repo (`agent/skill_utils.py`, Hermes v0.22.5). The estate keeps its skills in `.claude/skills`. The house copy of `config.yaml` lists `~/.claude/skills` and the `.claude/skills` of each primary clone under `~/Desktop/legible-consulting/`, and nothing writes to the list at run time (why: `ticket` was the only thing that gave a session its repo's skills, and a list that a script rewrites drifts from its copy · 2026-10-30).
 - **`new-run.sh` does not change.** It cuts a branch on `main` and takes the branch of a worktree (why: the loop already works without the script · 2026-10-30).
+
+- **`worktree-setup.sh` leaves the blueprint** (why: nothing calls it once `ticket` leaves · Jamie, 2026-10-30, question 2).
+- **The session of stub `worktrees-folder-leaves` removes the worktrees in `~/worktrees/`**, each after its pull request is merged or closed (why: Jamie, 2026-10-30, question 4).
+- **`goose-worktrees` closes out in stub `house-ticket-leaves`** (why: it has no open stub, and this epic replaces its decisions about the lane script · Jamie, 2026-10-30, question 6).
+- **The epic is second in `README.md` § Order**, after `triage` (Jamie, 2026-10-30, question 1).
 
 ## Build order
 

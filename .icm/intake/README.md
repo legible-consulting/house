@@ -26,11 +26,12 @@ The decisions that bind every epic are in `CLAUDE.md` (Boundaries, House rules) 
 
 ## Order
 
-Set by Jamie on 2026-10-29. Line 3 was the session's default from the classification in the pull request that cut it, and Jamie kept it in the session the same day. A finished epic carries no line.
+Set by Jamie on 2026-10-29. Line 2, `ticket-leaves`, set by Jamie on 2026-10-30. Line 4 was the session's default from the classification in the pull request that cut it, and Jamie kept it in the session the same day. A finished epic carries no line.
 
 1. triage
-2. goose-worktrees
-3. google-service-account
+2. ticket-leaves
+3. goose-worktrees
+4. google-service-account
 
 ## Jamie's hand
 
