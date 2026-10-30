@@ -3,7 +3,7 @@ title: "Accord — Une semaine de formation IA sur la méthode ICM"
 kind: agreement
 client: euro-register
 language: fr-BE
-date: 2026-10-22
+date: 2026-10-30
 replaces: 2026-10-12
 status: draft
 ---
@@ -14,7 +14,7 @@ is the register's; the deposit is 15 % with the 3 % escompte; invoices are due i
 monthly follow-up option is not taken; the afternoon schedule is set by the first day at the
 latest (2026-10-30: the send comes two days before the week); the accommodation line is
 gone, it is handled outside this agreement (Jamie, 2026-10-30). Cover: full logo, the eyebrow
-ACCORD, then: Pour Arnaud · 22 octobre 2026 · Total HT 6 500 €. Numbered clauses; the proposal attached; the
+ACCORD, then: Pour Arnaud · 30 octobre 2026 · Total HT 6 500 €. Numbered clauses; the proposal attached; the
 signature block last (core/voice.md). -->
 
 # Accord — Une semaine de formation IA sur la méthode ICM
