@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/legible-consulting/house/.github/schemas/economics.schema.json",
+  "title": "clients/<slug>/quote/economics.yaml",
+  "description": "04-quote/CONTEXT.md owns this shape.",
+  "type": "object",
+  "properties": {
+    "price": {
+      "type": "object",
+      "anyOf": [
+        { "required": ["monthly"] },
+        { "required": ["total"] }
+      ]
+    }
+  },
+  "required": ["price"]
+}

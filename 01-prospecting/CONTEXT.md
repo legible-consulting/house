@@ -143,6 +143,8 @@ A session in this folder produces the stage-level material, never a pool row:
     position. The words change per language. The position does not · 2026-10-25).
   - No question and no option shows a price, a band or the floor (why: a form is a public
     page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
+  - `.github/schemas/form.schema.json` checks `kind`, `title`, `intro`, `language` and
+    `folder` against this grammar (`check.yml`'s `frontmatter` job).
 - The kit grammar. The desk parses every kit with it (`desk/app/lib/kit.ts`), and a kit that
   does not parse fails the build:
   - One kit per language, `kit.<language>.md`. Frontmatter: `kind: kit`, `title`, `language`
@@ -165,6 +167,8 @@ A session in this folder produces the stage-level material, never a pool row:
     desk maps a lesson to a status and a touch by its key · 2026-10-28).
   - No lesson shows a price, a band or the floor (`core/services.md`, Never public). The
     commission examples of 2026-10-22 stay: they show the salesman's 10%, not a price.
+  - `.github/schemas/kit.schema.json` checks `kind`, `title`, `language`, `owner` and `date`
+    against this grammar (`check.yml`'s `frontmatter` job).
   - The pool's statuses and the deal's stages stay as the model writes them, in every
     language.
 - The pool rows live in the desk, never here. The monthly close reads commission from
