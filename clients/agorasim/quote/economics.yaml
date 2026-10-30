@@ -22,7 +22,7 @@ commission:                     # the ongoing side of the deal. Not read by the 
   tours_cap: 50                 # per booking
   events_rate: 0.06             # weddings and events, taken on each payment, deposit and balance
   collected_via: "Stripe Connect application fee on Agorasim's own account"
-  starts: "first live booking"  # fees on from booking one, the agreement signed after (client repo register D17, 2026-09-10)
+  starts: "first live booking"  # fees on from booking one, the agreement signed after (Jamie, 2026-09-10)
   review_at_months: 24
   received_to_date: 0           # no live booking yet. agorasim.pt serves the old site until Agorasim approves UAT (observed 2026-10-23)
 

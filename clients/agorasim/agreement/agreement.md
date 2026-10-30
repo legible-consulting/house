@@ -9,9 +9,9 @@ status: unsigned
 
 <!-- The commission instrument as written on 27 July 2026, transcribed on 2026-10-23 from
 Commission-and-Payments-Agreement.docx at commit 8f3b477 of k0d0minio/agorasim (added to the
-repo 2026-07-27, removed from the tree 2026-09-26, register D27). NOT SIGNED by either party.
+repo 2026-07-27, removed from the tree 2026-09-26). NOT SIGNED by either party.
 Signing is deferred: fees run from the first live booking and the agreement is signed after
-go-live (register D17, 2026-09-10, confirmed by Jamie 2026-10-23). Written in English: adopted as
+go-live (Jamie, 2026-09-10, confirmed by Jamie 2026-10-23). Written in English: adopted as
 written, no translation (Jamie, 2026-10-23). The signature state is recorded in record.md. -->
 
 AGORASIM
