@@ -24,3 +24,13 @@ The squash merge makes the pull request title the commit on `main`, and release-
 ## Out of scope
 
 - The commits on the branch. The squash makes the title the one commit that matters.
+
+## Done
+
+Two pull requests, both open on Jamie's merge:
+
+- `legible-consulting/.github#17` — `gate.yml`'s `contract` job fails a title outside the
+  Conventional Commit form, in bash; it still passes release-please's and Dependabot's pull
+  requests and runs on `edited`. `.github/workflows/README.md` names the check.
+- `legible-consulting/blueprint#49` — `conventions/README.md` row Commits says the gate
+  checks the title.
