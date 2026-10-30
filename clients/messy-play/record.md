@@ -15,7 +15,6 @@ commission:
 repo: k0d0minio/messy-play
 drive_folder:
 owner: jamie
-vercel_project: []
 collaborators: []
 ---
 

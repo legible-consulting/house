@@ -14,7 +14,6 @@ commission:
   owed:
 repo: k0d0minio/collabimmo
 owner: jamie
-vercel_project: []
 collaborators: []
 ---
 

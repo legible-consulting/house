@@ -14,7 +14,6 @@ commission:
 repo:
 drive_folder: moto-ark
 owner: jamie
-vercel_project: []
 collaborators: []
 ---
 

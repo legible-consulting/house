@@ -14,7 +14,6 @@ commission:
   owed:
 repo: k0d0minio/boystomenretreat
 owner: jamie
-vercel_project: []
 collaborators: []
 ---
 

@@ -14,7 +14,6 @@ commission:
 repo:
 drive_folder: arnaud-ruelle
 owner: jamie
-vercel_project: []
 collaborators: []
 drive: https://drive.google.com/drive/folders/1Oz9IWrnfrz6pnsjmScqzk6ZhgONEfG8E
 ---

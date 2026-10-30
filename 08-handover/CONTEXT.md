@@ -13,10 +13,10 @@ Handover produces the handover pack, the walkthrough, the support and hosting re
 
 ## Inputs
 
-- `clients/<slug>/record.md`: `slug`, `name`, `language`, `kind`, `stage`, `repo`, `vercel_project`, `collaborators`, and the body.
+- `clients/<slug>/record.md`: `slug`, `name`, `language`, `kind`, `stage`, `repo`, `collaborators`, and the body.
 - `clients/<slug>/proposal/proposal.md` (the scope In and Out, the hosting pattern), `quote/quote.md` and `quote/economics.yaml` (the price, the retainer option when the quote has one, `costs_monthly`), `agreement/agreement.md` (the signed terms and any deviation).
 - `clients/<slug>/kickoff/access-table.md` and `kickoff-note.md`: who holds each account, the secret names, the domains, the people.
-- The client repo `k0d0minio/<slug>`, read only, by `gh api` or at the local lane clone: `README.md`, `.env.example`, `.icm/intake/` (the epics in `_done/` are what was built), the releases and their tags, and `.icm/uat/CONTEXT.md` when `uat` is yes. A handover session never writes to the client repo.
+- The client repo `k0d0minio/<slug>`, read only, by `gh api` or at the local lane clone: `README.md`, `.env.example`, `.icm/environments.md` (the addresses, the Vercel projects and the databases), `.icm/intake/` (the epics in `_done/` are what was built), the releases and their tags, and `.icm/uat/CONTEXT.md` when `uat` is yes. A handover session never writes to the client repo.
 - `core/terms.md` (Payment, Validity and revisions, Ownership, Hosting and support, Ending an engagement), `core/services.md` (Retainer, Retainer pricing), `core/voice.md` (Register, The documents).
 - The templates in this folder: `pack.md`, `walkthrough.md`, `support-and-hosting.md`, `retainer-offer.md`, `review-request.md`.
 - Jamie's answers to the questions in Process.
