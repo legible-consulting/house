@@ -36,7 +36,8 @@ sits below the 500 € floor by nature: it is a cost, not a service.
 
 ## Non-price positions
 
-- The hotel is Euro Register's. The flight and the transfers are inside the price. The two
+- Accommodation is handled outside the agreement (Jamie, 2026-10-30); the agreement of
+  22 October had it at Euro Register's charge. The flight and the transfers are inside the price. The two
   travel days are not billed.
 - The materials and the starter kit belong to the client. ICM is an open method, never
   claimed as Jamie's.
@@ -55,6 +56,7 @@ sits below the 500 € floor by nature: it is a cost, not a service.
 | A lower number takes scope with it (`services.md`) | Price down 3,000 €, scope unchanged | Relationship price, Jamie's decision of 2026-10-12, named in the agreement as no precedent |
 | Workshop: 50 % on signature, 50 % after delivery (`terms.md`) | 15 % on signature, 85 % after the week | Arnaud does not pay advance invoices; Jamie accepted 2026-10-12 and 2026-10-22 |
 | Invoices due 14 days (`terms.md`) | 7 days on 12 October, back to 14 on 22 October | No deviation remains |
+| The hotel is the client's (`services.md` § Training pricing) | The agreement names no accommodation | Handled separately, outside the agreement (Jamie, 2026-10-30) |
 | Floor 500 € on every line (`services.md`) | Travel at 400 € | A cost line, not a service |
 | Workshop day 1,800 € and coaching hour 120 € (`services.md` § Training pricing) | 1,820 €/day ex travel at the offer; 1,220 €/day agreed | No deviation at the offer: the list was distilled from it on 2026-10-25. The agreed day is the relationship discount in the first row |
 

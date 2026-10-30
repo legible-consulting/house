@@ -179,10 +179,8 @@ L'attestation de participation.
 
 - **20 heures de coaching individuel** sur les cinq après-midi, par exemple de 13 h 30 à
   17 h 30. Si vous êtes une dizaine, c'est environ deux heures par personne, en un ou deux
-  créneaux. On fixe le planning ensemble d'après tes réponses, au plus tard
-  le lundi à midi.
-- **Chacun vient avec un vrai travail**, envoyé en deux lignes pour le lundi
-  2 novembre à midi : la tâche, et ce qu'elle doit produire.
+  créneaux. On fixe le planning ensemble d'après tes réponses.
+- **Chacun vient avec un vrai travail**, décrit en deux lignes : la tâche, et ce qu'elle doit produire.
 - **Un créneau, c'est** : le résultat attendu, les étapes et leurs fichiers, la consigne de
   la première étape dans Mammouth, un premier passage, et ce que la personne fait seule la
   semaine suivante.
@@ -195,9 +193,7 @@ L'attestation de participation.
 - Un ordinateur par personne, avec son accès Mammouth.
 - Un dossier partagé (serveur, SharePoint ou autre) où l'on peut créer les dossiers des
   exercices.
-- La liste des participants pour le dimanche 1er novembre, et leurs deux lignes pour le
-  lundi 2 à midi.
-- L'hôtel près de l'usine, du dimanche 1er au samedi 7 novembre, réservé par vous.
+- La liste des participants et leurs deux lignes.
 - Une personne à qui s'adresser pour la logistique et l'informatique pendant la semaine.
 
 ## Ce que vous gardez

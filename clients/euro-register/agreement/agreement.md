@@ -12,7 +12,8 @@ status: draft
 the parties carry the registered address, the company number and Jamie's NIF; Arnaud's title
 is the register's; the deposit is 15 % with the 3 % escompte; invoices are due in 14 days; the
 monthly follow-up option is not taken; the afternoon schedule is set by the first day at the
-latest (2026-10-30: the send comes two days before the week). Cover: full logo, the eyebrow
+latest (2026-10-30: the send comes two days before the week); the accommodation line is
+gone, it is handled outside this agreement (Jamie, 2026-10-30). Cover: full logo, the eyebrow
 ACCORD, then: Pour Arnaud · 22 octobre 2026 · Total HT 6 500 €. Numbered clauses; the proposal attached; the
 signature block last (core/voice.md). -->
 
@@ -46,7 +47,6 @@ présent accord prévaut.
 - **Les dates :** cinq jours consécutifs, du lundi 2 au vendredi 6 novembre 2026, sauf
   accord contraire par écrit (un e-mail suffit).
 - **Le déplacement :** mon vol aller-retour et mes transferts sont compris dans le prix.
-  Mon hébergement pendant la semaine est à votre charge.
 
 Ne sont pas compris : la construction de vos systèmes à votre place, les abonnements à
 vos outils d'IA (Mammouth compris), et tout avis juridique sur votre conformité à l'AI Act.

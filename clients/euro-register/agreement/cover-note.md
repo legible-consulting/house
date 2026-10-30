@@ -6,8 +6,8 @@ Google Docs in Drive › arnaud-ruelle, shared with Arnaud before the send (on 2
 neither is shared; the questions need edit access so he answers in place):
 programme https://docs.google.com/document/d/1tpecnU0v1BsxGF8PQhfFs7pFxvrkzAnPmM_A9Ul5u3U/edit
 questions https://docs.google.com/document/d/1qFckjufZzqGpcG7j5emTicb8zJcp-i4NQxm-07WKzs8/edit
-Revised 2026-10-30: the deadlines of 29 and 30 October passed before the send; the hotel is
-asked first, because nobody has confirmed it two days before the arrival. -->
+Revised 2026-10-30: no deadline for the answers and no word on accommodation, which is
+handled separately (Jamie, 2026-10-30). Jamie sends on the evening of 2026-10-30. -->
 
 **Objet :** Euro Register — accord à signer, programme des matinées et questions
 
@@ -20,19 +20,15 @@ ne bouge pas : la semaine du 2 au 6 novembre, 6 500 € HT.
 
 La facture d'acompte suit la signature. Le vol est réservé.
 
-Une chose ne peut pas attendre : l'hôtel près de l'usine, pour les nuits du 1er au 7.
-Tu me dis lequel dès qu'il est réservé ?
-
 Avec l'accord, deux documents :
 
 - le programme des cinq matinées, pour que tu voies le fil de la semaine ;
 - une liste de questions pour préparer la semaine. Certaines sont pour toi, d'autres pour
   la personne qui gère l'informatique ou les RH. Tu peux répondre directement dans le
-  document. Si tu peux, réponds aux parties 1 et 6 (les participants et la logistique)
-  pour dimanche. Le reste, on le complète ensemble lundi matin.
+  document. Ce qui n'est pas rempli, on le complète ensemble sur place.
 
-Et pour lundi midi, la tâche en deux lignes de chacun pour son après-midi : j'en tire le
-planning des après-midi.
+Et la tâche en deux lignes de chacun pour son après-midi : j'en tire le planning des
+après-midi.
 
 Bien à toi,
 Jamie
