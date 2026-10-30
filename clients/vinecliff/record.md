@@ -14,8 +14,6 @@ commission:
   owed:
 repo: k0d0minio/vinecliff
 owner: jamie
-vercel_project:
-  - kodominio/vinecliff
 collaborators: []
 ---
 

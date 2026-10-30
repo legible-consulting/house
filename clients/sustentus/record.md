@@ -13,15 +13,6 @@ commission:
   owed:
 repo: sustentus/sustentus
 owner: client
-vercel_project:
-  - sustentus/web
-  - sustentus/marketing
-  - sustentus/docs
-  - sustentus/help-centre
-  - sustentus/tenant-management
-  - sustentus/agentic-interface
-  - sustentus/demo
-  - sustentus/storybook
 collaborators: []
 ---
 

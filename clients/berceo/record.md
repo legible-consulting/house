@@ -13,8 +13,6 @@ commission:
   owed:
 repo: k0d0minio/berceo
 owner: jamie
-vercel_project:
-  - kodominio/berceo
 collaborators: []
 drive: https://drive.google.com/drive/folders/1HsJzJbG0QlAfYn_22a5m0Nbke5Sprlid
 agreement_drive: https://drive.google.com/file/d/1t651NjXy7c_Pfa5SsgUDF5hl9YzwpMzZ/view

@@ -53,7 +53,6 @@ export interface ClientRow {
   owner?: string | null;
   drive?: string | null; // the client's folder in Google Drive
   agreement_drive?: string | null; // the rendered agreement, then the signed copy (05-agreement)
-  vercel_project?: string[] | null;
   economics: Economics | null;
   documents: ClientDoc[];
   blueprint: Blueprint | null;
