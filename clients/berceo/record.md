@@ -5,8 +5,8 @@ language: fr-BE
 stage: build
 kind: build
 opened: 2026-08-10
-next_action: Ask Alix and Jordane to test their feedback round 1 changes on uat.berceo.be, with a date for their answer.
-deadline: 2026-11-13
+next_action: Call with Alix and Jordane on their feedback round 1 test results, booked for 2026-11-09 09:45 CET.
+deadline: 2026-11-09
 salesman:
 commission:
   sourced_by:
