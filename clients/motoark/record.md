@@ -5,7 +5,7 @@ language: en-GB
 stage: proposal
 kind: retainer
 opened: 2026-10-19
-next_action: Send the reworked proposal to Sam: attach the PDF to the Gmail draft "MotoArk: my proposal for the three months" (`proposal/cover-note.md`).
+next_action: 'Send the reworked proposal to Sam. Attach the PDF to the Gmail draft "MotoArk: my proposal for the three months" (`proposal/cover-note.md`).'
 deadline: 2026-10-30
 salesman:
 commission:
