@@ -10,7 +10,7 @@ status: accepted
 
 <!-- The proposal as sent on 23 July 2026, transcribed on 2026-10-23 from AgorasimProposal.docx
 at commit c1c12cb of k0d0minio/agorasim (added to the repo 2026-08-05, removed from the tree
-2026-09-26, register D27). Accepted 2026-07-23 (legacy DEAL.md). Written and sent in English:
+2026-09-26). Accepted 2026-07-23 (legacy DEAL.md). Written and sent in English:
 adopted as sent, no translation (Jamie, 2026-10-23). Cover: PREPARED FOR Diogo & Rita, Agorasim,
 Sintra · Mafra · Ericeira. PREPARED BY Jamie Nisbet, jamie.nisbet@outlook.be, 23 July 2026. -->
 
