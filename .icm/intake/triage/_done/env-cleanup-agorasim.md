@@ -24,10 +24,10 @@ After the agorasim conformance pull request to the new blueprint tag merges, Jam
 
 ## Acceptance criteria
 
-- [ ] k0d0minio/agorasim has the secrets `DATABASE_URL` and `VERCEL_TOKEN`, the variable `VERCEL_TEAM`, and no other Actions name of the old design.
-- [ ] Vercel `kodominio/agorasim` has no variable scoped to a git branch.
-- [ ] `uat-agorasim` has no Neon branch of a closed pull request.
-- [ ] The open setup stubs in agorasim's `.icm/intake/setup/` are done or have a date.
+- [x] k0d0minio/agorasim has the secrets `DATABASE_URL` and `VERCEL_TOKEN`, the variable `VERCEL_TEAM`, and no other Actions name of the old design.
+- [x] Vercel `kodominio/agorasim` has no variable scoped to a git branch.
+- [x] `uat-agorasim` has no Neon branch of a closed pull request.
+- [x] The open setup stubs in agorasim's `.icm/intake/setup/` are done or have a date.
 
 ## Notes
 
@@ -35,3 +35,4 @@ After the agorasim conformance pull request to the new blueprint tag merges, Jam
 - Depends on the deletion check in `env-cleanup-remi-ai`: does the integration delete a preview's Neon branch with its git branch?
 - The `uat` variables of the app (`ADMIN_SESSION_SECRET`, `BOOKING_*`, `STRIPE_*`, `RESEND_API_KEY`, `NEXT_PUBLIC_SITE_URL`) stay.
 - This stub stays in the house until the agorasim conformance pull request. That pull request moves each act that is still open into the repo's `.icm/intake/setup/`, one setup stub per act, and moves this stub to `_done/` (why: the blueprint built `setup/` for the acts a person does in a repo, and the house is a second home for them · Jamie, 2026-10-29).
+- Closed, 2026-10-30. The conformance pull request `k0d0minio/agorasim` #242 merged 2026-10-29, and its head branch `balance-payable-from-deposit` is gone, with it. GitHub Actions on `k0d0minio/agorasim` now has only the secrets `DATABASE_URL` and `VERCEL_TOKEN` and the variable `VERCEL_TEAM`; `NEON_API_KEY`, `VERCEL_TOKEN_KODOMINIO` and the variable `NEON_PROJECT_ID` are gone. Vercel `kodominio/agorasim` has no variable scoped to a git branch (`vercel env ls` shows `DATABASE_URL`/`DATABASE_URL_UNPOOLED` on `Preview, uat` only, the integration's own, matching `env-cleanup-remi-ai`'s answer). `uat-agorasim` holds only `main` and the live `preview/release-please-...` branch — no branch of a closed pull request. The 7 setup stubs in agorasim's `.icm/intake/setup/` (`actions-production-database`, `actions-vercel`, `github-delete-head-branches`, `neon-projects`, `neon-vercel-integration`, `uat-database`, `uat-variables`, `vercel-uat-environment`) were checked against GitHub, Vercel and Neon directly and all are done; agorasim's own pull request closes them out.
