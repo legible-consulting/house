@@ -15,7 +15,7 @@ secrets:
     enabled: true
     # One keyring item per provider: service hermes, username <provider>. Print one KEY=VALUE
     # line per item. override_existing: true, so a key in a .env never beats the keyring.
-    command: "printf 'ANTHROPIC_API_KEY=%s\\nOPENCODE_ZEN_API_KEY=%s\\n' \"$(secret-tool lookup service hermes username anthropic)\" \"$(secret-tool lookup service hermes username opencode-zen)\""
+    command: "printf 'ANTHROPIC_API_KEY=%s\\nOPENCODE_ZEN_API_KEY=%s\\nAI_GATEWAY_API_KEY=%s\\n' \"$(secret-tool lookup service hermes username anthropic)\" \"$(secret-tool lookup service hermes username opencode-zen)\" \"$(secret-tool lookup service hermes username ai-gateway)\""
     helper_timeout_seconds: 3
     override_existing: true
 approvals:

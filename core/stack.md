@@ -79,20 +79,21 @@ Ubuntu 24.04 with Homebrew. A fresh machine, in order:
      service `hermes` and the Hermes provider as username, never from a file (why: a key in a
      file is plain text that every process can read and a commit can copy · 2026-10-29). Store
      each key with `secret-tool store --label='Hermes <Provider> key' service hermes username
-     <provider>`, which reads the key from the prompt. The profile uses two providers
+     <provider>`, which reads the key from the prompt. The profile uses three providers
      (`research/verdicts/hermes-models.md`, 2026-10-29):
 
      | Provider | Keyring username | Variable |
      |---|---|---|
      | Anthropic | `anthropic` | `ANTHROPIC_API_KEY` |
      | OpenCode Zen | `opencode-zen` | `OPENCODE_ZEN_API_KEY` |
+     | Vercel AI Gateway, the house only (why: it does not avoid a provider that trains unless the request asks · 2026-10-29) | `ai-gateway` | `AI_GATEWAY_API_KEY` |
 
-     The profile's `config.yaml` reads both with `secrets.command`, one `secret-tool lookup`
+     The profile's `config.yaml` reads all three with `secrets.command`, one `secret-tool lookup`
      for each item, printed as one `KEY=VALUE` line each at startup. `override_existing` is
      `true`, so the keyring value beats a value in a `.env` (why: with `false`, the plaintext
      keys in the `.env` files won, and the profile did not run on the keyring keys · 2026-10-29).
-     Check: `hermes -p legible doctor` reports "Command helper: applied 2 secrets", "✓ Anthropic
-     API" and "✓ OpenCode Zen".
+     Check: `hermes -p legible doctor` reports "Command helper: applied 3 secrets", "✓ Anthropic
+     API", "✓ OpenCode Zen" and "✓ Vercel AI Gateway".
 3. Clone the org's working repos side by side:
    ```bash
    mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library .github; do gh repo clone legible-consulting/$r; done
@@ -186,7 +187,7 @@ overwrite drops it · 2026-10-29). Carry a change made on the machine into the h
 
 | File | Holds |
 |---|---|
-| `config.yaml` | the provider and model, `secrets.command` (the keyring helper in § Local machine: one keyring item for each provider, Anthropic and OpenCode Zen, with `override_existing: true`), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, no `plugin_rule:` entry for a guard (why: an "always" answer to a guard's ask writes one, and it turns the human gate off for every later session · the loop walk, 2026-10-29), the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible` and `~/.claude/skills`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
+| `config.yaml` | the provider and model, `secrets.command` (the keyring helper in § Local machine: one keyring item for each provider: Anthropic, OpenCode Zen and Vercel AI Gateway, with `override_existing: true`), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, no `plugin_rule:` entry for a guard (why: an "always" answer to a guard's ask writes one, and it turns the human gate off for every later session · the loop walk, 2026-10-29), the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible` and `~/.claude/skills`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
 | `SOUL.md` | the profile's standing prompt: Jamie's global working standards |
 | `guard-adapter.sh` | the three guards for Hermes (the profile file table above) |
 | `board-context.sh` | the board and the router for Hermes (the profile file table above) |
