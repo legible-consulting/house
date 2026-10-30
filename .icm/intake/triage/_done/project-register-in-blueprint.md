@@ -45,3 +45,9 @@ The home of each fact:
 | The price, the commission, the agreement | the house `clients/<slug>/`: `record.md`, `proposal/`, `quote/`, `agreement/` | the house modules |
 | A question that waits on the client | the house `clients/<slug>/research/profile.md` § What stays open, or the stub that needs the answer | the house module or the ticket session |
 | The run log | `git log` | none |
+
+Refreshed on 2026-10-30, after the pull request was reopened on Jamie's word. The branch merges `main`. The proposal stays option 2. Three facts changed or were found:
+
+- The house `clients/agorasim/research/profile.md` lines 92 and 94 still cite D22 as a rule in force: the blog batch and the social generator stay parked until after go-live. D22 moves from "not restored" to "in force".
+- The house pointers moved: `record.md` lines 34, 60 and 62. The other house lines are as written in the pull request.
+- Agorasim names `.icm/project.md` in four places on `main`: `README.md`, `web/src/content/terms.ts` twice, and `workspaces/geo-content/stages/01_research/output/research.md`. Each one points at the git history, not at a file that exists.
