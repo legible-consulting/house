@@ -25,3 +25,7 @@ Adopt (why: Service accounts own nothing on Drive (no quota); impersonating jami
 ## Source
 
 https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj · audited 2026-10-14 · from the library's ledger, section "E. Google Workspace". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-30
+
+`core/render/place.sh` copies a PDF into the client's Drive folder over the GNOME mount today, on Jamie's laptop (`core/stack.md`, § The renderer, 2026-10-22). The epic `google-service-account` adopts this concept: one service account that impersonates `contact@jamienisbet.com` through domain-wide delegation, its key a secret and never a file. The mount route leaves when its `place-from-anywhere` ticket lands (`.icm/intake/google-service-account/breakdown.md`). The verdict stays `adopt`.

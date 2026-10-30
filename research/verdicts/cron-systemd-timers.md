@@ -1,7 +1,7 @@
 ---
 tool: cron / systemd timers
 kind: repo
-verdict: adopt
+verdict: watch
 tier: verdict
 use: [proposal, house]
 tags: [cron, schedule]
@@ -25,3 +25,7 @@ Adopt (why: Schedules the morning glance, Friday review and monthly close; paire
 ## Source
 
 https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj · audited 2026-10-14 · from the library's ledger, section "D. Money, hours, data, alerts, AI cost". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-30
+
+Verdict flipped from `adopt` to `watch`: no moment is left. The house runs its schedules on GitHub Actions, not on cron or systemd timers: the morning glance and the monthly close are `.github/workflows/rhythms.yml`, which holds the schedule and its why in its header. The recheck date 2027-04-14 stands.

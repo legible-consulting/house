@@ -15,11 +15,11 @@ Two lines of definition and four update notes. One pull request on the house.
 
 ## Acceptance criteria
 
-- [ ] `core/stack.md` § Tools: "This file is the one home of why a tool runs. A verdict in `research/verdicts/` says what was judged and for which moment; it does not say what is installed", with the why and the date. The sentence "why a tool was chosen lives in its research verdict" is gone.
-- [ ] `research/CONTEXT.md` Process: "`adopt` means approved for the moments in `use`. A tool joins `core/setup/` in the commit that builds the module that calls it (`core/stack.md`). `adopt` does not mean installed", with the date.
-- [ ] `research/concepts/github-app-salesman-write-back.md` gets an update note: the house answered it another way, the desk opens the handoff pull request with `DESK_PAT` as Jamie (`01-prospecting/CONTEXT.md`, The handoff), and the epic `salesman-writes-main` decides the identity of a direct commit.
-- [ ] `research/concepts/google-service-account-delegation.md` gets an update note: `place.sh` uses the GNOME mount today, and the epic `google-service-account` adopts the concept.
-- [ ] `research/verdicts/astro.md`, `cron-systemd-timers.md`, `typst.md` and `gam7.md` each get an update note that names what the house chose instead, with the file that holds the why. Their verdicts stay `adopt` under the new definition, or flip to `watch` where no moment is left; the note says which.
+- [x] `core/stack.md` § Tools: "This file is the one home of why a tool runs. A verdict in `research/verdicts/` says what was judged and for which moment; it does not say what is installed", with the why and the date. The sentence "why a tool was chosen lives in its research verdict" is gone.
+- [x] `research/CONTEXT.md` Process: "`adopt` means approved for the moments in `use`. A tool joins `core/setup/` in the commit that builds the module that calls it (`core/stack.md`). `adopt` does not mean installed", with the date.
+- [x] `research/concepts/github-app-salesman-write-back.md` gets an update note: the house answered it another way, the desk opens the handoff pull request with `DESK_PAT` as Jamie (`01-prospecting/CONTEXT.md`, The handoff), and the epic `salesman-writes-main` decides the identity of a direct commit.
+- [x] `research/concepts/google-service-account-delegation.md` gets an update note: `place.sh` uses the GNOME mount today, and the epic `google-service-account` adopts the concept.
+- [x] `research/verdicts/astro.md`, `cron-systemd-timers.md`, `typst.md` and `gam7.md` each get an update note that names what the house chose instead, with the file that holds the why. Their verdicts stay `adopt` under the new definition, or flip to `watch` where no moment is left; the note says which.
 
 ## Out of scope
 

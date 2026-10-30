@@ -25,3 +25,7 @@ Watch (why: GitHub attributes a commit to whoever's token made it: a user access
 ## Source
 
 https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-with-a-github-app-on-behalf-of-a-user · audited 2026-10-14 · from the library's ledger, section "C. Estate, templates, secrets, CI, write-back". The ledger of 188 rows: https://claude.ai/artifact/KL8Pd5jPep16VVREz2bFvj.
+
+## Update 2026-10-30
+
+The house answered this question another way. The desk writes the handoff as one commit to `main`, with `DESK_PAT`, and opens no pull request (`01-prospecting/CONTEXT.md`, The handoff). The commit carries the account that owns `DESK_PAT`, Jamie, and its message names the salesman. The epic `salesman-writes-main` decided that identity (`.icm/intake/_done/salesman-writes-main/breakdown.md`, Decisions of record, 2026-10-29). This App stays `watch`. A second salesman who asks for his own name in the history reopens it.
