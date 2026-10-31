@@ -27,11 +27,6 @@ deal, and brand specifics live in each project's own repo, not here.
   `git worktree remove <path>` before you end the session. The branch stays.
 - `~/.claude/hooks/reap-worktrees.sh` removes the worktrees that a session leaves behind,
   after 24 hours with no commit.
-- `~/worktrees/` is the local lane's worktree folder: `<repo>/<slug>/`, one per ticket.
-  `ticket <repo-path> <slug>` makes one there, and `ticket done <repo-path> <slug>`
-  removes it when it is clean and pushed. Do not make, move or remove one there by hand
-  (why: the script and the reaper both know the folder, and it is outside every repo ·
-  2026-10-29).
 
 ## CI is the source of truth
 - **Never run local checks** — no `build`, `lint`, `typecheck`, `test`, `format`, `tsc`,

@@ -4,6 +4,7 @@
 - found-by: `goose-worktrees/hermes-loop-walk` · 2026-10-29
 - complexity: low
 - priority: P2
+- parked: 2026-10-31, Jamie: Hermes is frozen until a client ticket needs the local lane (`core/stack.md` § Tools, the hermes row). The review stays on with approval until then; Jamie may turn it off in `core/setup/hermes/config.yaml` on his own word
 
 ## Problem
 

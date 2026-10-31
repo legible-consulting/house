@@ -13,7 +13,7 @@ Kickoff produces the client repo rendered from the blueprint, the access table, 
 ## Inputs
 
 - `clients/<slug>/record.md`: `slug`, `name`, `language`, `kind`, `stage`, `repo`, `agreement_signed`, and the body.
-- `clients/<slug>/agreement/agreement.md`, the signed text, and `clients/<slug>/proposal/proposal.md`, the accepted proposal. The proposal's scope section is the ticket list (`03-proposal/CONTEXT.md`, Outputs).
+- `clients/<slug>/agreement/agreement.md`, the signed text, and `clients/<slug>/proposal/proposal.md`, the accepted proposal. The proposal's scope section is the list of tickets (`03-proposal/CONTEXT.md`, Outputs).
 - The answers to the kickoff form's questions: `clients/<slug>/kickoff/kickoff-<date>.md`. The client fills them in the form, or Jamie gives them after a call (Process, step 2).
 - `core/terms.md` (Ownership, Hosting and support): who holds which account.
 - The templates in this folder: `access-table.md`, `kickoff-note.md`.

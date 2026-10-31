@@ -25,16 +25,12 @@ for cmd in $(printf '%s\n' "${!formula[@]}" | sort); do
   have "$cmd" && log "ok $cmd" || log "MISSING $cmd"
 done
 
-# The lane script: ~/.local/bin/ticket links to core/setup/ticket.sh, so a pull of the
-# house updates the command (why: one home for the script · Jamie, 2026-10-29).
-src="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ticket.sh"
-mkdir -p "$HOME/.local/bin"
-[ -f "$src" ] && ln -sf "$src" "$HOME/.local/bin/ticket"
-[ -x "$HOME/.local/bin/ticket" ] && log "ok ticket" || log "MISSING ticket"
-# The old name: remove the link goose-task when it no longer points at a file (why: the script
-# was renamed to ticket · Jamie, 2026-10-29).
-old="$HOME/.local/bin/goose-task"
-if [ -L "$old" ] && [ ! -e "$old" ]; then rm -f "$old" && log "removed the old link goose-task"; fi
+# The lane script left the stack on 2026-10-30 (.icm/intake/ticket-leaves). Its links, ticket
+# and the older goose-task, point at no file now: remove each one that dangles.
+for name in ticket goose-task; do
+  old="$HOME/.local/bin/$name"
+  if [ -L "$old" ] && [ ! -e "$old" ]; then rm -f "$old" && log "removed the old link $name"; fi
+done
 
 # The Hermes profile legible: core/setup/hermes/ is the home of its four files. A missing file is
 # copied in. A file that is present is never overwritten, and a file that differs is named
