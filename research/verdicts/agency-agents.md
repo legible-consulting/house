@@ -36,3 +36,7 @@ Build, a ticket in a client repo (`07-build/CONTEXT.md`). One persona, for examp
 ## Source
 
 https://github.com/msitarzewski/agency-agents · fetched 2026-10-29 · "The Agency: AI Specialists Ready to Transform Your Workflow". The post named the tool with no link. Found by search. Post: "This GitHub repo is a GOLDMINE for AI coders … Agency Agents gives you 200+ specialized AI agents". The words "Bookmark this one" are a call to act, not information.
+
+## Update 2026-10-31
+
+A second reel shared the same repository: https://www.facebook.com/share/r/1JVPQSMfim/ (via Jordan Blake, caption read with yt-dlp 2026.10.26). It calls the collection "over 200 specialized AI agents" across engineering, design, marketing, sales and finance, each with a role, a workflow and success metrics. It names the tool with no link and adds no fact the 2026-10-29 reading did not have. The verdict stands: decline.

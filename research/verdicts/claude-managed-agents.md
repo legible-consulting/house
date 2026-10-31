@@ -28,3 +28,7 @@ Watch (why: the App and Platform lines (`core/services.md`) may soon include a c
 ## Source
 
 https://platform.claude.com/docs/en/managed-agents/overview · fetched 2026-10-26 · "Claude Managed Agents overview". The reel (yt-dlp) names "Managed Agents" and gives no link. Found by search. The post's claim "without touching a single line of code" does not match the page: the page is an API for developers. The post asks for a comment to get a guide; that is not information.
+
+## Update 2026-10-31
+
+A reel by Jake Van Clief (https://www.facebook.com/share/v/1Ex4Fz62zC/, caption "Managed agents. Removing the brain from the hands.", no captions) points to Anthropic's engineering post "Scaling Managed Agents: Decoupling the brain from the hands" (https://www.anthropic.com/engineering/managed-agents, found by search, fetched 2026-10-31). The post says the harness no longer runs inside the container: the service gives a small set of stable interfaces, and a sandbox starts only when a tool call needs one. It adds a reason for a workshop: the house's argument that the contract, not the harness, should outlast the model is the same as Anthropic's here. The verdict stands: watch, with `workshop` as a possible second use when the next recheck runs.
