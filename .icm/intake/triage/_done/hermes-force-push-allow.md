@@ -4,6 +4,7 @@
 - found-by: the session that started `triage/hermes-cheap-models` · 2026-10-29
 - complexity: low
 - priority: P1
+- done: 2026-10-31, the house copy. The profile's copy and the live test are Jamie's hand
 
 ## Problem
 
@@ -18,3 +19,8 @@ Remove the line from the house copy and from the profile's copy. `core/stack.md`
 - [ ] Neither copy of `config.yaml` holds a dangerous-pattern key for a force push or a history rewrite.
 - [ ] In a new `hermes -p legible` session, `git push -f origin <scratch-branch>` to a scratch remote is refused or reaches the approval gate. It does not run with no prompt.
 - [ ] `core/stack.md` § The Hermes profile, the `config.yaml` row, carries the rule with its why and date.
+
+## Result (2026-10-31)
+
+- The line left `core/setup/hermes/config.yaml`. `core/stack.md` § The Hermes profile, the `config.yaml` row, carries the rule with its why and date.
+- The profile's copy on the machine and the `git push -f` test are in `README.md` § Jamie's hand, with the Deny test of `triage/hermes-approval-deny.md`. The result of both goes there and into this file.

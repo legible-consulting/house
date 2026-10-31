@@ -37,7 +37,6 @@ command_allowlist:
   - brew list*
   - brew search*
   - command -v *
-  - git force push short flag (rewrites remote history)
   - gsettings get*
   - node --version*
   - npm --version*
@@ -49,12 +48,19 @@ memory:
 skills:
   write_approval: true
   create_dir: ~/.hermes/profiles/legible/scratch-skills
-  # Shim: Hermes reads .hermes/skills and .agents/skills by itself; the house keeps its skills in
-  # .claude/skills, so each repo's folder is named here. ~/.claude/skills holds asd-ste100.
-  # ticket adds a worktree's .claude/skills here when it makes the worktree, and removes the
-  # line with ticket done. The house copy holds ~/.claude/skills only.
+  # Shim: Hermes reads .hermes/skills and .agents/skills by itself, and only in a trusted repo.
+  # The estate keeps its skills in .claude/skills, so the folder of each live repo's primary clone
+  # (house desk/mani.yaml) is named here, and nothing writes to this list at run time (why: a
+  # list that a script rewrites drifts from its copy · 2026-10-30). ~/.claude/skills holds
+  # asd-ste100. A clone with no .claude/skills yet gives nothing to load.
   external_dirs:
     - ~/.claude/skills
+    - ~/Desktop/legible-consulting/projects/berceo/.claude/skills
+    - ~/Desktop/legible-consulting/projects/vinecliff/.claude/skills
+    - ~/Desktop/legible-consulting/projects/agorasim/.claude/skills
+    - ~/Desktop/legible-consulting/projects/remi-ai/.claude/skills
+    - ~/Desktop/legible-consulting/projects/jamienisbet/.claude/skills
+    - ~/Desktop/legible-consulting/projects/messy-play/.claude/skills
 display:
   memory_notifications: true
   personality: 'concise'
