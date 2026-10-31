@@ -58,4 +58,4 @@ The proposal produces the client-facing offer (problem, approach, scope, timelin
 
 - `clients/<slug>/proposal/proposal.md` (source) → the PDF, rendered by `render.yml` as the run's artifact `pdf` and placed in Drive by `core/render/place.sh`; the page the dashboard reads.
 - `clients/<slug>/proposal/<note>.md`: an internal English note the send needs (a cover note). Only when the send needs one, deleted after it.
-- The proposal's scope section is the ticket list. Kickoff cuts it into the client repo's `.icm/intake/<epic-slug>/` (why: tickets have one home, the client repo's intake; a second list in the house drifts · 2026-10-21).
+- The proposal's scope section is the list of tickets. Kickoff cuts it into the client repo's `.icm/intake/<epic-slug>/` (why: tickets have one home, the client repo's intake; a second list in the house drifts · 2026-10-21).

@@ -35,3 +35,13 @@ Remove the script and every line of the house that names it or `~/worktrees/`. W
 
 - One pull request on the house. `chore:` type.
 - The closed records in `.icm/intake/_done/` keep their words. They are history.
+
+## Result (2026-10-31)
+
+- `core/setup/ticket.sh` is deleted. `local.sh` removes a dangling `~/.local/bin/ticket` or `goose-task` link and makes none.
+- `core/stack.md`: the `ticket`, `~/worktrees/` and `~/.local/bin/ticket` rows left; § Local machine states the scratchpad rule; the `skills.external_dirs` paragraph names the fixed list.
+- `SOUL.md` names no `ticket` and no `~/worktrees/`. `config.yaml` lists `~/.claude/skills` and the `.claude/skills` of the six live repos' primary clones from `desk/mani.yaml`, with the why.
+- `triage/hermes-models-trials.md` runs its trial in a Hermes session on the profile `legible`.
+- `goose-worktrees/` is in `_done/`, its breakdown opens with the line that `ticket-leaves` replaces its lane-script decisions, and `README.md` lost its row text and its § Order line.
+- The grep finds nothing outside the `_done/` folders and this epic. Three contracts said "ticket list" and now say "list of tickets", so the grep's word match is clean.
+- On the machine: stub 4. The profile's `config.yaml` differs from the house copy until Jamie carries the list over by hand (`local.sh` names the difference).

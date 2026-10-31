@@ -1,5 +1,7 @@
 # Breakdown: One ticket, one worktree, one goose session, with no second app
 
+> Closed 2026-10-31. `ticket-leaves` (2026-10-30) replaces this epic's decisions about the lane script, its folder and its removal. Hermes Agent stays the lane's agent.
+
 - epic-slug: goose-worktrees
 - source: Jamie, 2026-10-29: "I'm still not liking the concept of having two different applications. What would need to happen for me to be able to work as I usually do in Claude but only within goose? We would remove Emdash entirely." The research of the same day read goose 1.57 (its CLI help, its hooks guide, its logs on this machine), the Emdash documents, the blueprint at `origin/main` after pull requests 38 and 40, the house `core/stack.md` and the three guards. Re-cut on 2026-10-29 after the review of the open tickets: the why of goose, the loop walk, and the blueprint's local-agent files.
 

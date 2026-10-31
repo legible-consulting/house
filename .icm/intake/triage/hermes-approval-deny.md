@@ -4,6 +4,7 @@
 - found-by: the trials of `triage/hermes-cheap-models` · 2026-10-30
 - complexity: medium
 - priority: P0
+- note: 2026-10-31, Jamie: Hermes is frozen, and this test is the one Hermes act that stays. It is in `README.md` § Jamie's hand with the force-push test of `_done/hermes-force-push-allow.md`
 
 ## Problem
 

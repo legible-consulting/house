@@ -46,4 +46,4 @@ Third source: https://goose-docs.ai/docs/guides/context-engineering/using-gooseh
 
 ## Update 2026-10-29
 
-Goose held the local lane for one day and left it on 2026-10-29, with Emdash (`.icm/intake/goose-worktrees/_done/goose-task-script.md`). Hermes Agent is the lane's agent (`research/verdicts/hermes-agent.md`, `core/stack.md`). Jamie's why for the lane's agent stays: an agent on his own machine on the model he chooses. The verdict stays `watch`, for the workshop only.
+Goose held the local lane for one day and left it on 2026-10-29, with Emdash (`.icm/intake/_done/goose-worktrees/_done/goose-task-script.md`). Hermes Agent is the lane's agent (`research/verdicts/hermes-agent.md`, `core/stack.md`). Jamie's why for the lane's agent stays: an agent on his own machine on the model he chooses. The verdict stays `watch`, for the workshop only.

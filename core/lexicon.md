@@ -77,7 +77,7 @@ A module the business needs and the house does not have yet is a ticket in `.icm
   defined in `clients/CONTEXT.md` and live in the desk, never in a record.
 - **intake** — `.icm/intake/` in every client repo: the tickets, one folder per epic
   with a `breakdown.md` and one stub per unit of work, `triage/` for one-offs. A ticket's
-  folder is its status; `_done/` is done. There is no `BUILD.md` and no ticket list in the
+  folder is its status; `_done/` is done. There is no `BUILD.md` and no list of tickets in the
   house (why: one home for tickets, the repo where the work is · 2026-10-21).
 - **holds** — the globs in a contract's frontmatter that name the files its folder may carry:
   its outputs and its own tools. `check.yml` fails on a file no contract holds.

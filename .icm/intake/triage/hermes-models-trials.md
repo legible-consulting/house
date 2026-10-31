@@ -4,6 +4,7 @@
 - found-by: `triage/hermes-cheap-models`, merged with its trials open · 2026-10-30
 - complexity: research
 - priority: P1
+- parked: 2026-10-31, Jamie: Hermes is frozen until a client ticket needs the local lane (`core/stack.md` § Tools, the hermes row). No session takes this stub before then
 
 ## Problem
 
@@ -15,11 +16,11 @@
 
 ## Proposed change
 
-After Jamie restarts the gateway and `hermes-approval-deny` is read, a session runs the Zen trial on one open house stub through `ticket`, switches one session from Anthropic to Zen with `/model`, and writes the verdict.
+After Jamie restarts the gateway and `hermes-approval-deny` is read, a session runs the Zen trial on one open house stub in a Hermes session on the profile `legible`, switches one session from Anthropic to Zen with `/model`, and writes the verdict.
 
 ## Acceptance criteria
 
-- [ ] `glm-5.3-flash` on OpenCode Zen took one house stub through `ticket`. The record says: the guards' block and approve, `AGENTS.md` followed, the skills loaded, the cost from the OpenCode usage page, and where it failed.
+- [ ] `glm-5.3-flash` on OpenCode Zen took one house stub in a Hermes session on the profile `legible`. The record says: the guards' block and approve, `AGENTS.md` followed, the skills loaded, the cost from the OpenCode usage page, and where it failed.
 - [ ] R6: `/model` switched from Anthropic to OpenCode Zen in the middle of one session, and the ticket continued.
 - [ ] The Haiku record of 2026-10-30 has its cost from the Anthropic usage page.
 - [ ] `research/verdicts/hermes-models.md` names the default model, the model for the light turns and the fallback provider, each with its why, and its `verdict:` is `adopt` or `decline`.
