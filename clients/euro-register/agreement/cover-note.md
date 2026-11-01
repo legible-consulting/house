@@ -1,7 +1,8 @@
 <!-- Internal: the email Jamie sends with the revised agreement, the programme and the
 questions. Deleted when the send is done (03-proposal/CONTEXT.md, the note pattern).
 To: a.ruelle@aldes.com (the address of the 12 October send). Attach or link: the agreement
-(eSignature request, from the render of this folder), the programme and the questions, both
+(eSignature request on the Google Doc of 2026-11-01 in Drive › arnaud-ruelle,
+https://docs.google.com/document/d/1Ry7EulOigGxjA-Gupi6HDliGelMyIg_JN7e8STZ-Aj4/edit), the programme and the questions, both
 Google Docs in Drive › arnaud-ruelle, shared with Arnaud before the send (on 2026-10-30
 neither is shared; the questions need edit access so he answers in place):
 programme https://docs.google.com/document/d/1tpecnU0v1BsxGF8PQhfFs7pFxvrkzAnPmM_A9Ul5u3U/edit

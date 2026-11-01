@@ -16,6 +16,8 @@ drive_folder: arnaud-ruelle
 owner: jamie
 collaborators: []
 drive: https://drive.google.com/drive/folders/1Oz9IWrnfrz6pnsjmScqzk6ZhgONEfG8E
+agreement_drive: https://docs.google.com/document/d/1Ry7EulOigGxjA-Gupi6HDliGelMyIg_JN7e8STZ-Aj4/edit
+agreement_signed: false
 ---
 
 # Euro Register
