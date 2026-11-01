@@ -7,7 +7,6 @@ date: 2026-10-30
 replaces: 2026-10-12
 status: draft
 ---
-
 <!-- Replaces the agreement of 12 October 2026, sent as a PDF and never signed. What changed:
 the parties carry the registered address, the company number and Jamie's NIF; Arnaud's title
 is the register's; the deposit is 15 % with the 3 % escompte; invoices are due in 14 days; the
@@ -64,19 +63,7 @@ Chaque facture est émise par moi et payable par virement bancaire sous 14 jours
 montants s'entendent hors TVA ; la TVA est traitée selon les règles applicables aux
 prestations entre entreprises de deux États membres de l'Union européenne.
 
-## 05 Report et annulation
-
-- Un report est gratuit si vous me prévenez au moins 14 jours avant le premier jour de
-  la semaine.
-- Une annulation plus de 30 jours avant : l'acompte versé est remboursé, moins le prix du
-  vol s'il est déjà réservé.
-- Une annulation entre 30 et 14 jours avant : la moitié du prix reste due.
-- Une annulation à moins de 14 jours : le prix total reste dû.
-- Si c'est moi qui ne peux pas venir (maladie, vol annulé ou tout autre empêchement), nous
-  fixons une nouvelle date ensemble sans frais pour vous, ou je vous rembourse ce que vous
-  avez payé, à votre choix.
-
-## 06 Confidentialité et données
+## 05 Confidentialité et données
 
 - Ce que je vois de votre travail et de votre entreprise reste confidentiel, pendant et
   après la semaine. Je ne garde aucune copie de vos documents à la fin de la mission.
@@ -85,33 +72,27 @@ prestations entre entreprises de deux États membres de l'Union européenne.
 - Pendant la semaine, c'est vous qui décidez quelles données peuvent passer par vos
   outils d'IA. Je n'ai accès à vos systèmes que pour ce que vous me montrez.
 
-## 07 Responsabilité
+## 06 Responsabilité
 
 Je m'engage à former et à accompagner votre équipe avec soin ; je ne m'engage pas sur des
 résultats chiffrés. L'usage que vous faites ensuite des réponses de l'IA reste votre
 décision et votre responsabilité. Ma responsabilité au titre du présent accord est
 limitée au prix effectivement payé.
 
-## 08 Fin de l'accord
-
-Chacun peut mettre fin au présent accord par écrit. Les conditions de report et
-d'annulation ci-dessus s'appliquent ; ce qui a été réalisé et facturé reste dû, et
-vous gardez ce qui vous a été remis.
-
-## 09 Droit applicable
+## 07 Droit applicable
 
 Le présent accord est régi par le droit portugais. En cas de désaccord, nous cherchons
 d'abord une solution à l'amiable ; à défaut, les tribunaux de Lisbonne sont compétents.
 Le présent texte en français fait foi.
 
-## 10 Signatures
+## 08 Signatures
 
 Signé électroniquement via Google eSignature, en deux exemplaires.
 
-| | Pour vous | Pour moi |
-|---|---|---|
-| Société / statut | Euro Register SA | Travailleur indépendant |
-| Nom | Arnaud Ruelle | Jamie Nisbet |
-| Fonction | Délégué à la gestion journalière | Ingénieur logiciel et consultant IA |
-| Date | | |
-| Signature | | |
+|                    | Pour vous                             | Pour moi                             |
+| ------------------ | ------------------------------------- | ------------------------------------ |
+| Société / statut | Euro Register SA                      | Travailleur indépendant             |
+| Nom                | Arnaud Ruelle                         | Jamie Nisbet                         |
+| Fonction           | Délégué à la gestion journalière | Ingénieur logiciel et consultant IA |
+| Date               |                                       |                                      |
+| Signature          |                                       |                                      |
