@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Check `kickoff/questions.md`. Then send Arnaud the agreement for eSignature, the programme and the questions.
-deadline: 2026-10-28
+next_action: Send Arnaud the agreement for eSignature, the programme and the questions, from `agreement/cover-note.md`, and share both Drive docs with him first.
+deadline: 2026-11-01
 salesman:
 commission:
   sourced_by:
@@ -16,6 +16,8 @@ drive_folder: arnaud-ruelle
 owner: jamie
 collaborators: []
 drive: https://drive.google.com/drive/folders/1Oz9IWrnfrz6pnsjmScqzk6ZhgONEfG8E
+agreement_drive: https://docs.google.com/document/d/1Ry7EulOigGxjA-Gupi6HDliGelMyIg_JN7e8STZ-Aj4/edit
+agreement_signed: false
 ---
 
 # Euro Register
@@ -34,6 +36,8 @@ This folder stands on its own: nothing here cites that one, and nothing there ci
 
 On 2026-10-27 the agreement is not sent and not signed, and the deposit invoice is not sent.
 Jamie booked the flight (Jamie, 2026-10-27). Arnaud's answers to `kickoff/questions.md` are not
-in, and Jamie has not checked that document yet. After the signature come the deposit invoice,
+in. On 2026-10-30 the questions were checked: their deadlines of 29 and 30 October had passed
+unsent, and Jamie sets no new one; what is not answered is completed on site. Accommodation
+is handled separately and is named in none of the documents (Jamie, 2026-10-30). After the signature come the deposit invoice,
 once the accountant confirms the VAT treatment, and the A1 certificate (`quote/negotiation.md`,
 Open before the first invoice). The week starts on Monday 2 November 2026.

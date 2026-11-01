@@ -36,13 +36,15 @@ sits below the 500 € floor by nature: it is a cost, not a service.
 
 ## Non-price positions
 
-- The hotel is Euro Register's. The flight and the transfers are inside the price. The two
+- Accommodation is handled outside the agreement (Jamie, 2026-10-30); the agreement of
+  22 October had it at Euro Register's charge. The flight and the transfers are inside the price. The two
   travel days are not billed.
 - The materials and the starter kit belong to the client. ICM is an open method, never
   claimed as Jamie's.
 - No recording without each person's written consent. Jamie keeps no copy of their
   documents. The client decides what data enters its AI tools.
-- Reschedule free at 14 days or more. Cancellation: over 30 days, the deposit refunded less
+- Until 2026-11-01, when Jamie removed the clause from the agreement (no rescheduling or
+  cancellation scale and no ending clause remain): reschedule free at 14 days or more. Cancellation: over 30 days, the deposit refunded less
   a booked flight; 30 to 14 days, half the price; under 14 days, the full price. If Jamie
   cannot come, a new date or a full refund, the client's choice.
 - Liability capped at the price paid. No promise of measured results. Portuguese law,
@@ -55,6 +57,7 @@ sits below the 500 € floor by nature: it is a cost, not a service.
 | A lower number takes scope with it (`services.md`) | Price down 3,000 €, scope unchanged | Relationship price, Jamie's decision of 2026-10-12, named in the agreement as no precedent |
 | Workshop: 50 % on signature, 50 % after delivery (`terms.md`) | 15 % on signature, 85 % after the week | Arnaud does not pay advance invoices; Jamie accepted 2026-10-12 and 2026-10-22 |
 | Invoices due 14 days (`terms.md`) | 7 days on 12 October, back to 14 on 22 October | No deviation remains |
+| The hotel is the client's (`services.md` § Training pricing) | The agreement names no accommodation | Handled separately, outside the agreement (Jamie, 2026-10-30) |
 | Floor 500 € on every line (`services.md`) | Travel at 400 € | A cost line, not a service |
 | Workshop day 1,800 € and coaching hour 120 € (`services.md` § Training pricing) | 1,820 €/day ex travel at the offer; 1,220 €/day agreed | No deviation at the offer: the list was distilled from it on 2026-10-25. The agreed day is the relationship discount in the first row |
 
@@ -100,3 +103,11 @@ under it.
 - 2026-10-22: Jamie's answers: price unchanged, option not taken, deposit 15 % with the
   escompte, balance after the week, 14 days. Agreement revised in this folder. Arnaud's
   title set to the register's "délégué à la gestion journalière".
+- 2026-10-30: Jamie's answers: the agreement states the hours only, 15 h of training in the
+  mornings and 20 h of consultancy in the afternoons, split as the client needs. The
+  proposal is no longer part of it; the materials, the starter kit, the attendance records,
+  the clause on the materials and the exclusions are out; the course content lives in
+  `kickoff/programme.md`, outside the agreement. Price and payment unchanged. Accommodation
+  is handled separately and no deadline is set for the client's answers.
+- 2026-11-01: Jamie removed the rescheduling and cancellation clause and the ending clause
+  from the agreement, and dated it 1 November, the day he sends.

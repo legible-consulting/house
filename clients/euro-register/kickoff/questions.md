@@ -3,21 +3,26 @@ title: "Questions pour préparer la semaine"
 kind: questionnaire
 client: euro-register
 language: fr-BE
-date: 2026-10-22
+date: 2026-10-30
 status: draft
 ---
 
 <!-- Client-facing. Placed as a Google Doc in Drive › arnaud-ruelle so that Arnaud answers in
 place. Each table has a Réponse column. "Pour" says who answers: Arnaud, l'informatique, les
-RH. The answers update research/profile.md and the afternoon schedule. -->
+RH. The answers update research/profile.md and the afternoon schedule.
+Revised 2026-10-30: no deadline for the answers, since the send comes after the dates Jamie
+had asked for (Jamie, 2026-10-30); what is not answered is completed on site. The hotel
+question is gone, accommodation is handled outside these documents (Jamie, 2026-10-30), and
+the questions after it are renumbered. The trajet question no longer asks for a transfer,
+which the agreement puts inside the price. -->
 
 # Questions pour préparer la semaine
 
 Arnaud, réponds en quelques mots, directement dans ce document. Certaines questions sont
 pour toi, d'autres pour la personne qui gère l'informatique ou les RH : la colonne « Pour »
 le dit. Les réponses servent à régler les matinées, à préparer les après-midi et à
-décider ce qui entre dans Mammouth. Elles restent entre nous. Si je les ai pour le
-jeudi 29 octobre, j'ajuste le programme avant de venir.
+décider ce qui entre dans Mammouth. Elles restent entre nous. Ce qui n'est pas rempli, on
+le complète ensemble sur place.
 
 ## 1. Les participants
 
@@ -72,7 +77,7 @@ jeudi 29 octobre, j'ajuste le programme avant de venir.
 
 | # | Question | Pour | Réponse |
 |---|---|---|---|
-| 30 | Pour chaque participant, en deux lignes : la tâche sur laquelle il veut travailler, et ce qu'elle doit produire. À me renvoyer pour le vendredi 30 octobre. | Chaque participant | |
+| 30 | Pour chaque participant, en deux lignes : la tâche sur laquelle il veut travailler, et ce qu'elle doit produire. | Chaque participant | |
 | 31 | Un cas commun à toute l'équipe, pour les exercices du matin ? Par exemple la réponse à une demande de devis, ou la préparation d'une fiche technique. | Arnaud | |
 | 32 | Pour ce cas, peux-tu me donner deux ou trois exemples réels, anonymisés si nécessaire : la demande du client, votre réponse, les fichiers utilisés ? | Arnaud | |
 
@@ -83,16 +88,15 @@ jeudi 29 octobre, j'ajuste le programme avant de venir.
 | 33 | Les horaires qui vous conviennent : 8 h 30 à 12 h 00 le matin, 13 h 30 à 17 h 30 l'après-midi ? | Arnaud | |
 | 34 | La salle : combien de places, un projecteur ou un écran, des prises ? | Arnaud | |
 | 35 | La pause et le repas de midi : sur place, à proximité ? | Arnaud | |
-| 36 | L'hôtel : lequel, et pour quelles nuits ? Je compte arriver le dimanche 1er et repartir le samedi 7, sauf si tu préfères le vendredi soir. | Arnaud | |
-| 37 | Le trajet : de l'aéroport de Bruxelles ou de la gare de Liège à l'usine, y a-t-il un transfert ou je prends le train et un taxi ? | Arnaud | |
-| 38 | Un badge ou une procédure d'accès au site, et un endroit où m'installer l'après-midi ? | Arnaud | |
+| 36 | Le trajet jusqu'à l'usine est pour moi. Lundi matin, à quelle entrée me présenter, et qui m'accueille ? | Arnaud | |
+| 37 | Un badge ou une procédure d'accès au site, et un endroit où m'installer l'après-midi ? | Arnaud | |
 
 ## 7. L'objectif, la suite, les factures
 
 | # | Question | Pour | Réponse |
 |---|---|---|---|
-| 39 | Qu'est-ce qui doit être vrai le vendredi 6 au soir pour que la semaine soit réussie, pour toi ? | Arnaud | |
-| 40 | Et trois mois plus tard ? | Arnaud | |
-| 41 | Les attestations de participation : le nom et le prénom exacts de chaque personne, comme vous voulez les voir écrits. | Les RH | |
-| 42 | Y a-t-il une restitution à faire à Aldes, ou à ton conseil d'administration, après la semaine ? | Arnaud | |
-| 43 | Les factures : l'adresse exacte (le registre dit rue Jean Verkruyts 60, 4681 Oupeye), l'e-mail de facturation, et faut-il un bon de commande ? | Arnaud ou la comptabilité | |
+| 38 | Qu'est-ce qui doit être vrai le vendredi 6 au soir pour que la semaine soit réussie, pour toi ? | Arnaud | |
+| 39 | Et trois mois plus tard ? | Arnaud | |
+| 40 | Les attestations de participation : le nom et le prénom exacts de chaque personne, comme vous voulez les voir écrits. | Les RH | |
+| 41 | Y a-t-il une restitution à faire à Aldes, ou à ton conseil d'administration, après la semaine ? | Arnaud | |
+| 42 | Les factures : l'adresse exacte (le registre dit rue Jean Verkruyts 60, 4681 Oupeye), l'e-mail de facturation, et faut-il un bon de commande ? | Arnaud ou la comptabilité | |
