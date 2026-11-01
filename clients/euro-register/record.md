@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Send Arnaud the agreement for eSignature, the programme and the questions tonight, from `agreement/cover-note.md`, and share both Drive docs with him first.
-deadline: 2026-10-30
+next_action: Send Arnaud the agreement for eSignature, the programme and the questions, from `agreement/cover-note.md`, and share both Drive docs with him first.
+deadline: 2026-11-01
 salesman:
 commission:
   sourced_by:

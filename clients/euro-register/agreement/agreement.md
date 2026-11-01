@@ -3,10 +3,11 @@ title: "Accord — Une semaine de formation et de consultance IA"
 kind: agreement
 client: euro-register
 language: fr-BE
-date: 2026-10-30
+date: 2026-11-01
 replaces: 2026-10-12
 status: draft
 ---
+
 <!-- Replaces the agreement of 12 October 2026, sent as a PDF and never signed. What changed:
 the parties carry the registered address, the company number and Jamie's NIF; Arnaud's title
 is the register's; the deposit is 15 % with the 3 % escompte; invoices are due in 14 days; the
@@ -17,8 +18,10 @@ gone, it is handled outside this agreement (Jamie, 2026-10-30). Simplified the s
 consultancy in the afternoons, and nothing of the course content; the course prep (the
 programme, the questions) stays in kickoff/. The proposal is no longer part of the agreement
 or attached to it, and the materials, the starter kit, the attendance records, the clause on
-the materials and the exclusions are out. Cover: full logo, the eyebrow ACCORD, then: Pour
-Arnaud · 30 octobre 2026 · Total HT 6 500 €. Numbered clauses; the signature block last
+the materials and the exclusions are out. On 2026-11-01 Jamie removed the clauses on
+rescheduling and cancellation and on ending the agreement, and dated it the day he sends
+(Jamie, 2026-11-01). Cover: full logo, the eyebrow ACCORD, then: Pour Arnaud · 1er novembre
+2026 · Total HT 6 500 €. Numbered clauses; the signature block last
 (core/voice.md). -->
 
 # Accord — Une semaine de formation et de consultance IA

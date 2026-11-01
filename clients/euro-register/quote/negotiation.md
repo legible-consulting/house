@@ -43,7 +43,8 @@ sits below the 500 € floor by nature: it is a cost, not a service.
   claimed as Jamie's.
 - No recording without each person's written consent. Jamie keeps no copy of their
   documents. The client decides what data enters its AI tools.
-- Reschedule free at 14 days or more. Cancellation: over 30 days, the deposit refunded less
+- Until 2026-11-01, when Jamie removed the clause from the agreement (no rescheduling or
+  cancellation scale and no ending clause remain): reschedule free at 14 days or more. Cancellation: over 30 days, the deposit refunded less
   a booked flight; 30 to 14 days, half the price; under 14 days, the full price. If Jamie
   cannot come, a new date or a full refund, the client's choice.
 - Liability capped at the price paid. No promise of measured results. Portuguese law,
@@ -108,3 +109,5 @@ under it.
   the clause on the materials and the exclusions are out; the course content lives in
   `kickoff/programme.md`, outside the agreement. Price and payment unchanged. Accommodation
   is handled separately and no deadline is set for the client's answers.
+- 2026-11-01: Jamie removed the rescheduling and cancellation clause and the ending clause
+  from the agreement, and dated it 1 November, the day he sends.

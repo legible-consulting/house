@@ -7,7 +7,7 @@ neither is shared; the questions need edit access so he answers in place):
 programme https://docs.google.com/document/d/1tpecnU0v1BsxGF8PQhfFs7pFxvrkzAnPmM_A9Ul5u3U/edit
 questions https://docs.google.com/document/d/1qFckjufZzqGpcG7j5emTicb8zJcp-i4NQxm-07WKzs8/edit
 Revised 2026-10-30: no deadline for the answers and no word on accommodation, which is
-handled separately (Jamie, 2026-10-30). Jamie sends on the evening of 2026-10-30.
+handled separately (Jamie, 2026-10-30). Jamie sends on 2026-11-01.
 The agreement states only the hours; the programme and the questions are the course prep and
 go in the same mail, outside the agreement (Jamie, 2026-10-30). -->
 
