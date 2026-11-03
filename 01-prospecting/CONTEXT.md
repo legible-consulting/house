@@ -1,6 +1,7 @@
 ---
 status: built
 holds:
+  - why.md
   - target-profile.md
   - cadence.md
   - prospect.md
@@ -32,49 +33,39 @@ Prospecting produces a target profile, researched target lists, outreach drafts 
 How a salesman works the pool, in the desk:
 
 1. Read the kit, `kit.<language>.md`, in your language, and the drafts in `pitch/`. Both are
-   read-only in the desk. `target-profile.md` and `cadence.md` are the house's model: the
-   kit's author reads them, and the kit carries what a salesman needs from them. Where the kit
-   and a model file disagree, the model wins and the kit is fixed (why: one document in one
-   language, and a model file carries why-lines and law the salesman does not act on ·
-   2026-10-28).
-2. Add a prospect, or take one from a `targets/<list>.md` a session researched. The desk
-   fills `slug`, `sourced_by`, `added` and `status: new`. The desk refuses a `slug` that
-   exists in the pool or in `clients/*/record.md` (why: one company has one row, and a
-   client is not a prospect · 2026-10-19).
-3. Send the first touch from your own account. Log it: date, channel, note. The status
-   becomes `contacted`. The desk sets `next_action` from `cadence.md`.
+   read-only in the desk. `target-profile.md` and `cadence.md` are the house's model: the kit's
+   author reads them, and the kit carries what a salesman needs from them. Where the kit and a
+   model file disagree, the model wins and the kit is fixed.
+2. Add a prospect, or take one from a `targets/<list>.md` a session researched. The desk fills
+   `slug`, `sourced_by`, `added` and `status: new`. The desk refuses a `slug` that exists in
+   the pool or in `clients/*/record.md`.
+3. Send the first touch from your own account. Log it: date, channel, note. The status becomes
+   `contacted`. The desk sets `next_action` from `cadence.md`.
 4. Follow the cadence. Log every touch. A reply makes the status `replied`. A booked or held
    meeting makes it `meeting`.
 5. A no, or silence past the cadence, makes it `lost` with `lost_reason`.
-6. From `replied` or `meeting`, with every `ready` field in `prospect.md` filled, set
-   `ready for Jamie`.
+6. From `replied` or `meeting`, with every `ready` field in `prospect.md` filled, set `ready
+   for Jamie`.
 
 The handoff:
 
 - `ready for Jamie` commits to `main` once, through `commitToHouse` (`desk/CONTEXT.md`, the row
   `handoff`). The commit is the handoff. The row goes to `ready for Jamie`, the commit lands,
   and the row goes to `handed off` with `record` set, in the same request. Jamie does not read
-  the handoff before it lands (why: a constrained and structured salesman action goes straight
-  to `main`, and the pull request gated nothing that a revert does not undo · Jamie,
-  2026-10-29).
+  the handoff before it lands.
 - The commit creates `clients/<slug>/record.md` at `stage: prospect`, filled by the handoff
-  mapping in `prospect.md`. Its message is `prospecting: <slug> handed off by <sourced_by>`.
-  It carries the desk's identity, and the account that owns `DESK_PAT` moves `main` (why: a
-  fine-grained token acts as its owner, the desk has no bot account, and the message names the
-  salesman · 2026-10-29). One prospect, one commit. The desk writes nothing else for it (why:
-  the folder is the record, and the commit is the one door into it · 2026-10-29).
+  mapping in `prospect.md`. Its message is `prospecting: <slug> handed off by <sourced_by>`. It
+  carries the desk's identity, and the account that owns `DESK_PAT` moves `main`. One prospect,
+  one commit. The desk writes nothing else for it.
 - The same commit moves the lead's folder, `leads/<slug>/`. Each file goes to
   `clients/<slug>/<folder>/`, where `<folder>` is the file's `folder:` frontmatter, and the
-  lead's folder is gone. A lead without a folder gets the same commit, with no move (why: the
-  answers are documents of the relationship, and the client folder is its one home ·
-  2026-10-26).
+  lead's folder is gone. A lead without a folder gets the same commit, with no move.
 - Before any write, the desk stops the handoff in words, and the row stays where it was, when:
   a `ready` field is empty; the slug exists in `clients/`; or a lead file names no folder (the
-  desk names the file) (why: a handoff is one commit or none · 2026-10-29).
+  desk names the file).
 - A conflict on `main` is tried once more from the new `main`. A second one fails in words:
   nothing is on `main`, the row stays at `ready for Jamie`, and the sourcer hands off again
-  from there (why: two writers on `main` at one moment is rare, and one retry ends it ·
-  2026-10-29).
+  from there.
 - A slug that changed after the answers landed: the desk finds no folder under the new slug,
   and the old folder stays in `leads/`. Jamie moves it by hand.
 - Jamie reads the folder on the desk after the commit. A handoff he does not take is his call:
@@ -87,23 +78,22 @@ way the folder opens at `prospect`.
 
 A session in this folder produces the stage-level material, never a pool row:
 
-- `targets/<list>.md`: companies that match `target-profile.md`, with the `source` the
-  sourcer copies into the row. One list per search, dated. The list it replaces is deleted.
+- `targets/<list>.md`: companies that match `target-profile.md`, with the `source` the sourcer
+  copies into the row. One list per search, dated. The list it replaces is deleted.
 - `pitch/<touch>.<language>.md`: one draft per touch in `cadence.md` and per language in
   `target-profile.md`, written from `core/voice.md` and `core/services.md`. The sender adapts
   it by hand.
 - `kit.<language>.md`: the seller kit, the salesman's one document, one per language in
   `target-profile.md`, in the kit grammar (Outputs). Two parts and a reference: who Jamie is
-  and what he sells; the system, from the row to the 10%; the words to send and the answers
-  to give. Written from `core/identity.md`, `core/voice.md`, `core/services.md`,
+  and what he sells; the system, from the row to the 10%; the words to send and the answers to
+  give. Written from `core/identity.md`, `core/voice.md`, `core/services.md`,
   `target-profile.md`, `cadence.md` and `prospect.md`, in Jamie's voice. Where a price
-  disagrees with `core/services.md` or a term with a model file, the house wins and the kit
-  is fixed. No price reaches a prospect through it (why: `core/services.md`, "Never public"
-  · 2026-10-22). The session writes the en-GB file and translates it. Jamie reviews the
-  words on the pull request.
-- `forms/<form>.<language>.md`: a form, in the grammar in Outputs. A new form gets three
-  files, `en-GB`, `fr-BE` and `pt-PT`. The session writes the en-GB file and translates it.
-  Jamie reviews the translations on the pull request.
+  disagrees with `core/services.md` or a term with a model file, the house wins and the kit is
+  fixed. No price reaches a prospect through it. The session writes the en-GB file and
+  translates it. Jamie reviews the words on the pull request.
+- `forms/<form>.<language>.md`: a form, in the grammar in Outputs. A new form gets three files,
+  `en-GB`, `fr-BE` and `pt-PT`. The session writes the en-GB file and translates it. Jamie
+  reviews the translations on the pull request.
 - After handoff, outreach a session drafts for Jamie goes to `clients/<slug>/outreach/`.
 
 ## Outputs
@@ -112,47 +102,40 @@ A session in this folder produces the stage-level material, never a pool row:
   and `commission.sourced_by` set. `commission.owed` is set at the agreement (`prospect.md`).
 - `target-profile.md` · `cadence.md` · `prospect.md`: the model (built 2026-10-19).
 - `legitimate-interest.md`: the GDPR legitimate-interest assessment for cold outreach from the
-  pool: why a business that did not ask may be contacted, how far, and where it stops. It
-  lives here because it governs the outreach this stage produces (why: the lawful basis sits
-  beside the activity it covers, so the limits are read where the pitch is written ·
-  2026-10-26).
+  pool: why a business that did not ask may be contacted, how far, and where it stops. It lives
+  here because it governs the outreach this stage produces.
 - `pitch/<touch>.<language>.md`: nine drafts, three touches by three languages.
-- `kit.<language>.md`: the seller kit, one per language (built 2026-10-22, rewritten as
-  lessons 2026-10-28). The desk shows it on `/sell`.
+- `kit.<language>.md`: the seller kit, one per language (built 2026-10-22, rewritten as lessons
+  2026-10-28). The desk shows it on `/sell`.
 - `targets/<list>.md`: one researched list per search.
 - `forms/free-look.<language>.md`: the free look, eight questions in `en-GB`, `fr-BE` and
-  `pt-PT` (built 2026-10-26). It is the form for `/start` on the desk (the `desk-forms`
-  epic in `.icm/intake/`). Its answers land in `research/` (`folder: research`).
+  `pt-PT` (built 2026-10-26). It is the form for `/start` on the desk (the `desk-forms` epic in
+  `.icm/intake/`). Its answers land in `research/` (`folder: research`).
 - The form grammar. The desk parses every form with it:
   - One form per file, `<form>.<language>.md`. The name before the language tag is the form
-    slug. The slug never changes after a link was sent (why: a sent link names the slug ·
-    2026-10-25).
-  - Frontmatter: `kind: form`, `title`, `intro`, `language` (`en-GB`, `fr-BE` or `pt-PT`),
-    and `folder`. `folder` is the client subfolder where the answers land.
-  - Each `##` heading is one question, in the words the visitor reads. Under the heading is
-    one list of `- key: value` lines: `key:`, `type:`, `options:`, `optional: yes`, `hint:`.
-    The desk ignores prose outside the list.
-  - `key:` is required on every question (why: the old grammar made the key from the heading.
-    Three languages give three headings and three keys. The answers of one form must line up
-    across languages · 2026-10-25).
+    slug. The slug never changes after a link was sent.
+  - Frontmatter: `kind: form`, `title`, `intro`, `language` (`en-GB`, `fr-BE` or `pt-PT`), and
+    `folder`. `folder` is the client subfolder where the answers land.
+  - Each `##` heading is one question, in the words the visitor reads. Under the heading is one
+    list of `- key: value` lines: `key:`, `type:`, `options:`, `optional: yes`, `hint:`. The
+    desk ignores prose outside the list.
+  - `key:` is required on every question.
   - `type:` is `text` (the default), `textarea`, `select` or `boolean`. `options:` is for
-    `select` only, separated by ` | `. There is no conditional logic and no upload. A link to
-    a recording is a `text` question.
+    `select` only, separated by ` | `. There is no conditional logic and no upload. A link to a
+    recording is a `text` question.
   - The three language files of one form have the same keys in the same order. Their options
-    are in the same order too (why: the desk maps an answer to a pool field by the option's
-    position. The words change per language. The position does not · 2026-10-25).
-  - No question and no option shows a price, a band or the floor (why: a form is a public
-    page, and `core/services.md` keeps these numbers off every page · 2026-10-26).
-  - `.github/schemas/form.schema.json` checks `kind`, `title`, `intro`, `language` and
-    `folder` against this grammar (`check.yml`'s `frontmatter` job).
+    are in the same order too.
+  - No question and no option shows a price, a band or the floor.
+  - `.github/schemas/form.schema.json` checks `kind`, `title`, `intro`, `language` and `folder`
+    against this grammar (`check.yml`'s `frontmatter` job).
 - The kit grammar. The desk parses every kit with it (`desk/app/lib/kit.ts`), and a kit that
   does not parse fails the build:
   - One kit per language, `kit.<language>.md`. Frontmatter: `kind: kit`, `title`, `language`
     (`en-GB`, `fr-BE` or `pt-PT`), `owner`, `date`.
   - The H1 and the paragraphs before the first `##` are the intro: Jamie's words to the
     salesman, the course's first screen.
-  - Each `##` heading is one lesson, in the words the salesman reads. The first thing under
-    the heading is one list of `- key: value` lines. Under the list, the lesson's words:
+  - Each `##` heading is one lesson, in the words the salesman reads. The first thing under the
+    heading is one list of `- key: value` lines. Under the list, the lesson's words:
     paragraphs, `###` subsections, lists, quotes and tables, as prose.
   - `key:` is required: kebab-case, the lesson's slug in the URL, the same in the three files.
   - `part:` is required: `jamie`, `system` or `reference`. The lessons of one part are
@@ -160,20 +143,18 @@ A session in this folder produces the stage-level material, never a pool row:
   - `status:` is optional: one pool status of `prospect.md` the lesson teaches. At most one
     lesson per status. A lesson with `status:` also has `next:`, one sentence: the thing the
     salesman does at that status. The row page shows it.
-  - `touch:` is optional: `1`, `2` or `3`, or several separated by ` | `. The lesson page
-    shows the pitch draft of each touch in the reader's language after the words.
+  - `touch:` is optional: `1`, `2` or `3`, or several separated by ` | `. The lesson page shows
+    the pitch draft of each touch in the reader's language after the words.
   - The three files of the kit have the same keys in the same order, with the same `part`,
-    `status` and `touch` per key. The words change per language. The keys do not (why: the
-    desk maps a lesson to a status and a touch by its key · 2026-10-28).
+    `status` and `touch` per key. The words change per language. The keys do not.
   - No lesson shows a price, a band or the floor (`core/services.md`, Never public). The
     commission examples of 2026-10-22 stay: they show the salesman's 10%, not a price.
   - `.github/schemas/kit.schema.json` checks `kind`, `title`, `language`, `owner` and `date`
     against this grammar (`check.yml`'s `frontmatter` job).
-  - The pool's statuses and the deal's stages stay as the model writes them, in every
-    language.
+  - The pool's statuses and the deal's stages stay as the model writes them, in every language.
 - The pool rows live in the desk, never here. The monthly close reads commission from
   `record.md`, never from the pool.
 - `leads/<slug>/`: a lead's folder, by the pool row's slug. A lead's answers to a form are
   documents, so they live here, not in the pool: `<form>-<date>.md`, written by the desk
   (`/start` writes `free-look-<date>.md`). The handoff moves the folder into `clients/<slug>/`
-  (The handoff, above) (why: the row changes many times a day and the answers do not · 2026-10-25).
+  (The handoff, above).

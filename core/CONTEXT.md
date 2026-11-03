@@ -1,13 +1,14 @@
 ---
 status: built
 holds:
+  - why.md
+  - "../why.md"
   - lexicon.md
   - stack.md
   - "setup/*.sh"
   # The Hermes profile legible's four files that no install writes: config.yaml, SOUL.md and its
   # two hook scripts. setup/local.sh installs them. SOUL.md carries no frontmatter, because Hermes
-  # reads it whole as the profile's prompt (why: a file only on one machine is lost with it, and
-  # the setup scripts are its installer · 2026-10-29).
+  # reads it whole as the profile's prompt.
   - "setup/hermes/*"
   - identity.md
   - services.md
@@ -15,15 +16,13 @@ holds:
   - terms.md
   - onboarding-collaborator.md
   # The pack for the accountant: the entity's tax status, its obligations and its compliance
-  # calendar, beside the status identity.md names (why: one home per fact · 2026-10-26).
+  # calendar, beside the status identity.md names.
   - "accountant/*.md"
   # The renderer: a Node package that turns a client document into the PDF in the design of
-  # voice.md, and the script that places a PDF in Drive (why: voice.md is the design's one
-  # home, so its reader lives beside it · 2026-10-26).
+  # voice.md, and the script that places a PDF in Drive.
   - "render/**"
-  # The repo root's .env.example: every environment variable of the estate, by name and place. The
-  # stack owns where a value lives, so the core holds the list (why: one audit file instead of a
-  # read of Vercel, Actions, the shell and the cloud dialog each time · 2026-10-23).
+  # The repo root's.env.example: every environment variable of the estate, by name and place. The
+  # stack owns where a value lives, so the core holds the list.
   - "../.env.example"
 ---
 # Core
@@ -37,12 +36,10 @@ The core produces the business's identity and bio, its services and pricing, its
 ## Process
 
 - Start cold from this folder. Read only what Inputs names.
-- Jamie answers in one sitting: a session drafts the questions, offers a default in each,
-  and asks them in one batch. The answers are written as facts, each in the one file that
-  owns it. What Jamie leaves open goes to the ticket it blocks in `.icm/intake/`, as a numbered
-  question with a default, never into a file as a placeholder (why: a placeholder reads as a fact
-  to a module that starts cold, and a question beside its ticket is answered where the work is ·
-  2026-10-19).
+- Jamie answers in one sitting: a session drafts the questions, offers a default in each, and
+  asks them in one batch. The answers are written as facts, each in the one file that owns it.
+  What Jamie leaves open goes to the ticket it blocks in `.icm/intake/`, as a numbered question
+  with a default, never into a file as a placeholder.
 - A fact changes here first, by PR to `main`, then everywhere that cites it. Jamie merges.
 - Each file starts with frontmatter (`title`, `kind`, `owner`, `date`). A rule in a file
   carries its why and date.
@@ -76,52 +73,46 @@ Built (2026-10-26):
   the status, the obligations and the due dates. Its §5 is the compliance calendar. A date the
   contabilista confirms is written into §5 in place. The core holds the pack because the
   entity's tax status, its obligations and its calendar are facts about the entity, and
-  `identity.md` names the status (why: one home per fact · 2026-10-26).
-- `render/`: the renderer. `render.sh <client> <proposal|quote|agreement> [--out <dir>]`
-  reads `clients/<client>/<kind>/<kind>.md` and writes one PDF in the design of `voice.md`
-  § Document design. It prints `RESULT: RENDERED <path>`. `place.sh <client> <pdf>` copies
-  a PDF into the client's Drive folder and prints `RESULT: PLACED <name>`. The workflow
-  `.github/workflows/render.yml` runs `render.sh` on a pull request and on `main` and keeps
-  the PDFs as the run's artifact `pdf` for 14 days. `stack.md` § The renderer says why.
-  The rules the renderer follows:
-  - The design is read from the table in `voice.md` § Document design on every run. A value
-    the table does not give stops the render (why: one home for the design; the renderer is
-    its reader, not a second home · 2026-10-22).
+  `identity.md` names the status.
+- `render/`: the renderer. `render.sh <client> <proposal|quote|agreement> [--out <dir>]` reads
+  `clients/<client>/<kind>/<kind>.md` and writes one PDF in the design of `voice.md` § Document
+  design. It prints `RESULT: RENDERED <path>`. `place.sh <client> <pdf>` copies a PDF into the
+  client's Drive folder and prints `RESULT: PLACED <name>`. The workflow
+  `.github/workflows/render.yml` runs `render.sh` on a pull request and on `main` and keeps the
+  PDFs as the run's artifact `pdf` for 14 days. `stack.md` § The renderer says why. The rules
+  the renderer follows:
+  - The design is read from the table in `voice.md` § Document design on every run. A value the
+    table does not give stops the render.
   - The fonts are fetched from Google Fonts at render and embedded as subsets. The logo is
-    `render/assets/logo-full.svg` and `logo-mark.svg`, copied byte for byte from
-    `assets/logo/` in `k0d0minio/jamienisbet`, never redrawn. When the brand changes the
-    logo, copy the two files again.
+    `render/assets/logo-full.svg` and `logo-mark.svg`, copied byte for byte from `assets/logo/`
+    in `k0d0minio/jamienisbet`, never redrawn. When the brand changes the logo, copy the two
+    files again.
   - The frontmatter and every HTML comment are dropped. A proposal takes the body of
-    `quote/quote.md` in place of its own last `## ` section (why: the price has one home, and
-    the client says yes to one document · 2026-10-19).
+    `quote/quote.md` in place of its own last `## ` section.
   - The text before the first rule (`---`) is the cover when it holds the `#` title. A
     paragraph in capitals only is an eyebrow.
-  - A table fills the text width and never passes the margin. Hairlines separate its rows.
-    A column of figures (prices, rates, counts, dates) is set in IBM Plex Mono and, after
-    the first column, right-aligned. An empty header row is not drawn. A row with a label and
-    empty cells is a row to sign in and gets room for a signature. A table that fits on a
-    page is kept whole, with the heading or the label line before it (why: a price table
-    split across two pages, or one that runs off the page, is the part of a document a
-    client reads twice · Jamie, 2026-10-27).
+  - A table fills the text width and never passes the margin. Hairlines separate its rows. A
+    column of figures (prices, rates, counts, dates) is set in IBM Plex Mono and, after the
+    first column, right-aligned. An empty header row is not drawn. A row with a label and empty
+    cells is a row to sign in and gets room for a signature. A table that fits on a page is
+    kept whole, with the heading or the label line before it.
   - The name of a PDF is `<Kind> - <client> - Jamie Nisbet - <date>.pdf`: the kind in the
     document's `language` from `render/kinds.json`, the `name` in the client's `record.md`, and
-    the `date` in the document's frontmatter. The document's title is not in the name
-    (why: the kind already says what the document is, and a title often repeats it ·
-    Jamie, 2026-10-27). The characters `/ \ : * ? " < > |` are dropped. A signed
-    copy is named by Jamie and starts with the signed kind (`Signed`, `Signé`, `Assinado`);
-    `place.sh` never writes or replaces a file whose name starts with it (why: the signed
-    copy is the record of the deal; a render must never overwrite it · 2026-10-22).
+    the `date` in the document's frontmatter. The document's title is not in the name. The
+    characters `/ \: * ? " < > |` are dropped. A signed copy is named by Jamie and starts with
+    the signed kind (`Signed`, `Signé`, `Assinado`); `place.sh` never writes or replaces a file
+    whose name starts with it.
   - `place.sh` writes with `/usr/bin/gio` into `Clients/<folder>/`: the `drive_folder` in the
     client's `record.md`, or the slug when that field is empty, on the one Google Drive mount
     that holds that folder. The Drive mounts when Jamie opens the Google account in Files;
-    `gio` cannot mount it from a script. A file of the same
-    name is replaced in place, so its Drive link stays. Jamie runs it, or a desktop session
-    after it asked Jamie. CI never places (why: no secret in the render path · 2026-10-22).
+    `gio` cannot mount it from a script. A file of the same name is replaced in place, so its
+    Drive link stays. Jamie runs it, or a desktop session after it asked Jamie. CI never
+    places.
 
 Built (2026-10-29):
 
 - `setup/hermes/`: the Hermes profile `legible`'s `config.yaml`, `SOUL.md`, `guard-adapter.sh` and
-  `board-context.sh`, installed by `setup/local.sh`. `stack.md` § The Hermes profile says what each
+  `board-context.sh`, installed by `setup/local.sh`. `setup/hermes/README.md` says what each
   holds and when the machine's copy differs.
 
 Not yet written:
