@@ -17,7 +17,10 @@ The plan is `plan.md`, open: the week's sessions are planned before the week
 - Sold: 20 hours of individual coaching over the five afternoons of 2 to 6 November 2026,
   in `agreement/agreement.md`.
 - Used: 0 of 20.
-- The client's tool: Mammouth, a chat tool with projects and no agent over a folder
+- From 2026-11-04 (Jamie): Claude for each employee. Projects for everyone, and a folder
+  with Cowork for the people who are ready. No connector for now
+  (`research/profile.md`, "What the week settled").
+- Until 2026-11-04, the client's tool: Mammouth, a chat tool with projects and no agent over a folder
   (`kickoff/sources.md`). The workspace: the three folders on the client's shared drive,
   and each stage contract in a Mammouth project's instructions. CI does not apply.
 

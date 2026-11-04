@@ -7,7 +7,26 @@ agreement (Drive, `arnaud-ruelle`), the Belgian company register as shown by Pap
 company website was down on 2026-10-22 ("ouverture prochaine"), so the product facts come
 from directories and from Arnaud. The first part is what Arnaud said. The second part is the
 public read. The third part is what the research cannot tell: those points are the questions
-in `kickoff/questions.md`.
+in `kickoff/questions.md`. Updated 2026-11-04 from what Jamie settled on site (Jamie, in the
+session, 2026-11-04).
+
+## What the week settled (2026-11-04)
+
+Jamie, on site, the third day of the week:
+
+- Each employee gets access to Claude. Everyone works in Claude Projects. The people who are
+  ready also work in a folder with Claude Cowork.
+- No system connects to external data. The ICM folders and the files a person brings are the
+  only sources.
+- No MCP server and no connector, for now. Every input reaches Claude by hand. A connector can
+  come later.
+
+## Data rules
+
+Jamie, 2026-11-04. Every kind of company data may enter Claude: quotes, drawings, prices,
+customer data and HR data. The open point is not what may enter. It is how each input gets in
+without a connector: a file to upload or to put in the folder, an export from a business tool,
+a mail saved as a file, or a paste.
 
 ## What Arnaud said (9 and 12 October, to Jamie)
 
@@ -75,6 +94,8 @@ and seat count are on Arnaud's list. For the week this means: the "consigne" of 
 Project's instructions, its inputs are the Project's files, and the folder structure lives on
 their shared drive, not inside the tool. No agent runs over their folders. The week teaches
 the method at the chat, consigne and folder layers, with the person as the runner.
+(The team used Mammouth until the week. On 2026-11-04 Jamie said that each employee gets
+Claude: see "What the week settled".)
 
 ## The engagement as agreed
 
@@ -99,6 +120,7 @@ These are the questions in `kickoff/questions.md`:
 - The business tools: ERP, CAD, configurator, where the files live, what the Aldes group
   imposes on IT and on AI tools.
 - What data may enter Mammouth and what may not.
+  Updated 2026-11-04: answered in "Data rules". The tool is now Claude.
 - Each person's real task for the afternoons.
 - The room, the hours, the hotel, the transfer, and the invoicing details (the BCE address
   against the one Arnaud gave; whether a purchase order is needed).

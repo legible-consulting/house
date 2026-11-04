@@ -11,7 +11,7 @@ date: 2026-11-04
 Internal. English. A step of Euro Register's own, after the week of 2 to 6 November 2026.
 Each person on the team gives Jamie a rough list of their tasks: photos of paper notes and
 drawings, or typed documents. This step turns that list into one advisory report per
-person, in French, that says how that person can set up their own ICM system in Mammouth.
+person, in French, that says how that person can set up their own ICM system in Claude.
 When all the reports exist, it writes one team synthesis for Arnaud. The report is part of
 the 6,500 € week. It is not a new block. `training/CONTEXT.md` routes here.
 
@@ -25,9 +25,9 @@ the 6,500 € week. It is not a new block. `training/CONTEXT.md` routes here.
 - `kickoff/programme.md`: the week's five words (le bureau, l'étape, la consigne, le plan,
   la validation) and Monday's three columns. The report uses these words and no others for
   the method.
-- `research/profile.md` § Data rules: what may enter Mammouth, what never leaves the
-  company, the Aldes group rule on AI tools. Jamie gives these rules. They get their one
-  home in the profile through `02-client-research/CONTEXT.md`.
+- `research/profile.md` § What the week settled and § Data rules: the tool (Claude
+  Projects for everyone, a folder with Cowork for the people who are ready), no connector
+  for now, and what may enter Claude.
 - In `legible-consulting/blueprint`, read only: `workshop-kit/walk-test.md`. The report
   advises a system that can pass these checks.
 - `tasks-<person>.md` and `report-<person>.md` in this folder, when they exist.
@@ -45,24 +45,26 @@ the 6,500 € week. It is not a new block. `training/CONTEXT.md` routes here.
    Describe a drawing as its structure: the boxes, the arrows, the labels. Write
    `[illisible]` where you cannot read a word, and add a question. Do not interpret in this
    section.
-3. **Assess each task.** In `tasks-<person>.md`, below the transcription, fill one row per
+3. **Choose the setup.** From Jamie's notes in `record.md`: Claude Projects, or a folder
+   with Cowork. Default: Projects. A folder setup follows `training/CONTEXT.md`, step 4.
+4. **Assess each task.** In `tasks-<person>.md`, below the transcription, fill one row per
    task with the nine fields of "The lens" below. A field that the inputs do not support
    stays empty and gets a question.
-4. **Ask.** At the end of `tasks-<person>.md`, list the questions for Jamie, numbered, each
+5. **Ask.** At the end of `tasks-<person>.md`, list the questions for Jamie, numbered, each
    with a default. Stop. Continue when Jamie answers or says "use the defaults".
-5. **Choose the jobs.** Choose one to three jobs for a staged system, by "The choice" below.
-6. **Write the report.** Write `report-<person>.md` in fr-BE, in the shape of "The report"
+6. **Choose the jobs.** Choose one to three jobs for a staged system, by "The choice" below.
+7. **Write the report.** Write `report-<person>.md` in fr-BE, in the shape of "The report"
    below.
-7. **Commit.** Commit on a branch with a message that starts `training:`, push, and open a
+8. **Commit.** Commit on a branch with a message that starts `training:`, push, and open a
    pull request. The body lists the open questions for Jamie, numbered, each with a default.
    One pull request can hold several people.
-8. **Place.** Jamie reads the transcription and the report, and corrects them in the pull
+9. **Place.** Jamie reads the transcription and the report, and corrects them in the pull
    request. On Jamie's word in the session, create the report as a Google Doc in Drive ›
    `arnaud-ruelle` › `rapports/`, put its link in the report's `drive:` field, and add a row
    to "The reports" in `record.md`. Do not create the Google Doc before Jamie's word: Arnaud
    can open the Drive folder. A later change goes into `report-<person>.md` first, then
    replaces the Google Doc.
-9. **Send.** Jamie shares the Google Doc with the person and with Arnaud, and sends it. On
+10. **Send.** Jamie shares the Google Doc with the person and with Arnaud, and sends it. On
    Jamie's word, write the date sent in `record.md`.
 
 ### The synthesis for Arnaud
@@ -70,7 +72,7 @@ the 6,500 € week. It is not a new block. `training/CONTEXT.md` routes here.
 1. Start when Jamie says that the reports are complete, or names the reports to use.
 2. Read every `report-*.md` in this folder and the `tasks-*.md` beside each one.
 3. Write `synthesis.md` in fr-BE, in the shape of "The synthesis" below.
-4. Commit, place and send as steps 7 to 9 above say.
+4. Commit, place and send as steps 8 to 10 above say.
 
 ## The lens
 
@@ -90,8 +92,10 @@ the data rules. Mark each field that you propose yourself as "proposé".
 6. **The facts.** The facts the task needs (a price, a technical sheet, a customer's
    history), and where they live today: the ERP, a spreadsheet, the mail, a shared folder,
    a person's memory.
-7. **The data.** The data class of each input, against `research/profile.md` § Data rules.
-   If the rules do not cover an input, ask.
+7. **The way in.** How each input reaches Claude by hand, and who does it: a file to
+   upload or to put in the folder, an export from the ERP or a spreadsheet, a mail saved as
+   a file, or a paste. Name the manual step and how long it takes. A connector appears only
+   as a later option, marked "plus tard".
 8. **The verdict.** One of four: a job for a staged system, a job for a tool, a job for a
    person, or not yet (a fact or a rule is missing).
 9. **The saving.** Only for a job for a staged system. A range of hours per month, with the
@@ -105,7 +109,7 @@ A job enters the report as one of the one to three jobs when most of these are t
 - It occurs often, and the effort field shows it.
 - Its shape is stable or partly stable.
 - The facts it needs exist in files, not only in a person's memory.
-- The data rules let its inputs enter Mammouth, at least for some stages.
+- Each input can reach Claude by hand, and the manual step costs less than the saving.
 - One clear point needs a person's judgment, and that point can be a validation.
 - The person feels the pain of it. Their own words say so.
 
@@ -122,24 +126,26 @@ first pull request). The sections:
 
 1. **En bref.** Three lines: what we read, the jobs to start with, the first step alone.
 2. **Qui lit ce rapport.** One line: the person, Arnaud and Jamie read it.
-3. **Ce que vous nous avez donné.** One table: each task in a few words, its column, its
+3. **Votre installation.** Claude Projects, or a folder with Cowork, and why.
+4. **Ce que vous nous avez donné.** One table: each task in a few words, its column, its
    verdict. One line under it: "Si une ligne est fausse, dites-le."
-4. **Où part votre temps.** The effort field, for the tasks that have numbers only.
-5. **Ce qu'on laisse à un outil ou à une personne.** The tasks in those two columns, and why.
-6. **Les travaux à construire.** For each chosen job:
+5. **Où part votre temps.** The effort field, for the tasks that have numbers only.
+6. **Ce qu'on laisse à un outil ou à une personne.** The tasks in those two columns, and why.
+7. **Les travaux à construire.** For each chosen job:
    - le résultat: for whom, what that person does next, where the information comes from
      today, what breaks and who notices (Wednesday's four questions);
    - les étapes: what each step reads and the one file it makes;
    - la validation: who checks, at which step, and which step waits;
    - ce que dit chaque consigne: the reads, the file it makes, who checks;
-   - les Projets Mammouth: one Project per step, and the files that go into each;
-   - les données: per step, what enters Mammouth and what stays out;
+   - l'espace Claude: one Project per step and the files that go into it, or for the
+     folder setup, the step's folder and its consigne file;
+   - comment les données entrent: per step, the manual way in and who does it;
    - l'outil: what must give the same output every time, and which tool does it;
    - ce qu'il ne faut pas construire;
    - le test du collègue: what a colleague must read in the folder to say what it is, where
      it stands and what comes next.
-7. **La première semaine seul.** From the next step alone in `record.md`, made concrete.
-8. **Ce que nous avons supposé.** Each field marked "proposé", and each default that Jamie
+8. **La première semaine seul.** From the next step alone in `record.md`, made concrete.
+9. **Ce que nous avons supposé.** Each field marked "proposé", and each default that Jamie
    accepted. One line under it: "Corrigez-nous."
 
 The report assesses the tasks, not the person. It contains no remark on the person's speed,
@@ -160,7 +166,9 @@ sections:
    the one place it can live.
 4. **Ce qui revient aux outils.** The tasks in the tool column, grouped by tool (the ERP, the
    spreadsheets, the agenda).
-5. **Les règles de données à décider.** Each input that the data rules do not cover yet.
+5. **Les entrées à organiser.** The inputs that several jobs bring in by hand, and the one
+   export or shared folder that makes each of them cheap. A connector appears only as a later
+   option.
 6. **L'ordre proposé.** The jobs to start with, in order, and the reason for each.
 
 ## Outputs
