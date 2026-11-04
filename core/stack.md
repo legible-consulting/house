@@ -1,30 +1,24 @@
 # Stack — tools and machines
 
-One home for which tools Legible Consulting uses, where each runs, and how a machine gets
-them. Why a tool runs lives in § Tools below; this file says what is installed where. A change to the tool set edits this file and `setup/` in the
-same commit (why: one home per fact; a script that drifts from its list installs the wrong
-toolbox · 2026-10-16).
+One home for which tools Legible Consulting uses, where each runs, and how a machine gets them.
+Why a tool runs lives in § Tools below; this file says what is installed where. A change to the
+tool set edits this file and `setup/` in the same commit.
 
 ## Agent map
 
-Every repo carries `AGENTS.md` at the root, one line that sends any agent to `CLAUDE.md`
-first, then to the contract it routes to. Hermes Agent, Claude Code and most of the other
-agents the open-source agent spike read default to `AGENTS.md`; `CLAUDE.md` is a fallback
-name in some and absent in others (`.icm/intake/triage/agents-md-pointer.md`). The house
-carries its own, hand-written; the blueprint renders one into every build and workspace
-(why: `.goosehints` carried this job until Goose left the stack, 2026-10-29).
+Every repo carries `AGENTS.md` at the root, one line that sends any agent to `CLAUDE.md` first,
+then to the contract it routes to. Hermes Agent, Claude Code and most of the other agents the
+open-source agent spike read default to `AGENTS.md`; `CLAUDE.md` is a fallback name in some and
+absent in others (`.icm/intake/triage/agents-md-pointer.md`). The house carries its own,
+hand-written; the blueprint renders one into every build and workspace.
 
 ## Tools
 
 This file is the one home of why a tool runs. A verdict in `research/verdicts/` says what was
-judged and for which moment; it does not say what is installed (why: the review of 2026-10-29
-found 31 of the 46 `adopt` verdicts in no stack, CI or contract, and several saying the opposite
-of this file · Jamie, 2026-10-29).
+judged and for which moment; it does not say what is installed.
 
 Each machine carries only what a contract, hook, workflow or checklist item calls today; a tool
-joins `setup/` in the commit that builds the module that calls it (why: the audit found seven
-tools installed in cloud and six locally that nothing called, one of them failing, and mdq's
-compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
+joins `setup/` in the commit that builds the module that calls it. CI installs its own.
 
 | Tool | Job | Version | Local | Cloud |
 |---|---|---|---|---|
@@ -37,25 +31,20 @@ compile alone took 95 s of cloud setup · 2026-10-16). CI installs its own.
 | trafilatura | fetch a web page as text (the research intake) | 2.3.1 | — | `setup/cloud.sh`, by `uv tool` |
 | yt-dlp | a video's description and captions, and a reel's caption, as text (the research intake) | 2026.10.26 | — | `setup/cloud.sh`, by `uv tool` |
 | claude, vercel, uv, node, go | Claude Code, deploys, Python tools, runtimes | as installed | by hand, once | pre-installed (claude, uv, node, go) |
-| hermes | Hermes Agent, the agent of the local lane, on the profile `legible` (why: an agent on Jamie's machine on the model he chooses, the replacement for Claude Code when the weekly usage runs out or the subscription ends · Jamie, 2026-10-29). Approvals are `manual`. The memory and skill writers stay on with approval, and a new skill lands in the profile's `scratch-skills/` (why: an unreviewed note or skill is a second home that drifts · Jamie, 2026-10-29). The loop walk of 2026-10-29 took one house ticket and one `jamienisbet` ticket to the merge: `_done/goose-worktrees/_done/hermes-loop-walk.md`. Frozen 2026-10-31: no session works on Hermes until a client ticket needs the local lane; the open Hermes stubs in `.icm/intake/triage/` are parked, and only the approval-gate test in Jamie's hand stays (why: two days of the house went to the lane and not to clients, and the verdict is still `watch` · Jamie, 2026-10-31) | as installed | by hand, once (§ Local machine); the profile's four files by `setup/local.sh` from `setup/hermes/` | — |
+| hermes | Hermes Agent, the local lane's agent on the profile `legible`. Parked since 2026-10-31: `setup/hermes/README.md` holds the profile, the keys and the hooks | as installed | by hand, once (`setup/hermes/README.md`) | — |
 | check-jsonschema | validates frontmatter against `.github/schemas/` (`check.yml`'s `frontmatter` job; `research/verdicts/check-jsonschema.md`) | 0.38.2 | — | `check.yml`, by `pip install` |
 
 ## The desk app
 
-Next.js (App Router) on Vercel, with Tailwind CSS, shadcn/ui and Motion for the interface,
-and Neon Postgres and Neon Auth behind it: team `kodominio`, project `legible-desk`,
+Next.js (App Router) on Vercel, with Tailwind CSS, shadcn/ui and Motion for the interface, and
+Neon Postgres and Neon Auth behind it: team `kodominio`, project `legible-desk`,
 `https://desk.jamienisbet.com`. `desk/CONTEXT.md` names the tables, the roles and the
-variables. Next.js was chosen over the Astro scaffold of 2026-10-15 (why: Vercel's own
-framework, first-party Neon Auth support for Next.js, and one framework for the house's apps
-· 2026-10-19). Tailwind CSS, shadcn/ui and Motion joined it (why: one component and
-transition vocabulary for every app the house builds; shadcn's components are source in
-`desk/app/components/ui/`, owned here, not a dependency to chase · 2026-10-20).
+variables. Next.js was chosen over the Astro scaffold of 2026-10-15. Tailwind CSS, shadcn/ui
+and Motion joined it.
 
-The cloud image ships
-kislyuk's Python yq, a jq wrapper without `--front-matter`; `setup/cloud.sh` puts mikefarah's
-ahead of it on PATH (why: frontmatter extraction is the hinge for the folder's checks ·
-2026-10-16). Homebrew installs the current stable formula, so local versions are read, not
-pinned; `setup/cloud.sh` pins its own.
+The cloud image ships kislyuk's Python yq, a jq wrapper without `--front-matter`;
+`setup/cloud.sh` puts mikefarah's ahead of it on PATH. Homebrew installs the current stable
+formula, so local versions are read, not pinned; `setup/cloud.sh` pins its own.
 
 ## The renderer
 
@@ -63,73 +52,45 @@ A client document becomes a PDF with pdfcn's components on Forme, under `core/re
 components for PDF from the pdfcn registry (`components.json`), rendered by Forme's layout
 engine, which runs as WASM in Node with no browser. Forme was chosen over pdfcn's other base,
 Takumi, because it lays out pages: A4 pages that break where the text breaks, a footer on every
-page with its page number, and table rows that break across pages (why: a proposal is 4 to 8
-pages of running text, and a client reads it as a document, not a picture · 2026-10-26). The
-packages are pinned in `core/render/package-lock.json`. `render.yml` installs them in CI. The
-fonts come from Google Fonts at render and the logo from `core/render/assets/`. `place.sh` uses
-`/usr/bin/gio`, which Ubuntu ships, and `yq` and `jq` from `setup/local.sh` (why: the Drive copy
-is Jamie's hand over the GNOME mount, so no Drive key exists anywhere · 2026-10-22).
+page with its page number, and table rows that break across pages. The packages are pinned in
+`core/render/package-lock.json`. `render.yml` installs them in CI. The fonts come from Google
+Fonts at render and the logo from `core/render/assets/`. `place.sh` uses `/usr/bin/gio`, which
+Ubuntu ships, and `yq` and `jq` from `setup/local.sh`.
 
 ## Local machine
 
 Ubuntu 24.04 with Homebrew. A fresh machine, in order:
 
-1. Install Homebrew, Claude Code, the Vercel CLI and uv by their own installers. Then install
-   Hermes Agent: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. It clones
-   the agent into `~/.hermes/hermes-agent/` and puts `hermes` in `~/.local/bin/`.
-2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo`
-   (org settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
-   - Hermes: the profile `legible` reads each provider key from one system keyring item with
-     service `hermes` and the Hermes provider as username, never from a file (why: a key in a
-     file is plain text that every process can read and a commit can copy · 2026-10-29). Store
-     each key with `secret-tool store --label='Hermes <Provider> key' service hermes username
-     <provider>`, which reads the key from the prompt. The profile uses three providers
-     (`research/verdicts/hermes-models.md`, 2026-10-29):
-
-     | Provider | Keyring username | Variable |
-     |---|---|---|
-     | Anthropic | `anthropic` | `ANTHROPIC_API_KEY` |
-     | OpenCode Zen | `opencode-zen` | `OPENCODE_ZEN_API_KEY` |
-     | Vercel AI Gateway, the house only (why: it does not avoid a provider that trains unless the request asks · 2026-10-29) | `ai-gateway` | `AI_GATEWAY_API_KEY` |
-
-     The profile's `config.yaml` reads all three with `secrets.command`, one `secret-tool lookup`
-     for each item, printed as one `KEY=VALUE` line each at startup. `override_existing` is
-     `true`, so the keyring value beats a value in a `.env` (why: with `false`, the plaintext
-     keys in the `.env` files won, and the profile did not run on the keyring keys · 2026-10-29).
-     Check: `hermes -p legible doctor` reports "Command helper: applied 3 secrets", "✓ Anthropic
-     API", "✓ OpenCode Zen" and "✓ Vercel AI Gateway".
+1. Install Homebrew, Claude Code, the Vercel CLI and uv by their own installers. Hermes Agent, when
+   the lane is taken up again: `setup/hermes/README.md`.
+2. Sign in: `gh auth login`, then `gh auth refresh -h github.com -s admin:org,delete_repo` (org
+   settings need both); `vercel login` (team `kodominio`); `claude` to sign in.
 3. Clone the org's working repos side by side:
    ```bash
-   mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library .github; do gh repo clone legible-consulting/$r; done
+   mkdir -p ~/Desktop/legible-consulting && cd ~/Desktop/legible-consulting && for r in house blueprint library.github; do gh repo clone legible-consulting/$r; done
    ```
 4. Install the toolbox: `bash ~/Desktop/legible-consulting/house/core/setup/local.sh`.
-   Re-run it any time; it installs only what is missing and prints `ok` or `MISSING` per tool,
-   and `ok` or `MISSING` for the Hermes profile `legible` (§ The Hermes profile).
+   Re-run it any time; it installs only what is missing and prints `ok` or `MISSING` per tool.
 
 Layout:
 
 | Path | Holds |
 |---|---|
-| `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `.github`: one folder per org repo (client repos are not here; they are `k0d0minio/<slug>`) |
+| `~/Desktop/legible-consulting/` | `house`, `blueprint`, `library`, `workshop`, `.github`: one folder per org repo (client repos are not here; they are `k0d0minio/<slug>`) |
 | `~/Desktop/legible-consulting/projects/<slug>/` | the local lane from 2026-10-22: clones of the repos the blueprint governs, for estate work (mani, copier, gh). Every clone `desk/mani.yaml` names is here (2026-10-27). |
-| `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub (why: the house is self-contained in the legible-consulting repos and the estate; a source on one machine or in a retired repo binds the work to it · 2026-10-26). |
+| `~/Desktop/Apps/` | not estate: Jamie's other projects. Nothing in the house reads from it, and nothing reads from its repo, `k0d0minio/icm-board`: a module's sources are the house, the siblings and the estate's repos on GitHub. |
 | `~/.claude/` | global Claude Code layer: `CLAUDE.md`, `settings.json`, `statusline.sh`, the hooks below and one skill, `skills/asd-ste100` |
-| `~/.hermes/profiles/legible/` | the Hermes profile `legible`. Four of its files have their home in `core/setup/hermes/` (§ The Hermes profile). The rest is Hermes's own state: sessions, `state.db`, the hook allowlist, caches. `config.yaml` reads each provider key from the keyring, and the keyring value wins. The named exception: `~/.hermes/.env` and the profile's own `.env` stay on this machine with their plaintext keys (why: they are on Jamie's own machine, outside every repo, and Jamie keeps them · Jamie, 2026-10-29). |
 
 A session works on its ticket's branch in the primary clone. A session that needs a separate
 checkout makes a worktree in its scratchpad and removes it after the push, and
-`~/.claude/hooks/reap-worktrees.sh` is the backstop at 24 hours. No lane script (why: one way to
-make a worktree; the script's env copy and install served a run that CI-is-truth forbids, and
-its `done` could not work with squash merges · Jamie, 2026-10-30, `.icm/intake/ticket-leaves/`).
+`~/.claude/hooks/reap-worktrees.sh` is the backstop at 24 hours. No lane script.
 
 The three guards are global hooks in `~/.claude/hooks/`, registered in
-`~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global
-one, and cloud sessions see only the
-repo's copy. Each guard defers only when the repo copy is a different file, so a verbatim
-copy still runs (why: a copy that deferred to itself left the house unguarded · 2026-10-19).
-The house and the blueprint's `template/` carry the same three files. `check.yml`'s `guards`
-job fails when a house copy differs from the blueprint's (why: three copies kept equal by
-hand drift; the first to drift is the one that stops guarding · 2026-10-19).
+`~/.claude/settings.json`. A repo that commits its own copy of a hook overrides the global one,
+and cloud sessions see only the repo's copy. Each guard defers only when the repo copy is a
+different file, so a verbatim copy still runs. The house and the blueprint's `template/` carry
+the same three files. `check.yml`'s `guards` job fails when a house copy differs from the
+blueprint's.
 
 | Hook | Event | Does | House copy |
 |---|---|---|---|
@@ -140,35 +101,19 @@ hand drift; the first to drift is the one that stops guarding · 2026-10-19).
 | `route-request.sh` | UserPromptSubmit | the router: names the contract or the lane for each prompt. Build-only, with its test `route-request.test.sh` | no |
 | `session-start.sh` | SessionStart | the board: prints the open tickets at session start, read-only. Build-only | no |
 
-The house carries the three guards only. The blueprint renders the router and the board into
-a build, never into a workspace, and registers them in the build's `.claude/settings.json`
-(why: both read a build's `.icm/`, and the house's own board is out of the epic · Jamie,
-2026-10-27). The router and the board are repo copies only, never global hooks.
+The house carries the three guards only. The blueprint renders the router and the board into a
+build, never into a workspace, and registers them in the build's `.claude/settings.json`. The
+router and the board are repo copies only, never global hooks.
 
-Hermes Agent does not read `.claude/settings.json`. The profile `legible` runs the same repo
-hooks from two files in `~/.hermes/profiles/legible/`, registered under `hooks:` in its
-`config.yaml`. Neither file holds a copy of a hook (why: the blueprint's script is the one
-home, and a Hermes session on a build gets the same board, router and guards as Claude Code ·
-`_done/goose-worktrees/_done/plugin-router-and-board.md`, 2026-10-29). Both files have their home in
-`core/setup/hermes/` (§ The Hermes profile).
-
-| Profile file | Hermes event | Runs | Claude Code event |
-|---|---|---|---|
-| `guard-adapter.sh` | `pre_tool_call` (`terminal`, `write_file`, `patch`) | the three guards, the repo copy first. A guard `deny` is `block`, a guard `ask` is `approve` | PreToolUse |
-| `board-context.sh` | `pre_llm_call`, first turn | the build's `.claude/hooks/session-start.sh`. Its output reaches the model as context | SessionStart |
-| `board-context.sh` | `pre_llm_call`, each turn | the build's `.claude/hooks/route-request.sh` with the prompt. Its `[router]` line reaches the model as context | UserPromptSubmit |
-
-`board-context.sh` prints nothing where the session's folder has no `.claude/hooks/`, or has
-neither script.
-
-`reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes them. The app removes only its own session worktrees (why: house had 46 worktrees and blueprint 11 · 2026-10-27).
+`reap-worktrees.sh` is a global hook only, with no repo copy. Agents make worktrees in their
+scratchpad, beside the repo (`house-wt-*`) and in `.claude/worktrees/`, and no session removes
+them. The app removes only its own session worktrees.
 
 One global skill, `~/.claude/skills/asd-ste100`: Simplified Technical English for technical
 writing (docs, contracts, reports, commits, PR bodies, hook text). A clone of
 `danyuchn/asd-ste100-skill`, MIT. `check.yml`'s `writing` job runs its linter at the same
-commit as advice, never as a verdict. Update both in one commit: `git -C ~/.claude/skills/asd-ste100 pull`,
-then the `STE_SKILL_SHA` in `check.yml` (why: the one skill that shapes every file a session
-writes; a linter that drifts from the skill reports rules the writer never saw · 2026-10-19).
+commit as advice, never as a verdict. Update both in one commit: `git -C
+~/.claude/skills/asd-ste100 pull`, then the `STE_SKILL_SHA` in `check.yml`.
 
 `~/.claude/settings.json`, besides the hooks:
 
@@ -184,36 +129,6 @@ writes; a linter that drifts from the skill reports rules the writer never saw �
 Connectors (Gmail, Calendar, Drive, Docs, Sheets, Slides, Slack, Vercel, Neon, Supabase,
 Resend, Sentry and the rest) belong to the claude.ai account, not this machine: change them in
 claude.ai settings.
-
-### The Hermes profile
-
-`core/setup/hermes/` is the home of the four files of `~/.hermes/profiles/legible/` that no
-install writes. `setup/local.sh` copies a missing file into the profile, and all four into a
-profile that it creates. It never overwrites a file that is present, and it names a file that
-differs (why: Hermes writes `config.yaml` itself, an "always" approval among others, and an
-overwrite drops it · 2026-10-29). Carry a change made on the machine into the house by hand.
-
-| File | Holds |
-|---|---|
-| `config.yaml` | the provider and model, `secrets.command` (the keyring helper in § Local machine: one keyring item for each provider: Anthropic, OpenCode Zen and Vercel AI Gateway, with `override_existing: true`), the approvals and their deny list, the command allow list, memory and skill writes behind approval, `skills.external_dirs`, no `plugin_rule:` entry for a guard (why: an "always" answer to a guard's ask writes one, and it turns the human gate off for every later session · the loop walk, 2026-10-29), no `command_allowlist` key of a Hermes dangerous pattern that force-pushes or rewrites history (why: an "always" answer to that prompt writes the key, and Hermes then approves the command at its own layer with no prompt · 2026-10-31), the four hooks, the plugins, the MCP servers and the toolsets. No key, and no path but `~/.hermes/profiles/legible`, `~/.claude/skills` and the live repos' `.claude/skills` under `~/Desktop/legible-consulting/projects/`. A hook command starts with `~` (why: Hermes expands only a leading `~` and runs the script with no shell · 2026-10-29) |
-| `SOUL.md` | the profile's standing prompt: Jamie's global working standards |
-| `guard-adapter.sh` | the three guards for Hermes (the profile file table above) |
-| `board-context.sh` | the board and the router for Hermes (the profile file table above) |
-
-`skills.external_dirs` lists `~/.claude/skills` and the `.claude/skills` of each live repo's
-primary clone under `~/Desktop/legible-consulting/projects/` (`desk/mani.yaml`), and nothing
-writes to the list at run time (why: Hermes reads `.agents/skills` and `.hermes/skills` by
-itself, the estate keeps its skills in `.claude/skills`, and a list that a script rewrites
-drifts from its copy · 2026-10-30).
-
-A new or changed hook command or script is not allowlisted: Hermes asks once per hook at the
-next session's prompt, and the hook does not fire until Jamie approves it. `hermes -p legible
-hooks doctor` shows the state.
-
-Both scripts read the session's `cwd` from the profile's `state.db` (`sessions.cwd` by
-`session_id`), and the payload's `cwd` is the fallback (why: under the gateway, Hermes v0.22.5
-sends the gateway process's own folder, `~/.hermes`, as the payload's `cwd` · 2026-10-29). The
-upstream issue is https://github.com/NousResearch/hermes-agent/issues/146570. When a Hermes release fixes it, the lookup leaves both scripts.
 
 ## Cloud environment
 
