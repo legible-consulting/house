@@ -16,8 +16,9 @@ The house's work on itself, as tickets in the blueprint's shape, so that the des
 
 ## Inputs
 
-- The blueprint's `template/.icm/intake/CONTEXT.md`: the stub, the breakdown, the folder as
-  status and the loop from stub to merge. This folder keeps that shape and adds nothing.
+- The blueprint's `template/build/.icm/intake/CONTEXT.md` (the folder as status and the loop
+  from stub to merge) and `template/build/.icm/references/` (the stub and the breakdown). This
+  folder keeps that shape and adds nothing.
 - `CLAUDE.md`: the Boundaries and the house rules.
 
 ## Process

@@ -9,7 +9,7 @@
 
 ## Problem
 
-The contract bans `gh pr` because a Claude Code cloud session got HTTP 403 on GraphQL on 2026-10-28 (blueprint `template/.icm/intake/CONTEXT.md` § The loop). Nobody read it again since.
+The contract bans `gh pr` because a Claude Code cloud session got HTTP 403 on GraphQL on 2026-10-28 (blueprint `template/build/.icm/intake/CONTEXT.md` § The loop). Nobody read it again since.
 
 ## Proposed change
 

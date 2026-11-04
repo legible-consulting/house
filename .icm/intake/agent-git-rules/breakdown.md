@@ -10,7 +10,7 @@
 
 Three rules change. First, an agent may tick an acceptance criterion box when it checked that the criterion passed. A gate box (Spec approved, Ready to merge) stays a human checkbox. Second, `gh` in full, `gh pr` included, is allowed for pull requests and for GitHub as a whole. The REST-only rule exists because a Claude Code cloud session got HTTP 403 on GraphQL on 2026-10-28, so a cloud session is read again first. Third, a push to `main` runs with no ask when every file that the push changes is under `.icm/`: a new stub, a stub move, a breakdown. Any other push to `main` still asks.
 
-The rules live in the blueprint: `template/.icm/intake/CONTEXT.md` (§ The loop), the `pr-conventions` skill and `template/.claude/hooks/confirm-git-writes.sh`. The house and `~/.claude/hooks/` carry copies of the guard, and `check.yml`'s `guards` job fails when the house copy differs from the blueprint's. The scripts in `.icm/scripts/` can stay on REST: they work, and the rule change only lifts the ban.
+The rules live in the blueprint: `template/build/.icm/intake/CONTEXT.md` (§ The loop), the `pr-conventions` skill and `template/build/.claude/hooks/confirm-git-writes.sh`. The house and `~/.claude/hooks/` carry copies of the guard, and `check.yml`'s `guards` job fails when the house copy differs from the blueprint's. The scripts in `.icm/scripts/` can stay on REST: they work, and the rule change only lifts the ban.
 
 The first trial of 2026-10-30 found a related fault, parked as triage stub `hermes-approval-deny`: in a Hermes session, Deny at the approval prompt of `git push origin main` did not stop the push. A free `.icm/` push does not depend on that prompt. Every other ask does.
 

@@ -13,7 +13,7 @@ The blueprint's loop allows only `gh api`, `gh run` and `gh workflow run`, and t
 
 ## Proposed change
 
-A blueprint pull request edits `template/.icm/intake/CONTEXT.md` § The loop and the `pr-conventions` skill: `gh` in full is allowed, `gh pr ready` included. An agent may tick an acceptance criterion box in the stub and the pull request body when it checked that the criterion passed. A gate box stays a human checkbox. The cloud carve-out stays or goes as `cloud-graphql-probe` says.
+A blueprint pull request edits `template/build/.icm/intake/CONTEXT.md` § The loop and the `pr-conventions` skill: `gh` in full is allowed, `gh pr ready` included. An agent may tick an acceptance criterion box in the stub and the pull request body when it checked that the criterion passed. A gate box stays a human checkbox. The cloud carve-out stays or goes as `cloud-graphql-probe` says.
 
 ## Acceptance criteria
 
