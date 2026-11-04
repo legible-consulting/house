@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Send Arnaud the agreement for eSignature, the programme and the questions, from `agreement/cover-note.md`, and share both Drive docs with him first.
-deadline: 2026-11-01
+next_action: Get the agreement signed by both sides, then put the signed copy's Drive link in `agreement_drive` and set `agreement_signed` to `true`.
+deadline: 2026-11-06
 salesman:
 commission:
   sourced_by:
@@ -34,10 +34,10 @@ payment terms changed (15 % deposit with a 3 % escompte, balance at the end of t
 is still named `arnaud-ruelle`. Arnaud is also a shareholder of Remi AI, where Jamie is CTO.
 This folder stands on its own: nothing here cites that one, and nothing there cites this one.
 
-On 2026-10-27 the agreement is not sent and not signed, and the deposit invoice is not sent.
-Jamie booked the flight (Jamie, 2026-10-27). Arnaud's answers to `kickoff/questions.md` are not
-in. On 2026-10-30 the questions were checked: their deadlines of 29 and 30 October had passed
-unsent, and Jamie sets no new one; what is not answered is completed on site. Accommodation
-is handled separately and is named in none of the documents (Jamie, 2026-10-30). After the signature come the deposit invoice,
-once the accountant confirms the VAT treatment, and the A1 certificate (`quote/negotiation.md`,
-Open before the first invoice). The week starts on Monday 2 November 2026.
+On 2026-11-04 Jamie sent Arnaud the agreement for eSignature and the first invoice (Jamie,
+2026-11-04). The agreement is not signed yet. Jamie booked the flight (Jamie, 2026-10-27).
+Arnaud's answers to `kickoff/questions.md` are not in, and Jamie sets no deadline for them:
+what is not answered is completed on site (Jamie, 2026-10-30). Accommodation is handled
+separately and is named in none of the documents (Jamie, 2026-10-30). The balance invoice
+follows at the end of the week (`quote/negotiation.md`, Concessions, item 3). The week started
+on Monday 2 November 2026 and ends on Friday 6 November.
