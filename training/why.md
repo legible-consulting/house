@@ -13,3 +13,5 @@ Read it when you change a rule, not when you follow one. A rule without a why is
   Why: the blueprint is public · blueprint `CLAUDE.md`.
 - The plan and the coaching record are in English
   Why: internal notes · `CLAUDE.md`, Boundaries.
+- A client folder can hold `training/assessment.md`, a step of that client's own
+  Why: Euro Register's personal reports are a one-off for that client, not a step of every training · Jamie, 2026-11-04.

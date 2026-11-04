@@ -19,6 +19,7 @@ Training produces the session plan, the coaching record and the attendance recor
 - The template in this folder: `record.md`.
 - In `legible-consulting/library`, read only: the lessons a session adapts, by the paths the kit cites. Quote at most one line of the course, with its path.
 - Jamie's notes after each day, in the session.
+- `clients/<slug>/training/assessment.md`, when it exists: a step of that client's own.
 
 ## Process
 
@@ -66,6 +67,8 @@ Training produces the session plan, the coaching record and the attendance recor
   7. **Close.** When the week is delivered, the materials (the kit's paths, the workspace) and
      the attestations are sent by Jamie, and the record says so. Jamie moves `stage` to `after`
      (`clients/CONTEXT.md`).
+- A client folder can hold `training/assessment.md`, a step of that client's own. A session
+  routed to it follows that file, and its outputs stay in `clients/<slug>/training/`.
 - The plan and the coaching record are in English. The programme, the attendance record and
   every material the client keeps are in the client's language.
 - The gate: Jamie reads the plan before the programme goes out, delivers the day and the hours,
@@ -80,5 +83,6 @@ Training produces the session plan, the coaching record and the attendance recor
 - `record.md`: the template of a coaching record, with `{{PLACEHOLDERS}}` like `clients/_template/record.md`.
 - `clients/<slug>/training/plan.md`, `record.md` and `attendance.md`. `clients/CONTEXT.md` holds them.
 - `clients/<slug>/kickoff/programme.md`, derived from the plan, in the shape of `06-kickoff/CONTEXT.md`.
+- The files that a client's `training/assessment.md` names, in `clients/<slug>/training/`.
 - A blueprint pull request to `workshop-kit/` when a run changes the method.
 - The house pull request, with a message that starts `training:`.
