@@ -189,8 +189,8 @@ jobs:
         run: |
           fail=0
           for f in .claude/hooks/*.sh; do
-            cmp -s "$f" "/tmp/blueprint/template/$f" \
-              || { echo "::error file=${f}::differs from blueprint template/${f}"; fail=1; }
+            cmp -s "$f" "/tmp/blueprint/template/build/$f" \
+              || { echo "::error file=${f}::differs from blueprint template/build/${f}"; fail=1; }
           done
           exit "$fail"
 

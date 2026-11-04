@@ -35,7 +35,7 @@ Classification of the open epics, for question 1 (2026-10-30):
 | triage | 7 | 1 | the estate's env cleanup, the Hermes trials and guards, the stub's Prompt section, the skill review | `hermes-models-trials` names `ticket`; stub `house-ticket-leaves` edits it | Vercel and Neon settings, `core/setup/hermes/` |
 | goose-worktrees | 0 | 0 | done; waits on its close-out | its `ticket` decisions are replaced here | none |
 | google-service-account | 3 | 0 | Google from any runner, without a connector | none | `core/stack.md`, `core/setup/local.sh`, `.env.example` |
-| ticket-leaves | 4 | 0 | a simpler stack: one way to make a worktree | replaces the `ticket` decisions of `goose-worktrees` | `core/stack.md`, `core/setup/`, blueprint `template/.icm/scripts/`, `check.yml`, each live repo |
+| ticket-leaves | 4 | 0 | a simpler stack: one way to make a worktree | replaces the `ticket` decisions of `goose-worktrees` | `core/stack.md`, `core/setup/`, blueprint `template/build/.icm/scripts/`, `check.yml`, each live repo |
 
 ## Decisions of record
 

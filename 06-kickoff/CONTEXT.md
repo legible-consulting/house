@@ -18,7 +18,7 @@ Kickoff produces the client repo rendered from the blueprint, the access table, 
 - The answers to the kickoff form's questions: `clients/<slug>/kickoff/kickoff-<date>.md`. The client fills them in the form, or Jamie gives them after a call (Process, step 2).
 - `core/terms.md` (Ownership, Hosting and support): who holds which account.
 - The templates in this folder: `access-table.md`, `kickoff-note.md`.
-- In `legible-consulting/blueprint`, read only: `README.md`, `copier.yml` (the bank of questions), `template/.icm/intake/CONTEXT.md` (the stub and the breakdown).
+- In `legible-consulting/blueprint`, read only: `README.md`, `copier.yml` (the bank of questions), `template/build/.icm/references/stub.md` and `breakdown.md` (the two shapes).
 - For a client repo that exists before kickoff: its `.copier-answers.yml`, `.env.example` and `.github/workflows/`.
 - Jamie's answers to the questions in Process.
 
