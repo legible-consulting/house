@@ -34,6 +34,13 @@ Open. The participants, their roles and the jobs they bring come from the answer
 | Date | Person | Hours | Job | Built | Walk test | Next step alone |
 |---|---|---|---|---|---|---|
 
+## The reports
+
+One row per person, from `assessment.md`. Jamie sends each report and says the date.
+
+| Person | Drafted | Google Doc | Sent |
+|---|---|---|---|
+
 ## The attendance
 
 - `attendance.md`: open. The session drafts it from this record after the week, with the
