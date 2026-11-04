@@ -6,9 +6,8 @@ date: 2026-10-28
 ---
 # Identity — who Legible Consulting is
 
-One home for who we are: the person, the entity, the place, the languages, and what we do
-and do not do. Every module and every client artefact reads these facts here (why: one home
-per fact; a bio restated in five proposals drifts five ways · 2026-10-19).
+One home for who we are: the person, the entity, the place, the languages, and what we do and
+do not do. Every module and every client artefact reads these facts here.
 
 ## Bio
 
@@ -34,8 +33,7 @@ the UAE and the United States.
 | Booking link | Discovery Call, https://calendar.app.google/wSximgdkMuBcoHee7. A salesman sends it from their own account to book a call with Jamie. The desk shows it with Copy under the lesson set-up-the-meeting (`01-prospecting/kit.<language>.md`) and reads no calendar (Jamie, 2026-10-28). |
 | IBAN | Never in git. Invoices are written and sent outside the house. |
 
-Agreements and invoices carry the legal name and the NIF, never the trade name alone (why:
-the sole trader is the party that signs and is paid; a trade name binds nobody · 2026-10-19).
+Agreements and invoices carry the legal name and the NIF, never the trade name alone.
 
 ## Languages
 
@@ -51,9 +49,8 @@ Three lines. The org front page restates the first two in public.
   live status they can read at any time, and a handover pack at the end.
 - **Teach.** ICM in a one-day workshop, and coaching that leaves a client with their own
   working workspace.
-- **Advise.** A second opinion on where the tools fit in a client's business, and delivery
-  run on a build (why: AI consultancy and project management are lines of `services.md` ·
-  Jamie, 2026-10-27).
+- **Advise.** A second opinion on where the tools fit in a client's business, and delivery run
+  on a build.
 
 The lines, what each includes and what each costs are in `services.md`.
 

@@ -6,9 +6,8 @@ date: 2026-10-27
 ---
 # Voice — how we sound, and how a document looks
 
-One home for the register, the words, and the design every client document carries. A
-module reads this file and never quotes it at a client (why: a voice is shown, not described
-· 2026-10-19).
+One home for the register, the words, and the design every client document carries. A module
+reads this file and never quotes it at a client.
 
 ## Register
 
@@ -28,7 +27,7 @@ module reads this file and never quotes it at a client (why: a voice is shown, n
 
 ## Words
 
-Never in client text (why: each one earned its place in a deal that went wrong · 2026-10-19):
+Never in client text:
 
 | Never | Why |
 |---|---|
@@ -60,9 +59,9 @@ The same offer, said three ways. The floor, the anchor and the method do not cha
 
 The brand is Jamie Nisbet's. Its one home is the `jamienisbet` repo, cloned at
 `~/Desktop/legible-consulting/projects/jamienisbet/`. The tokens are in `tokens/` (colours,
-typography, fonts) and the logo in `assets/logo/`, at its root. The table below is the copy a session uses when that repo is
-not attached. When the two disagree, the tokens win and this table is fixed (why: a copy that
-wins over its source drifts the site · 2026-10-19).
+typography, fonts) and the logo in `assets/logo/`, at its root. The table below is the copy a
+session uses when that repo is not attached. When the two disagree, the tokens win and this
+table is fixed.
 
 | Element | Value |
 |---|---|
@@ -82,16 +81,15 @@ wins over its source drifts the site · 2026-10-19).
 `desk/app/app/globals.css`. That file copies the brand's tokens and holds every colour, type
 step, size and radius of the desk. It states three rules. Paper and ink are the tints. Mono is
 metadata. Colour is for state only. When the file and the brand's tokens disagree, the tokens
-win and the file is fixed (why: one home for the desk's design, read by every component, and
-the brand stays the source · 2026-10-27).
+win and the file is fixed.
 
 ## The documents
 
 | Document | Module | Shape |
 |---|---|---|
-| Proposal | The proposal writes it; the quote writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section (why: a client says yes to one document they understand, without a second call · 2026-10-19). |
+| Proposal | The proposal writes it; the quote writes its price section | Cover. Then the problem, the approach, the scope, the timeline, what it costs (the options table and the price), what happens next. 4 to 8 pages. There is no separate quote document: the price is the proposal's last section. |
 | Agreement | The agreement stage | Numbered clauses from `terms.md`. The accepted proposal attached. The signature block last. |
-| Handover pack | Handover (`08-handover/CONTEXT.md`) | Cover. Then what the client has, what is theirs, what happens next (`pack.md`); how to use it, a numbered walkthrough on the production URL (`walkthrough.md`); who hosts what, what it costs, the support and the access that ends (`support-and-hosting.md`); the retainer offer, when one is offered (`retainer-offer.md`). One document: the render joins the four files in that order. 3 to 6 pages (why: the client reads one document on the day the build ends, and each part keeps one home · 2026-10-26). The review and case-study request is a mail 30 days later, not part of the pack. |
+| Handover pack | Handover (`08-handover/CONTEXT.md`) | Cover. Then what the client has, what is theirs, what happens next (`pack.md`); how to use it, a numbered walkthrough on the production URL (`walkthrough.md`); who hosts what, what it costs, the support and the access that ends (`support-and-hosting.md`); the retainer offer, when one is offered (`retainer-offer.md`). One document: the render joins the four files in that order. 3 to 6 pages. The review and case-study request is a mail 30 days later, not part of the pack. |
 
 Every document is written as markdown in the client folder, in the client's language,
 rendered to PDF in this design by `core/render/`, which reads the table above, and placed in

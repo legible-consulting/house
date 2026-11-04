@@ -6,10 +6,9 @@ date: 2026-10-26
 ---
 # Terms — what every engagement gets unless the proposal names an exception
 
-One home for the standard terms. The quote writes them into the proposal's price section, the agreement
-writes them as the agreement's clauses, and a deviation is named in the client's folder
-(why: a term restated per deal drifts, and a client who reads two of our agreements should
-find the same rules · 2026-10-19). This file is house practice, not legal advice.
+One home for the standard terms. The quote writes them into the proposal's price section, the
+agreement writes them as the agreement's clauses, and a deviation is named in the client's
+folder. This file is house practice, not legal advice.
 
 ## Payment
 
@@ -43,8 +42,7 @@ dated from the deposit paid and the materials received, never from the proposal.
 
 ## Hosting and support
 
-Two patterns. The proposal names which one applies (why: silence here is the first question
-after launch · 2026-10-19).
+Two patterns. The proposal names which one applies.
 
 | Pattern | Accounts | Support | Jamie's access |
 |---|---|---|---|
@@ -54,9 +52,7 @@ after launch · 2026-10-19).
 A site with no state is Jamie-hosted at no charge and has no support line.
 
 A Jamie-hosted build with state and no retainer has one of two outcomes at handover. The
-proposal or the agreement names which one. When neither names it, the first applies (why:
-basic support rides inside a retainer, and without one the client must know on the day of
-handover who keeps the build working · Jamie, 2026-10-26):
+proposal or the agreement names which one. When neither names it, the first applies:
 
 - It moves to client-owned. The accounts transfer to the client, and Jamie's access ends.
 - Jamie keeps hosting it at no charge and keeps it working: a crash fix when the app is down
@@ -73,12 +69,9 @@ hook for: `clients/<slug>/handover/support-and-hosting.md`, written by handover
 - Either side may end with 30 days' written notice.
 - Work done to the notice date is invoiced. The deposit is not refunded.
 - A retainer ends at the end of the notice period. The month in progress is not refunded.
-- A retainer the client ends before its committed block ends: the term discount
-  (`services.md` § Retainer pricing) on the months already billed is invoiced with the last
-  invoice (why: the discount buys the block; without the block it was not earned · 2026-10-22).
-- A workshop has its own scale before the first day, in place of the notice period (why: a
-  date held is a week Jamie cannot sell again, and a flight is booked at signature · Euro
-  Register, 2026-10-26):
+- A retainer the client ends before its committed block ends: the term discount (`services.md`
+  § Retainer pricing) on the months already billed is invoiced with the last invoice.
+- A workshop has its own scale before the first day, in place of the notice period:
   - The client moves the date at no cost when it tells Jamie at least 14 days before the
     first day.
   - The client cancels more than 30 days before: the deposit is refunded, less the flight if
@@ -90,19 +83,14 @@ hook for: `clients/<slug>/handover/support-and-hosting.md`, written by handover
 
 ## Confidentiality and liability
 
-- What Jamie sees of the client's work and business stays confidential, during the
-  engagement and after it. At the end he keeps no copy of the client's documents (why: a
-  client shows its working to someone it trusts, and the trust outlives the engagement ·
-  Euro Register, 2026-10-26).
-- Jamie's liability under an agreement is limited to the price the client has paid (why: one
-  person cannot carry a risk larger than the engagement · Euro Register, 2026-10-26).
+- What Jamie sees of the client's work and business stays confidential, during the engagement
+  and after it. At the end he keeps no copy of the client's documents.
+- Jamie's liability under an agreement is limited to the price the client has paid.
 
 ## Law and language
 
 - Portuguese law applies. The courts of Lisbon are competent.
 - The agreement is in the client's language, and that text is the signed one.
-- The accepted proposal is part of the agreement. Where the two differ, the agreement
-  prevails (why: the agreement is the later text and the one both sides sign · Berceo, Euro
-  Register, 2026-10-26).
+- The accepted proposal is part of the agreement. Where the two differ, the agreement prevails.
 - The parties are the client as named in `clients/<slug>/record.md` and Jamie Nisbet, sole
   trader, as `identity.md` gives him.
