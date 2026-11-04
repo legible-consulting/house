@@ -77,3 +77,34 @@ Read it when you change a rule, not when you follow one. A rule without a why is
   Why: the client says yes to one document, and the renderer that joins the two for the PDF is not built yet · 2026-10-26.
 - The desk judges nothing: the file holds the link, the title, the text around it and the time
   Why: the share sheet is the one tap Jamie takes on the phone; a link that waits in a chat is a link lost · 2026-10-25.
+
+## app/DESIGN.md
+
+- When a page and this file disagree, this file wins and the page is fixed
+  Why: one home per fact · 2026-10-27.
+- What does not answer the question moves down, folds or leaves
+  Why: a page that answers two questions answers neither at a glance · 2026-10-27.
+- A flat list with a tag per row is never the first view of a state
+  Why: the intake makes status positional, and the eye reads a position before it reads a word · 2026-10-27.
+- Nothing else on the desk shows a ticket
+  Why: one shape learned once reads everywhere · 2026-10-27.
+- A pull request matched to no ticket is a card of its own, marked "no ticket", at the foot of Running
+  Why: the pull request is the ticket's vehicle, not a second list · 2026-10-27.
+- The track is the same drawing on the card, the board and the ticket page
+  Why: the loop has steps, and the eye reads a filled track faster than two badges · 2026-10-27.
+- A stub's prose and its prompt are detail. They live on the ticket page, never inline in a list
+  Why: a count is read in one glance, a list in many · 2026-10-27.
+- No cell wraps past two lines
+  Why: a column that wraps to twelve lines is a paragraph in a cage · 2026-10-27.
+- Never a tile that reads 0, a dashed box, or a table with no rows
+  Why: seven tiles that read 0 say less than one line · 2026-10-27.
+- The header's quiet line carries the counts
+  Why: Jamie built the desk and reads it every day · 2026-10-27.
+- One exception: a salesman's page may carry one line from the kit, in the salesman's language, on the object the salesman acts on: the next step under a pool row's header, the lesson's link on the add card and on Next touch
+  Why: Jamie built the desk and a salesman did not · 2026-10-28.
+- The desk has no table of actions
+  Why: an action found beside its object needs no label · 2026-10-27; the client action is the home's object, because Jamie starts a session from it · Jamie, 2026-10-27.
+- The phone shows one column at a time under a segmented control
+  Why: a board is read whole, and the chrome costs a column · 2026-10-27.
+- The house is `/work/house`
+  Why: the intake says the path is the identity, and the desk says the same · 2026-10-27.

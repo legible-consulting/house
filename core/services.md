@@ -6,17 +6,15 @@ date: 2026-10-27
 ---
 # Services — what we sell, what each line includes, what it costs
 
-One home for the lines and their prices. A proposal quotes from this file and deviates by
-name. Work that fits no line is a finding: the file grows, or the work is declined (why: a
-catalogue that is not the one home for price becomes a habit of quoting from memory ·
-2026-10-19).
+One home for the lines and their prices. A proposal quotes from this file and deviates by name.
+Work that fits no line is a finding: the file grows, or the work is declined.
 
 ## The lines
 
 The six lines from Site to Retainer were written on 2026-10-19. The eight from GEO optimisation
 to Lead-gen channel development were the site's services, and Jamie kept them all on
-2026-10-27 (why: the site sold them, and the cases on it are tagged with them · Jamie,
-2026-10-27). A line name is the label a case, a page and a proposal use, as this table writes it.
+2026-10-27. A line name is the label a case, a page and a proposal use, as this table writes
+it.
 
 | Line | The client gets |
 |---|---|
@@ -33,14 +31,14 @@ to Lead-gen channel development were the site's services, and Jamie kept them al
 | **Project management** | Someone technical who keeps a build on track: scope, timeline and the people on it, with honest status they can act on. |
 | **Software engineering** | Web apps and systems built to last: fast, accessible, documented and easy to change. |
 | **Lead-gen channel development** | The channels that bring work in: referrals, outreach and the tooling behind them. |
-| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). Handover offers it as the last section of the handover pack (`08-handover/retainer-offer.md`) (why: the client decides before the first month without support · 2026-10-19). |
+| **Retainer** | Ongoing work against a written monthly scope. Hosting and basic support ride inside it (`terms.md` § Hosting and support). Handover offers it as the last section of the handover pack (`08-handover/retainer-offer.md`). |
 
-Every build (site, app, platform) runs through the build: brief and tickets in the repo, a preview
-environment the client signs off before every release, live status they can read at any
+Every build (site, app, platform) runs through the build: brief and tickets in the repo, a
+preview environment the client signs off before every release, live status they can read at any
 time, and a handover pack at the end (`08-handover/CONTEXT.md`). A role (`kind: role` in a
-client record) is a position in the client's company in which Jamie owns part of the
-product, not a line. It is agreed per case. A retainer at any number of hours stays a
-retainer; the role starts where the ownership starts (why: Remi AI · 2026-10-22).
+client record) is a position in the client's company in which Jamie owns part of the product,
+not a line. It is agreed per case. A retainer at any number of hours stays a retainer; the role
+starts where the ownership starts.
 
 ## In every build
 
@@ -53,9 +51,9 @@ retainer; the role starts where the ownership starts (why: Remi AI · 2026-10-22
 
 ## Not in a build's price
 
-- **Content writing**: page copy, product text, translations. The client brings it, or it
-  is its own line in the proposal (why: Jamie's answer · 2026-10-19). The one exception is
-  Landing pages, fully serviced, whose copy is inside the line (2026-10-27).
+- **Content writing**: page copy, product text, translations. The client brings it, or it is
+  its own line in the proposal. The one exception is Landing pages, fully serviced, whose copy
+  is inside the line (2026-10-27).
 
 Brand and graphic design, photography and imagery, and SEO beyond clean structure, metadata
 and speed are not excluded by rule. Each is in a build only when the proposal names it.
@@ -63,8 +61,7 @@ and speed are not excluded by rule. Each is in a build only when the proposal na
 ## Pricing
 
 Prices are in EUR and exclude VAT. Every engagement is a fixed price or a monthly retainer.
-Time and materials is not sold (why: a fixed price makes scope the conversation; the
-regretted deals were the ones where the price moved and the scope did not · 2026-10-19).
+Time and materials is not sold.
 
 | Line | Price | Unit | How the number is reached |
 |---|---|---|---|
@@ -92,9 +89,8 @@ regretted deals were the ones where the price moved and the scope did not · 202
   version at or above it, or a decline.
 - **Two options in every proposal:** the smallest honest version that does the job, and the
   whole scope. Options are scope. A lower number takes a named piece of scope with it.
-- **Never public:** the anchor, the floor, the bands and the term discounts. Each is said on
-  a call or in a proposal, never on a page (why: a number on a page is a number to argue
-  with before the work is scoped · 2026-10-19).
+- **Never public:** the anchor, the floor, the bands and the term discounts. Each is said on a
+  call or in a proposal, never on a page.
 - **Deviations are decisions.** A price below band is written in the client's `quote/`
   folder with its reason. The next proposal reads it as precedent.
 
@@ -104,7 +100,7 @@ The workshop day and the coaching hour were distilled on 2026-10-25 from the fir
 engagement, Euro Register's offer of 2026-10-09 (`clients/euro-register/quote/negotiation.md`).
 The offer, not the agreed price, is the source: it was built from the anchor and read against
 the market, and the agreed price is a relationship discount that the agreement names as no
-reference rate (why: a list read from a discount is a discount · 2026-10-25).
+reference rate.
 
 - **A day is a day.** The workshop day is one day of Jamie, on site or remote. How the day
   splits between the group session and one-to-one hours is the programme; the price does
@@ -123,17 +119,15 @@ reference rate (why: a list read from a discount is a discount · 2026-10-25).
 
 ## Retainer pricing
 
-A retainer is priced from Jamie's hours, not from a range (why: a retainer runs from five
-hours a month to near full-time, and one range fits none of them · 2026-10-22).
+A retainer is priced from Jamie's hours, not from a range.
 
 - **The unit is Jamie's attention.** The hours count Jamie's own attention in the month.
   What he does with them (sessions, calls, review) is his discretion. The sessions' time is
   not counted.
 - **The price.** Hours a month × the anchor, less the discount for the committed term. The
   floor holds on the discounted monthly price.
-- **The term discount.** The longer the committed block, the larger the discount (why: a
-  committed block is income Jamie can plan on · 2026-10-22). 25% is the maximum. A block
-  that renews keeps its discount.
+- **The term discount.** The longer the committed block, the larger the discount. 25% is the
+  maximum. A block that renews keeps its discount.
 
 | Committed term | Discount |
 |---|---|

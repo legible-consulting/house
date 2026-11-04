@@ -1,6 +1,9 @@
 # Research intake — the routine's procedure
 
-This file is the procedure of the cloud routine `research-intake` (claude.ai/code, environment `legible`, repository `legible-consulting/house`, daily at 06:00 UTC). The routine's stored prompt says only: read this file and do what it says. The contract is `CONTEXT.md` beside this file. To change the routine, change this file (why: a prompt in git is reviewed, dated and reverted like any other file; a prompt in a dialog is none of these · 2026-10-19).
+This file is the procedure of the cloud routine `research-intake` (claude.ai/code, environment
+`legible`, repository `legible-consulting/house`, daily at 06:00 UTC). The routine's stored
+prompt says only: read this file and do what it says. The contract is `CONTEXT.md` beside this
+file. To change the routine, change this file.
 
 ## Boundary
 
@@ -17,9 +20,13 @@ This file is the procedure of the cloud routine `research-intake` (claude.ai/cod
    ```
    Skip each file that has a line `Pointer unresolved:` under its frontmatter. Such a file waits for Jamie's name on the desk (step 4l). If no other file is left, stop. Write nothing. Open no PR. Your final message is: "The queue is empty.", and the count of the files that wait for a name, if any.
 2. Check the tools:
-   - GitHub: `gh api repos/legible-consulting/house --jq .full_name`. If it fails, run `git ls-remote --heads origin main` and `gh auth status`, then stop. Your final message quotes the three results, with no token value in it (why: the sandbox's own token may serve git and not the API, and the message must say which route is dead · 2026-10-25).
+   - GitHub: `gh api repos/legible-consulting/house --jq .full_name`. If it fails, run `git
+     ls-remote --heads origin main` and `gh auth status`, then stop. Your final message quotes
+     the three results, with no token value in it.
    - Text: `command -v trafilatura || command -v html2text`.
-   - Video: `command -v yt-dlp && yt-dlp --version`. If it is missing, or older than the pin in `core/setup/cloud.sh`, and `uvx` exists, use `uvx yt-dlp@<the pin>` wherever step 4c says `yt-dlp` (why: the environment's pasted setup script can lag behind `core/setup/cloud.sh`, and an old yt-dlp fails on the social hosts first · 2026-10-29).
+   - Video: `command -v yt-dlp && yt-dlp --version`. If it is missing, or older than the pin in
+     `core/setup/cloud.sh`, and `uvx` exists, use `uvx yt-dlp@<the pin>` wherever step 4c says
+     `yt-dlp`.
    If a tool is still missing, continue; step 4c says what to do without it.
 3. Make the branch from `main`:
    ```bash
@@ -33,15 +40,34 @@ This file is the procedure of the cloud routine `research-intake` (claude.ai/cod
       - A link in them is the item. `owner/name` after "GitHub", "Open source" or "→" is `https://github.com/owner/name`. A short link (`osp.fyi/...`) is followed to where it lands.
       - A tool named without a link: search the web for `<name> github`, then `<name>`. The item is the repository or site whose README or page describes the same tool. Write in the Source section that the item was found by search.
       - No name and no link, and a route read the post: the post is the item, `kind: article`. Judge it from what the route read.
-      - No route read the post, and `text` is empty: the item is unresolved. Do not write a verdict. Go to step l (why: on 2026-10-29, 16 verdict files held no item; Jamie names a share faster than he reads a decline of nothing · 2026-10-29).
+      - No route read the post, and `text` is empty: the item is unresolved. Do not write a
+        verdict. Go to step l.
       The account that posted is the file's `via`.
       On any other host, `url` is the item.
    c. Fetch as text, into `/tmp/`:
-      - A Facebook link: `yt-dlp -j --no-warnings --no-playlist "<url>"`, then read `title`, `description`, `uploader`. When yt-dlp fails: `curl -sL "<url>" | grep -o 'og:url" content="[^"]*'`. A share link redirects with no login. Its `og:url` is `facebook.com/<page>/videos/<slug>/<id>/`, and the slug is the first 80 characters of the caption. Read the page and the slug, then search the web for the slug's words. Write `yt-dlp failed; caption from og:url` in the Source section. No `og:url` means no route (why: the route test of 2026-10-29 read the caption this way where yt-dlp failed · 2026-10-29).
+      - A Facebook link: `yt-dlp -j --no-warnings --no-playlist "<url>"`, then read `title`,
+        `description`, `uploader`. When yt-dlp fails: `curl -sL "<url>" | grep -o 'og:url"
+        content="[^"]*'`. A share link redirects with no login. Its `og:url` is
+        `facebook.com/<page>/videos/<slug>/<id>/`, and the slug is the first 80 characters of
+        the caption. Read the page and the slug, then search the web for the slug's words.
+        Write `yt-dlp failed; caption from og:url` in the Source section. No `og:url` means no
+        route.
       - An Instagram link: the same `yt-dlp -j`. When it fails: `curl -sL "<url>"`, then read the `og:title` and `og:description` meta tags. Instagram often shows a login shell with no login. Then there is no route.
-      - A LinkedIn link: there is no route with no login and no cookie (why: LinkedIn shows a post to a signed-in reader only, and a credential in an unattended run is against `CLAUDE.md` Boundaries · 2026-10-29). Do not fetch. The item comes from `text`. The desk asks Jamie for the post's text when he shares a LinkedIn link.
-      - A YouTube link: the same `yt-dlp -j`, then `yt-dlp --skip-download --write-auto-subs --sub-langs en --convert-subs srt -o "/tmp/<name>" "<url>"` for the captions. When yt-dlp fails, and its message asks to sign in or names a bot check: `curl -fsSL "https://www.youtube.com/oembed?url=<url>&format=json"` gives `title` and `author_name`; then `trafilatura -u "<url>"` for the description, which may be empty; there are no captions then. Write `yt-dlp bot check; title and channel from oEmbed` in the Source section (why: YouTube refuses yt-dlp from the cloud's addresses; it refused all three shorts on 2026-10-25 · 2026-10-25).
-      - A GitHub repository: the README with `curl -fsSL "https://raw.githubusercontent.com/<owner>/<repo>/HEAD/README.md"`, then `readme.md`, then `README.rst` when the first is a 404; the description, licence and stars from the repository page, `trafilatura -u "https://github.com/<owner>/<repo>"`. `gh api` only for a repository of `legible-consulting` (why: the sandbox's token reads this organisation only, and GitHub answered 403 for every other repository on 2026-10-25 · 2026-10-25).
+      - A LinkedIn link: there is no route with no login and no cookie. Do not fetch. The item
+        comes from `text`. The desk asks Jamie for the post's text when he shares a LinkedIn
+        link.
+      - A YouTube link: the same `yt-dlp -j`, then `yt-dlp --skip-download --write-auto-subs
+        --sub-langs en --convert-subs srt -o "/tmp/<name>" "<url>"` for the captions. When
+        yt-dlp fails, and its message asks to sign in or names a bot check: `curl -fsSL
+        "https://www.youtube.com/oembed?url=<url>&format=json"` gives `title` and
+        `author_name`; then `trafilatura -u "<url>"` for the description, which may be empty;
+        there are no captions then. Write `yt-dlp bot check; title and channel from oEmbed` in
+        the Source section.
+      - A GitHub repository: the README with `curl -fsSL
+        "https://raw.githubusercontent.com/<owner>/<repo>/HEAD/README.md"`, then `readme.md`,
+        then `README.rst` when the first is a 404; the description, licence and stars from the
+        repository page, `trafilatura -u "https://github.com/<owner>/<repo>"`. `gh api` only
+        for a repository of `legible-consulting`.
       - Anything else: `trafilatura -u "<url>" --with-metadata --markdown`. Without trafilatura: `curl -fsSL "<url>" | html2text`.
       If the command fails, or the text is empty (a post behind a login often is), work from `title` and `text` only, and write `Fetch failed: <the error>` in the Source section. On a social host with an empty `title` and an empty `text`, that is step b's unresolved case.
    d. Read `research/CONTEXT.md`, `research/verdicts/codex-remote.md` (the shape), `core/stack.md` (what the house runs), `core/services.md` (what the house sells), the Boundaries in `CLAUDE.md`, and the frontmatter of every file in `research/verdicts/` and `research/concepts/`. If a file for the same item exists, do not write a second one: add a `## Update <YYYY-MM-DD>` section to that file that says what the new source adds, and whether the verdict stands.

@@ -109,3 +109,69 @@ Read it when you change a rule, not when you follow one. A rule without a why is
   Why: the signed copy is the record of the deal; a render must never overwrite it · 2026-10-22.
 - CI never places
   Why: no secret in the render path · 2026-10-22.
+
+## services.md
+
+- Work that fits no line is a finding: the file grows, or the work is declined
+  Why: a catalogue that is not the one home for price becomes a habit of quoting from memory · 2026-10-19.
+- The eight from GEO optimisation to Lead-gen channel development were the site's services, and Jamie kept them all on 2026-10-27
+  Why: the site sold them, and the cases on it are tagged with them · Jamie, 2026-10-27.
+- Handover offers it as the last section of the handover pack (`08-handover/retainer-offer.md`)
+  Why: the client decides before the first month without support · 2026-10-19.
+- A retainer at any number of hours stays a retainer; the role starts where the ownership starts
+  Why: Remi AI · 2026-10-22.
+- The client brings it, or it is its own line in the proposal
+  Why: Jamie's answer · 2026-10-19.
+- Time and materials is not sold
+  Why: a fixed price makes scope the conversation; the regretted deals were the ones where the price moved and the scope did not · 2026-10-19.
+- Each is said on a call or in a proposal, never on a page
+  Why: a number on a page is a number to argue with before the work is scoped · 2026-10-19.
+- The offer, not the agreed price, is the source: it was built from the anchor and read against the market, and the agreed price is a relationship discount that the agreement names as no reference rate
+  Why: a list read from a discount is a discount · 2026-10-25.
+- A retainer is priced from Jamie's hours, not from a range
+  Why: a retainer runs from five hours a month to near full-time, and one range fits none of them · 2026-10-22.
+- The term discount: the longer the committed block, the larger the discount
+  Why: a committed block is income Jamie can plan on · 2026-10-22.
+
+## terms.md
+
+- The quote writes them into the proposal's price section, the agreement writes them as the agreement's clauses, and a deviation is named in the client's folder
+  Why: a term restated per deal drifts, and a client who reads two of our agreements should find the same rules · 2026-10-19.
+- The proposal names which one applies
+  Why: silence here is the first question after launch · 2026-10-19.
+- When neither names it, the first applies
+  Why: basic support rides inside a retainer, and without one the client must know on the day of handover who keeps the build working · Jamie, 2026-10-26.
+- A retainer the client ends before its committed block ends: the term discount (`services.md` § Retainer pricing) on the months already billed is invoiced with the last invoice
+  Why: the discount buys the block; without the block it was not earned · 2026-10-22.
+- A workshop has its own scale before the first day, in place of the notice period
+  Why: a date held is a week Jamie cannot sell again, and a flight is booked at signature · Euro Register, 2026-10-26.
+- At the end he keeps no copy of the client's documents
+  Why: a client shows its working to someone it trusts, and the trust outlives the engagement · Euro Register, 2026-10-26.
+- Jamie's liability under an agreement is limited to the price the client has paid
+  Why: one person cannot carry a risk larger than the engagement · Euro Register, 2026-10-26.
+- Where the two differ, the agreement prevails
+  Why: the agreement is the later text and the one both sides sign · Berceo, Euro Register, 2026-10-26.
+
+## voice.md
+
+- A module reads this file and never quotes it at a client
+  Why: a voice is shown, not described · 2026-10-19.
+- The words that are never in client text
+  Why: each one earned its place in a deal that went wrong · 2026-10-19.
+- When the two disagree, the tokens win and this table is fixed
+  Why: a copy that wins over its source drifts the site · 2026-10-19.
+- When the file and the brand's tokens disagree, the tokens win and the file is fixed
+  Why: one home for the desk's design, read by every component, and the brand stays the source · 2026-10-27.
+- There is no separate quote document: the price is the proposal's last section
+  Why: a client says yes to one document they understand, without a second call · 2026-10-19.
+- One document: the render joins the four files in that order. 3 to 6 pages
+  Why: the client reads one document on the day the build ends, and each part keeps one home · 2026-10-26.
+
+## identity.md
+
+- Every module and every client artefact reads these facts here
+  Why: one home per fact; a bio restated in five proposals drifts five ways · 2026-10-19.
+- Agreements and invoices carry the legal name and the NIF, never the trade name alone
+  Why: the sole trader is the party that signs and is paid; a trade name binds nobody · 2026-10-19.
+- Advise: a second opinion on where the tools fit in a client's business, and delivery run on a build
+  Why: AI consultancy and project management are lines of `services.md` · Jamie, 2026-10-27.
