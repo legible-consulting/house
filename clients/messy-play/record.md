@@ -3,7 +3,7 @@ slug: messy-play
 name: Happy Mess Makers
 language: en
 stage: build
-kind:
+kind: build
 public:
 opened: 2025-09-20
 next_action:
@@ -25,3 +25,6 @@ the Lisboa region: mobile services, pop-up events and drop-off packages. The sit
 Next.js build in `k0d0minio/messy-play`, first made in v0.app (2025-09-20). Discovery has not
 run: no brief and no plan exist. The repo moved from the legacy lane into the local lane and
 the estate on 2026-10-28.
+
+The build is active. Jamie does it for free: he considers the client close family or a
+friend. There is no price, no quote and no agreement (Jamie, 2026-11-09).

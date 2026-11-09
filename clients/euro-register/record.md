@@ -5,8 +5,8 @@ language: fr-BE
 stage: agreement
 kind: training
 opened: 2026-10-09
-next_action: Get the agreement signed by both sides, then put the signed copy's Drive link in `agreement_drive` and set `agreement_signed` to `true`.
-deadline: 2026-11-06
+next_action: On the Friday call, check in with the whole team and collect each employee's ICM system as a zip file, for Jamie to unpack and audit.
+deadline: 2026-11-13
 salesman:
 commission:
   sourced_by:
@@ -41,3 +41,7 @@ what is not answered is completed on site (Jamie, 2026-10-30). Accommodation is 
 separately and is named in none of the documents (Jamie, 2026-10-30). The balance invoice
 follows at the end of the week (`quote/negotiation.md`, Concessions, item 3). The week started
 on Monday 2 November 2026 and ends on Friday 6 November.
+
+The week of 2 to 6 November 2026 is delivered. The agreement is still not signed, so `stage`
+stays `agreement` until the signed copy's Drive link is in `agreement_drive` (Jamie,
+2026-11-09).
