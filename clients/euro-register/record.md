@@ -2,7 +2,7 @@
 slug: euro-register
 name: Euro Register
 language: fr-BE
-stage: agreement
+stage: build
 kind: training
 opened: 2026-10-09
 next_action: On the Friday call, check in with the whole team and collect each employee's ICM system as a zip file, for Jamie to unpack and audit.
@@ -42,9 +42,11 @@ separately and is named in none of the documents (Jamie, 2026-10-30). The balanc
 follows at the end of the week (`quote/negotiation.md`, Concessions, item 3). The week started
 on Monday 2 November 2026 and ends on Friday 6 November.
 
-The week of 2 to 6 November 2026 is delivered. The agreement is still not signed, so `stage`
-stays `agreement` until the signed copy's Drive link is in `agreement_drive` (Jamie,
-2026-11-09).
+The week of 2 to 6 November 2026 is delivered. The agreement is not signed.
 
 The balance invoice is sent. The agreement stays unsigned: Jamie does not chase the signature
+(Jamie, 2026-11-09).
+
+Jamie moved `stage` from `agreement` to `build` on 2026-11-09, without the signed copy, by
+his word in the session. He moves it to `handover` at the end of the week of 9 November 2026
 (Jamie, 2026-11-09).
