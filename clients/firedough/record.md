@@ -27,3 +27,6 @@ contact details. The repo is still in the legacy lane (`~/Desktop/Apps/projects/
 The build is active. Jamie does it for free: he considers the client close family or a friend.
 There is no price, no quote and no agreement (Jamie, 2026-11-09). The folder was opened on
 2026-11-09 for a build that started before the house existed.
+
+The next action has no deadline on purpose. The work is free and the client expects no date
+(Jamie, 2026-11-09).
