@@ -45,3 +45,6 @@ on Monday 2 November 2026 and ends on Friday 6 November.
 The week of 2 to 6 November 2026 is delivered. The agreement is still not signed, so `stage`
 stays `agreement` until the signed copy's Drive link is in `agreement_drive` (Jamie,
 2026-11-09).
+
+The balance invoice is sent. The agreement stays unsigned: Jamie does not chase the signature
+(Jamie, 2026-11-09).

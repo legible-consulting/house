@@ -6,7 +6,7 @@ stage: build
 kind: build
 public:
 opened: 2026-11-09
-next_action:
+next_action: Give Lourenço an updated UAT to approve.
 deadline:
 salesman:
 commission:

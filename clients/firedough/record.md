@@ -6,7 +6,7 @@ stage: build
 kind: build
 public:
 opened: 2026-11-09
-next_action:
+next_action: Set a date with the client to sit down and plan the build.
 deadline:
 salesman:
 commission:
