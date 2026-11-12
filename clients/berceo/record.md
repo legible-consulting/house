@@ -5,8 +5,8 @@ language: fr-BE
 stage: build
 kind: build
 opened: 2026-08-10
-next_action: Call with Alix and Jordane on their feedback round 1 test results, booked for 2026-11-09 09:45 CET.
-deadline: 2026-11-09
+next_action: Call with Alix and Jordane on their feedback round 1 test results, booked for Thursday 2026-11-12 10:00 Lisbon time. Jamie invites them himself.
+deadline: 2026-11-12
 salesman:
 commission:
   sourced_by:
@@ -69,6 +69,10 @@ Jamie's own contact: no salesman, no commission.
   `vitrine-retour-1`, `onboarding-retour-1`, `demande-retour-1`, `abonnements-familles`, show on
   the desk's Work board. The next thing the founders see is their requested changes on UAT. The
   next action here is the test request that follows (Jamie, 2026-10-27).
+
+- The call of 2026-11-09 did not take place. It moved to Thursday 12 November 2026, 10:00
+  Lisbon time (11:00 in Belgium). The calendar event exists without guests: Jamie invites
+  Alix and Jordane by hand (Jamie, 2026-11-09).
 
 ## Links
 

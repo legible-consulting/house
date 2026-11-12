@@ -6,8 +6,8 @@ stage: build
 kind: build
 public: named
 opened: 2026-07-01
-next_action: Send Diogo and Rita the plan for feedback round 1, with the date the first items reach UAT and the date by which they test.
-deadline: 2026-10-30
+next_action: If Diogo and Rita have not replied, chase them for their UAT test results and the picture Jamie still needs.
+deadline: 2026-11-13
 salesman:
 commission:
   sourced_by:
@@ -56,6 +56,9 @@ in `research/profile.md`, and a ticket asks the ones it needs.
 2026-10-23. That work shows on the desk's Work board. Diogo and Rita have not been asked to test
 and have no date. Go-live follows their approval of UAT, as soon as possible, no date set (Jamie,
 2026-10-27).
+
+**On 2026-11-09.** Jamie told Diogo and Rita that everything is on UAT for them to test, and
+that he still needs a picture from them. No answer yet (Jamie, 2026-11-09).
 
 **Where things are.** Drive: the folder above. Code, tickets, decisions and runbook:
 [k0d0minio/agorasim](https://github.com/k0d0minio/agorasim) (`.icm/intake/`,
